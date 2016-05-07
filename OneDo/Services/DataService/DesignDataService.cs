@@ -18,9 +18,9 @@ namespace OneDo.Services.DataService
             {
                 Tags = new List<Tag>
                 {
-                    new Tag { Guid = Guid.NewGuid(), Name = "Práce", Color = Colors.SeaShell },
+                    new Tag { Guid = Guid.NewGuid(), Name = "Práce", Color = Colors.Maroon },
                     new Tag { Guid = Guid.NewGuid(), Name = "Škola", Color = Colors.Navy },
-                    new Tag { Guid = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen },
+                    new Tag { Guid = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen},
                 }
             };
             return Task.CompletedTask;

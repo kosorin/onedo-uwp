@@ -1,5 +1,7 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using OneDo.Services.DataService;
 using OneDo.ViewModel.Pages;
 
 namespace OneDo.ViewModel
@@ -12,7 +14,7 @@ namespace OneDo.ViewModel
 
             //if (ViewModelBase.IsInDesignModeStatic)
             //{
-            //    SimpleIoc.Default.Register<IDataService, DesignDataService>();
+                SimpleIoc.Default.Register<IDataService, DesignDataService>();
             //}
             //else
             //{
