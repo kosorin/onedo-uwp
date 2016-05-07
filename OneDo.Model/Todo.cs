@@ -15,7 +15,7 @@ namespace OneDo.Model
     {
         public Guid Guid { get; set; }
 
-        public List<Guid> Items { get; set; }
+        public List<Guid> SubTodos { get; set; }
 
 
         public string Title { get; set; }
@@ -32,7 +32,7 @@ namespace OneDo.Model
 
         public bool Flag { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public List<Guid> Tags { get; set; }
 
 
         public DateTime? Completed { get; set; }

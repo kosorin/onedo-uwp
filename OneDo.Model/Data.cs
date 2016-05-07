@@ -8,6 +8,8 @@ namespace OneDo.Model
 {
     public class Data
     {
-        public List<Todo> Items { get; set; }
+        public List<Tag> Tags { get; set; }
+
+        public List<Todo> Todos { get; set; }
     }
 }
