@@ -25,22 +25,22 @@ namespace OneDo.ViewModel.Pages
 
         public void OnNavigatingFrom(NavigatingEventArgs args)
         {
-            throw new NotImplementedException();
+
         }
 
         public Task OnNavigatedFromAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public void OnNavigatedTo(object parameter, NavigationMode mode)
         {
-            throw new NotImplementedException();
+
         }
 
         public void OnBackButton(BackButtonEventArgs args)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
