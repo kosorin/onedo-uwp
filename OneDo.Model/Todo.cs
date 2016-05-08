@@ -15,7 +15,7 @@ namespace OneDo.Model
     {
         public Guid Guid { get; set; }
 
-        public List<Guid> SubTodos { get; set; }
+        public Guid Parent { get; set; }
 
 
         public string Title { get; set; }

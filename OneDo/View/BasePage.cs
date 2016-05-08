@@ -9,7 +9,10 @@ namespace OneDo.View
 
         protected BasePage()
         {
-            DataContextChanged += (s, e) => ViewModel = e.NewValue as ViewModelBase;
+            DataContextChanged += (s, e) =>
+            {
+                ViewModel = e.NewValue as ViewModelBase;
+            };
         }
     }
 }

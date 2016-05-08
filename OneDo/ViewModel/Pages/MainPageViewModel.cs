@@ -1,5 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.Model;
+using OneDo.Model.Recurrences;
 using OneDo.Services.DataService;
+using System.Collections.Generic;
 
 namespace OneDo.ViewModel.Pages
 {

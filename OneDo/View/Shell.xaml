@@ -8,7 +8,7 @@
                mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView Content="{Binding Frame}">
+        <SplitView Content="{x:Bind VM.MainFrame}" PaneBackground="Yellow" IsPaneOpen="True" DisplayMode="CompactInline">
             <SplitView.Pane>
                 <TextBlock>Menu</TextBlock>
             </SplitView.Pane>

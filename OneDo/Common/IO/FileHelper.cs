@@ -42,9 +42,9 @@ namespace OneDo.Common.IO
                 {
                     return default(T);
                 }
-                var value = await FileIO.ReadTextAsync(file);
-                var result = Deserialize<T>(value);
-                return result;
+                var serializedValue = await FileIO.ReadTextAsync(file);
+                var value = Deserialize<T>(serializedValue);
+                return value;
             }
             catch (Exception)
             {
@@ -117,10 +117,15 @@ namespace OneDo.Common.IO
 
         private static string Serialize<T>(T item)
         {
-            return JsonConvert.SerializeObject(item, Formatting.None, new JsonSerializerSettings()
+            return JsonConvert.SerializeObject(item, new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+#if DEBUG
+                Formatting = Formatting.Indented
+#else
+                Formatting = Formatting.None
+#endif
             });
         }
 

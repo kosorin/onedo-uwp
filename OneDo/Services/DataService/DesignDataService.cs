@@ -14,14 +14,16 @@ namespace OneDo.Services.DataService
 
         public Task LoadAsync()
         {
+            var tags = new List<Tag>
+            {
+                new Tag { Guid = Guid.NewGuid(), Name = "Práce", Color = Colors.Maroon },
+                new Tag { Guid = Guid.NewGuid(), Name = "Škola", Color = Colors.Navy },
+                new Tag { Guid = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen },
+            };
+
             Data = new Data
             {
-                Tags = new List<Tag>
-                {
-                    new Tag { Guid = Guid.NewGuid(), Name = "Práce", Color = Colors.Maroon },
-                    new Tag { Guid = Guid.NewGuid(), Name = "Škola", Color = Colors.Navy },
-                    new Tag { Guid = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen},
-                }
+                Tags = tags
             };
             return Task.CompletedTask;
         }
