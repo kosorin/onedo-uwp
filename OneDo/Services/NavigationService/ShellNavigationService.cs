@@ -21,7 +21,6 @@ namespace OneDo.Services.NavigationService
 
         public ShellNavigationService()
         {
-            System.Diagnostics.Debug.WriteLine("NAV SERVICE");
             if (!DesignMode.DesignModeEnabled)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackButtonRequested;

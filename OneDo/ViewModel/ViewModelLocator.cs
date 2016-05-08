@@ -12,14 +12,14 @@ namespace OneDo.ViewModel
     {
         static ViewModelLocator()
         {
-            if (DesignMode.DesignModeEnabled)
+            //if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
             }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
+            //else
+            //{
+            //    SimpleIoc.Default.Register<IDataService, DataService>();
+            //}
             SimpleIoc.Default.Register<INavigationService, ShellNavigationService>();
 
             SimpleIoc.Default.Register<ShellViewModel>();

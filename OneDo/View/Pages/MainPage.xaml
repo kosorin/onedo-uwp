@@ -9,7 +9,7 @@
                mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <StackPanel Background="Aqua">
             <TextBlock Text="{x:Bind VM.Text}" />
             <ListBox ItemsSource="{x:Bind VM.DataService.Data.Tags}">
                 <ListBox.ItemTemplate>

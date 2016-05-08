@@ -10,7 +10,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SplitView Content="{x:Bind VM.MainFrame}" PaneBackground="Yellow" IsPaneOpen="True" DisplayMode="CompactInline">
             <SplitView.Pane>
-                <TextBlock>Menu</TextBlock>
+                <StackPanel>
+                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">Domů</Button>
+                </StackPanel>
             </SplitView.Pane>
         </SplitView>
     </Grid>
