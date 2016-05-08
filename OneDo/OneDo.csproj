@@ -111,7 +111,7 @@
     <Compile Include="Services\NavigationService\INavigationService.cs" />
     <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
     <Compile Include="Services\NavigationService\ShellNavigationService.cs" />
-    <Compile Include="ViewModel\Pages\PageViewModelBase.cs" />
+    <Compile Include="ViewModel\PageViewModelBase.cs" />
     <Compile Include="View\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -157,15 +157,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Common\MVVM\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Styles\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\OneDo.Model\OneDo.Model.csproj">
       <Project>{74631ad1-d01e-4bc4-970c-8e3a0c8c012e}</Project>
       <Name>OneDo.Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\MVVM\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Styles\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

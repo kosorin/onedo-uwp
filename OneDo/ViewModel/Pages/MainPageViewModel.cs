@@ -5,12 +5,28 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
 
 namespace OneDo.ViewModel.Pages
 {
     public class MainPageViewModel : PageViewModelBase
     {
-        public string Text { get; set; } = "Karel";
+        private string text = "před";
+        public string Text
+        {
+            get { return text; }
+            set { Set(ref text, value); }
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set { Set(ref isBusy, value); }
+        }
+
+        public ICommand TestCommand { get; }
 
         public IDataService DataService { get; }
 
@@ -18,7 +34,16 @@ namespace OneDo.ViewModel.Pages
             : base(navigationService)
         {
             DataService = dataService;
-            DataService.LoadAsync();
+            DataService.Loaded += DataService_Loaded;
+
+            IsBusy = true;
+            Task.Run(DataService.LoadAsync);
+        }
+
+        private void DataService_Loaded(object sender, EventArgs e)
+        {
+            IsBusy = false;
+            Text = "PO";
         }
     }
 }

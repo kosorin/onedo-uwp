@@ -8,7 +8,7 @@ namespace OneDo.View.Pages
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

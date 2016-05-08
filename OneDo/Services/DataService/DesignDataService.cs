@@ -10,6 +10,8 @@ namespace OneDo.Services.DataService
 {
     public class DesignDataService : IDataService
     {
+        public bool IsLoaded { get; private set; }
+
         public Data Data { get; private set; }
 
         public Task LoadAsync()
@@ -25,12 +27,20 @@ namespace OneDo.Services.DataService
             {
                 Tags = tags
             };
+
+            IsLoaded = true;
+            Loaded?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
         public Task SaveAsync()
         {
+            Saved?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
+
+        public event EventHandler Loaded;
+
+        public event EventHandler Saved;
     }
 }

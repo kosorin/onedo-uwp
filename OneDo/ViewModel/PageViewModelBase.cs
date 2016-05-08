@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModel.Pages
+namespace OneDo.ViewModel
 {
     public abstract class PageViewModelBase : ViewModelBase, INavigable
     {
