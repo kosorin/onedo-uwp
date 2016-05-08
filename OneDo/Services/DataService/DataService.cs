@@ -18,7 +18,7 @@ namespace OneDo.Services.DataService
 
         public async Task LoadAsync()
         {
-            Data = await FileHelper.ReadFileAsync<Data>(FileName) ?? new Data();
+            Data = await FileHelper.ReadFileAsync<Data>(FileName);
         }
 
         public async Task SaveAsync()

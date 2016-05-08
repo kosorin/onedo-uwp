@@ -4,6 +4,7 @@ using Microsoft.Practices.ServiceLocation;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
 using OneDo.ViewModel.Pages;
+using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel
 {
@@ -11,7 +12,7 @@ namespace OneDo.ViewModel
     {
         static ViewModelLocator()
         {
-            if (ViewModelBase.IsInDesignModeStatic)
+            if (DesignMode.DesignModeEnabled)
             {
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
             }

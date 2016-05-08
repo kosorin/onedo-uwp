@@ -16,31 +16,38 @@ namespace OneDo.Services.NavigationService
     {
         public Frame Frame { get; } = new Frame();
 
-        private INavigable ViewModel => (Frame.Content as BasePage)?.DataContext as INavigable;
+        private INavigable Context => (Frame.Content as BasePage)?.DataContext as INavigable;
+
 
         public ShellNavigationService()
         {
+            System.Diagnostics.Debug.WriteLine("NAV SERVICE");
             if (!DesignMode.DesignModeEnabled)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackButtonRequested;
             }
-
+            Frame.NavigationFailed += OnNavigationFailed;
             Frame.Navigating += OnNavigating;
             Frame.Navigated += OnNavigated;
-            Navigate(typeof(MainPage));
+        }
+
+
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception($"Failed to load Page {e.SourcePageType.FullName}");
         }
 
         private async void OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
-            var viewModel = ViewModel;
-            if (viewModel != null)
+            var context = Context;
+            if (context != null)
             {
                 var args = new NavigatingEventArgs();
-                viewModel.OnNavigatingFrom(args);
+                context.OnNavigatingFrom(args);
                 e.Cancel = args.Handled;
                 if (!e.Cancel)
                 {
-                    await viewModel.OnNavigatedFromAsync();
+                    await context.OnNavigatedFromAsync();
                 }
             }
         }
@@ -49,14 +56,14 @@ namespace OneDo.Services.NavigationService
         {
             UpdateBackButtonVisibility();
 
-            ViewModel?.OnNavigatedTo(e.Parameter, e.NavigationMode);
+            Context?.OnNavigatedTo(e.Parameter, e.NavigationMode);
         }
 
         private void OnBackButtonRequested(object sender, BackRequestedEventArgs e)
         {
             var args = new BackButtonEventArgs { Handled = e.Handled };
 
-            ViewModel?.OnBackButton(args);
+            Context?.OnBackButton(args);
 
             if (!args.Handled)
             {

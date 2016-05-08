@@ -65,11 +65,6 @@ namespace OneDo
             Window.Current.Activate();
         }
 
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception($"Failed to load Page {e.SourcePageType.FullName}");
-        }
-
         private Task OnSuspendingAsync(DateTimeOffset deadline)
         {
             // TODO: Save application state and stop any background activity
