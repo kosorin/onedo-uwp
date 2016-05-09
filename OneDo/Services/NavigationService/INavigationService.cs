@@ -21,6 +21,10 @@ namespace OneDo.Services.NavigationService
 
         bool CanGoBack { get; }
 
+        IList<PageStackEntry> BackStack { get; }
+
+        IList<PageStackEntry> ForwardStack { get; }
+
         bool Navigate<TBasePage>() where TBasePage : BasePage;
 
         bool Navigate<TBasePage>(object parameter) where TBasePage : BasePage;
@@ -32,9 +36,5 @@ namespace OneDo.Services.NavigationService
         void GoForward();
 
         void GoBack();
-
-        IList<PageStackEntry> BackStack { get; }
-
-        IList<PageStackEntry> ForwardStack { get; }
     }
 }

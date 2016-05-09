@@ -14,9 +14,6 @@ namespace OneDo.Services.NavigationService
 {
     public class ShellNavigationService : INavigationService
     {
-        public Frame Frame { get; } = new Frame();
-
-
         public ShellNavigationService()
         {
             if (!DesignMode.DesignModeEnabled)
@@ -52,7 +49,6 @@ namespace OneDo.Services.NavigationService
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
             UpdateBackButtonVisibility();
-
             GetContext()?.OnNavigatedTo(e.Parameter, e.NavigationMode);
         }
 
@@ -84,6 +80,8 @@ namespace OneDo.Services.NavigationService
         }
 
 
+        public Frame Frame { get; } = new Frame();
+
         public Type SourcePageType
         {
             get { return Frame.SourcePageType; }
@@ -91,6 +89,15 @@ namespace OneDo.Services.NavigationService
         }
 
         public Type CurrentSourcePageType => Frame.CurrentSourcePageType;
+
+        public bool CanGoForward => Frame.CanGoForward;
+
+        public bool CanGoBack => Frame.CanGoBack;
+
+        public IList<PageStackEntry> BackStack => Frame.BackStack;
+
+        public IList<PageStackEntry> ForwardStack => Frame.ForwardStack;
+
 
         public bool Navigate<TBasePage>() where TBasePage : BasePage
         {
@@ -121,14 +128,6 @@ namespace OneDo.Services.NavigationService
         {
             Frame.GoBack();
         }
-
-        public bool CanGoForward => Frame.CanGoForward;
-
-        public bool CanGoBack => Frame.CanGoBack;
-
-        public IList<PageStackEntry> BackStack => Frame.BackStack;
-
-        public IList<PageStackEntry> ForwardStack => Frame.ForwardStack;
 
 
         private INavigable GetContext()
