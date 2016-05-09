@@ -13,7 +13,7 @@ namespace OneDo.ViewModel
     {
         public INavigationService NavigationService { get; }
 
-        public PageViewModelBase(INavigationService navigationService)
+        protected PageViewModelBase(INavigationService navigationService)
         {
             NavigationService = navigationService;
         }
