@@ -16,8 +16,6 @@ namespace OneDo.Services.NavigationService
     {
         public Frame Frame { get; } = new Frame();
 
-        private INavigable Context => (Frame.Content as BasePage)?.DataContext as INavigable;
-
 
         public ShellNavigationService()
         {
@@ -38,7 +36,7 @@ namespace OneDo.Services.NavigationService
 
         private async void OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
-            var context = Context;
+            var context = GetContext();
             if (context != null)
             {
                 var args = new NavigatingEventArgs();
@@ -55,14 +53,14 @@ namespace OneDo.Services.NavigationService
         {
             UpdateBackButtonVisibility();
 
-            Context?.OnNavigatedTo(e.Parameter, e.NavigationMode);
+            GetContext()?.OnNavigatedTo(e.Parameter, e.NavigationMode);
         }
 
         private void OnBackButtonRequested(object sender, BackRequestedEventArgs e)
         {
             var args = new BackButtonEventArgs { Handled = e.Handled };
 
-            Context?.OnBackButton(args);
+            GetContext()?.OnBackButton(args);
 
             if (!args.Handled)
             {
@@ -131,5 +129,11 @@ namespace OneDo.Services.NavigationService
         public IList<PageStackEntry> BackStack => Frame.BackStack;
 
         public IList<PageStackEntry> ForwardStack => Frame.ForwardStack;
+
+
+        private INavigable GetContext()
+        {
+            return (Frame.Content as BasePage)?.DataContext as INavigable;
+        }
     }
 }
