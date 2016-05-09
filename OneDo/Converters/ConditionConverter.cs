@@ -31,7 +31,9 @@ namespace OneDo.Converters
             try
             {
                 if (object.Equals(value, parameter ?? When))
+                {
                     return Value;
+                }
                 return Otherwise;
             }
             catch
