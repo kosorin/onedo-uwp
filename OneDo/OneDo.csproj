@@ -103,6 +103,7 @@
     <Compile Include="Converters\ChangeTypeConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\ConditionConverter.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Services\DataService\DataService.cs" />
     <Compile Include="Services\DataService\DesignDataService.cs" />
     <Compile Include="Services\DataService\IDataService.cs" />
