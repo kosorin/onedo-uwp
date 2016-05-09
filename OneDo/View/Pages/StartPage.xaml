@@ -3,12 +3,23 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+               xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
                xmlns:view="using:OneDo.View"
                xmlns:model="using:OneDo.Model"
                DataContext="{Binding StartPage, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Interactivity:Interaction.Behaviors>
+        <Interactions:EventTriggerBehavior EventName="Loaded">
+            <Interactions:InvokeCommandAction Command="{x:Bind VM.InitializeCommand}"/>
+        </Interactions:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,240,0,0">
+            <ProgressRing IsActive="True" HorizontalAlignment="Center" Margin="8" Height="24" Width="24" />
+            <TextBlock Text="Loading" VerticalAlignment="Center"/>
+        </StackPanel>
     </Grid>
 </view:BasePage>

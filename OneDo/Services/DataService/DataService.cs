@@ -16,12 +16,14 @@ namespace OneDo.Services.DataService
 
         public async Task<Data> LoadAsync()
         {
-            return await FileHelper.ReadFileAsync<Data>(FileName);
+            var data = await FileHelper.ReadFileAsync<Data>(FileName).ConfigureAwait(false);
+            //await Task.Delay(4000);
+            return data;
         }
 
         public async Task SaveAsync(Data data)
         {
-            await FileHelper.WriteFileAsync(FileName, data ?? new Data());
+            await FileHelper.WriteFileAsync(FileName, data ?? new Data()).ConfigureAwait(false);
         }
     }
 }

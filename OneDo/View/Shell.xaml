@@ -3,21 +3,30 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-               xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
-               xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+               xmlns:converters="using:OneDo.Converters"
                xmlns:view="using:OneDo.View"
                DataContext="{Binding Shell, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
-    <Interactivity:Interaction.Behaviors>
-        <Interactions:EventTriggerBehavior EventName="Loaded">
-            <Interactions:InvokeCommandAction Command="{x:Bind VM.LoadedCommand}"/>
-        </Interactions:EventTriggerBehavior>
-    </Interactivity:Interaction.Behaviors>
+    <Page.Resources>
+        <converters:ConditionConverter x:Key="DisplayModeConverter">
+            <converters:ConditionConverter.When>
+                <x:Boolean>True</x:Boolean>
+            </converters:ConditionConverter.When>
+            <converters:ConditionConverter.Then>
+                <SplitViewDisplayMode>CompactOverlay</SplitViewDisplayMode>
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Otherwise>
+                <SplitViewDisplayMode>Overlay</SplitViewDisplayMode>
+            </converters:ConditionConverter.Otherwise>
+        </converters:ConditionConverter>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView Content="{x:Bind VM.MainFrame}" PaneBackground="Yellow" IsPaneOpen="True" DisplayMode="CompactInline">
+        <SplitView Content="{x:Bind VM.MainFrame}"
+                   PaneBackground="Yellow"
+                   IsPaneOpen="{Binding IsOpen}"
+                   DisplayMode="{Binding IsEnabled, Converter={StaticResource DisplayModeConverter}}">
             <SplitView.Pane>
                 <StackPanel>
                     <Button Command="{x:Bind VM.NavigateToMainPageCommand}">Inbox</Button>

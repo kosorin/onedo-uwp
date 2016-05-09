@@ -14,13 +14,25 @@ namespace OneDo.ViewModel
 {
     public class ShellViewModel : ViewModelBase
     {
-        public Frame MainFrame => NavigationService?.Frame;
+        public Frame MainFrame { get; }
+
+        private bool isEnabled;
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set { Set(ref isEnabled, value); }
+        }
+
+        private bool isOpen;
+        public bool IsOpen
+        {
+            get { return IsEnabled && isOpen; }
+            set { Set(ref isOpen, value); }
+        }
 
         public ICommand NavigateToMainPageCommand { get; }
 
         public ICommand NavigateToAboutPageCommand { get; }
-
-        public ICommand LoadedCommand { get; }
 
         public INavigationService NavigationService { get; }
 
@@ -31,15 +43,10 @@ namespace OneDo.ViewModel
             NavigationService = navigationService;
             DataService = dataService;
 
+            MainFrame = NavigationService.Frame;
+
             NavigateToMainPageCommand = new NavigationCommand<MainPage>(NavigationService);
             NavigateToAboutPageCommand = new NavigationCommand<AboutPage>(NavigationService);
-            LoadedCommand = new RelayCommand(Loaded);
-        }
-
-        private async void Loaded()
-        {
-            await DataService.LoadAsync();
-            await new MessageDialog("Data loaded.").ShowAsync();
         }
     }
 }
