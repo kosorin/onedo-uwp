@@ -10,7 +10,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace OneDo.ViewModel.Pages
 {
-    public class MainPageViewModel : PageViewModelBase
+    public class MainPageViewModel : BasePageViewModel
     {
         private string text = "Before";
         public string Text
@@ -30,8 +30,6 @@ namespace OneDo.ViewModel.Pages
 
         public IDataService DataService { get; }
 
-        //public MainPageViewModel()
-        //    : base(null)
         public MainPageViewModel(INavigationService navigationService, IDataService dataService)
             : base(navigationService)
         {

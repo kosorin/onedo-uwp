@@ -9,11 +9,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModel
 {
-    public abstract class PageViewModelBase : ViewModelBase, INavigable
+    public abstract class BasePageViewModel : ViewModelBase, INavigable
     {
         public INavigationService NavigationService { get; }
 
-        protected PageViewModelBase(INavigationService navigationService)
+        protected BasePageViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
         }

@@ -20,15 +20,18 @@ namespace OneDo.Services.DataService
 
         public async Task LoadAsync()
         {
-            Data = await FileHelper.ReadFileAsync<Data>(FileName);
-            await Task.Delay(2000);
-            IsLoaded = true;
-            Loaded?.Invoke(this, new EventArgs());
+            if (!IsLoaded)
+            {
+                Data = await FileHelper.ReadFileAsync<Data>(FileName).ConfigureAwait(false);
+                await Task.Delay(2000);
+                IsLoaded = true;
+                Loaded?.Invoke(this, new EventArgs());
+            }
         }
 
         public async Task SaveAsync()
         {
-            await FileHelper.WriteFileAsync(FileName, Data ?? new Data());
+            await FileHelper.WriteFileAsync(FileName, Data ?? new Data()).ConfigureAwait(false);
             Saved?.Invoke(this, new EventArgs());
         }
 

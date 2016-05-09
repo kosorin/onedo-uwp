@@ -11,15 +11,7 @@
         <SplitView Content="{x:Bind VM.MainFrame}" PaneBackground="Yellow" IsPaneOpen="True" DisplayMode="CompactInline">
             <SplitView.Pane>
                 <StackPanel>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">1</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">2</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">3</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">4</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">5</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">6</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">7</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">8</Button>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">9</Button>
+                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">Test</Button>
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>

@@ -52,13 +52,6 @@ namespace OneDo
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-//#if DEBUG
-//            if (Debugger.IsAttached)
-//            {
-//                DebugSettings.EnableFrameRateCounter = true;
-//            }
-//#endif
-
             var shell = Window.Current.Content as Shell;
             if (shell == null)
             {
@@ -71,6 +64,7 @@ namespace OneDo
 
                 Window.Current.Content = shell;
             }
+            shell.VM.NavigationService.Navigate<MainPage>();
             Window.Current.Activate();
         }
 
