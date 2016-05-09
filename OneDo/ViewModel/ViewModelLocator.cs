@@ -12,6 +12,7 @@ namespace OneDo.ViewModel
     {
         static ViewModelLocator()
         {
+            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
@@ -27,8 +28,8 @@ namespace OneDo.ViewModel
             SimpleIoc.Default.Register<MainPageViewModel>();
         }
 
-        public ShellViewModel Shell => SimpleIoc.Default.GetInstance<ShellViewModel>();
+        public ShellViewModel Shell => ServiceLocator.Current.GetInstance<ShellViewModel>();
 
-        public MainPageViewModel MainPage => SimpleIoc.Default.GetInstance<MainPageViewModel>();
+        public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
     }
 }

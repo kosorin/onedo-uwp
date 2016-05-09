@@ -19,13 +19,14 @@ namespace OneDo.ViewModel
 
         public IDataService DataService { get; }
 
-        public ShellViewModel(INavigationService navigationService, IDataService dataService)
+        public ShellViewModel()
+        //public ShellViewModel(INavigationService navigationService, IDataService dataService)
         {
-            NavigationService = navigationService;
-            DataService = dataService;
+            //NavigationService = navigationService;
+            //DataService = dataService;
 
-            NavigateMainPageCommand = new RelayCommand(() => NavigationService.Navigate<MainPage>());
-            NavigationService.Navigate(typeof(MainPage));
+            //NavigateMainPageCommand = new RelayCommand(() => NavigationService.Navigate<MainPage>());
+            //NavigationService.Navigate(typeof(MainPage));
         }
     }
 }

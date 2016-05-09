@@ -12,7 +12,7 @@ namespace OneDo.ViewModel.Pages
 {
     public class MainPageViewModel : PageViewModelBase
     {
-        private string text = "před";
+        private string text = "Before";
         public string Text
         {
             get { return text; }
@@ -30,20 +30,22 @@ namespace OneDo.ViewModel.Pages
 
         public IDataService DataService { get; }
 
-        public MainPageViewModel(INavigationService navigationService, IDataService dataService)
-            : base(navigationService)
+        public MainPageViewModel()
+            : base(null)
+        //public MainPageViewModel(INavigationService navigationService, IDataService dataService)
+            //: base(navigationService)
         {
-            DataService = dataService;
-            DataService.Loaded += DataService_Loaded;
+            //DataService = dataService;
+            //DataService.Loaded += DataService_Loaded;
 
-            IsBusy = true;
-            Task.Run(DataService.LoadAsync);
+            //IsBusy = true;
+            //Task.Run(DataService.LoadAsync);
         }
 
         private void DataService_Loaded(object sender, EventArgs e)
         {
             IsBusy = false;
-            Text = "PO";
+            Text = "After";
         }
     }
 }
