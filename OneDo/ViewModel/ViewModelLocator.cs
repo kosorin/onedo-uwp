@@ -13,6 +13,8 @@ namespace OneDo.ViewModel
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            // Služby
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
@@ -23,13 +25,18 @@ namespace OneDo.ViewModel
             }
             SimpleIoc.Default.Register<INavigationService, ShellNavigationService>();
 
+            // Shell
             SimpleIoc.Default.Register<ShellViewModel>();
 
+            // Stránky
             SimpleIoc.Default.Register<MainPageViewModel>();
+            SimpleIoc.Default.Register<AboutPageViewModel>();
         }
 
         public ShellViewModel Shell => ServiceLocator.Current.GetInstance<ShellViewModel>();
 
         public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
+
+        public AboutPageViewModel AboutPage => ServiceLocator.Current.GetInstance<AboutPageViewModel>();
     }
 }

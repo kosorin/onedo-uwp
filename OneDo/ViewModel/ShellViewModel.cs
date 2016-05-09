@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
 using OneDo.View.Pages;
+using OneDo.ViewModel.Commands;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
@@ -13,7 +14,9 @@ namespace OneDo.ViewModel
     {
         public Frame MainFrame => NavigationService?.Frame;
 
-        public ICommand NavigateMainPageCommand { get; }
+        public ICommand NavigateToMainPageCommand { get; }
+
+        public ICommand NavigateToAboutPageCommand { get; }
 
         public INavigationService NavigationService { get; }
 
@@ -24,7 +27,8 @@ namespace OneDo.ViewModel
             NavigationService = navigationService;
             DataService = dataService;
 
-            NavigateMainPageCommand = new RelayCommand(() => NavigationService.Navigate<MainPage>());
+            NavigateToMainPageCommand = new NavigationCommand<MainPage>(NavigationService);
+            NavigateToAboutPageCommand = new NavigationCommand<AboutPage>(NavigationService);
         }
     }
 }

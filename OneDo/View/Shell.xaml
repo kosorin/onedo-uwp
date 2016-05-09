@@ -11,7 +11,8 @@
         <SplitView Content="{x:Bind VM.MainFrame}" PaneBackground="Yellow" IsPaneOpen="True" DisplayMode="CompactInline">
             <SplitView.Pane>
                 <StackPanel>
-                    <Button Command="{x:Bind VM.NavigateMainPageCommand}">Test</Button>
+                    <Button Command="{x:Bind VM.NavigateToMainPageCommand}">Inbox</Button>
+                    <Button Command="{x:Bind VM.NavigateToAboutPageCommand}">About</Button>
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>
