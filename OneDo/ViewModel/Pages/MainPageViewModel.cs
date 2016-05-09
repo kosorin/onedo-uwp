@@ -12,18 +12,11 @@ namespace OneDo.ViewModel.Pages
 {
     public class MainPageViewModel : BasePageViewModel
     {
-        private string text = "Before";
+        private string text = "Inbox";
         public string Text
         {
             get { return text; }
             set { Set(ref text, value); }
-        }
-
-        private bool isBusy;
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set { Set(ref isBusy, value); }
         }
 
         public ICommand TestCommand { get; }
@@ -33,17 +26,7 @@ namespace OneDo.ViewModel.Pages
         public MainPageViewModel(INavigationService navigationService, IDataService dataService)
             : base(navigationService)
         {
-            DataService = dataService;
-            DataService.Loaded += DataService_Loaded;
 
-            IsBusy = true;
-            DataService.LoadAsync();
-        }
-
-        private void DataService_Loaded(object sender, EventArgs e)
-        {
-            IsBusy = false;
-            Text = "After";
         }
     }
 }

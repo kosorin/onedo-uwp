@@ -23,7 +23,5 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-
-        <ProgressRing IsActive="{Binding IsBusy}" />
     </Grid>
 </view:BasePage>
