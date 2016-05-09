@@ -13,9 +13,9 @@ namespace OneDo.Converters
     {
         public bool Debug { get; set; }
 
-        public object Value { get; set; }
-
         public object When { get; set; }
+
+        public object Then { get; set; }
 
         public object Otherwise { get; set; }
 
@@ -30,11 +30,9 @@ namespace OneDo.Converters
 
             try
             {
-                if (object.Equals(value, parameter ?? When))
-                {
-                    return Value;
-                }
-                return Otherwise;
+                return object.Equals(value, parameter ?? When)
+                    ? Then
+                    : Otherwise;
             }
             catch
             {
@@ -55,7 +53,7 @@ namespace OneDo.Converters
             }
             try
             {
-                return object.Equals(value, Value) ? When : OtherwiseValueBack;
+                return object.Equals(value, Then) ? When : OtherwiseValueBack;
             }
             catch
             {
