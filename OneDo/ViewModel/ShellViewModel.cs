@@ -6,7 +6,9 @@ using OneDo.View.Pages;
 using OneDo.ViewModel.Commands;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using System;
 
 namespace OneDo.ViewModel
 {
@@ -17,6 +19,8 @@ namespace OneDo.ViewModel
         public ICommand NavigateToMainPageCommand { get; }
 
         public ICommand NavigateToAboutPageCommand { get; }
+
+        public ICommand LoadedCommand { get; }
 
         public INavigationService NavigationService { get; }
 
@@ -29,6 +33,13 @@ namespace OneDo.ViewModel
 
             NavigateToMainPageCommand = new NavigationCommand<MainPage>(NavigationService);
             NavigateToAboutPageCommand = new NavigationCommand<AboutPage>(NavigationService);
+            LoadedCommand = new RelayCommand(Loaded);
+        }
+
+        private async void Loaded()
+        {
+            await DataService.LoadAsync();
+            await new MessageDialog("Data loaded.").ShowAsync();
         }
     }
 }

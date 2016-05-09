@@ -14,29 +14,14 @@ namespace OneDo.Services.DataService
     {
         private const string FileName = "Data.json";
 
-        public bool IsLoaded { get; private set; }
-
-        public Data Data { get; private set; }
-
-        public async Task LoadAsync()
+        public async Task<Data> LoadAsync()
         {
-            if (!IsLoaded)
-            {
-                Data = await FileHelper.ReadFileAsync<Data>(FileName).ConfigureAwait(false);
-                await Task.Delay(2000);
-                IsLoaded = true;
-                Loaded?.Invoke(this, new EventArgs());
-            }
+            return await FileHelper.ReadFileAsync<Data>(FileName);
         }
 
-        public async Task SaveAsync()
+        public async Task SaveAsync(Data data)
         {
-            await FileHelper.WriteFileAsync(FileName, Data ?? new Data()).ConfigureAwait(false);
-            Saved?.Invoke(this, new EventArgs());
+            await FileHelper.WriteFileAsync(FileName, data ?? new Data());
         }
-
-        public event EventHandler Loaded;
-
-        public event EventHandler Saved;
     }
 }

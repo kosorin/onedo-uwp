@@ -10,11 +10,7 @@ namespace OneDo.Services.DataService
 {
     public class DesignDataService : IDataService
     {
-        public bool IsLoaded { get; private set; }
-
-        public Data Data { get; private set; }
-
-        public Task LoadAsync()
+        public Task<Data> LoadAsync()
         {
             var tags = new List<Tag>
             {
@@ -23,24 +19,17 @@ namespace OneDo.Services.DataService
                 new Tag { Guid = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen },
             };
 
-            Data = new Data
+            var data = new Data
             {
                 Tags = tags
             };
 
-            IsLoaded = true;
-            Loaded?.Invoke(this, new EventArgs());
-            return Task.CompletedTask;
+            return Task.FromResult(data);
         }
 
-        public Task SaveAsync()
+        public Task SaveAsync(Data data)
         {
-            Saved?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
-
-        public event EventHandler Loaded;
-
-        public event EventHandler Saved;
     }
 }

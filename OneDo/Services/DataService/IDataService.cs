@@ -9,16 +9,8 @@ namespace OneDo.Services.DataService
 {
     public interface IDataService
     {
-        bool IsLoaded { get; }
+        Task<Data> LoadAsync();
 
-        Data Data { get; }
-
-        Task LoadAsync();
-
-        Task SaveAsync();
-
-        event EventHandler Loaded;
-
-        event EventHandler Saved;
+        Task SaveAsync(Data data);
     }
 }
