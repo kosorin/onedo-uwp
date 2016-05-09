@@ -30,16 +30,16 @@ namespace OneDo.ViewModel.Pages
 
         public IDataService DataService { get; }
 
-        public MainPageViewModel()
-            : base(null)
-        //public MainPageViewModel(INavigationService navigationService, IDataService dataService)
-            //: base(navigationService)
+        //public MainPageViewModel()
+        //    : base(null)
+        public MainPageViewModel(INavigationService navigationService, IDataService dataService)
+            : base(navigationService)
         {
-            //DataService = dataService;
-            //DataService.Loaded += DataService_Loaded;
+            DataService = dataService;
+            DataService.Loaded += DataService_Loaded;
 
-            //IsBusy = true;
-            //Task.Run(DataService.LoadAsync);
+            IsBusy = true;
+            DataService.LoadAsync();
         }
 
         private void DataService_Loaded(object sender, EventArgs e)

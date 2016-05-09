@@ -21,7 +21,11 @@ namespace OneDo
         public App()
         {
             InitializeComponent();
+            RegisterEventHandlers();
+        }
 
+        private void RegisterEventHandlers()
+        {
             Suspending += async (s, e) =>
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
@@ -39,9 +43,14 @@ namespace OneDo
             {
                 OnResuming(e);
             };
+
+            UnhandledException += (s, e) =>
+            {
+                OnUnhandledException(e);
+            };
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
 //#if DEBUG
 //            if (Debugger.IsAttached)
@@ -55,7 +64,7 @@ namespace OneDo
             {
                 shell = new Shell();
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application
                 }
@@ -74,6 +83,14 @@ namespace OneDo
         private void OnResuming(object data)
         {
 
+        }
+
+        private void OnUnhandledException(UnhandledExceptionEventArgs args)
+        {
+            if (Debugger.IsAttached)
+            {
+                Debugger.Break();
+            }
         }
     }
 }
