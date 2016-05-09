@@ -29,11 +29,14 @@ namespace OneDo.ViewModel
             SimpleIoc.Default.Register<ShellViewModel>();
 
             // Stránky
+            SimpleIoc.Default.Register<StartPageViewModel>();
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<AboutPageViewModel>();
         }
 
         public ShellViewModel Shell => ServiceLocator.Current.GetInstance<ShellViewModel>();
+
+        public StartPageViewModel StartPage => ServiceLocator.Current.GetInstance<StartPageViewModel>();
 
         public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
 

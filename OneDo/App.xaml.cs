@@ -64,7 +64,7 @@ namespace OneDo
 
                 Window.Current.Content = shell;
             }
-            shell.VM.NavigationService.Navigate<MainPage>();
+            shell.VM.NavigationService.Navigate<StartPage>();
             Window.Current.Activate();
         }
 

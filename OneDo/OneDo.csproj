@@ -113,8 +113,12 @@
     <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
     <Compile Include="Services\NavigationService\ShellNavigationService.cs" />
     <Compile Include="ViewModel\BasePageViewModel.cs" />
-	<Compile Include="ViewModel\Commands\NavigationCommand.cs" />
+    <Compile Include="ViewModel\Commands\NavigationCommand.cs" />
     <Compile Include="ViewModel\Pages\AboutPageViewModel.cs" />
+    <Compile Include="ViewModel\Pages\StartPageViewModel.cs" />
+    <Compile Include="View\Pages\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
@@ -153,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\Pages\StartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Pages\AboutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
