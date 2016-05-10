@@ -29,7 +29,9 @@ namespace OneDo.ViewModel.Pages
         private async void Initialize()
         {
             await DataService.LoadAsync();
+
             NavigationService.Navigate<MainPage>();
+            NavigationService.ClearHistory();
         }
     }
 }

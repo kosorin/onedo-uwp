@@ -94,10 +94,6 @@ namespace OneDo.Services.NavigationService
 
         public bool CanGoBack => Frame.CanGoBack;
 
-        public IList<PageStackEntry> BackStack => Frame.BackStack;
-
-        public IList<PageStackEntry> ForwardStack => Frame.ForwardStack;
-
 
         public bool Navigate<TBasePage>() where TBasePage : BasePage
         {
@@ -117,6 +113,13 @@ namespace OneDo.Services.NavigationService
         public bool Navigate(Type pageType, object parameter)
         {
             return Frame.Navigate(pageType, parameter);
+        }
+
+        public void ClearHistory()
+        {
+            Frame.BackStack.Clear();
+            Frame.ForwardStack.Clear();
+            UpdateBackButtonVisibility();
         }
 
         public void GoForward()
