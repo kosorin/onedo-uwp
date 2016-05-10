@@ -101,22 +101,22 @@ namespace OneDo.Services.NavigationService
 
         public bool Navigate<TBasePage>() where TBasePage : BasePage
         {
-            return Frame.Navigate(typeof(TBasePage));
+            return Navigate(typeof(TBasePage));
         }
 
         public bool Navigate<TBasePage>(object parameter) where TBasePage : BasePage
         {
-            return Frame.Navigate(typeof(TBasePage), parameter);
+            return Navigate(typeof(TBasePage), parameter);
         }
 
-        public bool Navigate(Type basePageType)
+        public bool Navigate(Type pageType)
         {
-            return Frame.Navigate(basePageType);
+            return Frame.Navigate(pageType);
         }
 
-        public bool Navigate(Type basePageType, object parameter)
+        public bool Navigate(Type pageType, object parameter)
         {
-            return Frame.Navigate(basePageType, parameter);
+            return Frame.Navigate(pageType, parameter);
         }
 
         public void GoForward()

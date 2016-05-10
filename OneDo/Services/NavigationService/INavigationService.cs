@@ -29,9 +29,9 @@ namespace OneDo.Services.NavigationService
 
         bool Navigate<TBasePage>(object parameter) where TBasePage : BasePage;
 
-        bool Navigate(Type basePageType);
+        bool Navigate(Type pageType);
 
-        bool Navigate(Type basePageType, object parameter);
+        bool Navigate(Type pageType, object parameter);
 
         void GoForward();
 
