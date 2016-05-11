@@ -18,15 +18,13 @@
         </Storyboard>
     </Page.Resources>
 
-    <Grid Background="#038387">
-        <Canvas>
-            <Image x:Name="SplashImage" Source="ms-appx:///Assets/SplashScreen.png"/>
-            <ProgressRing Name="SplashProgressRing"
-                          Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                          Opacity="0"
-                          IsActive="True"
-                          Width="20"
-                          HorizontalAlignment="Center" />
-        </Canvas>
-    </Grid>
+    <Canvas Background="#038387">
+        <Image x:Name="SplashImage" Source="ms-appx:///Assets/SplashScreen.png"/>
+        <ProgressRing Name="SplashProgressRing"
+                      Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                      Opacity="0"
+                      IsActive="True"
+                      Width="20"
+                      HorizontalAlignment="Center" />
+    </Canvas>
 </Page>

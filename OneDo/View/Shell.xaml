@@ -8,17 +8,16 @@
                DataContext="{Binding Shell, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView Content="{x:Bind VM.MainFrame}"
-                   PaneBackground="Yellow"
-                   IsPaneOpen="{Binding IsOpen}"
-                   DisplayMode="CompactOverlay">
-            <SplitView.Pane>
-                <StackPanel>
-                    <Button Command="{x:Bind VM.NavigateToMainPageCommand}">Inbox</Button>
-                    <Button Command="{x:Bind VM.NavigateToAboutPageCommand}">About</Button>
-                </StackPanel>
-            </SplitView.Pane>
-        </SplitView>
-    </Grid>
+    <SplitView Content="{x:Bind VM.MainFrame}"
+               Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+               PaneBackground="Yellow"
+               IsPaneOpen="{Binding IsOpen}"
+               DisplayMode="CompactOverlay">
+        <SplitView.Pane>
+            <StackPanel>
+                <Button Command="{x:Bind VM.NavigateToMainPageCommand}">Inbox</Button>
+                <Button Command="{x:Bind VM.NavigateToAboutPageCommand}">About</Button>
+            </StackPanel>
+        </SplitView.Pane>
+    </SplitView>
 </view:BasePage>
