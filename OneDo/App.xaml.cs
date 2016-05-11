@@ -9,6 +9,7 @@ using OneDo.ViewModel;
 using OneDo.ViewModel.Pages;
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -87,26 +88,7 @@ namespace OneDo
 
         private void InitializeLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            // Služby
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
-            SimpleIoc.Default.Register<INavigationService, ShellNavigationService>();
-
-            // Shell
-            SimpleIoc.Default.Register<ShellViewModel>();
-
-            // Stránky
-            SimpleIoc.Default.Register<StartPageViewModel>();
-            SimpleIoc.Default.Register<MainPageViewModel>();
-            SimpleIoc.Default.Register<AboutPageViewModel>();
+            RuntimeHelpers.RunClassConstructor(typeof(ViewModelLocator).TypeHandle);
         }
 
         private Shell InitializeShell(bool loadState)
