@@ -17,7 +17,7 @@ namespace OneDo.Services.DataService
         public async Task<Data> LoadAsync()
         {
             var data = await FileHelper.ReadFileAsync<Data>(FileName);
-            //await Task.Delay(4000);
+            await Task.Delay(10 * 1000);
             return data;
         }
 

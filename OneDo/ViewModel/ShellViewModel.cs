@@ -16,17 +16,10 @@ namespace OneDo.ViewModel
     {
         public Frame MainFrame { get; }
 
-        private bool isEnabled;
-        public bool IsEnabled
-        {
-            get { return isEnabled; }
-            set { Set(ref isEnabled, value); }
-        }
-
         private bool isOpen;
         public bool IsOpen
         {
-            get { return IsEnabled && isOpen; }
+            get { return isOpen; }
             set { Set(ref isOpen, value); }
         }
 

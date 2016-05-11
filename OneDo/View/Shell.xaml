@@ -8,25 +8,11 @@
                DataContext="{Binding Shell, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
-    <Page.Resources>
-        <converters:ConditionConverter x:Key="DisplayModeConverter">
-            <converters:ConditionConverter.When>
-                <x:Boolean>True</x:Boolean>
-            </converters:ConditionConverter.When>
-            <converters:ConditionConverter.Then>
-                <SplitViewDisplayMode>CompactOverlay</SplitViewDisplayMode>
-            </converters:ConditionConverter.Then>
-            <converters:ConditionConverter.Otherwise>
-                <SplitViewDisplayMode>Overlay</SplitViewDisplayMode>
-            </converters:ConditionConverter.Otherwise>
-        </converters:ConditionConverter>
-    </Page.Resources>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SplitView Content="{x:Bind VM.MainFrame}"
                    PaneBackground="Yellow"
                    IsPaneOpen="{Binding IsOpen}"
-                   DisplayMode="{Binding IsEnabled, Converter={StaticResource DisplayModeConverter}}">
+                   DisplayMode="CompactOverlay">
             <SplitView.Pane>
                 <StackPanel>
                     <Button Command="{x:Bind VM.NavigateToMainPageCommand}">Inbox</Button>
