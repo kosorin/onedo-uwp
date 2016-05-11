@@ -26,7 +26,7 @@ namespace OneDo.ViewModel.Pages
         public MainPageViewModel(INavigationService navigationService, IDataService dataService)
             : base(navigationService)
         {
-
+            DataService = dataService;
         }
     }
 }
