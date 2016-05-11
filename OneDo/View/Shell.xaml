@@ -3,7 +3,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:hamburger="using:OneDo.Controls.HamburgerMenu"
+               xmlns:controls="using:OneDo.Controls"
                xmlns:converters="using:OneDo.Converters"
                xmlns:view="using:OneDo.View"
                DataContext="{Binding Shell, Source={StaticResource ViewModelLocator}}"
@@ -12,7 +12,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Styles/HamburgerMenuStyles.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/ShellStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -23,27 +23,28 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" RequestedTheme="Dark" Background="{ThemeResource SystemControlHighlightAccentBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button Width="{StaticResource BaseMeasure}"
-                    Height="{StaticResource BaseMeasure}"
-                    Style="{StaticResource HamburgerTitleBarButtonStyle}">
+            <Button Command="{x:Bind VM.TogglePaneCommand}"
+                    Width="{StaticResource HamburgerButtonBaseMeasure}"
+                    Height="{StaticResource ShellTitleHeight}"
+                    Style="{StaticResource HamburgerButtonStyle}">
                 <FontIcon FontSize="20" Glyph="&#xE700;" />
             </Button>
 
             <TextBlock Grid.Column="1"
-                       Style="{StaticResource HamburgerMenuTitleTextBlockStyle}"
+                       Style="{StaticResource ShellTitleTextBlockStyle}"
                        Text="{Binding Title}" />
         </Grid>
 
         <SplitView Grid.Row="1"
                    Content="{x:Bind VM.MainFrame}"
-                   IsPaneOpen="{Binding IsPaneOpen}"
-                   DisplayMode="CompactOverlay">
+                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
+                   DisplayMode="Overlay">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -51,30 +52,30 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
-                        <hamburger:HamburgerMenuButton Content="Home" Command="{x:Bind VM.NavigateToMainPageCommand}">
-                            <hamburger:HamburgerMenuButton.Icon>
+                        <controls:HamburgerMenuButton Content="Home" Command="{x:Bind VM.NavigateToMainPageCommand}">
+                            <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE80F;" />
-                            </hamburger:HamburgerMenuButton.Icon>
-                        </hamburger:HamburgerMenuButton>
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" 
-                                BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}" 
+                    <StackPanel Grid.Row="1"
+                                BorderBrush="{ThemeResource SystemControlForegroundListLowBrush}"
                                 BorderThickness="0,1,0,0">
-                        <hamburger:HamburgerMenuButton Content="About" Command="{x:Bind VM.NavigateToAboutPageCommand}">
-                            <hamburger:HamburgerMenuButton.Icon>
+                        <controls:HamburgerMenuButton Content="About" Command="{x:Bind VM.NavigateToAboutPageCommand}">
+                            <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#59718;" />
-                            </hamburger:HamburgerMenuButton.Icon>
-                        </hamburger:HamburgerMenuButton>
-                        <hamburger:HamburgerMenuButton Content="Back up">
-                            <hamburger:HamburgerMenuButton.Icon>
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
+                        <controls:HamburgerMenuButton Content="Back up" IsEnabled="False">
+                            <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#59219;" />
-                            </hamburger:HamburgerMenuButton.Icon>
-                        </hamburger:HamburgerMenuButton>
-                        <hamburger:HamburgerMenuButton Content="Settings">
-                            <hamburger:HamburgerMenuButton.Icon>
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
+                        <controls:HamburgerMenuButton Content="Settings" IsEnabled="False">
+                            <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#57621;" />
-                            </hamburger:HamburgerMenuButton.Icon>
-                        </hamburger:HamburgerMenuButton>
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>

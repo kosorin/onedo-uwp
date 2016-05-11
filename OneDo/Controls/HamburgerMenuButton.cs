@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
-namespace OneDo.Controls.HamburgerMenu
+namespace OneDo.Controls
 {
     public class HamburgerMenuButton : ToggleButton
     {

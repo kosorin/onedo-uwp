@@ -18,7 +18,7 @@
         </Storyboard>
     </Page.Resources>
 
-    <Canvas Background="#038387">
+    <Canvas Background="{ThemeResource SystemControlHighlightAccentBrush}">
         <Image x:Name="SplashImage" Source="ms-appx:///Assets/SplashScreen.png"/>
         <ProgressRing Name="SplashProgressRing"
                       Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"

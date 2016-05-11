@@ -100,7 +100,7 @@
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\IO\FileHelper.cs" />
     <Compile Include="Common\MVVM\BaseCommand.cs" />
-    <Compile Include="Controls\HamburgerMenu\HamburgerMenuButton.cs" />
+    <Compile Include="Controls\HamburgerMenuButton.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
@@ -162,7 +162,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Styles\HamburgerMenuStyles.xaml">
+    <Page Include="Styles\ShellStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -193,9 +193,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\MVVM\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\OneDo.Model\OneDo.Model.csproj">
       <Project>{74631ad1-d01e-4bc4-970c-8e3a0c8c012e}</Project>

@@ -11,6 +11,8 @@
                 <ResourceDictionary Source="Styles/Default.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--<Color x:Key="SystemAccentColor">#FFC39706</Color>-->
+
             <viewModel:ViewModelLocator x:Key="ViewModelLocator" />
 
             <converters:ChangeTypeConverter x:Key="ChangeTypeConverter" />
