@@ -14,24 +14,12 @@ namespace OneDo.ViewModel.Pages
 {
     public class StartPageViewModel : BasePageViewModel
     {
-        public ICommand InitializeCommand { get; }
-
         public IDataService DataService { get; }
 
         public StartPageViewModel(INavigationService navigationService, IDataService dataService)
             : base(navigationService)
         {
             DataService = dataService;
-
-            InitializeCommand = new RelayCommand(Initialize);
-        }
-
-        private async void Initialize()
-        {
-            await DataService.LoadAsync();
-
-            NavigationService.Navigate<MainPage>();
-            NavigationService.ClearHistory();
         }
     }
 }
