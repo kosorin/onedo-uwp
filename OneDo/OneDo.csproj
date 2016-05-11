@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\IO\FileHelper.cs" />
+    <Compile Include="Common\MVVM\BaseCommand.cs" />
     <Compile Include="Controls\HamburgerMenu\HamburgerMenuButton.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
