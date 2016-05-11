@@ -16,12 +16,20 @@ namespace OneDo.ViewModel
     {
         public Frame MainFrame { get; }
 
-        private bool isOpen;
-        public bool IsOpen
+        private string title;
+        public string Title
         {
-            get { return isOpen; }
-            set { Set(ref isOpen, value); }
+            get { return title; }
+            set { Set(ref title, value); }
         }
+
+        private bool isPaneOpen;
+        public bool IsPaneOpen
+        {
+            get { return isPaneOpen; }
+            set { Set(ref isPaneOpen, value); }
+        }
+
 
         public ICommand NavigateToMainPageCommand { get; }
 

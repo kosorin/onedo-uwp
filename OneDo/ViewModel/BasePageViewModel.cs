@@ -11,10 +11,13 @@ namespace OneDo.ViewModel
 {
     public abstract class BasePageViewModel : ViewModelBase, INavigable
     {
+        public ShellViewModel Shell { get; }
+
         public INavigationService NavigationService { get; }
 
-        protected BasePageViewModel(INavigationService navigationService)
+        protected BasePageViewModel(ShellViewModel shell, INavigationService navigationService)
         {
+            Shell = shell;
             NavigationService = navigationService;
         }
 

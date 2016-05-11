@@ -10,7 +10,6 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Background="Aqua">
-            <TextBlock Text="{Binding Text}" />
             <ListBox ItemsSource="{Binding DataService.Data.Tags}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="model:Tag">

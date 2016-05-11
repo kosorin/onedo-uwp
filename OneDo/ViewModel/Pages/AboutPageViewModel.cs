@@ -15,8 +15,8 @@ namespace OneDo.ViewModel.Pages
     {
         public string VersionText => $"Version {GetAppVersion()}";
 
-        public AboutPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public AboutPageViewModel(ShellViewModel shell, INavigationService navigationService)
+            : base(shell, navigationService)
         {
 
         }
@@ -28,6 +28,11 @@ namespace OneDo.ViewModel.Pages
             var version = packageId.Version;
 
             return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+        }
+
+        public override void OnNavigatedTo(object parameter, NavigationMode mode)
+        {
+            Shell.Title = "About";
         }
     }
 }

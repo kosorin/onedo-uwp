@@ -12,21 +12,19 @@ namespace OneDo.ViewModel.Pages
 {
     public class MainPageViewModel : BasePageViewModel
     {
-        private string text = "Inbox";
-        public string Text
-        {
-            get { return text; }
-            set { Set(ref text, value); }
-        }
-
         public ICommand TestCommand { get; }
 
         public IDataService DataService { get; }
 
-        public MainPageViewModel(INavigationService navigationService, IDataService dataService)
-            : base(navigationService)
+        public MainPageViewModel(ShellViewModel shell, INavigationService navigationService, IDataService dataService)
+            : base(shell, navigationService)
         {
             DataService = dataService;
+        }
+
+        public override void OnNavigatedTo(object parameter, NavigationMode mode)
+        {
+            Shell.Title = "Inbox";
         }
     }
 }

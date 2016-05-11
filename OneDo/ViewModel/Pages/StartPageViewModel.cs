@@ -16,10 +16,15 @@ namespace OneDo.ViewModel.Pages
     {
         public IDataService DataService { get; }
 
-        public StartPageViewModel(INavigationService navigationService, IDataService dataService)
-            : base(navigationService)
+        public StartPageViewModel(ShellViewModel shell, INavigationService navigationService, IDataService dataService)
+            : base(shell, navigationService)
         {
             DataService = dataService;
+        }
+
+        public override void OnNavigatedTo(object parameter, NavigationMode mode)
+        {
+            Shell.Title = "Start Page";
         }
     }
 }
