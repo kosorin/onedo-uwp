@@ -35,9 +35,8 @@ namespace OneDo
 
             await LoadDataAsync();
 
-            Window.Current.Content = shell;
-
             ServiceLocator.Current.GetInstance<INavigationService>().Navigate<MainPage>();
+            Window.Current.Content = shell;
         }
 
         private Task OnSuspendingAsync(DateTimeOffset deadline)
