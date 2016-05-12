@@ -9,6 +9,8 @@
                mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <StackPanel Margin="24,12">
+            <TextBlock Text="Start Page" Style="{ThemeResource HeaderTextBlockStyle}" />
+        </StackPanel>
     </Grid>
 </view:BasePage>
