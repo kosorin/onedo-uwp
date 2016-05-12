@@ -5,22 +5,23 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:view="using:OneDo.View"
                xmlns:model="using:OneDo.Model"
+               xmlns:controls="using:OneDo.Controls"
                DataContext="{Binding MainPage, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Background="Aqua">
-            <ListBox ItemsSource="{Binding DataService.Data.Tags}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="model:Tag">
-                        <TextBlock Text="{Binding Name}">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="{Binding Color}" />
-                            </TextBlock.Foreground>
-                        </TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <controls:HamburgerTitleBar Grid.Row="0"
+                                    MenuButtonCommand="{x:Bind VM.Shell.TogglePaneCommand}"
+                                    Title="Inbox">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource HamburgerTitleBarButtonStyle}">
+                    <FontIcon FontSize="20" Glyph="&#xE71E;" />
+                </Button>
+            </StackPanel>
+        </controls:HamburgerTitleBar>
     </Grid>
 </view:BasePage>

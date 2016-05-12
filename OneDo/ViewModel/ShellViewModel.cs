@@ -16,13 +16,6 @@ namespace OneDo.ViewModel
     {
         public Frame MainFrame { get; }
 
-        private string title;
-        public string Title
-        {
-            get { return title; }
-            set { Set(ref title, value); }
-        }
-
         private bool isPaneOpen;
         public bool IsPaneOpen
         {

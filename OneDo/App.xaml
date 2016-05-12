@@ -8,7 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Default.xaml" />
+                <ResourceDictionary Source="ms-appx:///Themes/HamburgerStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--<Color x:Key="SystemAccentColor">#FFC39706</Color>-->

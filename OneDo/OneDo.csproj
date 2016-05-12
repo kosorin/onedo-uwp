@@ -102,6 +102,7 @@
     <Compile Include="Common\IO\FileHelper.cs" />
     <Compile Include="Common\MVVM\BaseCommand.cs" />
     <Compile Include="Controls\HamburgerMenuButton.cs" />
+    <Compile Include="Controls\HamburgerTitleBar.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
@@ -163,12 +164,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Styles\ShellStyles.xaml">
+    <Page Include="Themes\HamburgerStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Styles\Default.xaml">
+    <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

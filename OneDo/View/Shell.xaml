@@ -9,40 +9,8 @@
                DataContext="{Binding Shell, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Styles/ShellStyles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" RequestedTheme="Dark" Background="{ThemeResource SystemControlHighlightAccentBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <Button Command="{x:Bind VM.TogglePaneCommand}"
-                    Width="{StaticResource HamburgerButtonBaseMeasure}"
-                    Height="{StaticResource ShellTitleHeight}"
-                    Style="{StaticResource HamburgerButtonStyle}">
-                <FontIcon FontSize="20" Glyph="&#xE700;" />
-            </Button>
-
-            <TextBlock Grid.Column="1"
-                       Style="{StaticResource ShellTitleTextBlockStyle}"
-                       Text="{Binding Title}" />
-        </Grid>
-
-        <SplitView Grid.Row="1"
-                   Content="{x:Bind VM.MainFrame}"
+        <SplitView Content="{x:Bind VM.MainFrame}"
                    IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
                    DisplayMode="Overlay">
             <SplitView.Pane>
@@ -52,6 +20,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
+                        <controls:HamburgerTitleBar MenuButtonCommand="{x:Bind VM.TogglePaneCommand}" />
                         <controls:HamburgerMenuButton Content="Home" Command="{x:Bind VM.NavigateToMainPageCommand}">
                             <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE80F;" />
