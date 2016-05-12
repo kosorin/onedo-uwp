@@ -10,9 +10,6 @@ namespace OneDo.Common.IO
 {
     public class FileHelper
     {
-        public enum StorageStrategies { Local, Roaming, Temporary }
-
-
         public static async Task<bool> FileExistsAsync(string key, StorageStrategies location = StorageStrategies.Local)
         {
             return (await GetIfFileExistsAsync(key, location)) != null;

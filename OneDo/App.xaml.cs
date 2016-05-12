@@ -20,8 +20,12 @@ namespace OneDo
 {
     sealed partial class App : Application
     {
+        private readonly Stopwatch stopwatch = new Stopwatch();
+
         public App()
         {
+            stopwatch.Start();
+
             InitializeComponent();
             InitializeLocator();
             RegisterEventHandlers();
@@ -38,6 +42,9 @@ namespace OneDo
 
             ServiceLocator.Current.GetInstance<INavigationService>().Navigate<MainPage>();
             Window.Current.Content = shell;
+
+            stopwatch.Stop();
+            Debug.WriteLine($"Start-up time: {stopwatch.Elapsed}");
         }
 
         private Task OnSuspendingAsync(DateTimeOffset deadline)

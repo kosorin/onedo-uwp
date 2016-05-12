@@ -100,6 +100,7 @@
     <Compile Include="Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\IO\FileHelper.cs" />
+    <Compile Include="Common\IO\StorageStrategies.cs" />
     <Compile Include="Common\MVVM\BaseCommand.cs" />
     <Compile Include="Controls\HamburgerMenuButton.cs" />
     <Compile Include="Controls\HamburgerTitleBar.cs" />
@@ -111,6 +112,8 @@
     <Compile Include="Services\DataService\DataService.cs" />
     <Compile Include="Services\DataService\DesignDataService.cs" />
     <Compile Include="Services\DataService\IDataService.cs" />
+    <Compile Include="Services\FileService\FileService.cs" />
+    <Compile Include="Services\FileService\IFileService.cs" />
     <Compile Include="Services\NavigationService\BackButtonEventArgs.cs" />
     <Compile Include="Services\NavigationService\INavigable.cs" />
     <Compile Include="Services\NavigationService\INavigationService.cs" />
