@@ -21,7 +21,7 @@ namespace OneDo.ViewModel.Pages
 
         }
 
-        public static string GetAppVersion()
+        private static string GetAppVersion()
         {
             var package = Package.Current;
             var packageId = package.Id;

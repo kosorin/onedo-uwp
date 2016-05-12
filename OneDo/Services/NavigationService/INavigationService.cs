@@ -21,6 +21,7 @@ namespace OneDo.Services.NavigationService
 
         bool CanGoBack { get; }
 
+
         bool Navigate<TBasePage>() where TBasePage : BasePage;
 
         bool Navigate<TBasePage>(object parameter) where TBasePage : BasePage;
