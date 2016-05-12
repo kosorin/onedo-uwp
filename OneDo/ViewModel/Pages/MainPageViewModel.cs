@@ -21,10 +21,5 @@ namespace OneDo.ViewModel.Pages
         {
             DataService = dataService;
         }
-
-        public override void OnNavigatedTo(object parameter, NavigationMode mode)
-        {
-            Shell.Title = "Inbox";
-        }
     }
 }
