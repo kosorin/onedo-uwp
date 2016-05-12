@@ -40,6 +40,7 @@ namespace OneDo.ViewModel
             DataService = dataService;
 
             MainFrame = NavigationService.Frame;
+            MainFrame.Navigated += (s, e) => IsPaneOpen = false;
 
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
             NavigateToMainPageCommand = new NavigationCommand<MainPage>(NavigationService);
