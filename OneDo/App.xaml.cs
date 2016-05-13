@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.ServiceLocation;
+using OneDo.Common.Logging;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
 using OneDo.View;
@@ -27,6 +28,7 @@ namespace OneDo
 
             InitializeComponent();
             InitializeLocator();
+
             RegisterEventHandlers();
 
 #if DEBUG
@@ -43,7 +45,7 @@ namespace OneDo
             ShowStartPage();
 
             stopwatch.Stop();
-            Debug.WriteLine($"Start-up time: {stopwatch.Elapsed}");
+            Logger.Current.Info($"Start-up time: {stopwatch.Elapsed}");
         }
 
         private Task OnSuspendingAsync(DateTimeOffset deadline)

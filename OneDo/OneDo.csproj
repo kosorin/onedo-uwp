@@ -115,6 +115,10 @@
     <Compile Include="Services\DataService\IDataService.cs" />
     <Compile Include="Services\FileService\FileService.cs" />
     <Compile Include="Services\FileService\IFileService.cs" />
+    <Compile Include="Common\Logging\DebugLogger.cs" />
+    <Compile Include="Common\Logging\ILogger.cs" />
+    <Compile Include="Common\Logging\Logger.cs" />
+    <Compile Include="Common\Logging\NullLogger.cs" />
     <Compile Include="Services\NavigationService\BackButtonEventArgs.cs" />
     <Compile Include="Services\NavigationService\INavigable.cs" />
     <Compile Include="Services\NavigationService\INavigationService.cs" />

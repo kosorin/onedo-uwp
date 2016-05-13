@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OneDo.Common.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -80,9 +81,9 @@ namespace OneDo.Common.IO
             {
                 retval = await folder.GetFileAsync(key);
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
-                Debug.WriteLine($"{nameof(GetIfFileExistsAsync)}:{nameof(FileNotFoundException)}");
+                Logger.Current.Warn(e);
                 return null;
             }
             return retval;
@@ -104,9 +105,9 @@ namespace OneDo.Common.IO
                     throw new NotSupportedException(location.ToString());
                 }
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
-                Debug.WriteLine($"{nameof(GetIfFileExistsAsync)}:{nameof(FileNotFoundException)}");
+                Logger.Current.Warn(e);
                 return null;
             }
         }
