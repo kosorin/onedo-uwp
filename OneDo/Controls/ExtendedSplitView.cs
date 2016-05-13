@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace OneDo.Controls
 {
-    public class ShellSplitView : SplitView
+    public class ExtendedSplitView : SplitView
     {
         public bool KeepPaneOpen
         {
@@ -16,6 +16,6 @@ namespace OneDo.Controls
             set { SetValue(KeepPaneOpenProperty, value); }
         }
         public static readonly DependencyProperty KeepPaneOpenProperty =
-            DependencyProperty.Register(nameof(KeepPaneOpen), typeof(bool), typeof(ShellSplitView), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(KeepPaneOpen), typeof(bool), typeof(ExtendedSplitView), new PropertyMetadata(false));
     }
 }

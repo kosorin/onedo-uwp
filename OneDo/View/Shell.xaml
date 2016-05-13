@@ -48,7 +48,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <controls:ShellSplitView x:Name="ShellSplitView"
+        <controls:ExtendedSplitView x:Name="ShellSplitView"
                                  Content="{x:Bind VM.MainFrame}"
                                  IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
                                  KeepPaneOpen="{Binding KeepPaneOpen, Mode=TwoWay}"
@@ -88,6 +88,6 @@
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
-        </controls:ShellSplitView>
+        </controls:ExtendedSplitView>
     </Grid>
 </view:BasePage>
