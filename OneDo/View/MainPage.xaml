@@ -24,8 +24,8 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="ShellSplitView.DisplayMode" Value="Inline" />
-                        <Setter Target="ShellSplitView.KeepPaneOpen" Value="True" />
+                        <Setter Target="MainSplitView.DisplayMode" Value="Inline" />
+                        <Setter Target="MainSplitView.KeepPaneOpen" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -35,8 +35,8 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="ShellSplitView.DisplayMode" Value="CompactOverlay" />
-                        <Setter Target="ShellSplitView.KeepPaneOpen" Value="False" />
+                        <Setter Target="MainSplitView.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="MainSplitView.KeepPaneOpen" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -46,8 +46,8 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="ShellSplitView.DisplayMode" Value="Overlay" />
-                        <Setter Target="ShellSplitView.KeepPaneOpen" Value="False" />
+                        <Setter Target="MainSplitView.DisplayMode" Value="Overlay" />
+                        <Setter Target="MainSplitView.KeepPaneOpen" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -63,7 +63,7 @@
             </StackPanel>
         </controls:HamburgerTitleBar>
 
-        <controls:ExtendedSplitView x:Name="ShellSplitView"
+        <controls:ExtendedSplitView x:Name="MainSplitView"
                                     Grid.Row="1"
                                     IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
                                     KeepPaneOpen="{Binding KeepPaneOpen, Mode=TwoWay}"
