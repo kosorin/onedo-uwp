@@ -1,12 +1,8 @@
 ﻿using OneDo.View;
-using OneDo.View.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -14,18 +10,6 @@ namespace OneDo.Services.NavigationService
 {
     public class ShellNavigationService : INavigationService
     {
-        public ShellNavigationService()
-        {
-            if (!DesignMode.DesignModeEnabled)
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackButtonRequested;
-            }
-            Frame.NavigationFailed += OnNavigationFailed;
-            Frame.Navigating += OnNavigating;
-            Frame.Navigated += OnNavigated;
-        }
-
-
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception($"Failed to load page {e.SourcePageType.FullName}");
@@ -80,7 +64,9 @@ namespace OneDo.Services.NavigationService
         }
 
 
-        public Frame Frame { get; } = new Frame();
+        public bool IsInitialized { get; private set; } = false;
+
+        public Frame Frame { get; private set; } = null;
 
         public Type SourcePageType
         {
@@ -95,14 +81,29 @@ namespace OneDo.Services.NavigationService
         public bool CanGoBack => Frame.CanGoBack;
 
 
-        public bool Navigate<TBasePage>() where TBasePage : BasePage
+        public void Initialize(Window window)
         {
-            return Navigate(typeof(TBasePage));
+            Frame = (Window.Current.Content as Frame) ?? new Frame();
+
+            if (!DesignMode.DesignModeEnabled)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackButtonRequested;
+            }
+            Frame.NavigationFailed += OnNavigationFailed;
+            Frame.Navigating += OnNavigating;
+            Frame.Navigated += OnNavigated;
+
+            IsInitialized = true;
         }
 
-        public bool Navigate<TBasePage>(object parameter) where TBasePage : BasePage
+        public bool Navigate<TPageBase>() where TPageBase : PageBase
         {
-            return Navigate(typeof(TBasePage), parameter);
+            return Navigate(typeof(TPageBase));
+        }
+
+        public bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase
+        {
+            return Navigate(typeof(TPageBase), parameter);
         }
 
         public bool Navigate(Type pageType)
@@ -135,7 +136,7 @@ namespace OneDo.Services.NavigationService
 
         private INavigable GetContext()
         {
-            return (Frame.Content as BasePage)?.DataContext as INavigable;
+            return (Frame.Content as PageBase)?.DataContext as INavigable;
         }
     }
 }

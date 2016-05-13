@@ -3,8 +3,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
-using OneDo.ViewModel.Pages;
-using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel
 {
@@ -25,21 +23,16 @@ namespace OneDo.ViewModel
             }
             SimpleIoc.Default.Register<INavigationService, ShellNavigationService>();
 
-            // Shell
-            SimpleIoc.Default.Register<ShellViewModel>();
-
             // Stránky
-            SimpleIoc.Default.Register<StartPageViewModel>();
-            SimpleIoc.Default.Register<MainPageViewModel>();
-            SimpleIoc.Default.Register<AboutPageViewModel>();
+            SimpleIoc.Default.Register<StartViewModel>();
+            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<AboutViewModel>();
         }
 
-        public ShellViewModel Shell => ServiceLocator.Current.GetInstance<ShellViewModel>();
+        public StartViewModel StartPage => ServiceLocator.Current.GetInstance<StartViewModel>();
 
-        public StartPageViewModel StartPage => ServiceLocator.Current.GetInstance<StartPageViewModel>();
+        public MainViewModel MainPage => ServiceLocator.Current.GetInstance<MainViewModel>();
 
-        public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
-
-        public AboutPageViewModel AboutPage => ServiceLocator.Current.GetInstance<AboutPageViewModel>();
+        public AboutViewModel AboutPage => ServiceLocator.Current.GetInstance<AboutViewModel>();
     }
 }

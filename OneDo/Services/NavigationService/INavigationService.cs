@@ -1,16 +1,14 @@
 ﻿using OneDo.View;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Services.NavigationService
 {
     public interface INavigationService
     {
+        bool IsInitialized { get; }
+
         Frame Frame { get; }
 
         Type SourcePageType { get; set; }
@@ -22,9 +20,11 @@ namespace OneDo.Services.NavigationService
         bool CanGoBack { get; }
 
 
-        bool Navigate<TBasePage>() where TBasePage : BasePage;
+        void Initialize(Window window);
 
-        bool Navigate<TBasePage>(object parameter) where TBasePage : BasePage;
+        bool Navigate<TPageBase>() where TPageBase : PageBase;
+
+        bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase;
 
         bool Navigate(Type pageType);
 

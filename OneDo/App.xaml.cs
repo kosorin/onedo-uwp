@@ -1,12 +1,8 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.ServiceLocation;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
 using OneDo.View;
-using OneDo.View.Pages;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Pages;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -15,13 +11,14 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace OneDo
 {
     sealed partial class App : Application
     {
+        public Type StartPageType => typeof(MainPage);
+
+
         private readonly Stopwatch stopwatch = new Stopwatch();
 
         public App()
@@ -40,15 +37,10 @@ namespace OneDo
 
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var shell = InitializeShell(args.PreviousExecutionState == ApplicationExecutionState.Terminated);
-
-            Window.Current.Content = new SplashScreenPage(args.SplashScreen);
-            Window.Current.Activate();
-
+            ShowSplashScreen(args);
+            InitializeNavigation();
             await LoadDataAsync();
-
-            ServiceLocator.Current.GetInstance<INavigationService>().Navigate<MainPage>();
-            Window.Current.Content = shell;
+            ShowStartPage();
 
             stopwatch.Stop();
             Debug.WriteLine($"Start-up time: {stopwatch.Elapsed}");
@@ -112,19 +104,23 @@ namespace OneDo
             RuntimeHelpers.RunClassConstructor(typeof(ViewModelLocator).TypeHandle);
         }
 
-        private Shell InitializeShell(bool loadState)
+        private void InitializeNavigation()
         {
-            var shell = Window.Current.Content as Shell;
-            if (shell == null)
-            {
-                shell = new Shell();
+            var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+            navigationService.Initialize(Window.Current);
+        }
 
-                if (loadState)
-                {
-                    // TODO: Load state from previously suspended application
-                }
-            }
-            return shell;
+        private void ShowSplashScreen(LaunchActivatedEventArgs args)
+        {
+            Window.Current.Content = new SplashScreenPage(args.SplashScreen);
+            Window.Current.Activate();
+        }
+
+        private void ShowStartPage()
+        {
+            var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+            navigationService.Navigate(StartPageType);
+            Window.Current.Content = navigationService.Frame;
         }
 
         private async Task LoadDataAsync()

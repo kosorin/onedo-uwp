@@ -1,21 +1,13 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using OneDo.Services.DataService;
+﻿using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
-using OneDo.View.Pages;
-using OneDo.ViewModel.Commands;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
-using System;
+using GalaSoft.MvvmLight.Command;
+using OneDo.View;
 
 namespace OneDo.ViewModel
 {
-    public class ShellViewModel : ViewModelBase
+    public class MainViewModel : PageViewModel
     {
-        public Frame MainFrame { get; }
-
         private bool isPaneOpen;
         public bool IsPaneOpen
         {
@@ -43,21 +35,23 @@ namespace OneDo.ViewModel
 
         public ICommand NavigateToAboutPageCommand { get; }
 
-        public INavigationService NavigationService { get; }
-
         public IDataService DataService { get; }
 
-        public ShellViewModel(INavigationService navigationService, IDataService dataService)
+        public MainViewModel(INavigationService navigationService, IDataService dataService)
+            : base(navigationService)
         {
-            NavigationService = navigationService;
             DataService = dataService;
 
-            MainFrame = NavigationService.Frame;
-            MainFrame.Navigated += (s, e) => IsPaneOpen = false;
-
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
-            NavigateToMainPageCommand = new NavigationCommand<MainPage>(NavigationService);
-            NavigateToAboutPageCommand = new NavigationCommand<AboutPage>(NavigationService);
+            NavigateToMainPageCommand = new RelayCommand(() => Navigate<MainPage>());
+            NavigateToAboutPageCommand = new RelayCommand(() => Navigate<AboutPage>());
+        }
+
+
+        private void Navigate<TPageBase>() where TPageBase : PageBase
+        {
+            NavigationService.Navigate<TPageBase>();
+            IsPaneOpen = false;
         }
     }
 }

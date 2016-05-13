@@ -1,23 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Services.NavigationService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModel
 {
-    public abstract class BasePageViewModel : ViewModelBase, INavigable
+    public abstract class PageViewModel : ViewModelBase, INavigable
     {
-        public ShellViewModel Shell { get; }
 
         public INavigationService NavigationService { get; }
 
-        protected BasePageViewModel(ShellViewModel shell, INavigationService navigationService)
+        protected PageViewModel(INavigationService navigationService)
         {
-            Shell = shell;
             NavigationService = navigationService;
         }
 

@@ -3,11 +3,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace OneDo.View
 {
-    public abstract class BasePage : Page
+    public abstract class PageBase : Page
     {
         protected ViewModelBase ViewModel { get; set; }
 
-        protected BasePage()
+        protected PageBase()
         {
             DataContextChanged += (s, e) =>
             {
