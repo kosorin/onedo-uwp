@@ -10,7 +10,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Margin="24,12">
-            <TextBlock Text="OneDo" Style="{ThemeResource HeaderTextBlockStyle}" />
+            <TextBlock Text="About" Style="{ThemeResource HeaderTextBlockStyle}" />
             <TextBlock Text="{x:Bind VM.VersionText}" />
         </StackPanel>
     </Grid>
