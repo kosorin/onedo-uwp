@@ -28,7 +28,7 @@ namespace OneDo.Services.NavigationService
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception($"Failed to load Page {e.SourcePageType.FullName}");
+            throw new Exception($"Failed to load page {e.SourcePageType.FullName}");
         }
 
         private async void OnNavigating(object sender, NavigatingCancelEventArgs e)
