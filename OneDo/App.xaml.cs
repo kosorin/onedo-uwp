@@ -12,6 +12,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -29,6 +31,11 @@ namespace OneDo
             InitializeComponent();
             InitializeLocator();
             RegisterEventHandlers();
+
+#if DEBUG
+            ApplicationView.PreferredLaunchViewSize = new Size(480, 800);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+#endif
         }
 
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
@@ -64,6 +71,13 @@ namespace OneDo
             {
                 Debugger.Break();
             }
+        }
+
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+#if DEBUG
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(200, 200));
+#endif
         }
 
 
