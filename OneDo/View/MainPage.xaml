@@ -75,7 +75,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
-                        <controls:HamburgerMenuButton Content="Home" Command="{x:Bind VM.NavigateToMainPageCommand}">
+                        <controls:HamburgerMenuButton Content="Home">
                             <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE80F;" />
                             </controls:HamburgerMenuButton.Icon>
@@ -94,7 +94,7 @@
                                 <FontIcon FontSize="16" Glyph="&#59219;" />
                             </controls:HamburgerMenuButton.Icon>
                         </controls:HamburgerMenuButton>
-                        <controls:HamburgerMenuButton Content="Settings" IsEnabled="False">
+                        <controls:HamburgerMenuButton Content="Settings" Command="{x:Bind VM.NavigateToSettingsPageCommand}">
                             <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#57621;" />
                             </controls:HamburgerMenuButton.Icon>

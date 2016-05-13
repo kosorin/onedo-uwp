@@ -31,9 +31,9 @@ namespace OneDo.ViewModel
 
         public ICommand TogglePaneCommand { get; }
 
-        public ICommand NavigateToMainPageCommand { get; }
-
         public ICommand NavigateToAboutPageCommand { get; }
+
+        public ICommand NavigateToSettingsPageCommand { get; }
 
         public IDataService DataService { get; }
 
@@ -43,8 +43,8 @@ namespace OneDo.ViewModel
             DataService = dataService;
 
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
-            NavigateToMainPageCommand = new RelayCommand(() => Navigate<MainPage>());
             NavigateToAboutPageCommand = new RelayCommand(() => Navigate<AboutPage>());
+            NavigateToSettingsPageCommand = new RelayCommand(() => Navigate<SettingsPage>());
         }
 
 

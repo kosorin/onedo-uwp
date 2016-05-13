@@ -27,6 +27,7 @@ namespace OneDo.ViewModel
             SimpleIoc.Default.Register<StartViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AboutViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
         }
 
         public StartViewModel StartPage => ServiceLocator.Current.GetInstance<StartViewModel>();
@@ -34,5 +35,7 @@ namespace OneDo.ViewModel
         public MainViewModel MainPage => ServiceLocator.Current.GetInstance<MainViewModel>();
 
         public AboutViewModel AboutPage => ServiceLocator.Current.GetInstance<AboutViewModel>();
+
+        public SettingsViewModel SettingsPage => ServiceLocator.Current.GetInstance<SettingsViewModel>();
     }
 }
