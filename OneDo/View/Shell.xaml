@@ -3,6 +3,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:behaviors="using:OneDo.Behaviors"
                xmlns:controls="using:OneDo.Controls"
                xmlns:converters="using:OneDo.Converters"
                xmlns:view="using:OneDo.View"
@@ -10,9 +11,48 @@
                mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView Content="{x:Bind VM.MainFrame}"
-                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
-                   DisplayMode="Overlay">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ShellSplitView.DisplayMode" Value="Inline" />
+                        <Setter Target="ShellSplitView.KeepPaneOpen" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ShellSplitView.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="ShellSplitView.KeepPaneOpen" Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ShellSplitView.DisplayMode" Value="Overlay" />
+                        <Setter Target="ShellSplitView.KeepPaneOpen" Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <controls:ShellSplitView x:Name="ShellSplitView"
+                                 Content="{x:Bind VM.MainFrame}"
+                                 IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
+                                 KeepPaneOpen="{Binding KeepPaneOpen, Mode=TwoWay}"
+                                 DisplayMode="Overlay">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -48,6 +88,6 @@
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
-        </SplitView>
+        </controls:ShellSplitView>
     </Grid>
 </view:BasePage>

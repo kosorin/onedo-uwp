@@ -104,6 +104,7 @@
     <Compile Include="Common\MVVM\BaseCommand.cs" />
     <Compile Include="Controls\HamburgerMenuButton.cs" />
     <Compile Include="Controls\HamburgerTitleBar.cs" />
+    <Compile Include="Controls\ShellSplitView.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />

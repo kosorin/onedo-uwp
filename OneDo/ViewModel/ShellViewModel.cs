@@ -19,8 +19,21 @@ namespace OneDo.ViewModel
         private bool isPaneOpen;
         public bool IsPaneOpen
         {
-            get { return isPaneOpen; }
+            get { return KeepPaneOpen || isPaneOpen; }
             set { Set(ref isPaneOpen, value); }
+        }
+
+        private bool keepPaneOpen;
+        public bool KeepPaneOpen
+        {
+            get { return keepPaneOpen; }
+            set
+            {
+                if (Set(ref keepPaneOpen, value))
+                {
+                    RaisePropertyChanged(nameof(IsPaneOpen));
+                }
+            }
         }
 
 
