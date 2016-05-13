@@ -75,9 +75,29 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
-                        <controls:HamburgerMenuButton Content="Home">
+                        <controls:HamburgerMenuButton Content="All">
                             <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE80F;" />
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
+                        <controls:HamburgerMenuButton Content="Inbox">
+                            <controls:HamburgerMenuButton.Icon>
+                                <FontIcon FontSize="16" Glyph="&#xE166;" />
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
+                        <controls:HamburgerMenuButton Content="Today">
+                            <controls:HamburgerMenuButton.Icon>
+                                <FontIcon FontSize="16" Glyph="&#xE8D1;" />
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
+                        <controls:HamburgerMenuButton Content="Next 7 days">
+                            <controls:HamburgerMenuButton.Icon>
+                                <FontIcon FontSize="16" Glyph="&#xE8F5;" />
+                            </controls:HamburgerMenuButton.Icon>
+                        </controls:HamburgerMenuButton>
+                        <controls:HamburgerMenuButton Content="Flagged">
+                            <controls:HamburgerMenuButton.Icon>
+                                <FontIcon FontSize="16" Glyph="&#xE7C1;" />
                             </controls:HamburgerMenuButton.Icon>
                         </controls:HamburgerMenuButton>
                     </StackPanel>
@@ -87,11 +107,6 @@
                         <controls:HamburgerMenuButton Content="About" Command="{x:Bind VM.NavigateToAboutPageCommand}">
                             <controls:HamburgerMenuButton.Icon>
                                 <FontIcon FontSize="16" Glyph="&#59718;" />
-                            </controls:HamburgerMenuButton.Icon>
-                        </controls:HamburgerMenuButton>
-                        <controls:HamburgerMenuButton Content="Back up" IsEnabled="False">
-                            <controls:HamburgerMenuButton.Icon>
-                                <FontIcon FontSize="16" Glyph="&#59219;" />
                             </controls:HamburgerMenuButton.Icon>
                         </controls:HamburgerMenuButton>
                         <controls:HamburgerMenuButton Content="Settings" Command="{x:Bind VM.NavigateToSettingsPageCommand}">
