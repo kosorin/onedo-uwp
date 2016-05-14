@@ -19,7 +19,7 @@ namespace OneDo.ViewModel
             }
             else
             {
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<IDataService, FileDataService>();
             }
             SimpleIoc.Default.Register<INavigationService, ShellNavigationService>();
 

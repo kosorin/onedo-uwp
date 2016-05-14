@@ -6,7 +6,7 @@ using OneDo.Common.Logging;
 
 namespace OneDo.Services.DataService
 {
-    public class DataService : IDataService
+    public class FileDataService : IDataService
     {
         private const string FileName = "Data.json";
 
