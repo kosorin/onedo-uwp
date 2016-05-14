@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using OneDo.Model;
 using OneDo.Common.IO;
+using System;
+using OneDo.Common.Logging;
 
 namespace OneDo.Services.DataService
 {
@@ -10,14 +12,30 @@ namespace OneDo.Services.DataService
 
         public async Task<Data> LoadAsync()
         {
-            var data = await FileHelper.ReadFileAsync<Data>(FileName);
             // await Task.Delay(5 * 1000);
-            return data;
+            Data data;
+            try
+            {
+                data = await FileHelper.ReadFileAsync<Data>(FileName);
+            }
+            catch (Exception e)
+            {
+                data = null;
+                Logger.Current.Warn(e);
+            }
+            return data ?? new Data();
         }
 
         public async Task SaveAsync(Data data)
         {
-            await FileHelper.WriteFileAsync(FileName, data ?? new Data());
+            try
+            {
+                await FileHelper.WriteFileAsync(FileName, data ?? new Data());
+            }
+            catch (Exception e)
+            {
+                Logger.Current.Error(e);
+            }
         }
     }
 }
