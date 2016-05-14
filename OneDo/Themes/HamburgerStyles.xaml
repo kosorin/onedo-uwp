@@ -5,7 +5,7 @@
     <x:Double x:Key="HamburgerBaseMeasure">48</x:Double>
 
     <Style x:Key="HamburgerTitleBarTextBlockStyle" BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Margin" Value="12,0" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -71,7 +71,7 @@
     </Style>
 
     <Style x:Key="HamburgerMenuButtonTextBlockStyle" BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Margin" Value="12,0" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
