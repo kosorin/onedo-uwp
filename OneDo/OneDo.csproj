@@ -100,7 +100,6 @@
     <Compile Include="Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\IO\FileHelper.cs" />
-    <Compile Include="Common\IO\StorageStrategies.cs" />
     <Compile Include="Common\MVVM\BaseCommand.cs" />
     <Compile Include="Controls\HamburgerMenuButton.cs" />
     <Compile Include="Controls\HamburgerTitleBar.cs" />

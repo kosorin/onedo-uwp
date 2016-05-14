@@ -6,16 +6,16 @@ namespace OneDo.Services.FileService
 {
     public class FileService : IFileService
     {
-        public async Task<bool> FileExistsAsync(string key, StorageStrategies location = StorageStrategies.Local)
-            => await FileHelper.FileExistsAsync(key, location);
+        public async Task<bool> FileExistsAsync(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
+            => await FileHelper.FileExistsAsync(key, locality);
 
-        public async Task<bool> DeleteFileAsync(string key, StorageStrategies location = StorageStrategies.Local)
-            => await FileHelper.DeleteFileAsync(key, location);
+        public async Task<bool> DeleteFileAsync(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
+            => await FileHelper.DeleteFileAsync(key, locality);
 
-        public async Task<T> ReadFileAsync<T>(string key, StorageStrategies location = StorageStrategies.Local)
-            => await FileHelper.ReadFileAsync<T>(key, location);
+        public async Task<T> ReadFileAsync<T>(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
+            => await FileHelper.ReadFileAsync<T>(key, locality);
 
-        public async Task<bool> WriteFileAsync<T>(string key, T value, StorageStrategies location = StorageStrategies.Local, CreationCollisionOption option = CreationCollisionOption.ReplaceExisting)
-            => await FileHelper.WriteFileAsync(key, value, location, option);
+        public async Task<bool> WriteFileAsync<T>(string key, T value, ApplicationDataLocality locality = ApplicationDataLocality.Local, CreationCollisionOption option = CreationCollisionOption.ReplaceExisting)
+            => await FileHelper.WriteFileAsync(key, value, locality, option);
     }
 }

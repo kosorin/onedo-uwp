@@ -11,9 +11,9 @@ namespace OneDo.Common.IO
 {
     public class FileHelper
     {
-        public static async Task<bool> FileExistsAsync(string key, StorageStrategies location = StorageStrategies.Local)
+        public static async Task<bool> FileExistsAsync(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
         {
-            return (await GetIfFileExistsAsync(key, location)) != null;
+            return (await GetIfFileExistsAsync(key, locality)) != null;
         }
 
         public static async Task<bool> FileExistsAsync(string key, StorageFolder folder)
@@ -21,21 +21,21 @@ namespace OneDo.Common.IO
             return (await GetIfFileExistsAsync(key, folder)) != null;
         }
 
-        public static async Task<bool> DeleteFileAsync(string key, StorageStrategies location = StorageStrategies.Local)
+        public static async Task<bool> DeleteFileAsync(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
         {
-            var file = await GetIfFileExistsAsync(key, location);
+            var file = await GetIfFileExistsAsync(key, locality);
             if (file != null)
             {
                 await file.DeleteAsync();
             }
-            return !(await FileExistsAsync(key, location));
+            return !(await FileExistsAsync(key, locality));
         }
 
-        public static async Task<T> ReadFileAsync<T>(string key, StorageStrategies location = StorageStrategies.Local)
+        public static async Task<T> ReadFileAsync<T>(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
         {
             try
             {
-                var file = await GetIfFileExistsAsync(key, location);
+                var file = await GetIfFileExistsAsync(key, locality);
                 if (file == null)
                 {
                     return default(T);
@@ -50,27 +50,27 @@ namespace OneDo.Common.IO
             }
         }
 
-        public static async Task<bool> WriteFileAsync<T>(string key, T value, StorageStrategies location = StorageStrategies.Local, CreationCollisionOption option = CreationCollisionOption.ReplaceExisting)
+        public static async Task<bool> WriteFileAsync<T>(string key, T value, ApplicationDataLocality locality = ApplicationDataLocality.Local, CreationCollisionOption option = CreationCollisionOption.ReplaceExisting)
         {
-            var file = await CreateFileAsync(key, location, option);
+            var file = await CreateFileAsync(key, locality, option);
             var serializedValue = Serialize(value);
             await FileIO.WriteTextAsync(file, serializedValue);
-            return await FileExistsAsync(key, location);
+            return await FileExistsAsync(key, locality);
         }
 
 
-        private static async Task<StorageFile> CreateFileAsync(string key, StorageStrategies location = StorageStrategies.Local, CreationCollisionOption option = CreationCollisionOption.OpenIfExists)
+        private static async Task<StorageFile> CreateFileAsync(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local, CreationCollisionOption option = CreationCollisionOption.OpenIfExists)
         {
-            switch (location)
+            switch (locality)
             {
-            case StorageStrategies.Local:
+            case ApplicationDataLocality.Local:
                 return await ApplicationData.Current.LocalFolder.CreateFileAsync(key, option);
-            case StorageStrategies.Roaming:
+            case ApplicationDataLocality.Roaming:
                 return await ApplicationData.Current.RoamingFolder.CreateFileAsync(key, option);
-            case StorageStrategies.Temporary:
+            case ApplicationDataLocality.Temporary:
                 return await ApplicationData.Current.TemporaryFolder.CreateFileAsync(key, option);
             default:
-                throw new NotSupportedException(location.ToString());
+                throw new NotSupportedException($"Lokalita {locality} není podporována.");
             }
         }
 
@@ -89,20 +89,20 @@ namespace OneDo.Common.IO
             return retval;
         }
 
-        private static async Task<StorageFile> GetIfFileExistsAsync(string key, StorageStrategies location = StorageStrategies.Local)
+        private static async Task<StorageFile> GetIfFileExistsAsync(string key, ApplicationDataLocality locality = ApplicationDataLocality.Local)
         {
             try
             {
-                switch (location)
+                switch (locality)
                 {
-                case StorageStrategies.Local:
+                case ApplicationDataLocality.Local:
                     return await ApplicationData.Current.LocalFolder.GetFileAsync(key);
-                case StorageStrategies.Roaming:
+                case ApplicationDataLocality.Roaming:
                     return await ApplicationData.Current.RoamingFolder.GetFileAsync(key);
-                case StorageStrategies.Temporary:
+                case ApplicationDataLocality.Temporary:
                     return await ApplicationData.Current.TemporaryFolder.GetFileAsync(key);
                 default:
-                    throw new NotSupportedException(location.ToString());
+                    throw new NotSupportedException($"Lokalita {locality} není podporována.");
                 }
             }
             catch (FileNotFoundException e)
