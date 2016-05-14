@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OneDo.Model.Recurrences
+namespace OneDo.Model.Entity.Recurrences
 {
     public abstract class RecurrenceBase
     {

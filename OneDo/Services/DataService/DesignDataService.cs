@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OneDo.Model;
 using Windows.UI;
+using OneDo.Model.Entity;
 
 namespace OneDo.Services.DataService
 {

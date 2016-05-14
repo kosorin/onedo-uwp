@@ -1,9 +1,9 @@
-﻿using OneDo.Model.Recurrences;
+﻿using OneDo.Model.Entity.Recurrences;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace OneDo.Model
+namespace OneDo.Model.Entity
 {
     [KnownType(typeof(DailyRecurrence))]
     [KnownType(typeof(WeeklyRecurrence))]

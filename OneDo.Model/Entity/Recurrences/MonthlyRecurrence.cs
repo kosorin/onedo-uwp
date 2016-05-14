@@ -1,4 +1,4 @@
-﻿namespace OneDo.Model.Recurrences
+﻿namespace OneDo.Model.Entity.Recurrences
 {
     public class MonthlyRecurrence : RecurrenceBase
     {
