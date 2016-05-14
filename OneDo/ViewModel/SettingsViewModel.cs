@@ -1,5 +1,4 @@
 ﻿using OneDo.Services.NavigationService;
-using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel
 {

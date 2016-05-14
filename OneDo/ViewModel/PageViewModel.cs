@@ -7,7 +7,6 @@ namespace OneDo.ViewModel
 {
     public abstract class PageViewModel : ViewModelBase, INavigable
     {
-
         public INavigationService NavigationService { get; }
 
         protected PageViewModel(INavigationService navigationService)

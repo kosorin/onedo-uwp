@@ -1,5 +1,4 @@
-﻿using OneDo.Common.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace OneDo.Services.FileService

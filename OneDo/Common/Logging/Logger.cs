@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OneDo.Common.Logging
+﻿namespace OneDo.Common.Logging
 {
     public static class Logger
     {
