@@ -67,13 +67,7 @@
 
         <controls:HamburgerTitleBar Grid.Row="0"
                                     MenuButtonCommand="{x:Bind VM.TogglePaneCommand}"
-                                    Title="Inbox">
-            <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource HamburgerTitleBarButtonStyle}">
-                    <FontIcon FontSize="20" Glyph="&#xE71E;" />
-                </Button>
-            </StackPanel>
-        </controls:HamburgerTitleBar>
+                                    Title="Inbox" />
 
         <controls:ExtendedSplitView x:Name="MainSplitView"
                                     Grid.Row="1"

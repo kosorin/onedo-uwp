@@ -26,6 +26,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button x:Name="PART_MenuButton"
+                                ToolTipService.ToolTip="Menu"
                                 Grid.Column="0"
                                 Style="{StaticResource HamburgerTitleBarButtonStyle}"
                                 Command="{TemplateBinding MenuButtonCommand}">
