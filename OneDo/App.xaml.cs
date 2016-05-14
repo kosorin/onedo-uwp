@@ -39,7 +39,7 @@ namespace OneDo
 
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            ShowSplashScreen(args);
+            ShowSplashScreen(args.SplashScreen);
             InitializeNavigation();
             await LoadDataAsync();
             ShowStartPage();
@@ -112,9 +112,9 @@ namespace OneDo
             navigationService.Initialize(Window.Current);
         }
 
-        private void ShowSplashScreen(LaunchActivatedEventArgs args)
+        private void ShowSplashScreen(SplashScreen splashScreen)
         {
-            Window.Current.Content = new SplashScreenPage(args.SplashScreen);
+            Window.Current.Content = new SplashScreenPage(splashScreen);
             Window.Current.Activate();
         }
 
