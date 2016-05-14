@@ -77,7 +77,7 @@ namespace OneDo.Common.Logging
 
         private void WriteLogLine(string message, string level)
         {
-            WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} | {level,5} | {message}");
+            WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} | {level, 5} | {message}");
         }
 
         private void WriteLine(string message)

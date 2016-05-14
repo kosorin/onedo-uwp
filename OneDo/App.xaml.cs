@@ -112,6 +112,12 @@ namespace OneDo
             navigationService.Initialize(Window.Current);
         }
 
+        private async Task LoadDataAsync()
+        {
+            var dataService = ServiceLocator.Current.GetInstance<IDataService>();
+            await dataService.LoadAsync();
+        }
+
         private void ShowSplashScreen(SplashScreen splashScreen)
         {
             Window.Current.Content = new SplashScreenPage(splashScreen);
@@ -123,12 +129,6 @@ namespace OneDo
             var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
             navigationService.Navigate(StartPageType);
             Window.Current.Content = navigationService.Frame;
-        }
-
-        private async Task LoadDataAsync()
-        {
-            var dataService = ServiceLocator.Current.GetInstance<IDataService>();
-            await dataService.LoadAsync();
         }
     }
 }
