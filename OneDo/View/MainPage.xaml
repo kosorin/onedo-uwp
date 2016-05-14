@@ -10,6 +10,18 @@
                DataContext="{Binding MainPage, Source={StaticResource ViewModelLocator}}"
                mc:Ignorable="d">
 
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Add to-do" ToolTipService.ToolTip="Add to-do">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE710;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
