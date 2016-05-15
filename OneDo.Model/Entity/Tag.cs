@@ -5,7 +5,7 @@ namespace OneDo.Model.Entity
 {
     public class Tag
     {
-        public Guid Guid { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

@@ -10,7 +10,7 @@ namespace OneDo.Model.Entity
     [KnownType(typeof(MonthlyRecurrence))]
     public class Todo
     {
-        public Guid Guid { get; set; }
+        public Guid Id { get; set; }
 
         public Guid Parent { get; set; }
 
@@ -22,7 +22,7 @@ namespace OneDo.Model.Entity
 
         public DateTime? Date { get; set; }
 
-        public DateTime? Reminder { get; set; }
+        public TimeSpan? Reminder { get; set; }
 
         public RecurrenceBase Recurrence { get; set; }
 
