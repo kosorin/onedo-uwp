@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using OneDo.Common.Logging;
-using OneDo.Services.DataService;
+using OneDo.Model.DataAccess;
 using OneDo.Services.NavigationService;
 using OneDo.View;
 using OneDo.ViewModel;
@@ -29,7 +29,29 @@ namespace OneDo
             InitializeComponent();
             InitializeLogger();
             InitializeLocator();
-            RegisterEventHandlers();
+
+            Suspending += async (s, e) =>
+            {
+                var deferral = e.SuspendingOperation.GetDeferral();
+                try
+                {
+                    await OnSuspendingAsync(e.SuspendingOperation.Deadline);
+                }
+                finally
+                {
+                    deferral.Complete();
+                }
+            };
+
+            Resuming += (s, e) =>
+            {
+                OnResuming(e);
+            };
+
+            UnhandledException += (s, e) =>
+            {
+                OnUnhandledException(e);
+            };
 
 #if DEBUG
             ApplicationView.PreferredLaunchViewSize = new Size(480, 800);
@@ -40,8 +62,8 @@ namespace OneDo
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
             ShowSplashScreen(args.SplashScreen);
+            await InitializeData();
             InitializeNavigation();
-            await LoadDataAsync();
             ShowStartPage();
 
             stopwatch.Stop();
@@ -75,32 +97,6 @@ namespace OneDo
         }
 
 
-        private void RegisterEventHandlers()
-        {
-            Suspending += async (s, e) =>
-            {
-                var deferral = e.SuspendingOperation.GetDeferral();
-                try
-                {
-                    await OnSuspendingAsync(e.SuspendingOperation.Deadline);
-                }
-                finally
-                {
-                    deferral.Complete();
-                }
-            };
-
-            Resuming += (s, e) =>
-            {
-                OnResuming(e);
-            };
-
-            UnhandledException += (s, e) =>
-            {
-                OnUnhandledException(e);
-            };
-        }
-
         private void InitializeLogger()
         {
             ILogger logger;
@@ -123,11 +119,12 @@ namespace OneDo
             navigationService.Initialize(Window.Current);
         }
 
-        private async Task LoadDataAsync()
+        private async Task InitializeData()
         {
-            var dataService = SimpleIoc.Default.GetInstance<IDataService>();
-            await dataService.LoadAsync();
+            var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
+            await dataProvider.LoadAsync();
         }
+
 
         private void ShowSplashScreen(SplashScreen splashScreen)
         {

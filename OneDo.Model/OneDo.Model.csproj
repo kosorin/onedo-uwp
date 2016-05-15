@@ -107,8 +107,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\Data.cs" />
+    <Compile Include="DataAccess\IDataProvider.cs" />
     <Compile Include="Entity\Recurrences\DailyRecurrence.cs" />
-    <Compile Include="Data.cs" />
+    <Compile Include="DataAccess\DataProvider.cs" />
     <Compile Include="Entity\Recurrences\DaysOfWeek.cs" />
     <Compile Include="Entity\Recurrences\MonthlyRecurrence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Business\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
+      <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
+      <Name>OneDo.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

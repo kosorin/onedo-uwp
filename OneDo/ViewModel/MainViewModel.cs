@@ -1,5 +1,4 @@
-﻿using OneDo.Services.DataService;
-using OneDo.Services.NavigationService;
+﻿using OneDo.Services.NavigationService;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.View;
@@ -35,13 +34,9 @@ namespace OneDo.ViewModel
 
         public ICommand NavigateToSettingsPageCommand { get; }
 
-        public IDataService DataService { get; }
-
-        public MainViewModel(INavigationService navigationService, IDataService dataService)
+        public MainViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            DataService = dataService;
-
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
             NavigateToAboutPageCommand = new RelayCommand(() => Navigate<AboutPage>());
             NavigateToSettingsPageCommand = new RelayCommand(() => Navigate<SettingsPage>());

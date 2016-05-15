@@ -1,6 +1,5 @@
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using OneDo.Services.DataService;
+using OneDo.Model.DataAccess;
 using OneDo.Services.NavigationService;
 
 namespace OneDo.ViewModel
@@ -10,14 +9,7 @@ namespace OneDo.ViewModel
         static ViewModelLocator()
         {
             // Služby
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, FileDataService>();
-            }
+            SimpleIoc.Default.Register<IDataProvider, DataProvider>();
             SimpleIoc.Default.Register<INavigationService, FrameNavigationService>();
 
             // Stránky
