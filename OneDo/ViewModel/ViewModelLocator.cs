@@ -21,7 +21,7 @@ namespace OneDo.ViewModel
             {
                 SimpleIoc.Default.Register<IDataService, FileDataService>();
             }
-            SimpleIoc.Default.Register<INavigationService, ShellNavigationService>();
+            SimpleIoc.Default.Register<INavigationService, FrameNavigationService>();
 
             // Stránky
             SimpleIoc.Default.Register<StartViewModel>();

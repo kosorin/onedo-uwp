@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Services.NavigationService
 {
-    public class ShellNavigationService : INavigationService
+    public class FrameNavigationService : INavigationService
     {
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
