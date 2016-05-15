@@ -22,7 +22,7 @@ namespace OneDo.Services.NavigationService
             {
                 var args = new NavigatingEventArgs();
                 context.OnNavigatingFrom(args);
-                e.Cancel = args.Handled;
+                e.Cancel = args.Cancel;
                 if (!e.Cancel)
                 {
                     await context.OnNavigatedFromAsync();

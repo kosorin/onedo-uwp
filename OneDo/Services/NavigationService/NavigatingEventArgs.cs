@@ -2,7 +2,7 @@
 
 namespace OneDo.Services.NavigationService
 {
-    public class NavigatingEventArgs : HandledEventArgs
+    public class NavigatingEventArgs : CancelEventArgs
     {
 
     }
