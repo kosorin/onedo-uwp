@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace OneDo.Common.MVVM
+namespace OneDo.ViewModel.Commands
 {
-    public abstract class BaseCommand : ICommand
+    public abstract class CommandBase : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
