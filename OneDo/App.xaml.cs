@@ -2,8 +2,8 @@
 using OneDo.Common.Logging;
 using OneDo.Model.DataAccess;
 using OneDo.Services.NavigationService;
-using OneDo.View;
-using OneDo.ViewModel;
+using OneDo.Views;
+using OneDo.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;

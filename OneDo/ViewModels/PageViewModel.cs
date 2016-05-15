@@ -3,7 +3,7 @@ using OneDo.Services.NavigationService;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModels
 {
     public abstract class PageViewModel : ViewModelBase, INavigable
     {

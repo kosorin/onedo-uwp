@@ -1,4 +1,4 @@
-﻿using OneDo.Model.Entity;
+﻿using OneDo.Model.Entities;
 using System.Collections.Generic;
 
 namespace OneDo.Model.DataAccess

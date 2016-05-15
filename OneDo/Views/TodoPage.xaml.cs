@@ -1,7 +1,7 @@
 ﻿
-using OneDo.ViewModel;
+using OneDo.ViewModels;
 
-namespace OneDo.View
+namespace OneDo.Views
 {
     public sealed partial class TodoPage : IXBindPage<TodoViewModel>
     {

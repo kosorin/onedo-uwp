@@ -1,6 +1,6 @@
 ﻿using OneDo.Services.NavigationService;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModels
 {
     public class TodoViewModel : PageViewModel
     {

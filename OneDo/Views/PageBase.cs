@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using Windows.UI.Xaml.Controls;
 
-namespace OneDo.View
+namespace OneDo.Views
 {
     public abstract class PageBase : Page
     {

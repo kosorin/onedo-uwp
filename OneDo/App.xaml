@@ -1,7 +1,7 @@
 ﻿<Application x:Class="OneDo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:viewModel="using:OneDo.ViewModel"
+             xmlns:viewModel="using:OneDo.ViewModels"
              xmlns:converters="using:OneDo.Converters"
              RequestedTheme="Light">
 

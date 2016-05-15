@@ -1,9 +1,9 @@
 ﻿using OneDo.Services.NavigationService;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using OneDo.View;
+using OneDo.Views;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModels
 {
     public class MainViewModel : PageViewModel
     {

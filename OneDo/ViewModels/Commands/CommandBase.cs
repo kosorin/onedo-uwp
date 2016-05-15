@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace OneDo.ViewModel.Commands
+namespace OneDo.ViewModels.Commands
 {
     public abstract class CommandBase : ICommand
     {

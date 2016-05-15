@@ -2,7 +2,7 @@ using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.DataAccess;
 using OneDo.Services.NavigationService;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModels
 {
     public class ViewModelLocator
     {
@@ -13,14 +13,11 @@ namespace OneDo.ViewModel
             SimpleIoc.Default.Register<INavigationService, FrameNavigationService>();
 
             // Stránky
-            SimpleIoc.Default.Register<StartViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AboutViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<TodoViewModel>();
         }
-
-        public StartViewModel StartPage => SimpleIoc.Default.GetInstance<StartViewModel>();
 
         public MainViewModel MainPage => SimpleIoc.Default.GetInstance<MainViewModel>();
 

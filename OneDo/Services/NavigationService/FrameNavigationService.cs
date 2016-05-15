@@ -1,4 +1,4 @@
-﻿using OneDo.View;
+﻿using OneDo.Views;
 using System;
 using Windows.ApplicationModel;
 using Windows.UI.Core;

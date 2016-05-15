@@ -1,6 +1,6 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.ViewModels;
 
-namespace OneDo.View
+namespace OneDo.Views
 {
     public sealed partial class MainPage : IXBindPage<MainViewModel>
     {

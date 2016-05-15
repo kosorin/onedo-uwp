@@ -1,4 +1,4 @@
-﻿using OneDo.View;
+﻿using OneDo.Views;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

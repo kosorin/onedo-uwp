@@ -1,14 +1,14 @@
-﻿<view:PageBase x:Class="OneDo.View.MainPage"
-               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:behaviors="using:OneDo.Behaviors"
-               xmlns:controls="using:OneDo.Controls"
-               xmlns:converters="using:OneDo.Converters"
-               xmlns:view="using:OneDo.View"
-               DataContext="{Binding MainPage, Source={StaticResource ViewModelLocator}}"
-               mc:Ignorable="d">
+﻿<views:PageBase x:Class="OneDo.Views.MainPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:behaviors="using:OneDo.Behaviors"
+                xmlns:controls="using:OneDo.Controls"
+                xmlns:converters="using:OneDo.Converters"
+                xmlns:views="using:OneDo.Views"
+                DataContext="{Binding MainPage, Source={StaticResource ViewModelLocator}}"
+                mc:Ignorable="d">
 
     <Page.BottomAppBar>
         <CommandBar>
@@ -125,4 +125,4 @@
             </SplitView.Pane>
         </controls:ExtendedSplitView>
     </Grid>
-</view:PageBase>
+</views:PageBase>

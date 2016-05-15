@@ -1,4 +1,4 @@
-﻿namespace OneDo.View
+﻿namespace OneDo.Views
 {
     public interface IXBindPage<TViewModel>
     {

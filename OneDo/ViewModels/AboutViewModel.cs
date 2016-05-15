@@ -1,7 +1,7 @@
 ﻿using OneDo.Services.NavigationService;
 using Windows.ApplicationModel;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModels
 {
     public class AboutViewModel : PageViewModel
     {
