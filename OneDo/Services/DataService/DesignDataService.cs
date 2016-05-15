@@ -13,9 +13,9 @@ namespace OneDo.Services.DataService
         {
             var tags = new List<Tag>
             {
-                new Tag { Guid = Guid.NewGuid(), Name = "Práce", Color = Colors.Maroon },
-                new Tag { Guid = Guid.NewGuid(), Name = "Škola", Color = Colors.Navy },
-                new Tag { Guid = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen },
+                new Tag { Id = Guid.NewGuid(), Name = "Práce", Color = Colors.Maroon },
+                new Tag { Id = Guid.NewGuid(), Name = "Škola", Color = Colors.Navy },
+                new Tag { Id = Guid.NewGuid(), Name = "Osobní", Color = Colors.DarkGreen },
             };
 
             var data = new Data
