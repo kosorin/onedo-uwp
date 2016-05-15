@@ -1,6 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
 
@@ -10,8 +9,6 @@ namespace OneDo.ViewModel
     {
         static ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
             // Služby
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -31,14 +28,14 @@ namespace OneDo.ViewModel
             SimpleIoc.Default.Register<TodoViewModel>();
         }
 
-        public StartViewModel StartPage => ServiceLocator.Current.GetInstance<StartViewModel>();
+        public StartViewModel StartPage => SimpleIoc.Default.GetInstance<StartViewModel>();
 
-        public MainViewModel MainPage => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public MainViewModel MainPage => SimpleIoc.Default.GetInstance<MainViewModel>();
 
-        public AboutViewModel AboutPage => ServiceLocator.Current.GetInstance<AboutViewModel>();
+        public AboutViewModel AboutPage => SimpleIoc.Default.GetInstance<AboutViewModel>();
 
-        public SettingsViewModel SettingsPage => ServiceLocator.Current.GetInstance<SettingsViewModel>();
+        public SettingsViewModel SettingsPage => SimpleIoc.Default.GetInstance<SettingsViewModel>();
 
-        public TodoViewModel TodoPage => ServiceLocator.Current.GetInstance<TodoViewModel>();
+        public TodoViewModel TodoPage => SimpleIoc.Default.GetInstance<TodoViewModel>();
     }
 }

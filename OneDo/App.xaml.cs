@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using GalaSoft.MvvmLight.Ioc;
 using OneDo.Common.Logging;
 using OneDo.Services.DataService;
 using OneDo.Services.NavigationService;
@@ -108,13 +108,13 @@ namespace OneDo
 
         private void InitializeNavigation()
         {
-            var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+            var navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
             navigationService.Initialize(Window.Current);
         }
 
         private async Task LoadDataAsync()
         {
-            var dataService = ServiceLocator.Current.GetInstance<IDataService>();
+            var dataService = SimpleIoc.Default.GetInstance<IDataService>();
             await dataService.LoadAsync();
         }
 
@@ -126,7 +126,7 @@ namespace OneDo
 
         private void ShowStartPage()
         {
-            var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+            var navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
             navigationService.Navigate(StartPageType);
             Window.Current.Content = navigationService.Frame;
         }
