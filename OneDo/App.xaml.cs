@@ -27,8 +27,8 @@ namespace OneDo
             stopwatch.Start();
 
             InitializeComponent();
+            InitializeLogger();
             InitializeLocator();
-
             RegisterEventHandlers();
 
 #if DEBUG
@@ -99,6 +99,17 @@ namespace OneDo
             {
                 OnUnhandledException(e);
             };
+        }
+
+        private void InitializeLogger()
+        {
+            ILogger logger;
+#if DEBUG
+            logger = new DebugLogger();
+#else
+            logger = new NullLogger();
+#endif
+            Logger.Set(logger);
         }
 
         private void InitializeLocator()

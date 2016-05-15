@@ -2,15 +2,11 @@
 {
     public static class Logger
     {
-        public static ILogger Current { get; }
+        public static ILogger Current { get; private set; }
 
-        static Logger()
+        public static void Set(ILogger logger)
         {
-#if DEBUG
-            Current = new DebugLogger();
-#else
-            Current = new NullLogger();
-#endif
+            Current = logger;
         }
     }
 }
