@@ -12,6 +12,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.Storage;
+using System.IO;
 
 namespace OneDo
 {
@@ -27,8 +29,6 @@ namespace OneDo
             stopwatch.Start();
 
             InitializeComponent();
-            InitializeLogger();
-            InitializeLocator();
 
             Suspending += async (s, e) =>
             {
@@ -61,9 +61,14 @@ namespace OneDo
 
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
+            await InitializeLogger();
+            InitializeLocator();
+
             ShowSplashScreen(args.SplashScreen);
+
             await InitializeData();
             InitializeNavigation();
+
             ShowStartPage();
 
             stopwatch.Stop();
@@ -87,6 +92,10 @@ namespace OneDo
             {
                 Debugger.Break();
             }
+            else
+            {
+                Logger.Current?.Fatal("Unhandled exception.", args.Exception);
+            }
         }
 
         protected override void OnWindowCreated(WindowCreatedEventArgs args)
@@ -97,15 +106,18 @@ namespace OneDo
         }
 
 
-        private void InitializeLogger()
+        private async Task InitializeLogger()
         {
             ILogger logger;
 #if DEBUG
-            logger = new DebugLogger();
+            var folder = ApplicationData.Current.LocalFolder;
+            var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
+            logger = new FileLogger(file.Path);
 #else
             logger = new NullLogger();
 #endif
             Logger.Set(logger);
+            Logger.Current.Info("Logger initialized.");
         }
 
         private void InitializeLocator()
