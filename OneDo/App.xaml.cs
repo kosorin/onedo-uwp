@@ -77,13 +77,14 @@ namespace OneDo
 
         private Task OnSuspendingAsync(DateTimeOffset deadline)
         {
+            Logger.Current.Info($"Suspending (deadline: {deadline})...");
             // TODO: Save application state and stop any background activity
             return Task.CompletedTask;
         }
 
         private void OnResuming(object data)
         {
-
+            Logger.Current.Info("Resuming...");
         }
 
         private void OnUnhandledException(UnhandledExceptionEventArgs args)
@@ -94,7 +95,7 @@ namespace OneDo
             }
             else
             {
-                Logger.Current?.Fatal("Unhandled exception.", args.Exception);
+                Logger.Current.Fatal("Unhandled exception.", args.Exception);
             }
         }
 
@@ -108,33 +109,35 @@ namespace OneDo
 
         private async Task InitializeLogger()
         {
-            ILogger logger;
 #if DEBUG
             var folder = ApplicationData.Current.LocalFolder;
             var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
-            logger = new FileLogger(file.Path);
-#else
-            logger = new NullLogger();
-#endif
+            var logger = new FileLogger(file.Path);
             Logger.Set(logger);
+#else
+            // V logger releasu nepoužíváme.
+#endif
             Logger.Current.Info("Logger initialized.");
         }
 
         private void InitializeLocator()
         {
             RuntimeHelpers.RunClassConstructor(typeof(ViewModelLocator).TypeHandle);
+            Logger.Current.Info("Locator initialized.");
         }
 
         private void InitializeNavigation()
         {
             var navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
             navigationService.Initialize(Window.Current);
+            Logger.Current.Info("Navigation initialized.");
         }
 
         private async Task InitializeData()
         {
             var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
+            Logger.Current.Info("Data initialized.");
         }
 
 

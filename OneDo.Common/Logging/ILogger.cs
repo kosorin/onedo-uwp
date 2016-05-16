@@ -4,6 +4,10 @@ namespace OneDo.Common.Logging
 {
     public interface ILogger
     {
+        void Line();
+
+        void Line(string message);
+
         void Trace(string message);
 
         void Debug(string message);

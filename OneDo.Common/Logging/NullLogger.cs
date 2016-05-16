@@ -4,6 +4,10 @@ namespace OneDo.Common.Logging
 {
     public class NullLogger : ILogger
     {
+        public void Line() { }
+
+        public void Line(string message) { }
+
         public void Trace(string message) { }
 
         public void Debug(string message) { }

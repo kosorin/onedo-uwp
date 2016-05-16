@@ -4,6 +4,16 @@ namespace OneDo.Common.Logging
 {
     public abstract class LoggerBase : ILogger
     {
+        public virtual void Line()
+        {
+            WriteLine("");
+        }
+
+        public virtual void Line(string message)
+        {
+            WriteLine(message);
+        }
+
         public virtual void Trace(string message)
         {
             WriteLogLine(message, "TRACE");
@@ -78,7 +88,7 @@ namespace OneDo.Common.Logging
 
         protected virtual void WriteLogLine(string message, string level)
         {
-            WriteLine($"{DateTime.Now.ToString(DateTimeFormat)} | {level,5} | {message}");
+            WriteLine($"{DateTime.Now.ToString(DateTimeFormat)} | {level,-5} | {message}");
         }
 
         protected abstract void WriteLine(string message);
