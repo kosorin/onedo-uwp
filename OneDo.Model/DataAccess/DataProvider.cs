@@ -1,7 +1,8 @@
-﻿using OneDo.Common.IO;
+﻿using OneDo.Common.Data;
 using OneDo.Common.Logging;
 using System;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace OneDo.Model.DataAccess
 {
@@ -15,12 +16,12 @@ namespace OneDo.Model.DataAccess
         {
             try
             {
-                Data = await FileHelper.ReadFileAsync<Data>(FileName);
+                Data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder);
             }
             catch (Exception e)
             {
                 Data = null;
-                Logger.Current.Error(e);
+                Logger.Current.Error($"Loading '{FileName}' file failed.", e);
             }
         }
 
@@ -28,11 +29,11 @@ namespace OneDo.Model.DataAccess
         {
             try
             {
-                await FileHelper.WriteFileAsync(FileName, Data);
+                await Serialization.SerializeToFileAsync(Data, FileName, ApplicationData.Current.LocalFolder);
             }
             catch (Exception e)
             {
-                Logger.Current.Error(e);
+                Logger.Current.Error($"Saving '{FileName}' file failed.", e);
             }
         }
     }
