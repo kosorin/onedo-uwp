@@ -109,8 +109,6 @@
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\ConditionConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Services\FileService\FileService.cs" />
-    <Compile Include="Services\FileService\IFileService.cs" />
     <Compile Include="Services\NavigationService\BackButtonEventArgs.cs" />
     <Compile Include="Services\NavigationService\INavigable.cs" />
     <Compile Include="Services\NavigationService\INavigationService.cs" />
