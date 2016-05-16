@@ -100,6 +100,7 @@
     <Compile Include="Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
+    <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="Controls\HamburgerMenuButton.cs" />
     <Compile Include="Controls\HamburgerTitleBar.cs" />
