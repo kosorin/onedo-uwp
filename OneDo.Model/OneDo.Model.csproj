@@ -107,7 +107,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Data.cs" />
     <Compile Include="Data\IDataProvider.cs" />
     <Compile Include="Data\Objects\Recurrences\DailyRecurrence.cs" />
     <Compile Include="Data\DataProvider.cs" />

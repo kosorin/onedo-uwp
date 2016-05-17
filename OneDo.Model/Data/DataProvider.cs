@@ -1,6 +1,8 @@
 ﻿using OneDo.Common.Data;
 using OneDo.Common.Logging;
+using OneDo.Model.Data.Objects;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -10,17 +12,25 @@ namespace OneDo.Model.Data
     {
         private const string FileName = "Data.json";
 
-        public Data Data { get; set; }
+        private Data data = null;
+
+
+        public Settings Settings { get; }
+
+        public List<Tag> Tags { get; }
+
+        public List<Todo> Todos { get; }
+
 
         public async Task LoadAsync()
         {
             try
             {
-                Data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder);
+                data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder) ?? new Data();
             }
             catch (Exception e)
             {
-                Data = null;
+                data = new Data();
                 Logger.Current.Error($"Loading '{FileName}' file failed.", e);
             }
         }
@@ -29,12 +39,21 @@ namespace OneDo.Model.Data
         {
             try
             {
-                await Serialization.SerializeToFileAsync(Data, FileName, ApplicationData.Current.LocalFolder);
+                await Serialization.SerializeToFileAsync(data, FileName, ApplicationData.Current.LocalFolder);
             }
             catch (Exception e)
             {
                 Logger.Current.Error($"Saving '{FileName}' file failed.", e);
             }
+        }
+
+        private class Data
+        {
+            public Settings Settings { get; set; } = new Settings();
+
+            public List<Tag> Tags { get; set; } = new List<Tag>();
+
+            public List<Todo> Todos { get; set; } = new List<Todo>();
         }
     }
 }

@@ -1,10 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using OneDo.Model.Data.Objects;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OneDo.Model.Data
 {
     public interface IDataProvider
     {
-        Data Data { get; set; }
+        Settings Settings { get; }
+
+        List<Tag> Tags { get; }
+
+        List<Todo> Todos { get; }
 
         Task LoadAsync();
 

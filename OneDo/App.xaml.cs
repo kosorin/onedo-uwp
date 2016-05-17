@@ -80,7 +80,7 @@ namespace OneDo
 
         private Task OnSuspendingAsync(DateTimeOffset deadline)
         {
-            Logger.Current.Info($"Suspending (deadline: {deadline})...");
+            Logger.Current.Info($"Suspending... (deadline: {deadline})");
             // TODO: Save application state and stop any background activity
             return Task.CompletedTask;
         }
@@ -134,6 +134,7 @@ namespace OneDo
         {
             var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
+            await dataProvider.SaveAsync();
             Logger.Current.Info("Data initialized.");
         }
 
