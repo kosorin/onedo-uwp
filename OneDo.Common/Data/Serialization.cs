@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OneDo.Common.Logging;
 using System;
-using System.IO;
 using System.Runtime.Serialization.Formatters;
 using System.Threading.Tasks;
 using Windows.Storage;

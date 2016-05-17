@@ -122,8 +122,7 @@
     <EmbeddedResource Include="Properties\OneDo.Model.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Business\Components\" />
-    <Folder Include="Business\Entities\" />
+    <Folder Include="Business\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">

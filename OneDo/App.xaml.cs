@@ -13,7 +13,6 @@ using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.Storage;
-using System.IO;
 
 namespace OneDo
 {
