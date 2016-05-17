@@ -120,6 +120,9 @@ namespace OneDo
 #else
             // V logger releasu nepoužíváme.
 #endif
+            Logger.Current.Line("=================================================");
+            Logger.Current.Line("===================== OneDo =====================");
+            Logger.Current.Line("=================================================");
             Logger.Current.Info("Logger initialized.");
         }
 
