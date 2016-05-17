@@ -1,4 +1,4 @@
-﻿namespace OneDo.Model.Entities
+﻿namespace OneDo.Model.Data.Objects
 {
     public class Settings
     {

@@ -1,5 +1,5 @@
 using GalaSoft.MvvmLight.Ioc;
-using OneDo.Model.DataAccess;
+using OneDo.Model.Data;
 using OneDo.Services.NavigationService;
 
 namespace OneDo.ViewModels

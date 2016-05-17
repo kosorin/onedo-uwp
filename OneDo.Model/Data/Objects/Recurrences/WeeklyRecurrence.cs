@@ -1,4 +1,4 @@
-﻿namespace OneDo.Model.Entities.Recurrences
+﻿namespace OneDo.Model.Data.Objects.Recurrences
 {
     public class WeeklyRecurrence : RecurrenceBase
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OneDo.Model.Entities.Recurrences
+namespace OneDo.Model.Data.Objects.Recurrences
 {
     [Flags]
     public enum DaysOfWeek

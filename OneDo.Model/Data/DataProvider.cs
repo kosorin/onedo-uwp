@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace OneDo.Model.DataAccess
+namespace OneDo.Model.Data
 {
     public class DataProvider : IDataProvider
     {

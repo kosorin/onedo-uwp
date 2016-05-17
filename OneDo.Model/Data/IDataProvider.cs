@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace OneDo.Model.DataAccess
+namespace OneDo.Model.Data
 {
     public interface IDataProvider
     {

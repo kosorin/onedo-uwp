@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI;
 
-namespace OneDo.Model.Entities
+namespace OneDo.Model.Data.Objects
 {
     public class Tag
     {

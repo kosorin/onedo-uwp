@@ -107,22 +107,23 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\Data.cs" />
-    <Compile Include="DataAccess\IDataProvider.cs" />
-    <Compile Include="Entities\Recurrences\DailyRecurrence.cs" />
-    <Compile Include="DataAccess\DataProvider.cs" />
-    <Compile Include="Entities\Recurrences\DaysOfWeek.cs" />
-    <Compile Include="Entities\Recurrences\MonthlyRecurrence.cs" />
+    <Compile Include="Data\Data.cs" />
+    <Compile Include="Data\IDataProvider.cs" />
+    <Compile Include="Data\Objects\Recurrences\DailyRecurrence.cs" />
+    <Compile Include="Data\DataProvider.cs" />
+    <Compile Include="Data\Objects\Recurrences\DaysOfWeek.cs" />
+    <Compile Include="Data\Objects\Recurrences\MonthlyRecurrence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Recurrences\RecurrenceBase.cs" />
-    <Compile Include="Entities\Settings.cs" />
-    <Compile Include="Entities\Tag.cs" />
-    <Compile Include="Entities\Todo.cs" />
-    <Compile Include="Entities\Recurrences\WeeklyRecurrence.cs" />
+    <Compile Include="Data\Objects\Recurrences\RecurrenceBase.cs" />
+    <Compile Include="Data\Objects\Settings.cs" />
+    <Compile Include="Data\Objects\Tag.cs" />
+    <Compile Include="Data\Objects\Todo.cs" />
+    <Compile Include="Data\Objects\Recurrences\WeeklyRecurrence.cs" />
     <EmbeddedResource Include="Properties\OneDo.Model.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Business\" />
+    <Folder Include="Business\Components\" />
+    <Folder Include="Business\Entities\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">

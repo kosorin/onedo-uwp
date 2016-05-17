@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using OneDo.Common.Logging;
-using OneDo.Model.DataAccess;
+using OneDo.Model.Data;
 using OneDo.Services.NavigationService;
 using OneDo.Views;
 using OneDo.ViewModels;

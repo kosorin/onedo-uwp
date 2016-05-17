@@ -1,7 +1,7 @@
-﻿using OneDo.Model.Entities;
+﻿using OneDo.Model.Data.Objects;
 using System.Collections.Generic;
 
-namespace OneDo.Model.DataAccess
+namespace OneDo.Model.Data
 {
     public class Data
     {
