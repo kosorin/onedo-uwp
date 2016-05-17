@@ -4,6 +4,8 @@ namespace OneDo.Common.Logging
 {
     public abstract class LoggerBase : ILogger
     {
+        protected readonly object syncObject = new object();
+
         public virtual string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff";
 
         public virtual void Line()

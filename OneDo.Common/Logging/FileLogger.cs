@@ -3,9 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace OneDo.Common.Logging
 {
-#pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
     public class FileLogger : LoggerBase
     {
+        private bool isEnabled = true;
+        private const int maxFailCount = 100;
+        private int failCount = 0;
+
         public string Path { get; }
 
         /// <summary>
@@ -18,12 +21,24 @@ namespace OneDo.Common.Logging
 
         protected override void WriteLine(string message)
         {
-            try
+            lock (syncObject)
             {
-                File.AppendAllLines(Path, Regex.Split(message, @"\r?\n"));
+                if (isEnabled)
+                {
+                    try
+                    {
+                        File.AppendAllLines(Path, Regex.Split(message, @"\r?\n"));
+                    }
+                    catch
+                    {
+                        if (failCount < maxFailCount)
+                        {
+                            isEnabled = false;
+                        }
+                        failCount++;
+                    }
+                }
             }
-            catch { }
         }
     }
-#pragma warning restore RECS0022 // A catch clause that catches System.Exception and has an empty body
 }

@@ -6,9 +6,12 @@ namespace OneDo.Common.Logging
     {
         protected override void WriteLine(string message)
         {
-            foreach (var line in Regex.Split(message, @"\r?\n"))
+            lock (syncObject)
             {
-                System.Diagnostics.Debug.WriteLine(">>> " + line);
+                foreach (var line in Regex.Split(message, @"\r?\n"))
+                {
+                    System.Diagnostics.Debug.WriteLine(">>> " + line);
+                }
             }
         }
     }
