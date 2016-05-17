@@ -66,6 +66,9 @@ namespace OneDo
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
             await InitializeLogger();
+            Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
+            Logger.Current.Info($"Launch reason: {args.Kind}");
+            Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
             ShowSplashScreen(args.SplashScreen);
 
@@ -80,7 +83,7 @@ namespace OneDo
 
         private Task OnSuspendingAsync(DateTimeOffset deadline)
         {
-            Logger.Current.Info($"Suspending... (deadline: {deadline})");
+            Logger.Current.Info($"Suspending... (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
             return Task.CompletedTask;
         }

@@ -4,6 +4,8 @@ namespace OneDo.Common.Logging
 {
     public abstract class LoggerBase : ILogger
     {
+        public virtual string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff";
+
         public virtual void Line()
         {
             WriteLine("");
@@ -83,8 +85,6 @@ namespace OneDo.Common.Logging
             WriteLine(exception.StackTrace);
         }
 
-
-        protected virtual string DateTimeFormat => "yyyy-MM-dd HH:mm:ss.fff";
 
         protected virtual void WriteLogLine(string message, string level)
         {

@@ -4,6 +4,8 @@ namespace OneDo.Common.Logging
 {
     public class NullLogger : ILogger
     {
+        public string DateTimeFormat { get; set; }
+
         public void Line() { }
 
         public void Line(string message) { }

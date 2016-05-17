@@ -4,6 +4,8 @@ namespace OneDo.Common.Logging
 {
     public interface ILogger
     {
+        string DateTimeFormat { get; set; }
+
         void Line();
 
         void Line(string message);
