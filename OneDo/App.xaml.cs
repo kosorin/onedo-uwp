@@ -23,6 +23,11 @@ namespace OneDo
 
         private readonly Stopwatch stopwatch = new Stopwatch();
 
+        static App()
+        {
+            RuntimeHelpers.RunClassConstructor(typeof(ViewModelLocator).TypeHandle);
+        }
+
         public App()
         {
             stopwatch.Start();
@@ -61,7 +66,6 @@ namespace OneDo
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
             await InitializeLogger();
-            InitializeLocator();
 
             ShowSplashScreen(args.SplashScreen);
 
@@ -117,12 +121,6 @@ namespace OneDo
             // V logger releasu nepoužíváme.
 #endif
             Logger.Current.Info("Logger initialized.");
-        }
-
-        private void InitializeLocator()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(ViewModelLocator).TypeHandle);
-            Logger.Current.Info("Locator initialized.");
         }
 
         private void InitializeNavigation()
