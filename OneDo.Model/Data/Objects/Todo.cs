@@ -12,7 +12,7 @@ namespace OneDo.Model.Data.Objects
     {
         public Guid Id { get; set; }
 
-        public Guid Parent { get; set; }
+        public Guid? Parent { get; set; }
 
 
         public string Title { get; set; }
