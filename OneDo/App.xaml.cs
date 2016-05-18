@@ -81,11 +81,26 @@ namespace OneDo
             Logger.Current.Info($"Start-up time: {stopwatch.Elapsed}");
         }
 
-        private Task OnSuspendingAsync(DateTimeOffset deadline)
+        private async Task OnSuspendingAsync(DateTimeOffset deadline)
         {
             Logger.Current.Info($"Suspending... (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
-            return Task.CompletedTask;
+
+            var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
+            //dataProvider.Todos.Clear();
+            //dataProvider.Todos.Add(new Model.Data.Objects.Todo
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Title = "Testovací úkol",
+            //    Flag = true,
+            //});
+            //dataProvider.Todos.Add(new Model.Data.Objects.Todo
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Title = "Vyvenčit Bena",
+            //    Date = DateTime.Now,
+            //});
+            await dataProvider.SaveAsync();
         }
 
         private void OnResuming(object data)
@@ -140,7 +155,6 @@ namespace OneDo
         {
             var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
-            await dataProvider.SaveAsync();
             Logger.Current.Info("Data initialized.");
         }
 
