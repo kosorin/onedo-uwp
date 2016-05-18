@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.Views;
+using System.Threading.Tasks;
 
 namespace OneDo.ViewModels
 {
@@ -38,15 +39,15 @@ namespace OneDo.ViewModels
             : base(navigationService)
         {
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
-            NavigateToAboutPageCommand = new RelayCommand(() => Navigate<AboutPage>());
-            NavigateToSettingsPageCommand = new RelayCommand(() => Navigate<SettingsPage>());
+            NavigateToAboutPageCommand = new RelayCommand(() => NavigationService.Navigate<AboutPage>());
+            NavigateToSettingsPageCommand = new RelayCommand(() => NavigationService.Navigate<SettingsPage>());
         }
 
 
-        private void Navigate<TPageBase>() where TPageBase : PageBase
+        public override Task OnNavigatedFromAsync()
         {
-            NavigationService.Navigate<TPageBase>();
             IsPaneOpen = false;
+            return Task.CompletedTask;
         }
     }
 }
