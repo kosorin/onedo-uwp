@@ -4,6 +4,8 @@ using GalaSoft.MvvmLight.Command;
 using OneDo.Views;
 using System.Threading.Tasks;
 using OneDo.Model.Data;
+using System.Collections.Generic;
+using OneDo.Model.Data.Objects;
 
 namespace OneDo.ViewModels
 {
@@ -30,6 +32,14 @@ namespace OneDo.ViewModels
         }
 
 
+        private List<Todo> todos;
+        public List<Todo> Todos
+        {
+            get { return todos; }
+            set { Set(ref todos, value); }
+        }
+
+
         public ICommand TogglePaneCommand { get; }
 
         public ICommand NavigateToAboutPageCommand { get; }
@@ -42,6 +52,8 @@ namespace OneDo.ViewModels
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
             NavigateToAboutPageCommand = new RelayCommand(() => NavigationService.Navigate<AboutPage>());
             NavigateToSettingsPageCommand = new RelayCommand(() => NavigationService.Navigate<SettingsPage>());
+
+            Todos = dataProvider.Todos;
         }
 
 

@@ -7,6 +7,7 @@
                 xmlns:controls="using:OneDo.Controls"
                 xmlns:converters="using:OneDo.Converters"
                 xmlns:views="using:OneDo.Views"
+                xmlns:objects="using:OneDo.Model.Data.Objects"
                 DataContext="{Binding MainPage, Source={StaticResource ViewModelLocator}}"
                 mc:Ignorable="d">
 
@@ -71,8 +72,8 @@
 
         <controls:ExtendedSplitView x:Name="MainSplitView"
                                     Grid.Row="1"
-                                    IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
-                                    KeepPaneOpen="{Binding KeepPaneOpen, Mode=TwoWay}"
+                                    IsPaneOpen="{x:Bind VM.IsPaneOpen, Mode=TwoWay}"
+                                    KeepPaneOpen="{x:Bind VM.KeepPaneOpen, Mode=TwoWay}"
                                     DisplayMode="Overlay">
             <SplitView.Pane>
                 <Grid>
@@ -123,6 +124,16 @@
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
+
+            <controls:ExtendedSplitView.Content>
+                <ListView ItemsSource="{x:Bind VM.Todos, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="objects:Todo">
+                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" x:Phase="24" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </controls:ExtendedSplitView.Content>
         </controls:ExtendedSplitView>
     </Grid>
 </views:PageBase>
