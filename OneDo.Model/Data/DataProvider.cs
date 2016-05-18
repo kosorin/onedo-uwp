@@ -15,11 +15,11 @@ namespace OneDo.Model.Data
         private Data data = null;
 
 
-        public Settings Settings { get; }
+        public Settings Settings => data.Settings;
 
-        public List<Tag> Tags { get; }
+        public List<Tag> Tags => data.Tags;
 
-        public List<Todo> Todos { get; }
+        public List<Todo> Todos => data.Todos;
 
 
         public async Task LoadAsync()
