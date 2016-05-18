@@ -3,6 +3,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.Views;
 using System.Threading.Tasks;
+using OneDo.Model.Data;
 
 namespace OneDo.ViewModels
 {
@@ -35,8 +36,8 @@ namespace OneDo.ViewModels
 
         public ICommand NavigateToSettingsPageCommand { get; }
 
-        public MainViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public MainViewModel(INavigationService navigationService, IDataProvider dataProvider)
+            : base(navigationService, dataProvider)
         {
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
             NavigateToAboutPageCommand = new RelayCommand(() => NavigationService.Navigate<AboutPage>());

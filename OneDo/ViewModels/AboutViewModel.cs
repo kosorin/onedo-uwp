@@ -1,4 +1,5 @@
-﻿using OneDo.Services.NavigationService;
+﻿using OneDo.Model.Data;
+using OneDo.Services.NavigationService;
 using Windows.ApplicationModel;
 
 namespace OneDo.ViewModels
@@ -7,8 +8,8 @@ namespace OneDo.ViewModels
     {
         public string VersionText => $"Version {GetAppVersion()}";
 
-        public AboutViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public AboutViewModel(INavigationService navigationService, IDataProvider dataProvider)
+            : base(navigationService, dataProvider)
         {
 
         }

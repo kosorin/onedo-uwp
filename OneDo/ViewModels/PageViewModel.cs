@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.Model.Data;
 using OneDo.Services.NavigationService;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
@@ -9,9 +10,12 @@ namespace OneDo.ViewModels
     {
         public INavigationService NavigationService { get; }
 
-        protected PageViewModel(INavigationService navigationService)
+        public IDataProvider DataProvider { get; }
+
+        protected PageViewModel(INavigationService navigationService, IDataProvider dataProvider)
         {
             NavigationService = navigationService;
+            DataProvider = dataProvider;
         }
 
 
