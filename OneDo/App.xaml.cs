@@ -121,7 +121,7 @@ namespace OneDo
             var logger = new FileLogger(file.Path);
             Logger.Set(logger);
 #else
-            // V logger releasu nepoužíváme.
+            // Logger v releasu zatím nepoužíváme.
 #endif
             Logger.Current.Line("=================================================");
             Logger.Current.Line("===================== OneDo =====================");
