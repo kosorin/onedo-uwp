@@ -126,10 +126,14 @@
             </SplitView.Pane>
 
             <controls:ExtendedSplitView.Content>
-                <ListView ItemsSource="{x:Bind VM.Todos, Mode=OneWay}">
+                <ListView ItemsSource="{x:Bind VM.Todos, Mode=OneWay}"
+                          SelectedItem="{x:Bind VM.SelectedTodo, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                          SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="objects:Todo">
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" x:Phase="24" />
+                            <StackPanel>
+                                <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                            </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

@@ -39,6 +39,13 @@ namespace OneDo.ViewModels
             set { Set(ref todos, value); }
         }
 
+        private Todo selectedTodo;
+        public Todo SelectedTodo
+        {
+            get { return selectedTodo; }
+            set { Set(ref selectedTodo, value); }
+        }
+
 
         public ICommand TogglePaneCommand { get; }
 
@@ -53,7 +60,7 @@ namespace OneDo.ViewModels
             NavigateToAboutPageCommand = new RelayCommand(() => NavigationService.Navigate<AboutPage>());
             NavigateToSettingsPageCommand = new RelayCommand(() => NavigationService.Navigate<SettingsPage>());
 
-            Todos = dataProvider.Todos;
+            Todos = DataProvider.Todos;
         }
 
 

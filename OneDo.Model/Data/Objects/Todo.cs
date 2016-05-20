@@ -1,6 +1,7 @@
 ﻿using OneDo.Model.Data.Objects.Recurrences;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace OneDo.Model.Data.Objects
@@ -8,6 +9,7 @@ namespace OneDo.Model.Data.Objects
     [KnownType(typeof(DailyRecurrence))]
     [KnownType(typeof(WeeklyRecurrence))]
     [KnownType(typeof(MonthlyRecurrence))]
+    [DebuggerDisplay("{Id}: {Title}")]
     public class Todo
     {
         public Guid Id { get; set; }
