@@ -27,11 +27,12 @@ namespace OneDo.Model.Data
             try
             {
                 data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder) ?? new Data();
+                Logger.Current.Info($"Data loaded from file '{FileName}'");
             }
             catch (Exception e)
             {
                 data = new Data();
-                Logger.Current.Error($"Loading '{FileName}' file failed", e);
+                Logger.Current.Error($"Loading data from file '{FileName}' failed", e);
             }
         }
 
@@ -40,10 +41,11 @@ namespace OneDo.Model.Data
             try
             {
                 await Serialization.SerializeToFileAsync(data, FileName, ApplicationData.Current.LocalFolder);
+                Logger.Current.Info($"Data saved to file '{FileName}'");
             }
             catch (Exception e)
             {
-                Logger.Current.Error($"Saving '{FileName}' file failed", e);
+                Logger.Current.Error($"Saving data to file '{FileName}' failed", e);
             }
         }
 
