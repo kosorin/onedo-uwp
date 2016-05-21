@@ -86,7 +86,7 @@ namespace OneDo
             Logger.Current.Info($"Suspending... (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
 
-            var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
+            var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
             //dataProvider.Todos.Clear();
             //dataProvider.Todos.Add(new Model.Data.Objects.Todo
             //{
@@ -146,14 +146,14 @@ namespace OneDo
 
         private void InitializeNavigation()
         {
-            var navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
+            var navigationService = ViewModelLocator.Container.GetInstance<INavigationService>();
             navigationService.Initialize(Window.Current);
             Logger.Current.Info("Navigation initialized.");
         }
 
         private async Task InitializeData()
         {
-            var dataProvider = SimpleIoc.Default.GetInstance<IDataProvider>();
+            var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
             Logger.Current.Info("Data initialized.");
         }
@@ -167,7 +167,7 @@ namespace OneDo
 
         private void ShowStartPage()
         {
-            var navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
+            var navigationService = ViewModelLocator.Container.GetInstance<INavigationService>();
             navigationService.Navigate(StartPageType);
             Window.Current.Content = navigationService.Frame;
         }

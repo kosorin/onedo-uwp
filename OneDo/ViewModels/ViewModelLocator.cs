@@ -2,37 +2,44 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
 using OneDo.Services.NavigationService;
+using SimpleInjector;
 
 namespace OneDo.ViewModels
 {
     public class ViewModelLocator
     {
+        public static Container Container { get; }
+
         static ViewModelLocator()
         {
+            var container = new Container();
+
             // Služby
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                SimpleIoc.Default.Register<IDataProvider, DesignDataProvider>();
+                container.Register<IDataProvider, DesignDataProvider>(Lifestyle.Singleton);
             }
             else
             {
-                SimpleIoc.Default.Register<IDataProvider, DataProvider>();
+                container.Register<IDataProvider, DataProvider>(Lifestyle.Singleton);
             }
-            SimpleIoc.Default.Register<INavigationService, FrameNavigationService>();
+            container.Register<INavigationService, FrameNavigationService>(Lifestyle.Singleton);
 
             // Stránky
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<AboutViewModel>();
-            SimpleIoc.Default.Register<SettingsViewModel>();
-            SimpleIoc.Default.Register<TodoViewModel>();
+            container.Register<MainViewModel>(Lifestyle.Singleton);
+            container.Register<AboutViewModel>(Lifestyle.Singleton);
+            container.Register<SettingsViewModel>(Lifestyle.Singleton);
+            container.Register<TodoViewModel>(Lifestyle.Transient);
+
+            Container = container;
         }
 
-        public MainViewModel MainPage => SimpleIoc.Default.GetInstance<MainViewModel>();
+        public MainViewModel MainPage => Container.GetInstance<MainViewModel>();
 
-        public AboutViewModel AboutPage => SimpleIoc.Default.GetInstance<AboutViewModel>();
+        public AboutViewModel AboutPage => Container.GetInstance<AboutViewModel>();
 
-        public SettingsViewModel SettingsPage => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+        public SettingsViewModel SettingsPage => Container.GetInstance<SettingsViewModel>();
 
-        public TodoViewModel TodoPage => SimpleIoc.Default.GetInstance<TodoViewModel>();
+        public TodoViewModel TodoPage => Container.GetInstance<TodoViewModel>();
     }
 }
