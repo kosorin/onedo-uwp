@@ -8,6 +8,8 @@ namespace OneDo.Views
 {
     public abstract class PageBase : Page
     {
+        protected virtual bool CacheForwardNavigation => false;
+
         protected ViewModelBase ViewModel { get; set; }
 
         protected PageBase()
@@ -27,7 +29,7 @@ namespace OneDo.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.Back)
+            if (e.NavigationMode == NavigationMode.Back && !CacheForwardNavigation)
             {
                 NavigationCacheMode = NavigationCacheMode.Disabled;
             }
