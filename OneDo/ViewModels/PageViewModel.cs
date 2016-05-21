@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.Common.Logging;
 using OneDo.Model.Data;
 using OneDo.Services.NavigationService;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace OneDo.ViewModels
 
         protected PageViewModel(INavigationService navigationService, IDataProvider dataProvider)
         {
+            Logger.Current.Trace($"{GetType().Name}.ctor");
+
             NavigationService = navigationService;
             DataProvider = dataProvider;
         }
