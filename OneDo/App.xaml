@@ -11,7 +11,7 @@
                 <ResourceDictionary Source="ms-appx:///Themes/HamburgerStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <viewModel:ViewModelLocator x:Key="ViewModelLocator" />
+            <viewModel:ViewModelLocator x:Key="Locator" />
 
             <converters:ChangeTypeConverter x:Key="ChangeTypeConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />

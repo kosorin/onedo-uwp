@@ -8,7 +8,7 @@
                 xmlns:converters="using:OneDo.Converters"
                 xmlns:views="using:OneDo.Views"
                 xmlns:objects="using:OneDo.Model.Data.Objects"
-                DataContext="{Binding MainPage, Source={StaticResource ViewModelLocator}}"
+                DataContext="{Binding MainPage, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
     <Page.BottomAppBar>
