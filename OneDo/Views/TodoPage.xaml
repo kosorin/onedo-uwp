@@ -10,6 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Margin="24,12">
             <TextBlock Text="Todo Page" Style="{ThemeResource HeaderTextBlockStyle}" />
+            <TextBox Text="{x:Bind VM.Title, Mode=TwoWay}" />
         </StackPanel>
     </Grid>
 </views:PageBase>

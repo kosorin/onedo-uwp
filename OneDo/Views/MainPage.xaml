@@ -3,13 +3,26 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:i="using:Microsoft.Xaml.Interactivity"
+                xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:behaviors="using:OneDo.Behaviors"
                 xmlns:controls="using:OneDo.Controls"
                 xmlns:converters="using:OneDo.Converters"
                 xmlns:views="using:OneDo.Views"
+                xmlns:viewModels="using:OneDo.ViewModels"
                 xmlns:objects="using:OneDo.Model.Data.Objects"
                 DataContext="{Binding MainPage, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
+
+    <Page.Resources>
+
+        <DataTemplate x:Key="TodoItemTemplate" x:DataType="viewModels:TodoItemViewModel">
+            <StackPanel>
+                <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
 
     <Page.BottomAppBar>
         <CommandBar>
@@ -126,16 +139,15 @@
             </SplitView.Pane>
 
             <controls:ExtendedSplitView.Content>
-                <ListView ItemsSource="{x:Bind VM.Todos, Mode=OneWay}"
-                          SelectedItem="{x:Bind VM.SelectedTodo, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                <ListView ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
+                          ItemTemplate="{StaticResource TodoItemTemplate}"
+                          IsItemClickEnabled="True"
                           SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="objects:Todo">
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="ItemClick">
+                            <behaviors:ItemClickAction Command="{x:Bind VM.TodoItemClickCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                 </ListView>
             </controls:ExtendedSplitView.Content>
         </controls:ExtendedSplitView>

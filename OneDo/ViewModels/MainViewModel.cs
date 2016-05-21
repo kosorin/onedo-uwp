@@ -5,6 +5,7 @@ using OneDo.Views;
 using System.Threading.Tasks;
 using OneDo.Model.Data;
 using System.Collections.Generic;
+using System.Linq;
 using OneDo.Model.Data.Objects;
 using OneDo.Services.Context;
 
@@ -33,18 +34,11 @@ namespace OneDo.ViewModels
         }
 
 
-        private List<Todo> todos;
-        public List<Todo> Todos
+        private List<TodoItemViewModel> todoItems;
+        public List<TodoItemViewModel> TodoItems
         {
-            get { return todos; }
-            set { Set(ref todos, value); }
-        }
-
-        private Todo selectedTodo;
-        public Todo SelectedTodo
-        {
-            get { return selectedTodo; }
-            set { Set(ref selectedTodo, value); }
+            get { return todoItems; }
+            set { Set(ref todoItems, value); }
         }
 
 
@@ -53,6 +47,8 @@ namespace OneDo.ViewModels
         public ICommand NavigateToAboutPageCommand { get; }
 
         public ICommand NavigateToSettingsPageCommand { get; }
+
+        public ICommand TodoItemClickCommand { get; }
 
         public IContext Context { get; }
 
@@ -64,15 +60,22 @@ namespace OneDo.ViewModels
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
             NavigateToAboutPageCommand = new RelayCommand(() => NavigationService.Navigate<AboutPage>());
             NavigateToSettingsPageCommand = new RelayCommand(() => NavigationService.Navigate<SettingsPage>());
+            TodoItemClickCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemClick);
 
-            Todos = DataProvider.Todos;
+            TodoItems = DataProvider.Todos.Select(t => new TodoItemViewModel(t)).ToList();
         }
-
 
         public override Task OnNavigatedFromAsync()
         {
             IsPaneOpen = false;
             return Task.CompletedTask;
+        }
+
+
+        private void OnTodoItemClick(TodoItemViewModel todoItem)
+        {
+            Context.Todo = todoItem.Todo;
+            NavigationService.Navigate<TodoPage>();
         }
     }
 }
