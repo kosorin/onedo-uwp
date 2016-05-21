@@ -2,6 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Views
 {
@@ -11,15 +12,17 @@ namespace OneDo.Views
 
         protected PageBase()
         {
+            NavigationCacheMode = NavigationCacheMode.Required;
+
             DataContextChanged += (s, e) =>
             {
                 ViewModel = e.NewValue as ViewModelBase;
             };
 
-            Transitions = new TransitionCollection
-            {
-                new PaneThemeTransition() { Edge = EdgeTransitionLocation.Left }
-            };
+            //Transitions = new TransitionCollection
+            //{
+            //    new PaneThemeTransition() { Edge = EdgeTransitionLocation.Left }
+            //};
         }
     }
 }
