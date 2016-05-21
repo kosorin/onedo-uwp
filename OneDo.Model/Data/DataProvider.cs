@@ -31,7 +31,7 @@ namespace OneDo.Model.Data
             catch (Exception e)
             {
                 data = new Data();
-                Logger.Current.Error($"Loading '{FileName}' file failed.", e);
+                Logger.Current.Error($"Loading '{FileName}' file failed", e);
             }
         }
 
@@ -43,7 +43,7 @@ namespace OneDo.Model.Data
             }
             catch (Exception e)
             {
-                Logger.Current.Error($"Saving '{FileName}' file failed.", e);
+                Logger.Current.Error($"Saving '{FileName}' file failed", e);
             }
         }
 

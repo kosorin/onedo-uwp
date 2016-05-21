@@ -83,7 +83,7 @@ namespace OneDo
 
         private async Task OnSuspendingAsync(DateTimeOffset deadline)
         {
-            Logger.Current.Info($"Suspending... (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
+            Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
 
             var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
@@ -105,7 +105,7 @@ namespace OneDo
 
         private void OnResuming(object data)
         {
-            Logger.Current.Info("Resuming...");
+            Logger.Current.Info("Resuming");
         }
 
         private void OnUnhandledException(UnhandledExceptionEventArgs args)
@@ -116,7 +116,7 @@ namespace OneDo
             }
             else
             {
-                Logger.Current.Fatal("Unhandled exception.", args.Exception);
+                Logger.Current.Fatal("Unhandled exception", args.Exception);
             }
         }
 
@@ -141,21 +141,21 @@ namespace OneDo
             Logger.Current.Line("=================================================");
             Logger.Current.Line("===================== OneDo =====================");
             Logger.Current.Line("=================================================");
-            Logger.Current.Info("Logger initialized.");
+            Logger.Current.Info("Logger initialized");
         }
 
         private void InitializeNavigation()
         {
             var navigationService = ViewModelLocator.Container.GetInstance<INavigationService>();
             navigationService.Initialize(Window.Current);
-            Logger.Current.Info("Navigation initialized.");
+            Logger.Current.Info("Navigation initialized");
         }
 
         private async Task InitializeData()
         {
             var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
-            Logger.Current.Info("Data initialized.");
+            Logger.Current.Info("Data initialized");
         }
 
 
