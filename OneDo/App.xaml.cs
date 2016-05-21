@@ -66,6 +66,7 @@ namespace OneDo
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
             await InitializeLogger();
+
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
@@ -142,6 +143,8 @@ namespace OneDo
         {
             var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
+            //dataProvider.Todos.Clear();
+            //dataProvider.Todos.AddRange(new DesignDataProvider().Todos);
             Logger.Current.Info("Data initialized");
         }
 
