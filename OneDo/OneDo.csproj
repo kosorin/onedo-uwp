@@ -98,6 +98,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\CommandBarBehavior.cs" />
+    <Compile Include="Behaviors\ItemClickAction.cs" />
     <Compile Include="Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
@@ -196,7 +197,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
