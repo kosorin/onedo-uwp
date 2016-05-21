@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OneDo.Model.Data;
 using System.Collections.Generic;
 using OneDo.Model.Data.Objects;
+using OneDo.Services.Context;
 
 namespace OneDo.ViewModels
 {
@@ -53,9 +54,13 @@ namespace OneDo.ViewModels
 
         public ICommand NavigateToSettingsPageCommand { get; }
 
-        public MainViewModel(INavigationService navigationService, IDataProvider dataProvider)
+        public IContext Context { get; }
+
+        public MainViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
             : base(navigationService, dataProvider)
         {
+            Context = context;
+
             TogglePaneCommand = new RelayCommand(() => IsPaneOpen = !IsPaneOpen);
             NavigateToAboutPageCommand = new RelayCommand(() => NavigationService.Navigate<AboutPage>());
             NavigateToSettingsPageCommand = new RelayCommand(() => NavigationService.Navigate<SettingsPage>());

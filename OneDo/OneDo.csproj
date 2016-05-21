@@ -102,6 +102,8 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
+    <Compile Include="Services\Context\Context.cs" />
+    <Compile Include="Services\Context\IContext.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="Controls\HamburgerMenuButton.cs" />
     <Compile Include="Controls\HamburgerTitleBar.cs" />

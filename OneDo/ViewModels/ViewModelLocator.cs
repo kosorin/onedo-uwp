@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
+using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
 using SimpleInjector;
 
@@ -24,6 +25,7 @@ namespace OneDo.ViewModels
                 container.Register<IDataProvider, DataProvider>(Lifestyle.Singleton);
             }
             container.Register<INavigationService, FrameNavigationService>(Lifestyle.Singleton);
+            container.Register<IContext, Context>(Lifestyle.Singleton);
 
             // Stránky
             container.Register<MainViewModel>(Lifestyle.Singleton);
