@@ -20,7 +20,21 @@ namespace OneDo.Model.Data
         {
             Todos.Add(new Todo
             {
-                Title = "Karel",
+                Id = Guid.NewGuid(),
+                Title = "Testovací úkol",
+                Flag = true,
+            });
+            Todos.Add(new Todo
+            {
+                Id = Guid.NewGuid(),
+                Title = "Vyvenčit Bena",
+                Date = DateTime.Now,
+            });
+            Todos.Add(new Todo
+            {
+                Id = Guid.NewGuid(),
+                Title = "Koupit mléko",
+                Flag = true,
             });
         }
 

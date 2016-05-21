@@ -87,19 +87,6 @@ namespace OneDo
             // TODO: Save application state and stop any background activity
 
             var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
-            //dataProvider.Todos.Clear();
-            //dataProvider.Todos.Add(new Model.Data.Objects.Todo
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Title = "Testovací úkol",
-            //    Flag = true,
-            //});
-            //dataProvider.Todos.Add(new Model.Data.Objects.Todo
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Title = "Vyvenčit Bena",
-            //    Date = DateTime.Now,
-            //});
             await dataProvider.SaveAsync();
         }
 
