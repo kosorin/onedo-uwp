@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\BusinessBase.cs" />
+    <Compile Include="Business\Validation\Validator.cs" />
     <Compile Include="Data\DesignDataProvider.cs" />
     <Compile Include="Data\IDataProvider.cs" />
     <Compile Include="Data\Objects\Recurrences\DailyRecurrence.cs" />
