@@ -24,5 +24,13 @@ namespace OneDo.Views
             //    new PaneThemeTransition() { Edge = EdgeTransitionLocation.Left }
             //};
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                NavigationCacheMode = NavigationCacheMode.Disabled;
+            }
+        }
     }
 }
