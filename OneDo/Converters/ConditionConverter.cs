@@ -9,51 +9,56 @@ namespace OneDo.Converters
     {
         public bool Debug { get; set; }
 
-        public object When { get; set; }
+        public object If { get; set; }
 
         public object Then { get; set; }
 
-        public object Otherwise { get; set; }
+        public object Else { get; set; }
 
-        public object OtherwiseValueBack { get; set; }
+        public object FallbackValue { get; set; }
+
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+#if DEBUG
             if (Debug)
             {
                 Debugger.Break();
             }
+#endif
 
             try
             {
-                return object.Equals(value, parameter ?? When)
+                return object.Equals(value, parameter ?? If)
                     ? Then
-                    : Otherwise;
+                    : Else;
             }
             catch
             {
-                return Otherwise;
+                return Else;
             }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
+#if DEBUG
             if (Debug)
             {
                 Debugger.Break();
             }
+#endif
 
-            if (OtherwiseValueBack == null)
+            if (FallbackValue == null)
             {
-                throw new InvalidOperationException($"Cannot {nameof(ConvertBack)} if no {nameof(OtherwiseValueBack)} is set!");
+                throw new InvalidOperationException($"Cannot {nameof(ConvertBack)} if no {nameof(FallbackValue)} is set!");
             }
             try
             {
-                return object.Equals(value, Then) ? When : OtherwiseValueBack;
+                return object.Equals(value, Then) ? If : FallbackValue;
             }
             catch
             {
-                return OtherwiseValueBack;
+                return FallbackValue;
             }
         }
     }
