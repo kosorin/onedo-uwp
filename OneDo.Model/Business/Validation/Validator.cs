@@ -2,31 +2,19 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace OneDo.Model.Business.Validation
 {
     public abstract class Validator<T> where T : class
     {
-        public class Rule
-        {
-            public Func<T, bool> Test { get; }
+        private static readonly Dictionary<string, PropertyInfo> cachedProperties = new Dictionary<string, PropertyInfo>();
 
-            [Obsolete("Vymyslet, jak zpracovávat validační zprávy. Myslet dopředu i na lokalizaci.")]
-            public string Message { get; }
 
-            public Rule(Func<T, bool> test, string message = null)
-            {
-                Test = test;
-                Message = message;
-            }
-        }
+        protected abstract List<Rule<T>> Rules { get; }
 
-        protected abstract IDictionary<string, Rule> Rules { get; }
+        protected abstract Dictionary<string, IPropertyRule> PropertyRules { get; }
 
-        protected virtual bool IsValidObject(T obj)
-        {
-            return true;
-        }
 
         public bool IsValid(T obj)
         {
@@ -35,20 +23,38 @@ namespace OneDo.Model.Business.Validation
                 throw new ArgumentNullException(nameof(obj));
             }
 
-            return Rules.Values.All(r => r.Test(obj)) && IsValidObject(obj);
+            return Rules.All(r => r.Test(obj)) && PropertyRules.All(r => IsValid(obj, r.Key));
         }
 
-        public bool IsValidProperty(T obj, string propertyName)
+        public bool IsPropertyValid<TProperty>(TProperty value, string propertyName)
         {
-            if (obj == null)
+            IPropertyRule rule;
+            if (PropertyRules.TryGetValue(propertyName, out rule))
             {
-                throw new ArgumentNullException(nameof(obj));
+                return rule.Test(value);
             }
-
-            Rule rule;
-            if (Rules.TryGetValue(propertyName, out rule))
+            else
             {
-                return rule.Test(obj);
+                return true;
+            }
+        }
+
+
+        private bool IsValid(T obj, string propertyName)
+        {
+            IPropertyRule rule;
+            if (PropertyRules.TryGetValue(propertyName, out rule))
+            {
+                PropertyInfo property;
+                if (!cachedProperties.TryGetValue(propertyName, out property))
+                {
+                    property = obj
+                        .GetType()
+                        .GetProperties()
+                        .Single(p => p.Name == propertyName);
+                    cachedProperties[propertyName] = property;
+                }
+                return rule.Test(property.GetValue(obj));
             }
             else
             {

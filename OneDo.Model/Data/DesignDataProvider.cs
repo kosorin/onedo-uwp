@@ -28,7 +28,7 @@ namespace OneDo.Model.Data
             {
                 Id = Guid.NewGuid(),
                 Title = "Vyvenčit Bena",
-                Date = DateTime.Now,
+                Date = DateTime.Today,
             });
             Todos.Add(new Todo
             {

@@ -6,10 +6,16 @@ namespace OneDo.Model.Business.Validation
 {
     public class TodoValidator : Validator<Todo>
     {
-        protected override IDictionary<string, Rule> Rules { get; } = new Dictionary<string, Rule>
+        protected override List<Rule<Todo>> Rules { get; } = new List<Rule<Todo>>
         {
-            [nameof(Todo.Id)] = new Rule(t => t.Id != Guid.Empty),
-            [nameof(Todo.Title)] = new Rule(t => !string.IsNullOrWhiteSpace(t.Title)),
+            new Rule<Todo>(t => t.Date != null),
+            new Rule<Todo>(t => t.Reminder != null && t.Date != null),
+        };
+
+        protected override Dictionary<string, IPropertyRule> PropertyRules { get; } = new Dictionary<string, IPropertyRule>
+        {
+            [nameof(Todo.Id)] = new PropertyRule<Guid>(guid => guid != Guid.Empty),
+            [nameof(Todo.Title)] = new PropertyRule<string>(title => !string.IsNullOrWhiteSpace(title)),
         };
     }
 }
