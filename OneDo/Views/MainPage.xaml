@@ -42,43 +42,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Wide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="900" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="MainSplitView.DisplayMode" Value="Inline" />
-                        <Setter Target="MainSplitView.KeepPaneOpen" Value="True" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Medium">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="MainSplitView.DisplayMode" Value="CompactOverlay" />
-                        <Setter Target="MainSplitView.KeepPaneOpen" Value="False" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="MainSplitView.DisplayMode" Value="Overlay" />
-                        <Setter Target="MainSplitView.KeepPaneOpen" Value="False" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
         <controls:HamburgerTitleBar Grid.Row="0"
                                     MenuButtonCommand="{x:Bind VM.TogglePaneCommand}"
                                     Title="Inbox" />
@@ -138,7 +101,7 @@
                 </Grid>
             </SplitView.Pane>
 
-            <controls:ExtendedSplitView.Content>
+            <SplitView.Content>
                 <ListView ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
                           ItemTemplate="{StaticResource TodoItemTemplate}"
                           IsItemClickEnabled="True"
@@ -149,7 +112,7 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ListView>
-            </controls:ExtendedSplitView.Content>
+            </SplitView.Content>
         </controls:ExtendedSplitView>
     </Grid>
 </views:PageBase>
