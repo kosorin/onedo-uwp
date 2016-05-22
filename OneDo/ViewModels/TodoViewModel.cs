@@ -13,6 +13,13 @@ namespace OneDo.ViewModels
 {
     public class TodoViewModel : PageViewModel
     {
+        private bool isNew;
+        public bool IsNew
+        {
+            get { return isNew; }
+            set { Set(ref isNew, value); }
+        }
+
         public string Title
         {
             get { return todo.Title; }
@@ -60,7 +67,7 @@ namespace OneDo.ViewModels
         public TodoViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
             : base(navigationService, dataProvider)
         {
-            todo = context.Todo ?? new Todo();  //TODO: vytvořit úkol s výchozími hodnotami
+            todo = dataProvider.Todos.FirstOrDefault(t => t.Id == context.TodoId) ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
         }
     }
 }

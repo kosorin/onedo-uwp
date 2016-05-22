@@ -10,14 +10,20 @@ namespace OneDo.ViewModels
 {
     public class TodoItemViewModel : ViewModelBase
     {
-        public string Title => Todo.Title;
+        public string Id => todo.Title;
+
+        public string Title => todo.Title;
 
 
-        public Todo Todo { get; }
+        private readonly Todo todo;
 
         public TodoItemViewModel(Todo todo)
         {
-            Todo = todo;
+            if (todo == null)
+            {
+                throw new ArgumentNullException(nameof(todo));
+            }
+            this.todo = todo;
         }
     }
 }
