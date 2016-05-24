@@ -74,7 +74,7 @@ namespace OneDo.ViewModels
 
         private void OnTodoItemClick(TodoItemViewModel todoItem)
         {
-            Context.TodoId = todoItem.Todo.Id;
+            Context.TodoId = todoItem.Id;
             NavigationService.Navigate<TodoPage>();
         }
     }

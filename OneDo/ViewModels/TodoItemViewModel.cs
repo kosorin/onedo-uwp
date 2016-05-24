@@ -10,10 +10,12 @@ namespace OneDo.ViewModels
 {
     public class TodoItemViewModel : ViewModelBase
     {
-        public string Id => todo.Title;
+        public Guid Id => todo.Id;
 
         public string Title => todo.Title;
 
+
+        public Todo Object { get; set; }
 
         private readonly Todo todo;
 
