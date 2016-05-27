@@ -103,6 +103,8 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
+    <Compile Include="Common\Validation\Editor.cs" />
+    <Compile Include="Common\Validation\ObservableDictionary.cs" />
     <Compile Include="Services\Context\Context.cs" />
     <Compile Include="Services\Context\IContext.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
@@ -119,8 +121,8 @@
     <Compile Include="Services\NavigationService\INavigationService.cs" />
     <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
     <Compile Include="Services\NavigationService\FrameNavigationService.cs" />
-    <Compile Include="ViewModels\IProperty.cs" />
-    <Compile Include="ViewModels\Property.cs" />
+    <Compile Include="Common\Validation\IProperty.cs" />
+    <Compile Include="Common\Validation\Property.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />

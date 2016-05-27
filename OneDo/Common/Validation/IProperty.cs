@@ -7,18 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModels
+namespace OneDo.Common.Validation
 {
     public interface IProperty : INotifyPropertyChanged
     {
-        ObservableCollection<string> Errors { get; }
-
         bool IsValid { get; }
 
         bool IsDirty { get; }
 
-        event EventHandler ValueChanged;
+        bool IsOriginalSet { get; }
 
         void Revert();
+
+        void MarkAsClean();
+    }
+
+    public interface IProperty<T> : IProperty
+    {
+        T OriginalValue { get; set; }
+
+        T Value { get; set; }
+
+        void Validate(Func<T, bool> validator);
     }
 }
