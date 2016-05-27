@@ -8,7 +8,9 @@ namespace OneDo.Model.Business.Validation
 {
     public abstract class Validator<T> where T : class
     {
+#pragma warning disable RECS0108 // Warns about static fields in generic types
         private static readonly Dictionary<string, PropertyInfo> cachedProperties = new Dictionary<string, PropertyInfo>();
+#pragma warning restore RECS0108 // Warns about static fields in generic types
 
 
         protected abstract List<Rule<T>> Rules { get; }

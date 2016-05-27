@@ -19,18 +19,16 @@ namespace OneDo.ViewModels
         {
             get
             {
-                if (Value == null && Original == null)
+#pragma warning disable RECS0017 // Possible compare of value type with 'null'
+                if (Value == null)
                 {
-                    return false;
-                }
-                else if (Value == null && Original != null)
-                {
-                    return true;
+                    return Original != null;
                 }
                 else
                 {
                     return !Value.Equals(Original);
                 }
+#pragma warning restore RECS0017 // Possible compare of value type with 'null'
             }
         }
 
