@@ -104,7 +104,6 @@
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="Common\Validation\Editor.cs" />
-    <Compile Include="Common\Validation\ObservableDictionary.cs" />
     <Compile Include="Services\Context\Context.cs" />
     <Compile Include="Services\Context\IContext.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />

@@ -11,12 +11,17 @@ namespace OneDo.Model.Business.Validation
 
         public Rule(Func<T, bool> test)
         {
+            if (test == null)
+            {
+                throw new ArgumentNullException(nameof(test));
+            }
+
             this.test = test;
         }
 
-        public bool Test(T value)
+        public bool Test(T obj)
         {
-            return test.Invoke(value);
+            return test.Invoke(obj);
         }
     }
 }

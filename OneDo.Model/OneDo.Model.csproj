@@ -108,8 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\BusinessBase.cs" />
-    <Compile Include="Business\Validation\IPropertyRule.cs" />
-    <Compile Include="Business\Validation\PropertyRule.cs" />
     <Compile Include="Business\Validation\Rule.cs" />
     <Compile Include="Business\Validation\TodoValidator.cs" />
     <Compile Include="Business\Validation\Validator.cs" />

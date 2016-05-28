@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -64,8 +65,7 @@ namespace OneDo.Common.Validation
             Validate();
         }
 
-        public ObservableDictionary<string, IProperty> Properties { get; }
-            = new ObservableDictionary<string, IProperty>();
+        public ObservableDictionary<string, IProperty> Properties { get; } = new ObservableDictionary<string, IProperty>();
 
         public ObservableCollection<string> Errors { get; }
             = new ObservableCollection<string>();
