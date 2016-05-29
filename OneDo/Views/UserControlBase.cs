@@ -6,11 +6,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Views
 {
-    public abstract class PageBase : Page, IView
+    public abstract class UserControlBase : UserControl, IView
     {
         public ViewModelBase ViewModel { get; set; }
 
-        protected PageBase()
+        protected UserControlBase()
         {
             DataContextChanged += (s, e) =>
             {

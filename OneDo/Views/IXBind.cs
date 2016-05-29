@@ -1,6 +1,6 @@
 ﻿namespace OneDo.Views
 {
-    public interface IXBindPage<TViewModel>
+    public interface IXBind<TViewModel>
     {
         TViewModel VM { get; }
     }

@@ -3,6 +3,9 @@ using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
 using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
+using OneDo.ViewModels.Editors;
+using OneDo.ViewModels.Pages;
+using OneDo.ViewModels.Settings;
 using SimpleInjector;
 
 namespace OneDo.ViewModels
@@ -38,10 +41,10 @@ namespace OneDo.ViewModels
 
         public MainViewModel MainPage => Container.GetInstance<MainViewModel>();
 
-        public AboutViewModel AboutPage => Container.GetInstance<AboutViewModel>();
+        public AboutViewModel About => Container.GetInstance<AboutViewModel>();
 
-        public SettingsViewModel SettingsPage => Container.GetInstance<SettingsViewModel>();
+        public SettingsViewModel Settings => Container.GetInstance<SettingsViewModel>();
 
-        public TodoViewModel TodoPage => Container.GetInstance<TodoViewModel>();
+        public TodoViewModel TodoEditor => Container.GetInstance<TodoViewModel>();
     }
 }

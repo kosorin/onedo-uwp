@@ -2,19 +2,13 @@
 using OneDo.Services.NavigationService;
 using Windows.ApplicationModel;
 
-namespace OneDo.ViewModels
+namespace OneDo.ViewModels.Settings
 {
-    public class AboutViewModel : PageViewModel
+    public class AboutViewModel : ExtendedViewModelBase
     {
         public string VersionText => $"Version {GetAppVersion()}";
 
-        public AboutViewModel(INavigationService navigationService, IDataProvider dataProvider)
-            : base(navigationService, dataProvider)
-        {
-
-        }
-
-        private static string GetAppVersion()
+        public string GetAppVersion()
         {
             var package = Package.Current;
             var packageId = package.Id;

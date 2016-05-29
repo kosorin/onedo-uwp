@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Linq;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModels
+namespace OneDo.ViewModels.Editors
 {
     public class TodoViewModel : PageViewModel
     {
@@ -43,14 +43,25 @@ namespace OneDo.ViewModels
         }
 
 
-        private readonly Todo todo;
-        private readonly TodoValidator validator = new TodoValidator();
+        public IContext Context { get; }
 
         public TodoViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
             : base(navigationService, dataProvider)
         {
-            todo = dataProvider.Todos.GetById(context.TodoId) ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
+            Context = context;
+
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            var todo = DataProvider.Todos.GetById(Context.TodoId) ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
+
             IsNew = todo.Id == Guid.Empty;
+
+            Title = todo.Title;
+            Note = todo.Note;
+            Date = todo.Date;
         }
     }
 }
