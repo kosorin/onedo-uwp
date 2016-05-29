@@ -22,17 +22,17 @@ namespace OneDo.Model.Data
             Tags = new TagRepository();
             Todos = new TodoRepository();
 
-            Todos.Add(new Todo
+            Todos.AddOrUpdate(new Todo
             {
                 Title = "Testovací úkol",
                 Flag = true,
             });
-            Todos.Add(new Todo
+            Todos.AddOrUpdate(new Todo
             {
                 Title = "Vyvenčit Bena",
                 Date = DateTime.Today,
             });
-            Todos.Add(new Todo
+            Todos.AddOrUpdate(new Todo
             {
                 Title = "Koupit mléko",
                 Flag = true,

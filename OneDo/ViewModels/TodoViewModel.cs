@@ -20,44 +20,26 @@ namespace OneDo.ViewModels
             set { Set(ref isNew, value); }
         }
 
+
+        private string title;
         public string Title
         {
-            get { return todo.Title; }
-            set
-            {
-                if (todo.Title != value)
-                {
-                    todo.Title = value;
-                    RaisePropertyChanged();
-                }
-            }
+            get { return title; }
+            set { Set(ref title, value); }
         }
 
+        private string note;
         public string Note
         {
-            get { return todo.Note; }
-            set
-            {
-                if (todo.Note != value)
-                {
-                    todo.Note = value;
-                    RaisePropertyChanged();
-                }
-            }
+            get { return note; }
+            set { Set(ref note, value); }
         }
 
+        private DateTimeOffset? date;
         public DateTimeOffset? Date
         {
-            get { return todo.Date != null ? new DateTimeOffset(todo.Date.Value) : (DateTimeOffset?)null; }
-            set
-            {
-                var modelValue = value?.Date;
-                if (todo.Date != modelValue)
-                {
-                    todo.Date = modelValue;
-                    RaisePropertyChanged();
-                }
-            }
+            get { return date; }
+            set { Set(ref date, value); }
         }
 
 

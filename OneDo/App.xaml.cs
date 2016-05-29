@@ -34,7 +34,9 @@ namespace OneDo
 
             InitializeComponent();
 
+#pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
             Suspending += async (s, e) =>
+#pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
                 try

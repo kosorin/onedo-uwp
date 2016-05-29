@@ -11,15 +11,15 @@ namespace OneDo.Model.Data.Repositories
 {
     public abstract class Repository<T> where T : class, IModel<T>
     {
-        private readonly List<T> items;
+        private readonly Dictionary<Guid, T> items;
 
-        protected Repository(List<T> items = null)
+        protected Repository(IEnumerable<T> items = null)
         {
-            this.items = items ?? new List<T>();
+            this.items = (items ?? new List<T>()).ToDictionary(i => i.Id);
         }
 
 
-        public void Add(T item)
+        public void AddOrUpdate(T item)
         {
             if (item == null)
             {
@@ -30,31 +30,29 @@ namespace OneDo.Model.Data.Repositories
             {
                 item.Id = Guid.NewGuid();
             }
-            items.Add(item);
+
+            items[item.Id] = item;
         }
 
         public void Remove(Guid id)
         {
-            var item = GetById(id);
-            if (item != null)
-            {
-                items.Remove(item);
-            }
+            items.Remove(id);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return items;
+            return items.Select(i => i.Value);
         }
 
         public IEnumerable<T> GetAll(Func<T, bool> predicate)
         {
-            return items.Where(predicate);
+            return items.Where(i => predicate(i.Value)).Select(i => i.Value);
         }
 
         public T GetById(Guid id)
         {
-            return items.FirstOrDefault(i => i.Id == id);
+            T item;
+            return items.TryGetValue(id, out item) ? item : null;
         }
 
         public T GetCloneById(Guid id)

@@ -13,10 +13,8 @@ namespace OneDo.Model.Data
     {
         private const string FileName = "Data.json";
 
-        private Data data = null;
 
-
-        public Settings Settings => data.Settings;
+        public Settings Settings { get; private set; }
 
         public TagRepository Tags { get; private set; }
 
@@ -27,8 +25,9 @@ namespace OneDo.Model.Data
         {
             try
             {
-                data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder) ?? new Data();
+                var data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder) ?? new Data();
 
+                Settings = data.Settings;
                 Tags = new TagRepository(data.Tags);
                 Todos = new TodoRepository(data.Todos);
 
@@ -36,7 +35,10 @@ namespace OneDo.Model.Data
             }
             catch (Exception e)
             {
-                data = new Data();
+                Settings = new Settings();
+                Tags = new TagRepository();
+                Todos = new TodoRepository();
+
                 Logger.Current.Error($"Loading data from file '{FileName}' failed", e);
             }
         }
@@ -45,6 +47,13 @@ namespace OneDo.Model.Data
         {
             try
             {
+                var data = new Data
+                {
+                    Settings = Settings,
+                    Tags = new List<Tag>(Tags.GetAll()),
+                    Todos = new List<Todo>(Todos.GetAll()),
+                };
+
                 await Serialization.SerializeToFileAsync(data, FileName, ApplicationData.Current.LocalFolder);
                 Logger.Current.Info($"Data saved to file '{FileName}'");
             }
