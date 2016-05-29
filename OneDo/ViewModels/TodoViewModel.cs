@@ -25,7 +25,7 @@ namespace OneDo.ViewModels
             get { return todo.Title; }
             set
             {
-                if (todo.Title != value && validator.IsPropertyValid(value, nameof(todo.Title)))
+                if (todo.Title != value)
                 {
                     todo.Title = value;
                     RaisePropertyChanged();
@@ -38,7 +38,7 @@ namespace OneDo.ViewModels
             get { return todo.Note; }
             set
             {
-                if (todo.Note != value && validator.IsPropertyValid(value, nameof(todo.Note)))
+                if (todo.Note != value)
                 {
                     todo.Note = value;
                     RaisePropertyChanged();
@@ -52,7 +52,7 @@ namespace OneDo.ViewModels
             set
             {
                 var modelValue = value?.Date;
-                if (todo.Date != modelValue && validator.IsPropertyValid(modelValue, nameof(todo.Date)))
+                if (todo.Date != modelValue )
                 {
                     todo.Date = modelValue;
                     RaisePropertyChanged();
