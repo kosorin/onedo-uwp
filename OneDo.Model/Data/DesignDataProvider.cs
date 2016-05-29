@@ -1,6 +1,7 @@
 ﻿using OneDo.Common.Data;
 using OneDo.Common.Logging;
 using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,29 +11,29 @@ namespace OneDo.Model.Data
 {
     public class DesignDataProvider : IDataProvider
     {
-        public Settings Settings { get; set; } = new Settings();
+        public Settings Settings { get; } = new Settings();
 
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public TagRepository Tags { get; }
 
-        public List<Todo> Todos { get; set; } = new List<Todo>();
+        public TodoRepository Todos { get; }
 
         public DesignDataProvider()
         {
+            Tags = new TagRepository();
+            Todos = new TodoRepository();
+
             Todos.Add(new Todo
             {
-                Id = Guid.NewGuid(),
                 Title = "Testovací úkol",
                 Flag = true,
             });
             Todos.Add(new Todo
             {
-                Id = Guid.NewGuid(),
                 Title = "Vyvenčit Bena",
                 Date = DateTime.Today,
             });
             Todos.Add(new Todo
             {
-                Id = Guid.NewGuid(),
                 Title = "Koupit mléko",
                 Flag = true,
             });

@@ -62,7 +62,7 @@ namespace OneDo.ViewModels
             NavigateToSettingsPageCommand = new RelayCommand(() => NavigationService.Navigate<SettingsPage>());
             TodoItemClickCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemClick);
 
-            TodoItems = DataProvider.Todos.Select(t => new TodoItemViewModel(t)).ToList();
+            TodoItems = DataProvider.Todos.GetAll().Select(t => new TodoItemViewModel(t)).ToList();
         }
 
         public override Task OnNavigatedFromAsync()

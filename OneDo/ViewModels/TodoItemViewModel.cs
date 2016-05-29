@@ -15,16 +15,10 @@ namespace OneDo.ViewModels
         public string Title => todo.Title;
 
 
-        public Todo Object { get; set; }
-
         private readonly Todo todo;
 
         public TodoItemViewModel(Todo todo)
         {
-            if (todo == null)
-            {
-                throw new ArgumentNullException(nameof(todo));
-            }
             this.todo = todo;
         }
     }

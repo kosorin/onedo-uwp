@@ -1,6 +1,7 @@
 ﻿using OneDo.Common.Data;
 using OneDo.Common.Logging;
 using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,9 +18,9 @@ namespace OneDo.Model.Data
 
         public Settings Settings => data.Settings;
 
-        public List<Tag> Tags => data.Tags;
+        public TagRepository Tags { get; private set; }
 
-        public List<Todo> Todos => data.Todos;
+        public TodoRepository Todos { get; private set; }
 
 
         public async Task LoadAsync()
@@ -27,6 +28,10 @@ namespace OneDo.Model.Data
             try
             {
                 data = await Serialization.DeserializeFromFileAsync<Data>(FileName, ApplicationData.Current.LocalFolder) ?? new Data();
+
+                Tags = new TagRepository(data.Tags);
+                Todos = new TodoRepository(data.Todos);
+
                 Logger.Current.Info($"Data loaded from file '{FileName}'");
             }
             catch (Exception e)

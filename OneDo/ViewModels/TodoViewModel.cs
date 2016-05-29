@@ -52,7 +52,7 @@ namespace OneDo.ViewModels
             set
             {
                 var modelValue = value?.Date;
-                if (todo.Date != modelValue )
+                if (todo.Date != modelValue)
                 {
                     todo.Date = modelValue;
                     RaisePropertyChanged();
@@ -67,7 +67,8 @@ namespace OneDo.ViewModels
         public TodoViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
             : base(navigationService, dataProvider)
         {
-            todo = dataProvider.Todos.FirstOrDefault(t => t.Id == context.TodoId) ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
+            todo = dataProvider.Todos.GetById(context.TodoId) ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
+            IsNew = todo.Id == Guid.Empty;
         }
     }
 }

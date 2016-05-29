@@ -1,4 +1,5 @@
-﻿using OneDo.Model.Data.Objects.Recurrences;
+﻿using OneDo.Model.Data;
+using OneDo.Model.Data.Objects.Recurrences;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +11,7 @@ namespace OneDo.Model.Data.Objects
     [KnownType(typeof(WeeklyRecurrence))]
     [KnownType(typeof(MonthlyRecurrence))]
     [DebuggerDisplay("{Id}: {Title}")]
-    public class Todo
+    public class Todo : IModel<Todo>
     {
         public Guid Id { get; set; }
 
@@ -37,5 +38,26 @@ namespace OneDo.Model.Data.Objects
         public DateTime? Completed { get; set; }
 
         public DateTime? Deleted { get; set; }
+
+
+#warning Správně klonovat!
+        public Todo Clone() => new Todo
+        {
+            Id = Id,
+            Parent = Parent,
+
+            Title = Title,
+            Note = Note,
+
+            Date = Date,
+            Reminder = Reminder,
+            Recurrence = Recurrence,
+
+            Flag = Flag,
+            Tags = Tags,
+
+            Completed = Completed,
+            Deleted = Deleted,
+        };
     }
 }

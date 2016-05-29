@@ -113,10 +113,14 @@
     <Compile Include="Business\Validation\Validator.cs" />
     <Compile Include="Data\DesignDataProvider.cs" />
     <Compile Include="Data\IDataProvider.cs" />
+    <Compile Include="Data\Objects\IModel.cs" />
     <Compile Include="Data\Objects\Recurrences\DailyRecurrence.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\Objects\Recurrences\DaysOfWeek.cs" />
     <Compile Include="Data\Objects\Recurrences\MonthlyRecurrence.cs" />
+    <Compile Include="Data\Repositories\Repository.cs" />
+    <Compile Include="Data\Repositories\TagRepository.cs" />
+    <Compile Include="Data\Repositories\TodoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Objects\Recurrences\RecurrenceBase.cs" />
     <Compile Include="Data\Objects\Settings.cs" />

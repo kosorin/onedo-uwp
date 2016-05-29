@@ -1,4 +1,5 @@
 ﻿using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace OneDo.Model.Data
     {
         Settings Settings { get; }
 
-        List<Tag> Tags { get; }
+        TagRepository Tags { get; }
 
-        List<Todo> Todos { get; }
+        TodoRepository Todos { get; }
 
         Task LoadAsync();
 
