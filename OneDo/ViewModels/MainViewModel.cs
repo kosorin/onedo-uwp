@@ -5,6 +5,7 @@ using OneDo.Model.Data;
 using System.Collections.Generic;
 using System.Linq;
 using OneDo.Services.Context;
+using OneDo.ViewModels.Items;
 
 namespace OneDo.ViewModels.Pages
 {

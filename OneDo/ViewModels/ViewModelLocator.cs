@@ -18,7 +18,6 @@ namespace OneDo.ViewModels
         {
             var container = new Container();
 
-            // Služby
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 container.Register<IDataProvider, DesignDataProvider>(Lifestyle.Singleton);
@@ -30,7 +29,6 @@ namespace OneDo.ViewModels
             container.Register<INavigationService, FrameNavigationService>(Lifestyle.Singleton);
             container.Register<IContext, Context>(Lifestyle.Singleton);
 
-            // Stránky
             container.Register<MainViewModel>(Lifestyle.Singleton);
             container.Register<AboutViewModel>(Lifestyle.Singleton);
             container.Register<SettingsViewModel>(Lifestyle.Singleton);
