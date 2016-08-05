@@ -35,6 +35,8 @@ namespace OneDo.Model.Data.Objects
         public List<Guid> Tags { get; set; }
 
 
+        public DateTime? Updated { get; set; }
+
         public DateTime? Completed { get; set; }
 
         public DateTime? Deleted { get; set; }
@@ -56,6 +58,7 @@ namespace OneDo.Model.Data.Objects
             Flag = Flag,
             Tags = Tags,
 
+            Updated = Updated,
             Completed = Completed,
             Deleted = Deleted,
         };

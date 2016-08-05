@@ -124,8 +124,8 @@
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\Settings\AboutViewModel.cs" />
     <Compile Include="ViewModels\Items\TodoItemViewModel.cs" />
-    <Compile Include="ViewModels\Editors\TodoViewModel.cs" />
-    <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
+    <Compile Include="ViewModels\Editors\TodoEditorViewModel.cs" />
+    <Compile Include="ViewModels\ExtendedViewModel.cs" />
     <Compile Include="Views\EditorBase.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\UserControlBase.cs" />

@@ -9,6 +9,8 @@
                 xmlns:controls="using:OneDo.Controls"
                 xmlns:converters="using:OneDo.Converters"
                 xmlns:views="using:OneDo.Views"
+                xmlns:viewEditors="using:OneDo.Views.Editors"
+                xmlns:viewModelEditors="using:OneDo.ViewModels.Editors"
                 xmlns:viewModelItems="using:OneDo.ViewModels.Items"
                 xmlns:objects="using:OneDo.Model.Data.Objects"
                 DataContext="{Binding MainPage, Source={StaticResource Locator}}"
@@ -24,60 +26,42 @@
 
     </Page.Resources>
 
-    <Page.BottomAppBar>
-        <CommandBar>
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Add to-do" ToolTipService.ToolTip="Add to-do">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE710;"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.PrimaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
+    <SplitView IsPaneOpen="{x:Bind VM.IsTodoEditorOpen, Mode=OneWay}" PanePlacement="Right">
+        <SplitView.Pane>
+            <viewEditors:TodoEditor DataContext="{x:Bind VM.TodoEditor, Mode=OneWay}" />
+        </SplitView.Pane>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                  Grid.Row="0">
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowStates">
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="800" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TodoListView.HorizontalAlignment" Value="Center" />
-                        <Setter Target="TodoListView.Width" Value="640" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TodoListView.HorizontalAlignment" Value="Stretch" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+                <ListView x:Name="TodoListView"
+                          Grid.Row="1"
+                          ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
+                          ItemTemplate="{StaticResource TodoItemTemplate}"
+                          IsItemClickEnabled="True"
+                          SelectionMode="None">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="ItemClick">
+                            <behaviors:ItemClickAction Command="{x:Bind VM.TodoItemClickCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ListView>
+            </Grid>
 
-        <controls:HamburgerTitleBar Grid.Row="0"
-                                    Title="Inbox" />
-
-        <ListView x:Name="TodoListView"
-                  Grid.Row="1"
-                  ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
-                  ItemTemplate="{StaticResource TodoItemTemplate}"
-                  IsItemClickEnabled="True"
-                  SelectionMode="None">
-            <i:Interaction.Behaviors>
-                <ic:EventTriggerBehavior EventName="ItemClick">
-                    <behaviors:ItemClickAction Command="{x:Bind VM.TodoItemClickCommand}" />
-                </ic:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
-        </ListView>
-    </Grid>
+            <CommandBar Grid.Row="1">
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Label="Add to-do">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE710;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+    </SplitView>
 </views:PageBase>

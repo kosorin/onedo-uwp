@@ -3,7 +3,7 @@ using OneDo.Services.NavigationService;
 
 namespace OneDo.ViewModels.Settings
 {
-    public class SettingsViewModel : ExtendedViewModelBase
+    public class SettingsViewModel : ExtendedViewModel
     {
 
     }

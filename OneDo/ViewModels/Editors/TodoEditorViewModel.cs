@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModels.Editors
 {
-    public class TodoViewModel : PageViewModel
+    public class TodoEditorViewModel : EditorViewModel
     {
         private bool isNew;
         public bool IsNew
@@ -43,19 +43,18 @@ namespace OneDo.ViewModels.Editors
         }
 
 
-        public IContext Context { get; }
+        private Todo original;
 
-        public TodoViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
-            : base(navigationService, dataProvider)
+        public TodoEditorViewModel(IDataProvider dataProvider, IContext context)
+            : base(dataProvider, context)
         {
-            Context = context;
-
             Initialize();
         }
 
         private void Initialize()
         {
-            var todo = DataProvider.Todos.GetById(Context.TodoId) ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
+            original = DataProvider.Todos.GetById(Context.TodoId);
+            var todo = original ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
 
             IsNew = todo.Id == Guid.Empty;
 

@@ -32,7 +32,6 @@ namespace OneDo.ViewModels
             container.Register<MainViewModel>(Lifestyle.Singleton);
             container.Register<AboutViewModel>(Lifestyle.Singleton);
             container.Register<SettingsViewModel>(Lifestyle.Singleton);
-            container.Register<TodoViewModel>(Lifestyle.Transient);
 
             Container = container;
         }
@@ -42,7 +41,5 @@ namespace OneDo.ViewModels
         public AboutViewModel About => Container.GetInstance<AboutViewModel>();
 
         public SettingsViewModel Settings => Container.GetInstance<SettingsViewModel>();
-
-        public TodoViewModel TodoEditor => Container.GetInstance<TodoViewModel>();
     }
 }

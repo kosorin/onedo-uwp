@@ -3,9 +3,9 @@ using OneDo.Common.Logging;
 
 namespace OneDo.ViewModels
 {
-    public abstract class ExtendedViewModelBase : ViewModelBase
+    public abstract class ExtendedViewModel : ViewModelBase
     {
-        protected ExtendedViewModelBase()
+        protected ExtendedViewModel()
         {
             Logger.Current.Trace($"{GetType().Name}.ctor");
         }

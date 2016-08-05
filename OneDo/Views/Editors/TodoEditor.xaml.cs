@@ -3,9 +3,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace OneDo.Views.Editors
 {
-    public sealed partial class TodoEditor : IXBind<TodoViewModel>
+    public sealed partial class TodoEditor : IXBind<TodoEditorViewModel>
     {
-        public TodoViewModel VM => ViewModel as TodoViewModel;
+        public TodoEditorViewModel VM => ViewModel as TodoEditorViewModel;
 
         public TodoEditor()
         {

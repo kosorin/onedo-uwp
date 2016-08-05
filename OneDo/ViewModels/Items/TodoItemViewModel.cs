@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModels.Items
 {
-    public class TodoItemViewModel : ExtendedViewModelBase
+    public class TodoItemViewModel : ExtendedViewModel
     {
         public Guid Id => todo.Id;
 

@@ -4,7 +4,7 @@ using Windows.ApplicationModel;
 
 namespace OneDo.ViewModels.Settings
 {
-    public class AboutViewModel : ExtendedViewModelBase
+    public class AboutViewModel : ExtendedViewModel
     {
         public string VersionText => $"Version {GetAppVersion()}";
 

@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModels
 {
-    public abstract class PageViewModel : ExtendedViewModelBase, INavigable
+    public abstract class PageViewModel : ExtendedViewModel, INavigable
     {
         public INavigationService NavigationService { get; }
 

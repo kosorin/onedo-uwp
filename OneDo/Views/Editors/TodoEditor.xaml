@@ -8,8 +8,7 @@
                   d:DesignHeight="640"
                   d:DesignWidth="360">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          DataContext="{Binding TodoEditor, Source={StaticResource Locator}}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
