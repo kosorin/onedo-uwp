@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModels
 {
-    public class EditorViewModel : ExtendedViewModel
+    public abstract class EditorViewModel : ExtendedViewModel
     {
         public IDataProvider DataProvider { get; }
 
