@@ -7,6 +7,7 @@ using System.Linq;
 using OneDo.Services.Context;
 using OneDo.ViewModels.Items;
 using OneDo.ViewModels.Editors;
+using OneDo.Model.Data.Repositories;
 
 namespace OneDo.ViewModels.Pages
 {
@@ -59,14 +60,18 @@ namespace OneDo.ViewModels.Pages
             ResetDataCommand = new RelayCommand(ResetData);
             TodoItemSelectedCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemSelected);
 
-            TodoItems = DataProvider.Todos.GetAll().Select(t => new TodoItemViewModel(t)).ToList();
+            LoadData();
         }
 
 
+        private void LoadData()
+        {
+            TodoItems = DataProvider.Todos.GetAll().Select(t => new TodoItemViewModel(t)).ToList();
+        }
+
         private void ResetData()
         {
-            TodoItems.Clear();
-            TodoItems.AddRange(new DesignDataProvider().Todos.GetAll().Select(t => new TodoItemViewModel(t)));
+            LoadData();
         }
 
         private void OnTodoItemSelected(TodoItemViewModel todoItem)

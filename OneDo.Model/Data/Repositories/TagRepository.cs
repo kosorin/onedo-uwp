@@ -9,7 +9,12 @@ namespace OneDo.Model.Data.Repositories
 {
     public class TagRepository : Repository<Tag>
     {
-        public TagRepository(List<Tag> items = null) : base(items)
+        public TagRepository()
+        {
+
+        }
+
+        public TagRepository(IEnumerable<Tag> items) : base(items)
         {
 
         }

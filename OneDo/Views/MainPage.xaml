@@ -45,7 +45,7 @@
             </i:Interaction.Behaviors>
         </ListView>
 
-        <CommandBar Grid.RowSpan="2">
+        <CommandBar Grid.Row="1">
             <AppBarButton Label="Add to-do">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;"/>

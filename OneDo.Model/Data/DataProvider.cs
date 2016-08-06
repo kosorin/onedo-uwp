@@ -51,8 +51,8 @@ namespace OneDo.Model.Data
                 var data = new Data
                 {
                     Settings = Settings,
-                    Tags = Tags.ToList(),
-                    Todos = Todos.ToList(),
+                    Tags = Tags.GetAll().ToList(),
+                    Todos = Todos.GetAll().ToList(),
                 };
 
                 await Serialization.SerializeToFileAsync(data, FileName, ApplicationData.Current.LocalFolder);

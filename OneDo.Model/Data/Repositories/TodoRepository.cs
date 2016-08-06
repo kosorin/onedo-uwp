@@ -9,7 +9,12 @@ namespace OneDo.Model.Data.Repositories
 {
     public class TodoRepository : Repository<Todo>
     {
-        public TodoRepository(List<Todo> items = null) : base(items)
+        public TodoRepository()
+        {
+
+        }
+
+        public TodoRepository(IEnumerable<Todo> items) : base(items)
         {
 
         }

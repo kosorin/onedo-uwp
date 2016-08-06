@@ -53,7 +53,7 @@ namespace OneDo.ViewModels.Editors
 
         private void Initialize()
         {
-            original = DataProvider.Todos.GetById(Context.TodoId);
+            original = DataProvider.Todos.Get(Context.TodoId);
             var todo = original ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
 
             IsNew = todo.Id == Guid.Empty;

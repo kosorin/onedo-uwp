@@ -11,58 +11,77 @@ namespace OneDo.Model.Data.Repositories
 {
     public abstract class Repository<T> where T : class, IModel<T>
     {
-        private readonly Dictionary<Guid, T> items;
+        private readonly Dictionary<Guid, T> items = new Dictionary<Guid, T>();
 
-        protected Repository(IEnumerable<T> items = null)
+        protected Repository()
         {
-            this.items = (items ?? new List<T>()).ToDictionary(i => i.Id);
+
         }
 
-        public void AddOrUpdate(T item)
+        protected Repository(IEnumerable<T> items)
         {
-            if (item == null)
+            if (items != null)
             {
-                throw new ArgumentNullException(nameof(item));
+                this.items = items.ToDictionary(i => i.Id);
             }
+        }
 
-            if (item.Id == Guid.Empty)
-            {
-                item.Id = Guid.NewGuid();
-            }
 
+        public void Add(T item)
+        {
+            TrySetId(item);
             items[item.Id] = item;
         }
+
+        public void AddAll(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                TrySetId(item);
+                this.items[item.Id] = item;
+            }
+        }
+
+
+        public T Get(Guid id)
+        {
+            T item;
+            return items.TryGetValue(id, out item) ? item : null;
+        }
+
+        public T Get(Func<T, bool> predicate)
+        {
+            return items.Values.FirstOrDefault(predicate);
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            return items.Values;
+        }
+
+        public IEnumerable<T> GetAll(Func<T, bool> predicate)
+        {
+            return items.Values.Where(predicate);
+        }
+
 
         public void Remove(Guid id)
         {
             items.Remove(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public void RemoveAll()
         {
-            return items.Select(i => i.Value);
-        }
-
-        public IEnumerable<T> GetAll(Func<T, bool> predicate)
-        {
-            return items.Where(i => predicate(i.Value)).Select(i => i.Value);
-        }
-
-        public T GetById(Guid id)
-        {
-            T item;
-            return items.TryGetValue(id, out item) ? item : null;
-        }
-
-        public T GetCloneById(Guid id)
-        {
-            return GetById(id)?.Clone();
+            items.Clear();
         }
 
 
-        public List<T> ToList()
+        private void TrySetId(T item)
         {
-            return GetAll().ToList();
+            if (item.Id == Guid.Empty)
+            {
+                item.Id = Guid.NewGuid();
+            }
         }
     }
 }
