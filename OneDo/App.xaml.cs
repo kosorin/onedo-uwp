@@ -146,8 +146,6 @@ namespace OneDo
         {
             var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
             await dataProvider.LoadAsync();
-            //dataProvider.Todos.Clear();
-            //dataProvider.Todos.AddRange(new DesignDataProvider().Todos);
             Logger.Current.Info("Data initialized");
         }
 

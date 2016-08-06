@@ -45,7 +45,9 @@ namespace OneDo.ViewModels.Pages
         }
 
 
-        public ICommand TodoItemClickCommand { get; }
+        public ICommand TodoItemSelectedCommand { get; }
+
+        public ICommand ResetDataCommand { get; }
 
         public IContext Context { get; }
 
@@ -54,13 +56,20 @@ namespace OneDo.ViewModels.Pages
         {
             Context = context;
 
-            TodoItemClickCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemClick);
+            ResetDataCommand = new RelayCommand(ResetData);
+            TodoItemSelectedCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemSelected);
 
             TodoItems = DataProvider.Todos.GetAll().Select(t => new TodoItemViewModel(t)).ToList();
         }
 
 
-        private void OnTodoItemClick(TodoItemViewModel todoItem)
+        private void ResetData()
+        {
+            TodoItems.Clear();
+            TodoItems.AddRange(new DesignDataProvider().Todos.GetAll().Select(t => new TodoItemViewModel(t)));
+        }
+
+        private void OnTodoItemSelected(TodoItemViewModel todoItem)
         {
             Context.TodoId = todoItem.Id;
             TodoEditor = new TodoEditorViewModel(DataProvider, Context);
