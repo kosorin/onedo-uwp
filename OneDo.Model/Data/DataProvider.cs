@@ -3,6 +3,7 @@ using OneDo.Common.Logging;
 using OneDo.Model.Data.Objects;
 using OneDo.Model.Data.Repositories;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -50,8 +51,8 @@ namespace OneDo.Model.Data
                 var data = new Data
                 {
                     Settings = Settings,
-                    Tags = new List<Tag>(Tags.GetAll()),
-                    Todos = new List<Todo>(Todos.GetAll()),
+                    Tags = Tags.ToList(),
+                    Todos = Todos.ToList(),
                 };
 
                 await Serialization.SerializeToFileAsync(data, FileName, ApplicationData.Current.LocalFolder);

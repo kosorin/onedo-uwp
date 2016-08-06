@@ -18,7 +18,6 @@ namespace OneDo.Model.Data.Repositories
             this.items = (items ?? new List<T>()).ToDictionary(i => i.Id);
         }
 
-
         public void AddOrUpdate(T item)
         {
             if (item == null)
@@ -58,6 +57,12 @@ namespace OneDo.Model.Data.Repositories
         public T GetCloneById(Guid id)
         {
             return GetById(id)?.Clone();
+        }
+
+
+        public List<T> ToList()
+        {
+            return GetAll().ToList();
         }
     }
 }
