@@ -11,7 +11,7 @@ namespace OneDo.Model.Data
 {
     public class DesignDataProvider : IDataProvider
     {
-        public Settings Settings { get; } = new Settings();
+        public Settings Settings { get; }
 
         public TagRepository Tags { get; }
 
@@ -19,6 +19,7 @@ namespace OneDo.Model.Data
 
         public DesignDataProvider()
         {
+            Settings = new Settings();
             Tags = new TagRepository();
             Todos = new TodoRepository();
 
