@@ -2,11 +2,11 @@
 {
     public static class Logger
     {
-        public static ILogger Current { get; private set; } = new NullLogger();
-
-        public static void Set(ILogger logger)
+        private static ILogger current;
+        public static ILogger Current
         {
-            Current = logger;
+            get { return current ?? (current = new NullLogger()); }
+            set { current = value; }
         }
     }
 }

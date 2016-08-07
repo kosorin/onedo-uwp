@@ -126,7 +126,7 @@ namespace OneDo
             var folder = ApplicationData.Current.LocalFolder;
             var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
             var logger = new FileLogger(file.Path);
-            Logger.Set(logger);
+            Logger.Current = logger;
 #else
             // Logger v releasu zatím nepoužíváme.
 #endif
