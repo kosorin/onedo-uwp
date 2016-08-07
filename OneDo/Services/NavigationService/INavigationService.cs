@@ -20,8 +20,6 @@ namespace OneDo.Services.NavigationService
         bool CanGoBack { get; }
 
 
-        void Initialize(Window window);
-
         bool Navigate<TPageBase>() where TPageBase : PageBase;
 
         bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase;

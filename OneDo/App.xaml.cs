@@ -138,8 +138,7 @@ namespace OneDo
 
         private void InitializeNavigation()
         {
-            var navigationService = ViewModelLocator.Container.Resolve<INavigationService>();
-            navigationService.Initialize(Window.Current);
+            var navigationService = ViewModelLocator.Container.Resolve<INavigationService>(TypedParameter.From(Window.Current));
             Logger.Current.Info("Navigation initialized");
         }
 

@@ -66,7 +66,7 @@ namespace OneDo.Services.NavigationService
 
         public bool IsInitialized { get; private set; } = false;
 
-        public Frame Frame { get; private set; } = null;
+        public Frame Frame { get; } = null;
 
         public Type SourcePageType
         {
@@ -81,7 +81,12 @@ namespace OneDo.Services.NavigationService
         public bool CanGoBack => Frame.CanGoBack;
 
 
-        public void Initialize(Window window)
+        public FrameNavigationService()
+        {
+            // Dummy constructor
+        }
+
+        public FrameNavigationService(Window window)
         {
             Frame = (window.Content as Frame) ?? new Frame();
 
