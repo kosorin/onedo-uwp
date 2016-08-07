@@ -14,6 +14,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.Storage;
 using OneDo.Views.Pages;
+using Autofac;
 
 namespace OneDo
 {
@@ -90,7 +91,7 @@ namespace OneDo
             Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
 
-            var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
+            var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
             await dataProvider.SaveAsync();
         }
 
@@ -137,14 +138,14 @@ namespace OneDo
 
         private void InitializeNavigation()
         {
-            var navigationService = ViewModelLocator.Container.GetInstance<INavigationService>();
+            var navigationService = ViewModelLocator.Container.Resolve<INavigationService>();
             navigationService.Initialize(Window.Current);
             Logger.Current.Info("Navigation initialized");
         }
 
         private async Task InitializeData()
         {
-            var dataProvider = ViewModelLocator.Container.GetInstance<IDataProvider>();
+            var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
             await dataProvider.LoadAsync();
             Logger.Current.Info("Data initialized");
         }
@@ -158,7 +159,7 @@ namespace OneDo
 
         private void ShowStartPage()
         {
-            var navigationService = ViewModelLocator.Container.GetInstance<INavigationService>();
+            var navigationService = ViewModelLocator.Container.Resolve<INavigationService>();
             navigationService.Navigate(StartPageType);
             Window.Current.Content = navigationService.Frame;
         }

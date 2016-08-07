@@ -1,3 +1,4 @@
+using Autofac;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
@@ -6,40 +7,40 @@ using OneDo.Services.NavigationService;
 using OneDo.ViewModels.Editors;
 using OneDo.ViewModels.Pages;
 using OneDo.ViewModels.Settings;
-using SimpleInjector;
+using Windows.UI.Xaml;
 
 namespace OneDo.ViewModels
 {
     public class ViewModelLocator
     {
-        public static Container Container { get; }
+        public static IContainer Container { get; }
 
         static ViewModelLocator()
         {
-            var container = new Container();
+            var builder = new ContainerBuilder();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                container.Register<IDataProvider, DesignDataProvider>(Lifestyle.Singleton);
+                builder.RegisterType<DesignDataProvider>().As<IDataProvider>().SingleInstance();
             }
             else
             {
-                container.Register<IDataProvider, DataProvider>(Lifestyle.Singleton);
+                builder.RegisterType<DataProvider>().As<IDataProvider>().SingleInstance();
             }
-            container.Register<INavigationService, FrameNavigationService>(Lifestyle.Singleton);
-            container.Register<IContext, Context>(Lifestyle.Singleton);
+            builder.RegisterType<FrameNavigationService>().As<INavigationService>().SingleInstance();
+            builder.RegisterType<Context>().As<IContext>().SingleInstance();
 
-            container.Register<MainViewModel>(Lifestyle.Singleton);
-            container.Register<AboutViewModel>(Lifestyle.Singleton);
-            container.Register<SettingsViewModel>(Lifestyle.Singleton);
+            builder.RegisterType<MainViewModel>().SingleInstance();
+            builder.RegisterType<AboutViewModel>().SingleInstance();
+            builder.RegisterType<SettingsViewModel>().SingleInstance();
 
-            Container = container;
+            Container = builder.Build();
         }
 
-        public MainViewModel MainPage => Container.GetInstance<MainViewModel>();
+        public MainViewModel MainPage => Container.Resolve<MainViewModel>();
 
-        public AboutViewModel About => Container.GetInstance<AboutViewModel>();
+        public AboutViewModel About => Container.Resolve<AboutViewModel>();
 
-        public SettingsViewModel Settings => Container.GetInstance<SettingsViewModel>();
+        public SettingsViewModel Settings => Container.Resolve<SettingsViewModel>();
     }
 }
