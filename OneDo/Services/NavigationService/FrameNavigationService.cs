@@ -83,7 +83,7 @@ namespace OneDo.Services.NavigationService
 
         public void Initialize(Window window)
         {
-            Frame = (Window.Current.Content as Frame) ?? new Frame();
+            Frame = (window.Content as Frame) ?? new Frame();
 
             if (!DesignMode.DesignModeEnabled)
             {
