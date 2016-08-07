@@ -71,6 +71,8 @@ namespace OneDo.ViewModels.Pages
 
         private void ResetData()
         {
+            DataProvider.Todos.RemoveAll();
+            DataProvider.Todos.AddAll(new DesignDataProvider().Todos.GetAll());
             LoadData();
         }
 

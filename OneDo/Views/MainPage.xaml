@@ -52,7 +52,7 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Redo" Label="Reset data" />
+                <AppBarButton Label="Reset data" Command="{x:Bind VM.ResetDataCommand}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
