@@ -56,10 +56,16 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <Grid Grid.RowSpan="2" Visibility="Collapsed">
-            <viewEditors:TodoEditor DataContext="{x:Bind VM.TodoEditor, Mode=OneWay}"
-                                    Visibility="{x:Bind VM.IsTodoEditorOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-        </Grid>
+        <Border Grid.RowSpan="2"
+                Visibility="{Binding Visibility, ElementName=TodoEditor}"
+                Padding="16"
+                Background="#66000000">
+            <Grid>
+                <viewEditors:TodoEditor x:Name="TodoEditor"
+                                        DataContext="{x:Bind VM.TodoEditor, Mode=OneWay}"
+                                        Visibility="{x:Bind VM.IsTodoEditorOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </Grid>
+        </Border>
 
     </Grid>
 </views:PageBase>
