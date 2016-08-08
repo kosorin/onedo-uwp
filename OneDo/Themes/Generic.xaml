@@ -2,172 +2,39 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:OneDo.Controls">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Themes/HamburgerStyles.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
-    <Style TargetType="controls:HamburgerTitleBar">
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="HorizontalContentAlignment" Value="Right" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="RequestedTheme" Value="Dark" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+    <Style TargetType="controls:SlidableListItem" >
+        <Setter Property="LeftForeground" Value="White"></Setter>
+        <Setter Property="RightForeground" Value="White"></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+        <Setter Property="Background" Value="White"></Setter>
+        <Setter Property="ActivationWidth" Value="80"></Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:HamburgerTitleBar">
-                    <Grid Background="{TemplateBinding Background}"
-                          Height="{StaticResource HamburgerBaseMeasure}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+                <ControlTemplate TargetType="controls:SlidableListItem">
+                    <Grid>
+                        <Grid x:Name="CommandContainer" Margin="1">
+                            <StackPanel x:Name="LeftCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <SymbolIcon Symbol="{TemplateBinding LeftIcon}" Foreground="{TemplateBinding LeftForeground}" />
+                                <TextBlock FontSize="15" Margin="10,0,0,0" Text="{TemplateBinding LeftLabel}" Foreground="{TemplateBinding LeftForeground}" />
+                                <StackPanel.RenderTransform>
+                                    <CompositeTransform></CompositeTransform>
+                                </StackPanel.RenderTransform>
+                            </StackPanel>
 
-                        <Button x:Name="PART_MenuButton"
-                                ToolTipService.ToolTip="Menu"
-                                Grid.Column="0"
-                                Style="{StaticResource HamburgerTitleBarButtonStyle}"
-                                Command="{TemplateBinding MenuButtonCommand}">
-                            <FontIcon FontSize="20" Glyph="&#xE700;" />
-                        </Button>
-
-                        <TextBlock Grid.Column="1"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Style="{StaticResource HamburgerTitleBarTextBlockStyle}"
-                                   Text="{TemplateBinding Title}" />
-
-                        <ContentPresenter Grid.Column="2"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          ContentTransitions="{TemplateBinding ContentTransitions}"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="controls:HamburgerMenuButton">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="controls:HamburgerMenuButton">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Checked">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedPointerOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedPressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedDisabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Indeterminate" />
-                                <VisualState x:Name="IndeterminatePointerOver" />
-                                <VisualState x:Name="IndeterminatePressed" />
-                                <VisualState x:Name="IndeterminateDisabled" />
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <Border Width="{StaticResource HamburgerBaseMeasure}" Height="{StaticResource HamburgerBaseMeasure}">
-                            <ContentPresenter x:Name="IconContentPresenter"
-                                              AutomationProperties.AccessibilityView="Raw"
-                                              Content="{TemplateBinding Icon}"
-                                              Foreground="{TemplateBinding Foreground}" />
-                        </Border>
-
-                        <TextBlock x:Name="ContentPresenter"
-                                   Grid.Column="1"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Style="{StaticResource HamburgerMenuButtonTextBlockStyle}"
-                                   Text="{TemplateBinding Content}"
-                                   Visibility="{TemplateBinding LabelVisibility}" />
+                            <StackPanel x:Name="RightCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <TextBlock FontSize="15" Margin="0,0,10,0" Text="{TemplateBinding RightLabel}" Foreground="{TemplateBinding RightForeground}" />
+                                <SymbolIcon Symbol="{TemplateBinding RightIcon}" Foreground="{TemplateBinding RightForeground}" />
+                                <StackPanel.RenderTransform>
+                                    <CompositeTransform></CompositeTransform>
+                                </StackPanel.RenderTransform>
+                            </StackPanel>
+                        </Grid>
+                        <Grid ManipulationMode="TranslateX,System" x:Name="ContentGrid" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                            <Grid.RenderTransform>
+                                <CompositeTransform x:Name="ContentTransform"/>
+                            </Grid.RenderTransform>
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

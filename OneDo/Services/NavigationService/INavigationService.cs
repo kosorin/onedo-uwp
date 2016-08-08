@@ -25,12 +25,16 @@ namespace OneDo.Services.NavigationService
 
         bool Navigate(Type pageType, object parameter);
 
-        void ShowFlyout(FlyoutViewModel flyout);
-
         void ClearHistory();
 
         void GoForward();
 
         void GoBack();
+
+        void ShowFlyout(FlyoutViewModel flyout);
+
+        void CloseFlyout();
+
+        void CloseFlyout(FlyoutCloseType closeType);
     }
 }

@@ -12,6 +12,121 @@ namespace OneDo.Services.NavigationService
 {
     public class NavigationService : ViewModelBase, INavigationService
     {
+        public Frame Frame { get; }
+
+        private FlyoutViewModel flyout;
+        public FlyoutViewModel Flyout
+        {
+            get { return flyout; }
+            private set
+            {
+                if (Set(ref flyout, value))
+                {
+                    UpdateBackButtonVisibility();
+                }
+            }
+        }
+
+        public bool CanGoForward => Flyout == null && Frame.CanGoForward;
+
+        public bool CanGoBack => Flyout != null || Frame.CanGoBack;
+
+
+        public NavigationService()
+        {
+            // Dummy constructor
+        }
+
+        public NavigationService(Window window)
+        {
+            Frame = (window.Content as Frame) ?? new Frame();
+
+            if (!DesignMode.DesignModeEnabled)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackButtonRequested;
+            }
+            Frame.NavigationFailed += OnNavigationFailed;
+            Frame.Navigating += OnNavigating;
+            Frame.Navigated += OnNavigated;
+        }
+
+        public bool Navigate<TPageBase>() where TPageBase : PageBase
+        {
+            return Navigate(typeof(TPageBase));
+        }
+
+        public bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase
+        {
+            return Navigate(typeof(TPageBase), parameter);
+        }
+
+        public bool Navigate(Type pageType)
+        {
+            CloseFlyout();
+            return Frame.Navigate(pageType);
+        }
+
+        public bool Navigate(Type pageType, object parameter)
+        {
+            CloseFlyout();
+            return Frame.Navigate(pageType, parameter);
+        }
+
+        public void ClearHistory()
+        {
+            Frame.BackStack.Clear();
+            Frame.ForwardStack.Clear();
+            UpdateBackButtonVisibility();
+        }
+
+        public void GoForward()
+        {
+            CloseFlyout();
+            Frame.GoForward();
+        }
+
+        public void GoBack()
+        {
+            if (Flyout != null)
+            {
+                CloseFlyout();
+            }
+            else
+            {
+                Frame.GoBack();
+            }
+        }
+
+        public void ShowFlyout(FlyoutViewModel flyout)
+        {
+            Flyout = flyout;
+        }
+
+        public void CloseFlyout()
+        {
+            CloseFlyout(FlyoutCloseType.Cancel);
+        }
+
+        public void CloseFlyout(FlyoutCloseType closeType)
+        {
+            if (Flyout != null)
+            {
+                var flyout = Flyout;
+                Flyout = null;
+                GetContext()?.OnFlyoutClosed(new FlyoutClosedEventArgs
+                {
+                    ViewModel = flyout,
+                    CloseType = closeType,
+                });
+            }
+        }
+
+
+        private INavigable GetContext()
+        {
+            return (Frame.Content as PageBase)?.DataContext as INavigable;
+        }
+
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception($"Failed to load page {e.SourcePageType.FullName}");
@@ -63,100 +178,6 @@ namespace OneDo.Services.NavigationService
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
-        }
-
-
-        public Frame Frame { get; }
-
-        private FlyoutViewModel flyout;
-        public FlyoutViewModel Flyout
-        {
-            get { return flyout; }
-            private set
-            {
-                if (Set(ref flyout, value))
-                {
-                    UpdateBackButtonVisibility();
-                }
-            }
-        }
-
-        public bool CanGoForward => Flyout == null && Frame.CanGoForward;
-
-        public bool CanGoBack => Flyout != null || Frame.CanGoBack;
-
-
-        public NavigationService()
-        {
-            // Dummy constructor
-        }
-
-        public NavigationService(Window window)
-        {
-            Frame = (window.Content as Frame) ?? new Frame();
-
-            if (!DesignMode.DesignModeEnabled)
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackButtonRequested;
-            }
-            Frame.NavigationFailed += OnNavigationFailed;
-            Frame.Navigating += OnNavigating;
-            Frame.Navigated += OnNavigated;
-        }
-
-        public bool Navigate<TPageBase>() where TPageBase : PageBase
-        {
-            return Navigate(typeof(TPageBase));
-        }
-
-        public bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase
-        {
-            return Navigate(typeof(TPageBase), parameter);
-        }
-
-        public bool Navigate(Type pageType)
-        {
-            return Frame.Navigate(pageType);
-        }
-
-        public bool Navigate(Type pageType, object parameter)
-        {
-            return Frame.Navigate(pageType, parameter);
-        }
-
-        public void ShowFlyout(FlyoutViewModel flyout)
-        {
-            Flyout = flyout;
-        }
-
-        public void ClearHistory()
-        {
-            Frame.BackStack.Clear();
-            Frame.ForwardStack.Clear();
-            UpdateBackButtonVisibility();
-        }
-
-        public void GoForward()
-        {
-            Frame.GoForward();
-        }
-
-        public void GoBack()
-        {
-            if (Flyout != null)
-            {
-                Flyout = null;
-            }
-            else
-            {
-                Frame.GoBack();
-            }
-        }
-
-
-        private INavigable GetContext()
-        {
-            return (Frame.Content as PageBase)?.DataContext as INavigable;
         }
     }
 }

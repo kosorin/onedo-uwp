@@ -30,16 +30,10 @@ namespace OneDo.ViewModels
             builder.RegisterType<Context>().As<IContext>().SingleInstance();
 
             builder.RegisterType<MainViewModel>().SingleInstance();
-            builder.RegisterType<AboutViewModel>().SingleInstance();
-            builder.RegisterType<SettingsViewModel>().SingleInstance();
 
             Container = builder.Build();
         }
 
         public MainViewModel MainPage => Container.Resolve<MainViewModel>();
-
-        public AboutViewModel About => Container.Resolve<AboutViewModel>();
-
-        public SettingsViewModel Settings => Container.Resolve<SettingsViewModel>();
     }
 }

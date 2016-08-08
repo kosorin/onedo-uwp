@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.ViewModels;
 using OneDo.ViewModels.Flyouts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,20 +17,25 @@ namespace OneDo.Views
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            if (item is TodoEditorViewModel)
-            {
-                return TodoEditorTemplate;
-            }
-            else if (item is SettingsViewModel)
-            {
-                return SettingsTemplate;
-            }
-            return null;
+            return SelectTemplate(item as FlyoutViewModel);
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            return SelectTemplateCore(item);
+            return SelectTemplate(item as FlyoutViewModel);
+        }
+
+        private DataTemplate SelectTemplate(FlyoutViewModel flyout)
+        {
+            if (flyout is TodoEditorViewModel)
+            {
+                return TodoEditorTemplate;
+            }
+            else if (flyout is SettingsViewModel)
+            {
+                return SettingsTemplate;
+            }
+            return null;
         }
     }
 }

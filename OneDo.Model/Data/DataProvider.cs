@@ -33,6 +33,10 @@ namespace OneDo.Model.Data
                 Todos = new TodoRepository(data.Todos);
 
                 Logger.Current.Info($"Data loaded from file '{FileName}'");
+                foreach (var todo in Todos.GetAll())
+                {
+                    Logger.Current.Debug($"  {todo.Id} '{todo.Title}'");
+                }
             }
             catch (Exception e)
             {
@@ -57,6 +61,10 @@ namespace OneDo.Model.Data
 
                 await Serialization.SerializeToFileAsync(data, FileName, ApplicationData.Current.LocalFolder);
                 Logger.Current.Info($"Data saved to file '{FileName}'");
+                foreach (var todo in Todos.GetAll())
+                {
+                    Logger.Current.Debug($"  {todo.Id} '{todo.Title}'");
+                }
             }
             catch (Exception e)
             {

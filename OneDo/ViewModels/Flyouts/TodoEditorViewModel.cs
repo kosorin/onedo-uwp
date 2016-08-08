@@ -1,4 +1,6 @@
-﻿using OneDo.Common.Logging;
+﻿using GalaSoft.MvvmLight.Command;
+using OneDo.Common.Event;
+using OneDo.Common.Logging;
 using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
@@ -8,6 +10,7 @@ using OneDo.Services.NavigationService;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModels.Flyouts
@@ -44,19 +47,49 @@ namespace OneDo.ViewModels.Flyouts
         }
 
 
-        private Todo original;
+        public event EventHandler<TodoEditorViewModel, EventArgs> Saved;
 
-        public TodoEditorViewModel(IDataProvider dataProvider, IContext context)
-            : base(dataProvider, context)
+        private void OnSaved()
+        {
+            Saved?.Invoke(this, new EventArgs());
+        }
+
+
+        public ICommand SaveCommand { get; }
+
+
+        private readonly Todo original;
+
+        private readonly TodoBusiness business;
+
+        public TodoEditorViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context) : base(navigationService, dataProvider, context)
         {
             original = DataProvider.Todos.Get(Context.TodoId);
-            var todo = original ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
+            business = new TodoBusiness(DataProvider);
 
-            IsNew = new TodoBusiness(DataProvider).IsNew(todo);
+            SaveCommand = new RelayCommand(Save);
+
+            Load(original ?? new Todo());
+        }
+
+
+        private void Load(Todo todo)
+        {
+            IsNew = business.IsNew(todo);
 
             Title = todo.Title;
             Note = todo.Note;
             Date = todo.Date;
+        }
+
+        private void Save()
+        {
+            original.Title = Title;
+            original.Note = Note;
+            original.Date = Date?.DateTime;
+
+            OnSaved();
+            NavigationService.GoBack();
         }
     }
 }

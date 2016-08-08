@@ -7,9 +7,6 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Themes/HamburgerStyles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
 
             <vm:ViewModelLocator x:Key="Locator" />
 

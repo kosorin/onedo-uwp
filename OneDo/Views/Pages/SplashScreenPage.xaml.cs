@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
-namespace OneDo.Views
+namespace OneDo.Views.Pages
 {
     public sealed partial class SplashScreenPage : Page
     {

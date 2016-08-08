@@ -1,4 +1,4 @@
-﻿<v:PageBase x:Class="OneDo.Views.MainPage"
+﻿<v:PageBase x:Class="OneDo.Views.Pages.MainPage"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,9 +19,18 @@
     <Page.Resources>
 
         <DataTemplate x:Key="TodoItemTemplate" x:DataType="vmItems:TodoItemViewModel">
-            <StackPanel>
-                <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
-            </StackPanel>
+            <controls:SlidableListItem LeftIcon="Favorite"
+                                       RightIcon="Delete"
+                                       LeftLabel="Set Favourite"
+                                       RightLabel="Delete"
+                                       HorizontalAlignment="Stretch"
+                                       LeftBackground="Green"
+                                       RightBackground="Red"
+                                       MouseSlidingEnabled="true" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Grid>
+                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                </Grid>
+            </controls:SlidableListItem>
         </DataTemplate>
 
         <DataTemplate x:Key="TodoEditorTemplate" x:DataType="vmFlyouts:TodoEditorViewModel">
@@ -31,7 +40,7 @@
         <DataTemplate x:Key="SettingsTemplate" x:DataType="vmFlyouts:SettingsViewModel">
             <vFlyouts:SettingsView />
         </DataTemplate>
-        
+
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -61,6 +70,7 @@
             </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Reset data" Command="{x:Bind VM.ResetDataCommand}" />
+                <AppBarButton Label="Settings" Command="{x:Bind VM.ShowSettingsCommand}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
 

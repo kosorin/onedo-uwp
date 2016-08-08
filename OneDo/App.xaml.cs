@@ -14,6 +14,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.Storage;
 using Autofac;
+using OneDo.Views.Pages;
 
 namespace OneDo
 {

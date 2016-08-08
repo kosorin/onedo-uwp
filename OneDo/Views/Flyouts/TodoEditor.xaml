@@ -16,14 +16,14 @@
 
         <StackPanel Margin="24,12">
             <TextBlock Text="Todo Page" Style="{ThemeResource HeaderTextBlockStyle}" />
-            <TextBox Header="Title" Text="{x:Bind VM.Title, Mode=TwoWay}" />
-            <TextBox Header="Note" Text="{x:Bind VM.Note, Mode=TwoWay}" />
+            <TextBox Header="Title" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Header="Note" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <CalendarDatePicker Header="Date" Date="{x:Bind VM.Date, Mode=TwoWay}" HorizontalAlignment="Stretch" />
         </StackPanel>
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Save" ToolTipService.ToolTip="Save">
+                <AppBarButton Label="Save" Command="{x:Bind VM.SaveCommand, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;"/>
                     </AppBarButton.Icon>

@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Views
 {
-    public abstract class PageBase : Page, IView
+    public class PageBase : Page, IView
     {
         public ViewModelBase ViewModel { get; set; }
 

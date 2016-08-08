@@ -26,15 +26,14 @@ namespace OneDo.ViewModels.Pages
 
         public ICommand ResetDataCommand { get; }
 
-        public IContext Context { get; }
+        public ICommand ShowSettingsCommand { get; }
 
         public MainViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
-            : base(navigationService, dataProvider)
+            : base(navigationService, dataProvider, context)
         {
-            Context = context;
-
-            ResetDataCommand = new RelayCommand(ResetData);
             TodoItemSelectedCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemSelected);
+            ResetDataCommand = new RelayCommand(ResetData);
+            ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             LoadData();
         }
@@ -42,20 +41,36 @@ namespace OneDo.ViewModels.Pages
 
         private void LoadData()
         {
-            TodoItems = DataProvider.Todos.GetAll().Select(t => new TodoItemViewModel(t)).ToList();
+            TodoItems = DataProvider
+                .Todos
+                .GetAll()
+                .Select(t => new TodoItemViewModel(t))
+                .ToList();
         }
 
         private void ResetData()
         {
+            var todos = new DesignDataProvider()
+                .Todos
+                .GetAll();
+
             DataProvider.Todos.RemoveAll();
-            DataProvider.Todos.AddAll(new DesignDataProvider().Todos.GetAll());
+            DataProvider.Todos.AddAll(todos);
             LoadData();
         }
 
         private void OnTodoItemSelected(TodoItemViewModel todoItem)
         {
             Context.TodoId = todoItem.Id;
-            NavigationService.ShowFlyout(new TodoEditorViewModel(DataProvider, Context));
+
+            var editor = new TodoEditorViewModel(NavigationService, DataProvider, Context);
+            editor.Saved += (s, e) => LoadData();
+            NavigationService.ShowFlyout(editor);
+        }
+
+        private void ShowSettings()
+        {
+            NavigationService.ShowFlyout(new SettingsViewModel(NavigationService, DataProvider, Context));
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Common.Logging;
 using OneDo.Model.Data;
+using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
+using System;
 
 namespace OneDo.ViewModels
 {
@@ -13,10 +15,13 @@ namespace OneDo.ViewModels
 
         public IDataProvider DataProvider { get; }
 
-        protected PageViewModel(INavigationService navigationService, IDataProvider dataProvider)
+        public IContext Context { get; }
+
+        protected PageViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
         {
             NavigationService = navigationService;
             DataProvider = dataProvider;
+            Context = context;
         }
 
 
@@ -36,6 +41,11 @@ namespace OneDo.ViewModels
         }
 
         public virtual void OnBackButton(BackButtonEventArgs args)
+        {
+
+        }
+
+        public virtual void OnFlyoutClosed(FlyoutClosedEventArgs args)
         {
 
         }
