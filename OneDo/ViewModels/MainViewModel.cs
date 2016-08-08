@@ -6,38 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using OneDo.Services.Context;
 using OneDo.ViewModels.Items;
-using OneDo.ViewModels.Editors;
+using OneDo.ViewModels.Flyouts;
 using OneDo.Model.Data.Repositories;
+using Windows.UI.Core;
 
 namespace OneDo.ViewModels.Pages
 {
     public class MainViewModel : PageViewModel
     {
-        private TodoEditorViewModel todoEditor;
-        public TodoEditorViewModel TodoEditor
-        {
-            get { return todoEditor; }
-            set
-            {
-                if (Set(ref todoEditor, value))
-                {
-                    RaisePropertyChanged(nameof(IsTodoEditorOpen));
-                }
-            }
-        }
-
-        public bool IsTodoEditorOpen
-        {
-            get { return TodoEditor != null; }
-            set
-            {
-                if (!value)
-                {
-                    TodoEditor = null;
-                }
-            }
-        }
-
         private List<TodoItemViewModel> todoItems;
         public List<TodoItemViewModel> TodoItems
         {
@@ -79,7 +55,7 @@ namespace OneDo.ViewModels.Pages
         private void OnTodoItemSelected(TodoItemViewModel todoItem)
         {
             Context.TodoId = todoItem.Id;
-            TodoEditor = new TodoEditorViewModel(DataProvider, Context);
+            NavigationService.ShowFlyout(new TodoEditorViewModel(DataProvider, Context));
         }
     }
 }

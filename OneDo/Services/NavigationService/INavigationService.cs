@@ -1,4 +1,5 @@
-﻿using OneDo.Views;
+﻿using OneDo.ViewModels;
+using OneDo.Views;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -7,13 +8,9 @@ namespace OneDo.Services.NavigationService
 {
     public interface INavigationService
     {
-        bool IsInitialized { get; }
-
         Frame Frame { get; }
 
-        Type SourcePageType { get; set; }
-
-        Type CurrentSourcePageType { get; }
+        FlyoutViewModel Flyout { get; }
 
         bool CanGoForward { get; }
 
@@ -27,6 +24,8 @@ namespace OneDo.Services.NavigationService
         bool Navigate(Type pageType);
 
         bool Navigate(Type pageType, object parameter);
+
+        void ShowFlyout(FlyoutViewModel flyout);
 
         void ClearHistory();
 

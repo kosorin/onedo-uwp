@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModels
 {
-    public abstract class EditorViewModel : ExtendedViewModel
+    public abstract class FlyoutViewModel : ExtendedViewModel
     {
         public IDataProvider DataProvider { get; }
 
         public IContext Context { get; }
 
-        protected EditorViewModel(IDataProvider dataProvider, IContext context)
+        protected FlyoutViewModel(IDataProvider dataProvider, IContext context)
         {
             DataProvider = dataProvider;
             Context = context;

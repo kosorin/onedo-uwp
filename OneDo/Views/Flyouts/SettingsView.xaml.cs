@@ -1,8 +1,8 @@
 ﻿using OneDo.ViewModels;
+using OneDo.ViewModels.Flyouts;
 using OneDo.ViewModels.Pages;
-using OneDo.ViewModels.Settings;
 
-namespace OneDo.Views.Pages
+namespace OneDo.Views.Flyouts
 {
     public sealed partial class SettingsView : IXBind<SettingsViewModel>
     {

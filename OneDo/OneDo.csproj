@@ -118,21 +118,22 @@
     <Compile Include="Services\NavigationService\INavigable.cs" />
     <Compile Include="Services\NavigationService\INavigationService.cs" />
     <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
-    <Compile Include="Services\NavigationService\FrameNavigationService.cs" />
-    <Compile Include="ViewModels\EditorViewModel.cs" />
-    <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
+    <Compile Include="Services\NavigationService\NavigationService.cs" />
+    <Compile Include="ViewModels\FlyoutViewModel.cs" />
+    <Compile Include="ViewModels\Flyouts\SettingsViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
-    <Compile Include="ViewModels\Settings\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Flyouts\AboutViewModel.cs" />
     <Compile Include="ViewModels\Items\TodoItemViewModel.cs" />
-    <Compile Include="ViewModels\Editors\TodoEditorViewModel.cs" />
+    <Compile Include="ViewModels\Flyouts\TodoEditorViewModel.cs" />
     <Compile Include="ViewModels\ExtendedViewModel.cs" />
-    <Compile Include="Views\EditorBase.cs" />
+    <Compile Include="Views\FlyoutBase.cs" />
+    <Compile Include="Views\FlyoutTemplateSelector.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\UserControlBase.cs" />
-    <Compile Include="Views\Editors\TodoEditor.xaml.cs">
+    <Compile Include="Views\Flyouts\TodoEditor.xaml.cs">
       <DependentUpon>TodoEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\SettingsView.xaml.cs">
+    <Compile Include="Views\Flyouts\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
@@ -179,11 +180,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Views\Editors\TodoEditor.xaml">
+    <Page Include="Views\Flyouts\TodoEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings\SettingsView.xaml">
+    <Page Include="Views\Flyouts\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

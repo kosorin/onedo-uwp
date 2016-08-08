@@ -1,29 +1,37 @@
-﻿<views:PageBase x:Class="OneDo.Views.MainPage"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:i="using:Microsoft.Xaml.Interactivity"
-                xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-                xmlns:behaviors="using:OneDo.Behaviors"
-                xmlns:controls="using:OneDo.Controls"
-                xmlns:converters="using:OneDo.Converters"
-                xmlns:views="using:OneDo.Views"
-                xmlns:viewEditors="using:OneDo.Views.Editors"
-                xmlns:viewModelEditors="using:OneDo.ViewModels.Editors"
-                xmlns:viewModelItems="using:OneDo.ViewModels.Items"
-                xmlns:objects="using:OneDo.Model.Data.Objects"
-                DataContext="{Binding MainPage, Source={StaticResource Locator}}"
-                mc:Ignorable="d">
+﻿<v:PageBase x:Class="OneDo.Views.MainPage"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:i="using:Microsoft.Xaml.Interactivity"
+            xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+            xmlns:behaviors="using:OneDo.Behaviors"
+            xmlns:controls="using:OneDo.Controls"
+            xmlns:converters="using:OneDo.Converters"
+            xmlns:v="using:OneDo.Views"
+            xmlns:vFlyouts="using:OneDo.Views.Flyouts"
+            xmlns:vmFlyouts="using:OneDo.ViewModels.Flyouts"
+            xmlns:vmItems="using:OneDo.ViewModels.Items"
+            xmlns:objects="using:OneDo.Model.Data.Objects"
+            DataContext="{Binding MainPage, Source={StaticResource Locator}}"
+            mc:Ignorable="d">
 
     <Page.Resources>
 
-        <DataTemplate x:Key="TodoItemTemplate" x:DataType="viewModelItems:TodoItemViewModel">
+        <DataTemplate x:Key="TodoItemTemplate" x:DataType="vmItems:TodoItemViewModel">
             <StackPanel>
                 <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="TodoEditorTemplate" x:DataType="vmFlyouts:TodoEditorViewModel">
+            <vFlyouts:TodoEditor />
+        </DataTemplate>
+
+        <DataTemplate x:Key="SettingsTemplate" x:DataType="vmFlyouts:SettingsViewModel">
+            <vFlyouts:SettingsView />
+        </DataTemplate>
+        
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -57,15 +65,21 @@
         </CommandBar>
 
         <Border Grid.RowSpan="2"
-                Visibility="{Binding Visibility, ElementName=TodoEditor}"
-                Padding="16"
-                Background="#66000000">
+                DataContext="{x:Bind VM.NavigationService, Mode=OneWay}"
+                Visibility="{Binding Flyout, Mode=OneWay, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}"
+                Background="#66000000"
+                Padding="16">
             <Grid>
-                <viewEditors:TodoEditor x:Name="TodoEditor"
-                                        DataContext="{x:Bind VM.TodoEditor, Mode=OneWay}"
-                                        Visibility="{x:Bind VM.IsTodoEditorOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ContentControl Content="{Binding Flyout, Mode=OneWay}"
+                                HorizontalContentAlignment="Stretch" 
+                                VerticalContentAlignment="Stretch">
+                    <ContentControl.ContentTemplateSelector>
+                        <v:FlyoutTemplateSelector TodoEditorTemplate="{StaticResource TodoEditorTemplate}"
+                                                  SettingsTemplate="{StaticResource SettingsTemplate}" />
+                    </ContentControl.ContentTemplateSelector>
+                </ContentControl>
             </Grid>
         </Border>
 
     </Grid>
-</views:PageBase>
+</v:PageBase>

@@ -4,9 +4,8 @@ using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
 using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
-using OneDo.ViewModels.Editors;
+using OneDo.ViewModels.Flyouts;
 using OneDo.ViewModels.Pages;
-using OneDo.ViewModels.Settings;
 using Windows.UI.Xaml;
 
 namespace OneDo.ViewModels
@@ -27,7 +26,7 @@ namespace OneDo.ViewModels
             {
                 builder.RegisterType<DataProvider>().As<IDataProvider>().SingleInstance();
             }
-            builder.RegisterType<FrameNavigationService>().As<INavigationService>().SingleInstance();
+            builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
             builder.RegisterType<Context>().As<IContext>().SingleInstance();
 
             builder.RegisterType<MainViewModel>().SingleInstance();

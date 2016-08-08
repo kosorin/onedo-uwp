@@ -1,7 +1,7 @@
-﻿using OneDo.ViewModels.Editors;
+﻿using OneDo.ViewModels.Flyouts;
 using Windows.UI.Xaml.Controls;
 
-namespace OneDo.Views.Editors
+namespace OneDo.Views.Flyouts
 {
     public sealed partial class TodoEditor : IXBind<TodoEditorViewModel>
     {

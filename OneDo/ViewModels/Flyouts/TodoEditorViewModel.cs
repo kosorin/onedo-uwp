@@ -9,9 +9,9 @@ using System.Globalization;
 using System.Linq;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModels.Editors
+namespace OneDo.ViewModels.Flyouts
 {
-    public class TodoEditorViewModel : EditorViewModel
+    public class TodoEditorViewModel : FlyoutViewModel
     {
         private bool isNew;
         public bool IsNew

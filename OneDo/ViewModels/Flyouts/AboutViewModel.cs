@@ -2,7 +2,7 @@
 using OneDo.Services.NavigationService;
 using Windows.ApplicationModel;
 
-namespace OneDo.ViewModels.Settings
+namespace OneDo.ViewModels.Flyouts
 {
     public class AboutViewModel : ExtendedViewModel
     {

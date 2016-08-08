@@ -1,4 +1,6 @@
-﻿using OneDo.Views;
+﻿using GalaSoft.MvvmLight;
+using OneDo.ViewModels;
+using OneDo.Views;
 using System;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
@@ -8,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Services.NavigationService
 {
-    public class FrameNavigationService : INavigationService
+    public class NavigationService : ViewModelBase, INavigationService
     {
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -64,29 +66,32 @@ namespace OneDo.Services.NavigationService
         }
 
 
-        public bool IsInitialized { get; private set; } = false;
+        public Frame Frame { get; }
 
-        public Frame Frame { get; } = null;
-
-        public Type SourcePageType
+        private FlyoutViewModel flyout;
+        public FlyoutViewModel Flyout
         {
-            get { return Frame.SourcePageType; }
-            set { Frame.SourcePageType = value; }
+            get { return flyout; }
+            private set
+            {
+                if (Set(ref flyout, value))
+                {
+                    UpdateBackButtonVisibility();
+                }
+            }
         }
 
-        public Type CurrentSourcePageType => Frame.CurrentSourcePageType;
+        public bool CanGoForward => Flyout == null && Frame.CanGoForward;
 
-        public bool CanGoForward => Frame.CanGoForward;
-
-        public bool CanGoBack => Frame.CanGoBack;
+        public bool CanGoBack => Flyout != null || Frame.CanGoBack;
 
 
-        public FrameNavigationService()
+        public NavigationService()
         {
             // Dummy constructor
         }
 
-        public FrameNavigationService(Window window)
+        public NavigationService(Window window)
         {
             Frame = (window.Content as Frame) ?? new Frame();
 
@@ -97,8 +102,6 @@ namespace OneDo.Services.NavigationService
             Frame.NavigationFailed += OnNavigationFailed;
             Frame.Navigating += OnNavigating;
             Frame.Navigated += OnNavigated;
-
-            IsInitialized = true;
         }
 
         public bool Navigate<TPageBase>() where TPageBase : PageBase
@@ -121,6 +124,11 @@ namespace OneDo.Services.NavigationService
             return Frame.Navigate(pageType, parameter);
         }
 
+        public void ShowFlyout(FlyoutViewModel flyout)
+        {
+            Flyout = flyout;
+        }
+
         public void ClearHistory()
         {
             Frame.BackStack.Clear();
@@ -135,7 +143,14 @@ namespace OneDo.Services.NavigationService
 
         public void GoBack()
         {
-            Frame.GoBack();
+            if (Flyout != null)
+            {
+                Flyout = null;
+            }
+            else
+            {
+                Frame.GoBack();
+            }
         }
 
 
