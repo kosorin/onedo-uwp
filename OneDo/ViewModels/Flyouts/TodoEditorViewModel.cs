@@ -1,4 +1,5 @@
 ﻿using OneDo.Common.Logging;
+using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Objects;
@@ -48,15 +49,10 @@ namespace OneDo.ViewModels.Flyouts
         public TodoEditorViewModel(IDataProvider dataProvider, IContext context)
             : base(dataProvider, context)
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
             original = DataProvider.Todos.Get(Context.TodoId);
             var todo = original ?? new Todo(); // TODO: vytvořit úkol s výchozími hodnotami
 
-            IsNew = todo.Id == Guid.Empty;
+            IsNew = new TodoBusiness(DataProvider).IsNew(todo);
 
             Title = todo.Title;
             Note = todo.Note;
