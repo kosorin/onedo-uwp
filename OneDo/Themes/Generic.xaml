@@ -3,11 +3,9 @@
                     xmlns:controls="using:OneDo.Controls">
 
     <Style TargetType="controls:SlidableListItem" >
-        <Setter Property="LeftForeground" Value="White"></Setter>
-        <Setter Property="RightForeground" Value="White"></Setter>
-        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
-        <Setter Property="ActivationWidth" Value="80"></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ActivationWidth" Value="64" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SlidableListItem">
@@ -15,14 +13,14 @@
                         <Grid x:Name="CommandContainer" Margin="1">
                             <StackPanel x:Name="LeftCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <SymbolIcon Symbol="{TemplateBinding LeftIcon}" Foreground="{TemplateBinding LeftForeground}" />
-                                <TextBlock FontSize="15" Margin="10,0,0,0" Text="{TemplateBinding LeftLabel}" Foreground="{TemplateBinding LeftForeground}" />
+                                <TextBlock FontSize="14" Margin="10,0,0,0" Text="{TemplateBinding LeftLabel}" Foreground="{TemplateBinding LeftForeground}" />
                                 <StackPanel.RenderTransform>
                                     <CompositeTransform></CompositeTransform>
                                 </StackPanel.RenderTransform>
                             </StackPanel>
 
                             <StackPanel x:Name="RightCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                <TextBlock FontSize="15" Margin="0,0,10,0" Text="{TemplateBinding RightLabel}" Foreground="{TemplateBinding RightForeground}" />
+                                <TextBlock FontSize="14" Margin="0,0,10,0" Text="{TemplateBinding RightLabel}" Foreground="{TemplateBinding RightForeground}" />
                                 <SymbolIcon Symbol="{TemplateBinding RightIcon}" Foreground="{TemplateBinding RightForeground}" />
                                 <StackPanel.RenderTransform>
                                     <CompositeTransform></CompositeTransform>

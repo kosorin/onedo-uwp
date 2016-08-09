@@ -85,6 +85,14 @@ namespace OneDo.Services.NavigationService
             Frame.GoForward();
         }
 
+        public void TryGoForward()
+        {
+            if (CanGoForward)
+            {
+                GoForward();
+            }
+        }
+
         public void GoBack()
         {
             if (Flyout != null)
@@ -97,6 +105,14 @@ namespace OneDo.Services.NavigationService
             }
         }
 
+        public void TryGoBack()
+        {
+            if (CanGoBack)
+            {
+                GoBack();
+            }
+        }
+
         public void ShowFlyout(FlyoutViewModel flyout)
         {
             Flyout = flyout;
@@ -104,21 +120,7 @@ namespace OneDo.Services.NavigationService
 
         public void CloseFlyout()
         {
-            CloseFlyout(FlyoutCloseType.Cancel);
-        }
-
-        public void CloseFlyout(FlyoutCloseType closeType)
-        {
-            if (Flyout != null)
-            {
-                var flyout = Flyout;
-                Flyout = null;
-                GetContext()?.OnFlyoutClosed(new FlyoutClosedEventArgs
-                {
-                    ViewModel = flyout,
-                    CloseType = closeType,
-                });
-            }
+            Flyout = null;
         }
 
 

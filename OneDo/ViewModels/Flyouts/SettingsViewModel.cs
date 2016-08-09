@@ -1,5 +1,4 @@
 ﻿using OneDo.Model.Data;
-using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
 using Windows.ApplicationModel;
 
@@ -7,7 +6,7 @@ namespace OneDo.ViewModels.Flyouts
 {
     public class SettingsViewModel : FlyoutViewModel
     {
-        public SettingsViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context) : base(navigationService, dataProvider, context)
+        public SettingsViewModel(INavigationService navigationService, IDataProvider dataProvider) : base(navigationService, dataProvider)
         {
 
         }

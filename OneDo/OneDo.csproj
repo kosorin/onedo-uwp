@@ -104,10 +104,6 @@
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="Controls\SlidableListItem.cs" />
-    <Compile Include="Services\Context\Context.cs" />
-    <Compile Include="Services\Context\IContext.cs" />
-    <Compile Include="Services\NavigationService\FlyoutCloseType.cs" />
-    <Compile Include="Services\NavigationService\FlyoutClosedEventArgs.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
@@ -125,6 +121,7 @@
     <Compile Include="ViewModels\Items\TodoItemViewModel.cs" />
     <Compile Include="ViewModels\Flyouts\TodoEditorViewModel.cs" />
     <Compile Include="ViewModels\ExtendedViewModel.cs" />
+    <Compile Include="ViewModels\TodoEventArgs.cs" />
     <Compile Include="Views\FlyoutBase.cs" />
     <Compile Include="Views\FlyoutTemplateSelector.cs" />
     <Compile Include="Views\IView.cs" />

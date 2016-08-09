@@ -2,7 +2,6 @@ using Autofac;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
-using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
 using OneDo.ViewModels.Flyouts;
 using OneDo.ViewModels.Pages;
@@ -27,7 +26,6 @@ namespace OneDo.ViewModels
                 builder.RegisterType<DataProvider>().As<IDataProvider>().SingleInstance();
             }
             builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
-            builder.RegisterType<Context>().As<IContext>().SingleInstance();
 
             builder.RegisterType<MainViewModel>().SingleInstance();
 

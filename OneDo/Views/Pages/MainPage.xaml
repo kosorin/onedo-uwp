@@ -18,16 +18,27 @@
 
     <Page.Resources>
 
+        <Style x:Key="TodoItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        </Style>
+
         <DataTemplate x:Key="TodoItemTemplate" x:DataType="vmItems:TodoItemViewModel">
-            <controls:SlidableListItem LeftIcon="Favorite"
+            <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                                       LeftForeground="Black"
+                                       LeftBackground="Khaki"
+                                       LeftIcon="Flag"
+                                       LeftLabel="Flag"
+                                       RightForeground="White"
+                                       RightBackground="Tomato"
                                        RightIcon="Delete"
-                                       LeftLabel="Set Favourite"
                                        RightLabel="Delete"
-                                       HorizontalAlignment="Stretch"
-                                       LeftBackground="Green"
-                                       RightBackground="Red"
-                                       MouseSlidingEnabled="true" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Grid>
+                                       MouseSlidingEnabled="True">
+                <Grid VerticalAlignment="Center"
+                      Margin="8">
                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
                 </Grid>
             </controls:SlidableListItem>
@@ -51,21 +62,23 @@
 
         <ListView x:Name="TodoListView"
                   Grid.Row="0"
+                  SelectedItem="{x:Bind VM.SelectedTodoItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
                   ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
+                  ItemContainerStyle="{StaticResource TodoItemContainerStyle}"
                   ItemTemplate="{StaticResource TodoItemTemplate}"
                   IsItemClickEnabled="True"
-                  SelectionMode="None">
+                  SelectionMode="Single">
             <i:Interaction.Behaviors>
-                <ic:EventTriggerBehavior EventName="ItemClick">
-                    <behaviors:ItemClickAction Command="{x:Bind VM.TodoItemSelectedCommand}" />
+                <ic:EventTriggerBehavior EventName="Tapped">
+                    <ic:InvokeCommandAction Command="{x:Bind VM.TodoItemTappedCommand}" />
                 </ic:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </ListView>
 
         <CommandBar Grid.Row="1">
-            <AppBarButton Label="Add to-do">
+            <AppBarButton Label="Add to-do" Command="{x:Bind VM.AddTodoCommand}">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE710;"/>
+                    <FontIcon Glyph="&#xE710;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>

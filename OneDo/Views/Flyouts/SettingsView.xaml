@@ -1,15 +1,15 @@
-﻿<v:PageBase x:Class="OneDo.Views.Flyouts.SettingsView"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:v="using:OneDo.Views"
-            DataContext="{Binding Settings, Source={StaticResource Locator}}"
-            mc:Ignorable="d">
+﻿<v:FlyoutBase x:Class="OneDo.Views.Flyouts.SettingsView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:v="using:OneDo.Views"
+              DataContext="{Binding Settings, Source={StaticResource Locator}}"
+              mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Margin="24,12">
             <TextBlock Text="Settings" Style="{ThemeResource HeaderTextBlockStyle}" />
         </StackPanel>
     </Grid>
-</v:PageBase>
+</v:FlyoutBase>

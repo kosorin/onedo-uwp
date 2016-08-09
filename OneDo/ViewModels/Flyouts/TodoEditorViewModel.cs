@@ -5,7 +5,6 @@ using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Objects;
-using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
 using System;
 using System.Globalization;
@@ -47,49 +46,48 @@ namespace OneDo.ViewModels.Flyouts
         }
 
 
-        public event EventHandler<TodoEditorViewModel, EventArgs> Saved;
+        public event EventHandler<TodoEditorViewModel, TodoEventArgs> Saved;
 
         private void OnSaved()
         {
-            Saved?.Invoke(this, new EventArgs());
+            Saved?.Invoke(this, new TodoEventArgs(Todo));
         }
 
 
         public ICommand SaveCommand { get; }
 
 
-        private readonly Todo original;
+        public Todo Todo { get; }
 
         private readonly TodoBusiness business;
 
-        public TodoEditorViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context) : base(navigationService, dataProvider, context)
+        public TodoEditorViewModel(INavigationService navigationService, IDataProvider dataProvider, Todo todo) : base(navigationService, dataProvider)
         {
-            original = DataProvider.Todos.Get(Context.TodoId);
+            Todo = todo ?? new Todo();
             business = new TodoBusiness(DataProvider);
 
             SaveCommand = new RelayCommand(Save);
 
-            Load(original ?? new Todo());
+            Load();
         }
 
 
-        private void Load(Todo todo)
+        private void Load()
         {
-            IsNew = business.IsNew(todo);
+            IsNew = business.IsNew(Todo);
 
-            Title = todo.Title;
-            Note = todo.Note;
-            Date = todo.Date;
+            Title = Todo.Title;
+            Note = Todo.Note;
+            Date = Todo.Date;
         }
 
         private void Save()
         {
-            original.Title = Title;
-            original.Note = Note;
-            original.Date = Date?.DateTime;
+            Todo.Title = Title;
+            Todo.Note = Note;
+            Todo.Date = Date?.DateTime;
 
             OnSaved();
-            NavigationService.GoBack();
         }
     }
 }

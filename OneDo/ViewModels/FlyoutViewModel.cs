@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Model.Data;
-using OneDo.Services.Context;
 using OneDo.Services.NavigationService;
 using System;
 using System.Collections.Generic;
@@ -16,13 +15,10 @@ namespace OneDo.ViewModels
 
         public IDataProvider DataProvider { get; }
 
-        public IContext Context { get; }
-
-        protected FlyoutViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
+        protected FlyoutViewModel(INavigationService navigationService, IDataProvider dataProvider)
         {
             NavigationService = navigationService;
             DataProvider = dataProvider;
-            Context = context;
         }
     }
 }

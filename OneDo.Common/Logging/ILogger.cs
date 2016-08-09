@@ -12,9 +12,15 @@ namespace OneDo.Common.Logging
 
         void Trace(string message);
 
+        void Trace(string message, Exception exception);
+
         void Debug(string message);
 
+        void Debug(string message, Exception exception);
+
         void Info(string message);
+
+        void Info(string message, Exception exception);
 
         void Warn(string message);
 

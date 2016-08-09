@@ -4,34 +4,45 @@ using GalaSoft.MvvmLight.Command;
 using OneDo.Model.Data;
 using System.Collections.Generic;
 using System.Linq;
-using OneDo.Services.Context;
 using OneDo.ViewModels.Items;
 using OneDo.ViewModels.Flyouts;
 using OneDo.Model.Data.Repositories;
 using Windows.UI.Core;
+using OneDo.Model.Data.Objects;
+using System.Collections.ObjectModel;
 
 namespace OneDo.ViewModels.Pages
 {
     public class MainViewModel : PageViewModel
     {
-        private List<TodoItemViewModel> todoItems;
-        public List<TodoItemViewModel> TodoItems
+        private ObservableCollection<TodoItemViewModel> todoItems;
+        public ObservableCollection<TodoItemViewModel> TodoItems
         {
             get { return todoItems; }
             set { Set(ref todoItems, value); }
         }
 
+        private TodoItemViewModel selectedTodoItem;
+        public TodoItemViewModel SelectedTodoItem
+        {
+            get { return selectedTodoItem; }
+            set { Set(ref selectedTodoItem, value); }
+        }
 
-        public ICommand TodoItemSelectedCommand { get; }
+
+        public ICommand TodoItemTappedCommand { get; }
+
+        public ICommand AddTodoCommand { get; }
 
         public ICommand ResetDataCommand { get; }
 
         public ICommand ShowSettingsCommand { get; }
 
-        public MainViewModel(INavigationService navigationService, IDataProvider dataProvider, IContext context)
-            : base(navigationService, dataProvider, context)
+        public MainViewModel(INavigationService navigationService, IDataProvider dataProvider)
+            : base(navigationService, dataProvider)
         {
-            TodoItemSelectedCommand = new RelayCommand<TodoItemViewModel>(OnTodoItemSelected);
+            TodoItemTappedCommand = new RelayCommand(TodoItemTapped);
+            AddTodoCommand = new RelayCommand(AddTodo);
             ResetDataCommand = new RelayCommand(ResetData);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -41,11 +52,10 @@ namespace OneDo.ViewModels.Pages
 
         private void LoadData()
         {
-            TodoItems = DataProvider
+            TodoItems = new ObservableCollection<TodoItemViewModel>(DataProvider
                 .Todos
                 .GetAll()
-                .Select(t => new TodoItemViewModel(t))
-                .ToList();
+                .Select(t => new TodoItemViewModel(t)));
         }
 
         private void ResetData()
@@ -59,18 +69,38 @@ namespace OneDo.ViewModels.Pages
             LoadData();
         }
 
-        private void OnTodoItemSelected(TodoItemViewModel todoItem)
+        private void AddTodo()
         {
-            Context.TodoId = todoItem.Id;
+            var editor = new TodoEditorViewModel(NavigationService, DataProvider, null);
+            editor.Saved += (s, e) =>
+            {
+                TodoItems.Add(new TodoItemViewModel(e.Todo));
+            };
+            ShowTodoEditor(editor);
+        }
 
-            var editor = new TodoEditorViewModel(NavigationService, DataProvider, Context);
-            editor.Saved += (s, e) => LoadData();
+        private void TodoItemTapped()
+        {
+            if (SelectedTodoItem != null)
+            {
+                var editor = new TodoEditorViewModel(NavigationService, DataProvider, SelectedTodoItem.Todo);
+                editor.Saved += (s, e) =>
+                {
+                    SelectedTodoItem.Refresh();
+                };
+                ShowTodoEditor(editor);
+            }
+        }
+
+        private void ShowTodoEditor(TodoEditorViewModel editor)
+        {
+            editor.Saved += (s, e) => NavigationService.CloseFlyout();
             NavigationService.ShowFlyout(editor);
         }
 
         private void ShowSettings()
         {
-            NavigationService.ShowFlyout(new SettingsViewModel(NavigationService, DataProvider, Context));
+            NavigationService.ShowFlyout(new SettingsViewModel(NavigationService, DataProvider));
         }
     }
 }

@@ -24,32 +24,39 @@ namespace OneDo.Controls
     [TemplatePart(Name = PART_RIGHT_COMMAND_PANEL, Type = typeof(StackPanel))]
     public class SlidableListItem : ContentControl
     {
-        #region Private Variables
         const string PART_CONTENT_GRID = "ContentGrid";
         const string PART_COMMAND_CONTAINER = "CommandContainer";
         const string PART_LEFT_COMMAND_PANEL = "LeftCommandPanel";
         const string PART_RIGHT_COMMAND_PANEL = "RightCommandPanel";
+
         // Content Container
         private Grid contentGrid;
+
         // transform for sliding content
         private CompositeTransform transform;
+
         // container for command content
         private Grid commandContainer;
+
         // container for left command content
         private StackPanel leftCommandPanel;
+
         // transform for left command content
         private CompositeTransform leftCommandTransform;
+
         // container for right command content
         private StackPanel rightCommandPanel;
+
         // transform for right command content
         private CompositeTransform rightCommandTransform;
+
         // doubleanimation for snaping back to default position
         private DoubleAnimation contentAnimation;
+
         // storyboard for snaping back to default position
         private Storyboard contentStoryboard;
-        #endregion
 
-        #region Events
+
         /// <summary>
         /// Occurs when the user swipes to the left to activate the right action
         /// </summary>
@@ -59,17 +66,18 @@ namespace OneDo.Controls
         /// Occurs when the user swipes to the right to activate the left action
         /// </summary>
         public event EventHandler LeftCommandRequested;
-        #endregion
+
+
 
         /// <summary>
         /// Creates a new instance of <see cref="SlidableListItem"/>
         /// </summary>
         public SlidableListItem()
         {
-            this.DefaultStyleKey = typeof(SlidableListItem);
+            DefaultStyleKey = typeof(SlidableListItem);
         }
 
-        #region Methods and Events
+
         /// <summary>
         /// Invoked whenever application code or internal processes (such as a rebuilding
         /// layout pass) call <see cref="OnApplyTemplate"/>. In simplest terms, this means the method
@@ -93,7 +101,7 @@ namespace OneDo.Controls
 
             contentAnimation = new DoubleAnimation();
             Storyboard.SetTarget(contentAnimation, transform);
-            Storyboard.SetTargetProperty(contentAnimation, "TranslateX");
+            Storyboard.SetTargetProperty(contentAnimation, nameof(transform.TranslateX));
             contentAnimation.To = 0;
             contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
 
@@ -124,17 +132,13 @@ namespace OneDo.Controls
 
             if (x < -ActivationWidth)
             {
-                if (RightCommandRequested != null)
-                    RightCommandRequested(this, new EventArgs());
-                if (RightCommand != null)
-                    RightCommand.Execute(null);
+                RightCommandRequested?.Invoke(this, new EventArgs());
+                RightCommand?.Execute(null);
             }
             else if (x > ActivationWidth)
             {
-                if (LeftCommandRequested != null)
-                    LeftCommandRequested(this, new EventArgs());
-                if (LeftCommand != null)
-                    LeftCommand.Execute(null);
+                LeftCommandRequested?.Invoke(this, new EventArgs());
+                LeftCommand?.Execute(null);
             }
         }
 
@@ -143,7 +147,6 @@ namespace OneDo.Controls
         /// </summary>
         private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-
             if (!MouseSlidingEnabled && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
                 return;
 
@@ -160,7 +163,7 @@ namespace OneDo.Controls
                 if (abs < ActivationWidth)
                     leftCommandTransform.TranslateX = transform.TranslateX / 2;
                 else
-                    leftCommandTransform.TranslateX = 20;
+                    leftCommandTransform.TranslateX = 16;
             }
             else
             {
@@ -172,11 +175,11 @@ namespace OneDo.Controls
                 if (abs < ActivationWidth)
                     rightCommandTransform.TranslateX = transform.TranslateX / 2;
                 else
-                    rightCommandTransform.TranslateX = -20;
+                    rightCommandTransform.TranslateX = -16;
             }
 
         }
-        #endregion
+
 
         #region Dependency Properties
 

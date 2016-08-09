@@ -12,7 +12,5 @@ namespace OneDo.Services.NavigationService
         void OnNavigatedTo(object parameter, NavigationMode mode);
 
         void OnBackButton(BackButtonEventArgs args);
-
-        void OnFlyoutClosed(FlyoutClosedEventArgs args);
     }
 }

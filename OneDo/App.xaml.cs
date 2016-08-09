@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using Windows.Storage;
 using Autofac;
 using OneDo.Views.Pages;
+using Windows.UI.Core;
 
 namespace OneDo
 {
@@ -139,6 +140,22 @@ namespace OneDo
         private void InitializeNavigation()
         {
             var navigationService = ViewModelLocator.Container.Resolve<INavigationService>(TypedParameter.From(Window.Current));
+            Window.Current.CoreWindow.PointerPressed += (sender, args) =>
+            {
+                try
+                {
+                    var pointer = args.CurrentPoint;
+                    if (pointer.Properties.IsXButton1Pressed)
+                    {
+                        navigationService.TryGoBack();
+                        args.Handled = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Current.Debug("PointerPressed", e);
+                }
+            };
             Logger.Current.Info("Navigation initialized");
         }
 

@@ -10,16 +10,19 @@ namespace OneDo.ViewModels.Items
 {
     public class TodoItemViewModel : ExtendedViewModel
     {
-        public Guid Id => todo.Id;
-
-        public string Title => todo.Title;
+        public string Title => Todo.Title;
 
 
-        private readonly Todo todo;
+        public Todo Todo { get; }
 
         public TodoItemViewModel(Todo todo)
         {
-            this.todo = todo;
+            Todo = todo;
+        }
+
+        public void Refresh()
+        {
+            RaisePropertyChanged(nameof(Title));
         }
     }
 }

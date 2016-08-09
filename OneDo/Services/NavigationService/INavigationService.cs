@@ -29,12 +29,15 @@ namespace OneDo.Services.NavigationService
 
         void GoForward();
 
+        void TryGoForward();
+
         void GoBack();
+
+        void TryGoBack();
+
 
         void ShowFlyout(FlyoutViewModel flyout);
 
         void CloseFlyout();
-
-        void CloseFlyout(FlyoutCloseType closeType);
     }
 }

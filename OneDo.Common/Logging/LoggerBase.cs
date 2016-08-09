@@ -20,75 +20,96 @@ namespace OneDo.Common.Logging
 
         public virtual void Trace(string message)
         {
-            WriteLogLine(message, "TRACE");
+            WriteLogLine("TRACE", message);
+        }
+
+        public virtual void Trace(string message, Exception exception)
+        {
+            WriteLogLine("TRACE", message);
+            WriteLine(exception.Message);
+            WriteLine(exception.StackTrace);
         }
 
         public virtual void Debug(string message)
         {
-            WriteLogLine(message, "DEBUG");
+            WriteLogLine("DEBUG", message);
+        }
+
+        public virtual void Debug(string message, Exception exception)
+        {
+            WriteLogLine("DEBUG", message);
+            WriteLine(exception.Message);
+            WriteLine(exception.StackTrace);
         }
 
         public virtual void Info(string message)
         {
-            WriteLogLine(message, "INFO");
+            WriteLogLine("INFO", message);
+        }
+
+        public virtual void Info(string message, Exception exception)
+        {
+            WriteLogLine("INFO", message);
+            WriteLine(exception.Message);
+            WriteLine(exception.StackTrace);
         }
 
         public virtual void Warn(string message)
         {
-            WriteLogLine(message, "WARN");
+            WriteLogLine("WARN", message);
         }
 
         public virtual void Warn(Exception exception)
         {
-            WriteLogLine(exception.Message, "WARN");
+            WriteLogLine("WARN", exception.Message);
             WriteLine(exception.StackTrace);
         }
 
         public virtual void Warn(string message, Exception exception)
         {
-            WriteLogLine(message, "WARN");
+            WriteLogLine("WARN", message);
             WriteLine(exception.Message);
             WriteLine(exception.StackTrace);
         }
 
         public virtual void Error(string message)
         {
-            WriteLogLine(message, "ERROR");
+            WriteLogLine("ERROR", message);
         }
 
         public virtual void Error(Exception exception)
         {
-            WriteLogLine(exception.Message, "ERROR");
+            WriteLogLine("ERROR", exception.Message);
             WriteLine(exception.StackTrace);
         }
 
         public virtual void Error(string message, Exception exception)
         {
-            WriteLogLine(message, "ERROR");
+            WriteLogLine("ERROR", message);
             WriteLine(exception.Message);
             WriteLine(exception.StackTrace);
         }
 
         public virtual void Fatal(string message)
         {
-            WriteLogLine(message, "FATAL");
+            WriteLogLine("FATAL", message);
         }
 
         public virtual void Fatal(Exception exception)
         {
-            WriteLogLine(exception.Message, "FATAL");
+            WriteLogLine("FATAL", exception.Message);
             WriteLine(exception.StackTrace);
         }
 
         public virtual void Fatal(string message, Exception exception)
         {
-            WriteLogLine(message, "FATAL");
+            WriteLogLine("FATAL", message);
             WriteLine(exception.Message);
             WriteLine(exception.StackTrace);
         }
 
 
-        protected virtual void WriteLogLine(string message, string level)
+        protected virtual void WriteLogLine(string level, string message)
         {
             WriteLine($"{DateTime.Now.ToString(DateTimeFormat)} | {level,-5} | {message}");
         }

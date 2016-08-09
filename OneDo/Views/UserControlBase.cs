@@ -11,7 +11,7 @@ namespace OneDo.Views
     {
         public ViewModelBase ViewModel { get; set; }
 
-        protected UserControlBase()
+        public UserControlBase()
         {
             if (!ViewModelBase.IsInDesignModeStatic)
             {
