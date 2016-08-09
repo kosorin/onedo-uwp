@@ -30,11 +30,11 @@
             <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                                        LeftForeground="Black"
                                        LeftBackground="Khaki"
-                                       LeftIcon="Flag"
+                                       LeftGlyph="&#xE7C1;"
                                        LeftLabel="Flag"
                                        RightForeground="White"
                                        RightBackground="Tomato"
-                                       RightIcon="Delete"
+                                       RightGlyph="&#xE74D;"
                                        RightLabel="Delete"
                                        MouseSlidingEnabled="True">
                 <Grid VerticalAlignment="Center"
