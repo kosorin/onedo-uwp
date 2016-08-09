@@ -10,6 +10,8 @@ namespace OneDo.ViewModels.Items
 {
     public class TodoItemViewModel : ExtendedViewModel
     {
+        public bool IsCompleted => Todo.Completed != null;
+
         public string Title => Todo.Title;
 
 
@@ -22,6 +24,7 @@ namespace OneDo.ViewModels.Items
 
         public void Refresh()
         {
+            RaisePropertyChanged(nameof(IsCompleted));
             RaisePropertyChanged(nameof(Title));
         }
     }

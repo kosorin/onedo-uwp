@@ -8,12 +8,22 @@ namespace OneDo.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            var test = (bool)value;
+            if (parameter != null)
+            {
+                test = !test;
+            }
+            return test ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return (Visibility)value == Visibility.Visible;
+            var test = (Visibility)value == Visibility.Visible;
+            if (parameter != null)
+            {
+                test = !test;
+            }
+            return test;
         }
     }
 }

@@ -10,13 +10,6 @@ namespace OneDo.Model.Data
     {
         public OneDoContext Context { get; private set; }
 
-        static int ctr = 1;
-
-        public DataProvider()
-        {
-            System.Diagnostics.Debug.WriteLine($">>>>>>>>>>>>>>>>>>>>> {ctr++}");
-        }
-
         public async Task SaveAsync()
         {
             await Context.SaveChangesAsync();

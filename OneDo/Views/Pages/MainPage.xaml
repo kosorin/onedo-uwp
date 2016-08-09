@@ -39,7 +39,13 @@
                                        MouseSlidingEnabled="True">
                 <Grid VerticalAlignment="Center"
                       Margin="8">
-                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE8FB;" 
+                                  Visibility="{x:Bind IsCompleted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                  Margin="0,0,8,0"
+                                  FontSize="16" />
+                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                    </StackPanel>
                 </Grid>
             </controls:SlidableListItem>
         </DataTemplate>

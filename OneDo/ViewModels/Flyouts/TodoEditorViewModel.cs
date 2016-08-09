@@ -91,6 +91,8 @@ namespace OneDo.ViewModels.Flyouts
 
         public ICommand DeleteCommand { get; }
 
+        public ICommand DoneCommand { get; }
+
         public ICommand SaveCommand { get; }
 
 
@@ -105,6 +107,7 @@ namespace OneDo.ViewModels.Flyouts
 
 
             DeleteCommand = new AsyncRelayCommand(Delete);
+            DoneCommand = new AsyncRelayCommand(Done);
             SaveCommand = new AsyncRelayCommand(Save);
 
             Load();
@@ -131,6 +134,12 @@ namespace OneDo.ViewModels.Flyouts
 
                 OnDeleted();
             }
+        }
+
+        private async Task Done()
+        {
+            original.Completed = DateTime.Now;
+            await Save();
         }
 
         private async Task Save()
