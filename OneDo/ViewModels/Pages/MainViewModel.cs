@@ -71,10 +71,7 @@ namespace OneDo.ViewModels.Pages
         private void AddTodo()
         {
             var editor = new TodoEditorViewModel(NavigationService, DataProvider, null);
-            editor.Saved += (s, e) =>
-            {
-                TodoItems.Add(new TodoItemViewModel(e.Todo));
-            };
+            editor.Saved += (s, e) => TodoItems.Add(new TodoItemViewModel(e.Todo));
             ShowTodoEditor(editor);
         }
 
@@ -83,16 +80,15 @@ namespace OneDo.ViewModels.Pages
             if (SelectedTodoItem != null)
             {
                 var editor = new TodoEditorViewModel(NavigationService, DataProvider, SelectedTodoItem.Todo);
-                editor.Saved += (s, e) =>
-                {
-                    SelectedTodoItem.Refresh();
-                };
+                editor.Deleted += (s, e) => TodoItems.Remove(SelectedTodoItem);
+                editor.Saved += (s, e) => SelectedTodoItem.Refresh();
                 ShowTodoEditor(editor);
             }
         }
 
         private void ShowTodoEditor(TodoEditorViewModel editor)
         {
+            editor.Deleted += (s, e) => NavigationService.CloseFlyout();
             editor.Saved += (s, e) => NavigationService.CloseFlyout();
             NavigationService.ShowFlyout(editor);
         }

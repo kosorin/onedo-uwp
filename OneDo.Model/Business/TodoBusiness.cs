@@ -16,5 +16,10 @@ namespace OneDo.Model.Business
         }
 
         public bool IsNew(Todo todo) => todo.Id == Guid.Empty;
+
+        public Todo GetDefault()
+        {
+            return new Todo();
+        }
     }
 }

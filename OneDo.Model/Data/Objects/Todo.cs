@@ -38,8 +38,6 @@ namespace OneDo.Model.Data.Objects
 
         public DateTime? Completed { get; set; }
 
-        public DateTime? Deleted { get; set; }
-
 
         public Todo Clone() => new Todo
         {
@@ -59,7 +57,6 @@ namespace OneDo.Model.Data.Objects
 
             Updated = Updated,
             Completed = Completed,
-            Deleted = Deleted,
         };
     }
 }

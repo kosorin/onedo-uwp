@@ -25,26 +25,59 @@ namespace OneDo.ViewModels.Flyouts
             set { Set(ref isNew, value); }
         }
 
+        private bool isDirty;
+        public bool IsDirty
+        {
+            get { return isDirty; }
+            set { Set(ref isDirty, value); }
+        }
+
 
         private string title;
         public string Title
         {
             get { return title; }
-            set { Set(ref title, value); }
+            set
+            {
+                if (Set(ref title, value))
+                {
+                    IsDirty = true;
+                }
+            }
         }
 
         private string note;
         public string Note
         {
             get { return note; }
-            set { Set(ref note, value); }
+            set
+            {
+                if (Set(ref note, value))
+                {
+                    IsDirty = true;
+                }
+            }
         }
 
         private DateTimeOffset? date;
         public DateTimeOffset? Date
         {
             get { return date; }
-            set { Set(ref date, value); }
+            set
+            {
+                if (Set(ref date, value))
+                {
+                    IsDirty = true;
+                }
+            }
+        }
+
+
+        public event EventHandler<TodoEditorViewModel, TodoEventArgs> Deleted;
+
+        private void OnDeleted()
+        {
+            Deleted?.Invoke(this, new TodoEventArgs(original));
         }
 
 
@@ -52,23 +85,26 @@ namespace OneDo.ViewModels.Flyouts
 
         private void OnSaved()
         {
-            Saved?.Invoke(this, new TodoEventArgs(Todo));
+            Saved?.Invoke(this, new TodoEventArgs(original));
         }
 
+
+        public ICommand DeleteCommand { get; }
 
         public ICommand SaveCommand { get; }
 
 
-        public Todo Todo { get; }
+        private readonly Todo original;
 
         private readonly TodoBusiness business;
 
         public TodoEditorViewModel(INavigationService navigationService, IDataProvider dataProvider, Todo todo) : base(navigationService, dataProvider)
         {
             business = new TodoBusiness(DataProvider);
+            original = todo ?? business.GetDefault();
 
-            Todo = todo ?? new Todo(); // TODO: v business vytvořit prázdný pkol
 
+            DeleteCommand = new AsyncRelayCommand(Delete);
             SaveCommand = new AsyncRelayCommand(Save);
 
             Load();
@@ -77,23 +113,36 @@ namespace OneDo.ViewModels.Flyouts
 
         private void Load()
         {
-            IsNew = business.IsNew(Todo);
+            IsNew = business.IsNew(original);
 
-            Title = Todo.Title;
-            Note = Todo.Note;
-            Date = Todo.Date;
+            Title = original.Title;
+            Note = original.Note;
+            Date = original.Date;
+
+            IsDirty = IsNew;
+        }
+
+        private async Task Delete()
+        {
+            if (!IsNew)
+            {
+                DataProvider.Context.Todos.Remove(original);
+                await DataProvider.Context.SaveChangesAsync();
+
+                OnDeleted();
+            }
         }
 
         private async Task Save()
         {
-            Todo.Title = Title;
-            Todo.Note = Note;
-            Todo.Date = Date?.DateTime;
+            original.Title = Title;
+            original.Note = Note;
+            original.Date = Date?.DateTime;
 
             if (IsNew)
             {
-                Todo.Id = Guid.NewGuid();
-                DataProvider.Context.Todos.Add(Todo);
+                original.Id = Guid.NewGuid();
+                DataProvider.Context.Todos.Add(original);
             }
             await DataProvider.Context.SaveChangesAsync();
 

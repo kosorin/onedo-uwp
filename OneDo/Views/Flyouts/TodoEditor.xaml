@@ -14,16 +14,32 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="24,12">
-            <TextBlock Text="Todo Page" Style="{ThemeResource HeaderTextBlockStyle}" />
-            <TextBox Header="Title" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Header="Note" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <CalendarDatePicker Header="Date" Date="{x:Bind VM.Date, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+        <StackPanel Margin="16">
+            <TextBox Header="Title" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
+            <TextBox Header="Note" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
+            <CalendarDatePicker Header="Date" Date="{x:Bind VM.Date, Mode=TwoWay}" Margin="0,0,0,16" HorizontalAlignment="Stretch" />
         </StackPanel>
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Save" Command="{x:Bind VM.SaveCommand, Mode=OneWay}">
+                <AppBarButton Label="Delete">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <TextBlock Text="Are you sure?" Margin="0,0,0,10" />
+                                <Button Content="Delete" 
+                                        Command="{x:Bind VM.DeleteCommand, Mode=OneWay}" 
+                                        HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE74D;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="Save" 
+                              IsEnabled="{x:Bind VM.IsDirty, Mode=OneWay}" 
+                              Command="{x:Bind VM.SaveCommand, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;"/>
                     </AppBarButton.Icon>
