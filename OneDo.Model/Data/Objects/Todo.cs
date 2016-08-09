@@ -1,5 +1,4 @@
 ﻿using OneDo.Model.Data;
-using OneDo.Model.Data.Objects.Recurrences;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,15 +6,14 @@ using System.Runtime.Serialization;
 
 namespace OneDo.Model.Data.Objects
 {
-    [KnownType(typeof(DailyRecurrence))]
-    [KnownType(typeof(WeeklyRecurrence))]
-    [KnownType(typeof(MonthlyRecurrence))]
     [DebuggerDisplay("{Id}: {Title}")]
     public class Todo : IModel<Todo>
     {
         public Guid Id { get; set; }
 
-        public Guid? Parent { get; set; }
+        public Guid? ParentId { get; set; }
+
+        public Todo Parent { get; set; }
 
 
         public string Title { get; set; }
@@ -27,12 +25,13 @@ namespace OneDo.Model.Data.Objects
 
         public TimeSpan? Reminder { get; set; }
 
-        public RecurrenceBase Recurrence { get; set; }
-
 
         public bool Flag { get; set; }
 
-        public List<Guid> Tags { get; set; }
+
+        public Guid? FolderId { get; set; }
+
+        public virtual Folder Folder { get; set; }
 
 
         public DateTime? Updated { get; set; }
@@ -42,9 +41,9 @@ namespace OneDo.Model.Data.Objects
         public DateTime? Deleted { get; set; }
 
 
-#warning Správně klonovat!
         public Todo Clone() => new Todo
         {
+#warning Správně klonovat!
             Id = Id,
             Parent = Parent,
 
@@ -53,10 +52,10 @@ namespace OneDo.Model.Data.Objects
 
             Date = Date,
             Reminder = Reminder,
-            Recurrence = Recurrence,
 
             Flag = Flag,
-            Tags = Tags,
+            FolderId = FolderId,
+            Folder = Folder,
 
             Updated = Updated,
             Completed = Completed,

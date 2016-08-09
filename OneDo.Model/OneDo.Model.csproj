@@ -112,22 +112,18 @@
     <Compile Include="Business\Validation\Rule.cs" />
     <Compile Include="Business\Validation\TodoValidator.cs" />
     <Compile Include="Business\Validation\Validator.cs" />
-    <Compile Include="Data\DesignDataProvider.cs" />
+    <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\IDataProvider.cs" />
     <Compile Include="Data\Objects\IModel.cs" />
-    <Compile Include="Data\Objects\Recurrences\DailyRecurrence.cs" />
-    <Compile Include="Data\DataProvider.cs" />
-    <Compile Include="Data\Objects\Recurrences\DaysOfWeek.cs" />
-    <Compile Include="Data\Objects\Recurrences\MonthlyRecurrence.cs" />
-    <Compile Include="Data\Repositories\Repository.cs" />
-    <Compile Include="Data\Repositories\TagRepository.cs" />
-    <Compile Include="Data\Repositories\TodoRepository.cs" />
+    <Compile Include="Data\OneDoContext.cs" />
+    <Compile Include="Migrations\20160809175603_Initialize.cs" />
+    <Compile Include="Migrations\20160809175603_Initialize.designer.cs">
+      <DependentUpon>20160809175603_Initialize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\OneDoContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Objects\Recurrences\RecurrenceBase.cs" />
-    <Compile Include="Data\Objects\Settings.cs" />
-    <Compile Include="Data\Objects\Tag.cs" />
+    <Compile Include="Data\Objects\Folder.cs" />
     <Compile Include="Data\Objects\Todo.cs" />
-    <Compile Include="Data\Objects\Recurrences\WeeklyRecurrence.cs" />
     <EmbeddedResource Include="Properties\OneDo.Model.rd.xml" />
   </ItemGroup>
   <ItemGroup />

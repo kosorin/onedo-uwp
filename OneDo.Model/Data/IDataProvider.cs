@@ -1,19 +1,16 @@
-﻿using OneDo.Model.Data.Objects;
-using OneDo.Model.Data.Repositories;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace OneDo.Model.Data
 {
-    public interface IDataProvider
+    public interface IDataProvider : IDisposable
     {
-        Settings Settings { get; }
+        OneDoContext Context { get; }
 
-        TagRepository Tags { get; }
-
-        TodoRepository Todos { get; }
-
-        Task LoadAsync();
+        void Initialize();
 
         Task SaveAsync();
     }

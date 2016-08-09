@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.Views
 {
-    public class FlyoutBase : UserControlBase
+    public class FlyoutBase : ExtendedUserControl
     {
 
     }

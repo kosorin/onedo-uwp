@@ -1,20 +1,20 @@
-﻿<v:PageBase x:Class="OneDo.Views.Pages.MainPage"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:i="using:Microsoft.Xaml.Interactivity"
-            xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-            xmlns:behaviors="using:OneDo.Behaviors"
-            xmlns:controls="using:OneDo.Controls"
-            xmlns:converters="using:OneDo.Converters"
-            xmlns:v="using:OneDo.Views"
-            xmlns:vFlyouts="using:OneDo.Views.Flyouts"
-            xmlns:vmFlyouts="using:OneDo.ViewModels.Flyouts"
-            xmlns:vmItems="using:OneDo.ViewModels.Items"
-            xmlns:objects="using:OneDo.Model.Data.Objects"
-            DataContext="{Binding MainPage, Source={StaticResource Locator}}"
-            mc:Ignorable="d">
+﻿<v:ExtendedPage x:Class="OneDo.Views.Pages.MainPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:i="using:Microsoft.Xaml.Interactivity"
+                xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                xmlns:behaviors="using:OneDo.Behaviors"
+                xmlns:controls="using:OneDo.Controls"
+                xmlns:converters="using:OneDo.Converters"
+                xmlns:v="using:OneDo.Views"
+                xmlns:vFlyouts="using:OneDo.Views.Flyouts"
+                xmlns:vmFlyouts="using:OneDo.ViewModels.Flyouts"
+                xmlns:vmItems="using:OneDo.ViewModels.Items"
+                xmlns:objects="using:OneDo.Model.Data.Objects"
+                DataContext="{Binding MainPage, Source={StaticResource Locator}}"
+                mc:Ignorable="d">
 
     <Page.Resources>
 
@@ -105,4 +105,4 @@
         </Border>
 
     </Grid>
-</v:PageBase>
+</v:ExtendedPage>

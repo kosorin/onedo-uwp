@@ -17,9 +17,9 @@ namespace OneDo.Services.NavigationService
         bool CanGoBack { get; }
 
 
-        bool Navigate<TPageBase>() where TPageBase : PageBase;
+        bool Navigate<TPageBase>() where TPageBase : ExtendedPage;
 
-        bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase;
+        bool Navigate<TPageBase>(object parameter) where TPageBase : ExtendedPage;
 
         bool Navigate(Type pageType);
 

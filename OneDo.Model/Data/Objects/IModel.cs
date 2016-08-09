@@ -6,6 +6,7 @@ namespace OneDo.Model.Data.Objects
     {
         Guid Id { get; set; }
 
+#warning Správně klonovat!
         T Clone();
     }
 }

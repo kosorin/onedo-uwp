@@ -1,9 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.ViewModels;
 
 namespace OneDo.Views
 {
     public interface IView
     {
-        ViewModelBase ViewModel { get; set; }
+        ExtendedViewModel ViewModel { get; set; }
     }
 }

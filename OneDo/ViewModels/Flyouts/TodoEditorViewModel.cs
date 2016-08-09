@@ -6,9 +6,11 @@ using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Objects;
 using OneDo.Services.NavigationService;
+using OneDo.ViewModels.Commands;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -63,10 +65,11 @@ namespace OneDo.ViewModels.Flyouts
 
         public TodoEditorViewModel(INavigationService navigationService, IDataProvider dataProvider, Todo todo) : base(navigationService, dataProvider)
         {
-            Todo = todo ?? new Todo();
             business = new TodoBusiness(DataProvider);
 
-            SaveCommand = new RelayCommand(Save);
+            Todo = todo ?? new Todo(); // TODO: v business vytvořit prázdný pkol
+
+            SaveCommand = new AsyncRelayCommand(Save);
 
             Load();
         }
@@ -81,11 +84,18 @@ namespace OneDo.ViewModels.Flyouts
             Date = Todo.Date;
         }
 
-        private void Save()
+        private async Task Save()
         {
             Todo.Title = Title;
             Todo.Note = Note;
             Todo.Date = Date?.DateTime;
+
+            if (IsNew)
+            {
+                Todo.Id = Guid.NewGuid();
+                DataProvider.Context.Todos.Add(Todo);
+            }
+            await DataProvider.Context.SaveChangesAsync();
 
             OnSaved();
         }

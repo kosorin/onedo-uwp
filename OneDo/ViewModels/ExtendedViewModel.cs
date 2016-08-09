@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Common.Logging;
+using System.Threading.Tasks;
 
 namespace OneDo.ViewModels
 {

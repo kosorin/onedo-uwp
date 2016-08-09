@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using Microsoft.EntityFrameworkCore;
 using OneDo.Common.Logging;
 using OneDo.Model.Data;
 using OneDo.Services.NavigationService;
 using OneDo.Views;
 using OneDo.ViewModels;
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ using Windows.Storage;
 using Autofac;
 using OneDo.Views.Pages;
 using Windows.UI.Core;
+using OneDo.Model.Data.Objects;
 
 namespace OneDo
 {
@@ -93,11 +96,13 @@ namespace OneDo
             // TODO: Save application state and stop any background activity
 
             var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
-            await dataProvider.SaveAsync();
+            dataProvider.Dispose();
         }
 
         private void OnResuming(object data)
         {
+            var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
+            dataProvider.Initialize();
             Logger.Current.Info("Resuming");
         }
 
@@ -162,7 +167,8 @@ namespace OneDo
         private async Task InitializeData()
         {
             var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
-            await dataProvider.LoadAsync();
+            dataProvider.Initialize();
+            await dataProvider.Context.Database.MigrateAsync();
             Logger.Current.Info("Data initialized");
         }
 

@@ -17,11 +17,7 @@ namespace OneDo.ViewModels
         {
             var builder = new ContainerBuilder();
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                builder.RegisterType<DesignDataProvider>().As<IDataProvider>().SingleInstance();
-            }
-            else
+            if (!ViewModelBase.IsInDesignModeStatic)
             {
                 builder.RegisterType<DataProvider>().As<IDataProvider>().SingleInstance();
             }

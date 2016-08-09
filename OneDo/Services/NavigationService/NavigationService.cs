@@ -50,12 +50,12 @@ namespace OneDo.Services.NavigationService
             Frame.Navigated += OnNavigated;
         }
 
-        public bool Navigate<TPageBase>() where TPageBase : PageBase
+        public bool Navigate<TPageBase>() where TPageBase : ExtendedPage
         {
             return Navigate(typeof(TPageBase));
         }
 
-        public bool Navigate<TPageBase>(object parameter) where TPageBase : PageBase
+        public bool Navigate<TPageBase>(object parameter) where TPageBase : ExtendedPage
         {
             return Navigate(typeof(TPageBase), parameter);
         }
@@ -126,7 +126,7 @@ namespace OneDo.Services.NavigationService
 
         private INavigable GetContext()
         {
-            return (Frame.Content as PageBase)?.DataContext as INavigable;
+            return (Frame.Content as ExtendedPage)?.DataContext as INavigable;
         }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

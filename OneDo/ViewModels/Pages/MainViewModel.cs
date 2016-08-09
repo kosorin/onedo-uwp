@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using OneDo.ViewModels.Items;
 using OneDo.ViewModels.Flyouts;
-using OneDo.Model.Data.Repositories;
 using Windows.UI.Core;
 using OneDo.Model.Data.Objects;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using OneDo.ViewModels.Commands;
 
 namespace OneDo.ViewModels.Pages
 {
@@ -43,30 +44,28 @@ namespace OneDo.ViewModels.Pages
         {
             TodoItemTappedCommand = new RelayCommand(TodoItemTapped);
             AddTodoCommand = new RelayCommand(AddTodo);
-            ResetDataCommand = new RelayCommand(ResetData);
+            ResetDataCommand = new AsyncRelayCommand(ResetData);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             LoadData();
         }
 
-
-        private void LoadData()
+        private async Task LoadData()
         {
-            TodoItems = new ObservableCollection<TodoItemViewModel>(DataProvider
-                .Todos
-                .GetAll()
-                .Select(t => new TodoItemViewModel(t)));
+            var todos = await DataProvider.Context
+               .Todos
+               .ToAsyncEnumerable()
+               .ToList();
+            var todoItems = todos.Select(t => new TodoItemViewModel(t));
+            TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);
         }
 
-        private void ResetData()
+        private async Task ResetData()
         {
-            var todos = new DesignDataProvider()
-                .Todos
-                .GetAll();
-
-            DataProvider.Todos.RemoveAll();
-            DataProvider.Todos.AddAll(todos);
-            LoadData();
+            DataProvider.Context.Todos.RemoveRange(TodoItems.Select(x => x.Todo));
+            await DataProvider.Context.SaveChangesAsync();
+            TodoItems.Clear();
+            await Task.Delay(2000);
         }
 
         private void AddTodo()
