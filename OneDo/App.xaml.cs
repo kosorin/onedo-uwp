@@ -169,7 +169,6 @@ namespace OneDo
         {
             ShowSplashScreenText("Loading settings...");
 
-            await Task.Delay(1500);
             var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
             await settingsProvider.LoadAsync();
             Logger.Current.Info("Settings initialized");
@@ -179,7 +178,6 @@ namespace OneDo
         {
             ShowSplashScreenText("Initializing data...");
 
-            await Task.Delay(1500);
             using (var dc = new OneDoContext())
             {
                 await dc.Database.MigrateAsync();

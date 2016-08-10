@@ -107,6 +107,7 @@
     <Compile Include="Controls\SlidableListItem.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
+    <Compile Include="Converters\HexToBrushConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\ConditionConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="ViewModels\Commands\AsyncRelayCommand.cs" />
     <Compile Include="ViewModels\FlyoutViewModel.cs" />
     <Compile Include="ViewModels\Flyouts\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Items\FolderItemViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\Items\TodoItemViewModel.cs" />
     <Compile Include="ViewModels\Flyouts\TodoEditorViewModel.cs" />

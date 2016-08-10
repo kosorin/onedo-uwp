@@ -24,11 +24,26 @@ namespace OneDo.ViewModels.Pages
             set { Set(ref todoItems, value); }
         }
 
+        private ObservableCollection<FolderItemViewModel> folderItems;
+        public ObservableCollection<FolderItemViewModel> FolderItems
+        {
+            get { return folderItems; }
+            set { Set(ref folderItems, value); }
+        }
+
+
         private TodoItemViewModel selectedTodoItem;
         public TodoItemViewModel SelectedTodoItem
         {
             get { return selectedTodoItem; }
             set { Set(ref selectedTodoItem, value); }
+        }
+
+        private FolderItemViewModel selectedFolderItem;
+        public FolderItemViewModel SelectedFolderItem
+        {
+            get { return selectedFolderItem; }
+            set { Set(ref selectedFolderItem, value); }
         }
 
 
@@ -55,6 +70,10 @@ namespace OneDo.ViewModels.Pages
         {
             using (var dc = new OneDoContext())
             {
+                var folders = await dc.Set<Folder>().ToListAsync();
+                var folderItems = folders.Select(f => new FolderItemViewModel(f));
+                FolderItems = new ObservableCollection<FolderItemViewModel>(folderItems);
+
                 var todos = await dc.Set<Todo>().ToListAsync();
                 var todoItems = todos.Select(t => new TodoItemViewModel(t));
                 TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);

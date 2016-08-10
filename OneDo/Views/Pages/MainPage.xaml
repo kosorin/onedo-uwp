@@ -18,12 +18,27 @@
 
     <Page.Resources>
 
-        <Style x:Key="TodoItemContainerStyle" TargetType="ListViewItem">
-            <Setter Property="Background" Value="Transparent"/>
+        <converters:HexToBrushConverter x:Key="HexToBrushConverter" />
+
+        <Style x:Key="FolderItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        </Style>
+
+        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vmItems:FolderItemViewModel">
+            <Border Background="{x:Bind Color, Mode=OneWay, Converter={StaticResource HexToBrushConverter}}">
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
+                           Foreground="White" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Bottom" />
+            </Border>
+        </DataTemplate>
+
+        <Style x:Key="TodoItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         </Style>
 
@@ -63,18 +78,38 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+            <ListView x:Name="FolderListView"
+                      SelectedItem="{x:Bind VM.SelectedFolderItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                      ItemsSource="{x:Bind VM.FolderItems, Mode=OneWay}"
+                      ItemContainerStyle="{StaticResource FolderItemContainerStyle}"
+                      ItemTemplate="{StaticResource FolderItemTemplate}"
+                      SelectionMode="Single"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollMode="Enabled"
+                      ScrollViewer.VerticalScrollMode="Disabled">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Grid>
+
         <ListView x:Name="TodoListView"
-                  Grid.Row="0"
+                  Grid.Row="1"
                   SelectedItem="{x:Bind VM.SelectedTodoItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
                   ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
                   ItemContainerStyle="{StaticResource TodoItemContainerStyle}"
                   ItemTemplate="{StaticResource TodoItemTemplate}"
-                  IsItemClickEnabled="True"
-                  SelectionMode="Single">
+                  SelectionMode="Single" 
+                  VerticalAlignment="Top">
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="Tapped">
                     <ic:InvokeCommandAction Command="{x:Bind VM.TodoItemTappedCommand}" />
@@ -82,7 +117,7 @@
             </i:Interaction.Behaviors>
         </ListView>
 
-        <CommandBar Grid.Row="1">
+        <CommandBar Grid.Row="2">
             <AppBarButton Label="Add to-do" Command="{x:Bind VM.AddTodoCommand}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
@@ -94,7 +129,7 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <Border Grid.RowSpan="2"
+        <Border Grid.RowSpan="3"
                 DataContext="{x:Bind VM.NavigationService, Mode=OneWay}"
                 Visibility="{Binding Flyout, Mode=OneWay, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}"
                 Background="#66000000"
