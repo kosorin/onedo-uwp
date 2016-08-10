@@ -6,7 +6,7 @@ namespace OneDo.ViewModels.Flyouts
 {
     public class SettingsViewModel : FlyoutViewModel
     {
-        public SettingsViewModel(INavigationService navigationService, IDataProvider dataProvider) : base(navigationService, dataProvider)
+        public SettingsViewModel(INavigationService navigationService, ISettingsProvider settingsProvider) : base(navigationService, settingsProvider)
         {
 
         }

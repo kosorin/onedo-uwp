@@ -1,4 +1,5 @@
 ﻿using OneDo.Services.NavigationService;
+using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.Model.Data;
@@ -7,7 +8,7 @@ using System.Linq;
 using OneDo.ViewModels.Items;
 using OneDo.ViewModels.Flyouts;
 using Windows.UI.Core;
-using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Entities;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OneDo.ViewModels.Commands;
@@ -39,8 +40,8 @@ namespace OneDo.ViewModels.Pages
 
         public ICommand ShowSettingsCommand { get; }
 
-        public MainViewModel(INavigationService navigationService, IDataProvider dataProvider)
-            : base(navigationService, dataProvider)
+        public MainViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
+            : base(navigationService, settingsProvider)
         {
             TodoItemTappedCommand = new RelayCommand(TodoItemTapped);
             AddTodoCommand = new RelayCommand(AddTodo);
@@ -52,25 +53,29 @@ namespace OneDo.ViewModels.Pages
 
         private async Task LoadData()
         {
-            var todos = await DataProvider.Context
-               .Todos
-               .ToAsyncEnumerable()
-               .ToList();
-            var todoItems = todos.Select(t => new TodoItemViewModel(t));
-            TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);
+            using (var dc = new OneDoContext())
+            {
+                var todos = await dc.Set<Todo>().ToListAsync();
+                var todoItems = todos.Select(t => new TodoItemViewModel(t));
+                TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);
+            }
         }
 
         private async Task ResetData()
         {
-            DataProvider.Context.Todos.RemoveRange(TodoItems.Select(x => x.Todo));
-            await DataProvider.Context.SaveChangesAsync();
-            TodoItems.Clear();
-            await Task.Delay(2000);
+            using (var dc = new OneDoContext())
+            {
+                var todos = TodoItems.Select(x => x.Todo);
+                dc.Set<Todo>().AttachRange(todos);
+                dc.Set<Todo>().RemoveRange(todos);
+                await dc.SaveChangesAsync();
+                TodoItems.Clear();
+            }
         }
 
         private void AddTodo()
         {
-            var editor = new TodoEditorViewModel(NavigationService, DataProvider, null);
+            var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, null);
             editor.Saved += (s, e) => TodoItems.Add(new TodoItemViewModel(e.Todo));
             ShowTodoEditor(editor);
         }
@@ -79,7 +84,7 @@ namespace OneDo.ViewModels.Pages
         {
             if (SelectedTodoItem != null)
             {
-                var editor = new TodoEditorViewModel(NavigationService, DataProvider, SelectedTodoItem.Todo);
+                var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, SelectedTodoItem.Todo);
                 editor.Deleted += (s, e) => TodoItems.Remove(SelectedTodoItem);
                 editor.Saved += (s, e) => SelectedTodoItem.Refresh();
                 ShowTodoEditor(editor);
@@ -95,7 +100,7 @@ namespace OneDo.ViewModels.Pages
 
         private void ShowSettings()
         {
-            NavigationService.ShowFlyout(new SettingsViewModel(NavigationService, DataProvider));
+            NavigationService.ShowFlyout(new SettingsViewModel(NavigationService, SettingsProvider));
         }
     }
 }

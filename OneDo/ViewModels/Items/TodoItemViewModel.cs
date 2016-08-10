@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

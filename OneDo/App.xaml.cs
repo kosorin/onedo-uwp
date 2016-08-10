@@ -18,7 +18,8 @@ using Windows.Storage;
 using Autofac;
 using OneDo.Views.Pages;
 using Windows.UI.Core;
-using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Entities;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace OneDo
 {
@@ -77,10 +78,12 @@ namespace OneDo
 
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
+            Logger.Current.Info($"Tile ID: {args.TileId}");
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
             ShowSplashScreen(args.SplashScreen);
 
+            await InitializeSettings();
             await InitializeData();
             InitializeNavigation();
 
@@ -95,15 +98,13 @@ namespace OneDo
             Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
 
-            var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
-            dataProvider.Dispose();
+            var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
+            await settingsProvider.SaveAsync();
         }
 
         private void OnResuming(object data)
         {
-            var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
-            dataProvider.Initialize();
-            Logger.Current.Info("Resuming");
+
         }
 
         private void OnUnhandledException(UnhandledExceptionEventArgs args)
@@ -130,7 +131,7 @@ namespace OneDo
         {
 #if DEBUG
             var folder = ApplicationData.Current.LocalFolder;
-            var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
+            var file = await folder.CreateFileAsync("OneDo.Log.txt", CreationCollisionOption.OpenIfExists);
             var logger = new FileLogger(file.Path);
             Logger.Current = logger;
 #else
@@ -164,11 +165,25 @@ namespace OneDo
             Logger.Current.Info("Navigation initialized");
         }
 
+        private async Task InitializeSettings()
+        {
+            ShowSplashScreenText("Loading settings...");
+
+            await Task.Delay(1500);
+            var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
+            await settingsProvider.LoadAsync();
+            Logger.Current.Info("Settings initialized");
+        }
+
         private async Task InitializeData()
         {
-            var dataProvider = ViewModelLocator.Container.Resolve<IDataProvider>();
-            dataProvider.Initialize();
-            await dataProvider.Context.Database.MigrateAsync();
+            ShowSplashScreenText("Initializing data...");
+
+            await Task.Delay(1500);
+            using (var dc = new OneDoContext())
+            {
+                await dc.Database.MigrateAsync();
+            }
             Logger.Current.Info("Data initialized");
         }
 
@@ -181,9 +196,17 @@ namespace OneDo
 
         private void ShowStartPage()
         {
+            ShowSplashScreenText(null);
+
             var navigationService = ViewModelLocator.Container.Resolve<INavigationService>();
             navigationService.Navigate(StartPageType);
             Window.Current.Content = navigationService.Frame;
+        }
+
+
+        private void ShowSplashScreenText(string text)
+        {
+            Messenger.Default.Send(new SplashScreenMessage(text));
         }
     }
 }

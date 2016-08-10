@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OneDo.ViewModels;
+using System;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -9,12 +11,14 @@ namespace OneDo.Views.Pages
 {
     public sealed partial class SplashScreenPage : Page
     {
-        private SplashScreen splashScreen; // Variable to hold the splash screen object.
+        private SplashScreen splashScreen;
+
 
         public SplashScreenPage()
         {
             InitializeComponent();
 
+            Messenger.Default.Register<SplashScreenMessage>(this, OnMessage);
         }
 
         public SplashScreenPage(SplashScreen splashScreen) : this()
@@ -29,12 +33,24 @@ namespace OneDo.Views.Pages
             }
         }
 
+        private void OnMessage(SplashScreenMessage message)
+        {
+            if (message.Text != null)
+            {
+                SplashText.Text = message.Text;
+            }
+            else
+            {
+                Messenger.Default.Unregister<SplashScreenMessage>(this);
+            }
+        }
+
         private async void DismissedEventHandler(SplashScreen sender, object e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, SplashDismissedStoryboard.Begin);
         }
 
-        void ExtendedSplash_OnResize(Object sender, WindowSizeChangedEventArgs e)
+        private void ExtendedSplash_OnResize(object sender, WindowSizeChangedEventArgs e)
         {
             if (splashScreen != null)
             {
@@ -61,7 +77,7 @@ namespace OneDo.Views.Pages
         {
             var rect = splashScreen.ImageLocation;
             SplashProgressRing.SetValue(Canvas.LeftProperty, rect.X + (rect.Width * 0.5) - (SplashProgressRing.Width * 0.5));
-            SplashProgressRing.SetValue(Canvas.TopProperty, (rect.Y + rect.Height + rect.Height * 0.1));
+            SplashProgressRing.SetValue(Canvas.TopProperty, rect.Y + rect.Height + (rect.Height * 0.1));
         }
     }
 }

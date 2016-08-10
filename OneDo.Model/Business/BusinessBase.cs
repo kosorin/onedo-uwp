@@ -4,11 +4,11 @@ namespace OneDo.Model.Business
 {
     public abstract class BusinessBase
     {
-        public IDataProvider DataProvider { get; set; }
+        public ISettingsProvider SettingsProvider { get; set; }
 
-        public BusinessBase(IDataProvider dataProvider)
+        public BusinessBase(ISettingsProvider settingsProvider)
         {
-            DataProvider = dataProvider;
+            SettingsProvider = settingsProvider;
         }
     }
 }

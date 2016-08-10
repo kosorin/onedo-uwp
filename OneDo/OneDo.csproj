@@ -122,6 +122,7 @@
     <Compile Include="ViewModels\Items\TodoItemViewModel.cs" />
     <Compile Include="ViewModels\Flyouts\TodoEditorViewModel.cs" />
     <Compile Include="ViewModels\ExtendedViewModel.cs" />
+    <Compile Include="ViewModels\SplashScreenMessage.cs" />
     <Compile Include="ViewModels\TodoEventArgs.cs" />
     <Compile Include="Views\FlyoutBase.cs" />
     <Compile Include="Views\FlyoutTemplateSelector.cs" />

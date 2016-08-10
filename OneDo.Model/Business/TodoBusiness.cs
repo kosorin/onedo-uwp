@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OneDo.Model.Data;
-using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Entities;
 
 namespace OneDo.Model.Business
 {
     public class TodoBusiness : BusinessBase
     {
-        public TodoBusiness(IDataProvider dataProvider) : base(dataProvider)
+        public TodoBusiness(ISettingsProvider settingsProvider) : base(settingsProvider)
         {
 
         }

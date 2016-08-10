@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.UI;
 
-namespace OneDo.Model.Data.Objects
+namespace OneDo.Model.Data.Entities
 {
     [DebuggerDisplay("{Id}: {Name}")]
-    public class Folder : IModel<Folder>
+    public class Folder : IEntity
     {
         public Guid Id { get; set; }
 
@@ -17,15 +17,5 @@ namespace OneDo.Model.Data.Objects
 
 
         public virtual ICollection<Todo> Todos { get; set; }
-
-
-        public Folder Clone() => new Folder
-        {
-            Id = Id,
-            Name = Name,
-            Color = Color,
-
-            Todos = Todos,
-        };
     }
 }

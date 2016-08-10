@@ -13,12 +13,12 @@ namespace OneDo.ViewModels
     {
         public INavigationService NavigationService { get; }
 
-        public IDataProvider DataProvider { get; }
+        public ISettingsProvider SettingsProvider { get; }
 
-        protected FlyoutViewModel(INavigationService navigationService, IDataProvider dataProvider)
+        protected FlyoutViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
         {
             NavigationService = navigationService;
-            DataProvider = dataProvider;
+            SettingsProvider = settingsProvider;
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OneDo.Model.Data
 {
-    public interface IDataProvider : IDisposable
+    public interface ISettingsProvider
     {
-        OneDoContext Context { get; }
+        Settings Current { get; }
 
-        void Initialize();
+        Task LoadAsync();
 
         Task SaveAsync();
     }

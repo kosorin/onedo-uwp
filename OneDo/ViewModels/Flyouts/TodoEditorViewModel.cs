@@ -4,7 +4,7 @@ using OneDo.Common.Logging;
 using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
-using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Entities;
 using OneDo.Services.NavigationService;
 using OneDo.ViewModels.Commands;
 using System;
@@ -100,9 +100,9 @@ namespace OneDo.ViewModels.Flyouts
 
         private readonly TodoBusiness business;
 
-        public TodoEditorViewModel(INavigationService navigationService, IDataProvider dataProvider, Todo todo) : base(navigationService, dataProvider)
+        public TodoEditorViewModel(INavigationService navigationService, ISettingsProvider settingsProvider, Todo todo) : base(navigationService, settingsProvider)
         {
-            business = new TodoBusiness(DataProvider);
+            business = new TodoBusiness(SettingsProvider);
             original = todo ?? business.GetDefault();
 
 
@@ -129,8 +129,12 @@ namespace OneDo.ViewModels.Flyouts
         {
             if (!IsNew)
             {
-                DataProvider.Context.Todos.Remove(original);
-                await DataProvider.Context.SaveChangesAsync();
+                using (var dc = new OneDoContext())
+                {
+                    dc.Set<Todo>().Attach(original);
+                    dc.Set<Todo>().Remove(original);
+                    await dc.SaveChangesAsync();
+                }
 
                 OnDeleted();
             }
@@ -148,12 +152,19 @@ namespace OneDo.ViewModels.Flyouts
             original.Note = Note;
             original.Date = Date?.DateTime;
 
-            if (IsNew)
+            using (var dc = new OneDoContext())
             {
-                original.Id = Guid.NewGuid();
-                DataProvider.Context.Todos.Add(original);
+                if (IsNew)
+                {
+                    original.Id = Guid.NewGuid();
+                    dc.Set<Todo>().Add(original);
+                }
+                else
+                {
+                    dc.Set<Todo>().Update(original);
+                }
+                await dc.SaveChangesAsync();
             }
-            await DataProvider.Context.SaveChangesAsync();
 
             OnSaved();
         }

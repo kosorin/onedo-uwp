@@ -12,7 +12,7 @@
                 xmlns:vFlyouts="using:OneDo.Views.Flyouts"
                 xmlns:vmFlyouts="using:OneDo.ViewModels.Flyouts"
                 xmlns:vmItems="using:OneDo.ViewModels.Items"
-                xmlns:objects="using:OneDo.Model.Data.Objects"
+                xmlns:entities="using:OneDo.Model.Data.Entities"
                 DataContext="{Binding MainPage, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
@@ -23,6 +23,7 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="IsHoldingEnabled" Value="True"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         </Style>
 

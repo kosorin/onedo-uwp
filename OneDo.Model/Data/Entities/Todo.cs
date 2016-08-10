@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 
-namespace OneDo.Model.Data.Objects
+namespace OneDo.Model.Data.Entities
 {
     [DebuggerDisplay("{Id}: {Title}")]
-    public class Todo : IModel<Todo>
+    public class Todo : IEntity
     {
         public Guid Id { get; set; }
 
@@ -34,29 +34,6 @@ namespace OneDo.Model.Data.Objects
         public virtual Folder Folder { get; set; }
 
 
-        public DateTime? Updated { get; set; }
-
         public DateTime? Completed { get; set; }
-
-
-        public Todo Clone() => new Todo
-        {
-#warning Správně klonovat!
-            Id = Id,
-            Parent = Parent,
-
-            Title = Title,
-            Note = Note,
-
-            Date = Date,
-            Reminder = Reminder,
-
-            Flag = Flag,
-            FolderId = FolderId,
-            Folder = Folder,
-
-            Updated = Updated,
-            Completed = Completed,
-        };
     }
 }

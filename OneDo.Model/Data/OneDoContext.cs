@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OneDo.Model.Data.Objects;
+using OneDo.Model.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace OneDo.Model.Data
 {
     public class OneDoContext : DbContext
     {
-        private const string FileName = "OneDo.db";
+        private const string FileName = "OneDo.Data.db";
 
 
         public DbSet<Todo> Todos { get; set; }
