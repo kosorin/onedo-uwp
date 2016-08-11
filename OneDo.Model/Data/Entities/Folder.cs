@@ -16,6 +16,11 @@ namespace OneDo.Model.Data.Entities
         public string Color { get; set; }
 
 
+        public Guid? Left { get; set; }
+
+        public Guid? Right { get; set; }
+
+
         public virtual ICollection<Todo> Todos { get; set; }
     }
 }

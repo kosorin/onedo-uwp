@@ -108,16 +108,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\BusinessBase.cs" />
+    <Compile Include="Business\EntityBusiness.cs" />
     <Compile Include="Business\TodoBusiness.cs" />
     <Compile Include="Business\Validation\Rule.cs" />
     <Compile Include="Business\Validation\TodoValidator.cs" />
     <Compile Include="Business\Validation\Validator.cs" />
     <Compile Include="Data\IEntity.cs" />
-    <Compile Include="Data\OneDoContext.cs" />
+    <Compile Include="Data\DataContext.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Migrations\20160809175603_Initialize.cs" />
     <Compile Include="Migrations\20160809175603_Initialize.designer.cs">
       <DependentUpon>20160809175603_Initialize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20160811222247_Folder-Sort.cs" />
+    <Compile Include="Migrations\20160811222247_Folder-Sort.designer.cs">
+      <DependentUpon>20160811222247_Folder-Sort.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\OneDoContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

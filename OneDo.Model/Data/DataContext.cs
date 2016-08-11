@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Model.Data
 {
-    public class OneDoContext : DbContext
+    public class DataContext : DbContext
     {
         private const string FileName = "OneDo.Data.db";
 
@@ -28,6 +28,7 @@ namespace OneDo.Model.Data
             var todo = modelBuilder.Entity<Todo>();
             var folder = modelBuilder.Entity<Folder>();
 
+            todo.HasOne(x => x.Parent);
             todo.HasOne(x => x.Folder).WithMany(x => x.Todos);
             folder.HasMany(x => x.Todos).WithOne(x => x.Folder);
         }

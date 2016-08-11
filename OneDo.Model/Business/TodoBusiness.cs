@@ -8,18 +8,28 @@ using OneDo.Model.Data.Entities;
 
 namespace OneDo.Model.Business
 {
-    public class TodoBusiness : BusinessBase
+    public class TodoBusiness : EntityBusiness<Todo>
     {
         public TodoBusiness(ISettingsProvider settingsProvider) : base(settingsProvider)
         {
 
         }
 
-        public bool IsNew(Todo todo) => todo.Id == Guid.Empty;
-
-        public Todo GetDefault()
+        public override Todo Clone(Todo todo)
         {
-            return new Todo();
+            return todo;
+        }
+
+        public void ToggleComplete(Todo todo)
+        {
+            if (todo.Completed == null)
+            {
+                todo.Completed = DateTime.Now;
+            }
+            else
+            {
+                todo.Completed = null;
+            }
         }
     }
 }

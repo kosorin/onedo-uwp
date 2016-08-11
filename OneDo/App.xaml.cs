@@ -143,8 +143,30 @@ namespace OneDo
             Logger.Current.Info("Logger initialized");
         }
 
+        private async Task InitializeSettings()
+        {
+            ShowSplashScreenText("Loading settings...");
+
+            var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
+            await settingsProvider.LoadAsync();
+            Logger.Current.Info("Settings initialized");
+        }
+
+        private async Task InitializeData()
+        {
+            ShowSplashScreenText("Initializing data...");
+
+            using (var dc = new DataContext())
+            {
+                await dc.Database.MigrateAsync();
+            }
+            Logger.Current.Info("Data initialized");
+        }
+
         private void InitializeNavigation()
         {
+            ShowSplashScreenText(null);
+
             var navigationService = ViewModelLocator.Container.Resolve<INavigationService>(TypedParameter.From(Window.Current));
             Window.Current.CoreWindow.PointerPressed += (sender, args) =>
             {
@@ -163,26 +185,6 @@ namespace OneDo
                 }
             };
             Logger.Current.Info("Navigation initialized");
-        }
-
-        private async Task InitializeSettings()
-        {
-            ShowSplashScreenText("Loading settings...");
-
-            var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
-            await settingsProvider.LoadAsync();
-            Logger.Current.Info("Settings initialized");
-        }
-
-        private async Task InitializeData()
-        {
-            ShowSplashScreenText("Initializing data...");
-
-            using (var dc = new OneDoContext())
-            {
-                await dc.Database.MigrateAsync();
-            }
-            Logger.Current.Info("Data initialized");
         }
 
 

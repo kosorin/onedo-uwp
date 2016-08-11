@@ -22,14 +22,15 @@
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Done"
+                <AppBarButton Label="Complete"
                               Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}"
-                              Command="{x:Bind VM.DoneCommand, Mode=OneWay}">
+                              Command="{x:Bind VM.CompleteCommand, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8FB;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Label="Delete">
+                <AppBarButton Label="Delete"
+                              Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel>

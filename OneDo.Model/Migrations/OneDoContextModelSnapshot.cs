@@ -7,7 +7,7 @@ using OneDo.Model.Data;
 
 namespace OneDo.Model.Migrations
 {
-    [DbContext(typeof(OneDoContext))]
+    [DbContext(typeof(DataContext))]
     partial class OneDoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -15,21 +15,25 @@ namespace OneDo.Model.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
 
-            modelBuilder.Entity("OneDo.Model.Data.Objects.Folder", b =>
+            modelBuilder.Entity("OneDo.Model.Data.Entities.Folder", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Color");
 
+                    b.Property<Guid?>("Left");
+
                     b.Property<string>("Name");
+
+                    b.Property<Guid?>("Right");
 
                     b.HasKey("Id");
 
                     b.ToTable("Folders");
                 });
 
-            modelBuilder.Entity("OneDo.Model.Data.Objects.Todo", b =>
+            modelBuilder.Entity("OneDo.Model.Data.Entities.Todo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -37,8 +41,6 @@ namespace OneDo.Model.Migrations
                     b.Property<DateTime?>("Completed");
 
                     b.Property<DateTime?>("Date");
-
-                    b.Property<DateTime?>("Deleted");
 
                     b.Property<bool>("Flag");
 
@@ -52,8 +54,6 @@ namespace OneDo.Model.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<DateTime?>("Updated");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FolderId");
@@ -63,13 +63,13 @@ namespace OneDo.Model.Migrations
                     b.ToTable("Todos");
                 });
 
-            modelBuilder.Entity("OneDo.Model.Data.Objects.Todo", b =>
+            modelBuilder.Entity("OneDo.Model.Data.Entities.Todo", b =>
                 {
-                    b.HasOne("OneDo.Model.Data.Objects.Folder", "Folder")
+                    b.HasOne("OneDo.Model.Data.Entities.Folder", "Folder")
                         .WithMany("Todos")
                         .HasForeignKey("FolderId");
 
-                    b.HasOne("OneDo.Model.Data.Objects.Todo", "Parent")
+                    b.HasOne("OneDo.Model.Data.Entities.Todo", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
                 });

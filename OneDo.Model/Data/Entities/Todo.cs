@@ -13,7 +13,7 @@ namespace OneDo.Model.Data.Entities
 
         public Guid? ParentId { get; set; }
 
-        public Todo Parent { get; set; }
+        public virtual Todo Parent { get; set; }
 
 
         public string Title { get; set; }

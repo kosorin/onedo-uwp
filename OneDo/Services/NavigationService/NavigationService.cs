@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using OneDo.ViewModels;
 using OneDo.Views;
 using System;
+using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -32,6 +34,11 @@ namespace OneDo.Services.NavigationService
         public bool CanGoBack => Flyout != null || Frame.CanGoBack;
 
 
+        public ICommand GoForwardCommand { get; }
+
+        public ICommand GoBackCommand { get; }
+
+
         public NavigationService()
         {
             // Dummy constructor
@@ -48,7 +55,11 @@ namespace OneDo.Services.NavigationService
             Frame.NavigationFailed += OnNavigationFailed;
             Frame.Navigating += OnNavigating;
             Frame.Navigated += OnNavigated;
+
+            GoForwardCommand = new RelayCommand(TryGoForward);
+            GoBackCommand = new RelayCommand(TryGoBack);
         }
+
 
         public bool Navigate<TPageBase>() where TPageBase : ExtendedPage
         {

@@ -1,6 +1,7 @@
 ﻿using OneDo.ViewModels;
 using OneDo.Views;
 using System;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,6 +16,11 @@ namespace OneDo.Services.NavigationService
         bool CanGoForward { get; }
 
         bool CanGoBack { get; }
+
+
+        ICommand GoForwardCommand { get; }
+
+        ICommand GoBackCommand { get; }
 
 
         bool Navigate<TPageBase>() where TPageBase : ExtendedPage;

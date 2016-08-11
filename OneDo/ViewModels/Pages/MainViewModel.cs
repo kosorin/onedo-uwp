@@ -12,6 +12,7 @@ using OneDo.Model.Data.Entities;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OneDo.ViewModels.Commands;
+using OneDo.Services.ProgressService;
 
 namespace OneDo.ViewModels.Pages
 {
@@ -55,9 +56,13 @@ namespace OneDo.ViewModels.Pages
 
         public ICommand ShowSettingsCommand { get; }
 
-        public MainViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
+        public IProgressService ProgressService { get; }
+
+        public MainViewModel(INavigationService navigationService, ISettingsProvider settingsProvider, IProgressService progressService)
             : base(navigationService, settingsProvider)
         {
+            ProgressService = progressService;
+
             TodoItemTappedCommand = new RelayCommand(TodoItemTapped);
             AddTodoCommand = new RelayCommand(AddTodo);
             ResetDataCommand = new AsyncRelayCommand(ResetData);
@@ -68,33 +73,49 @@ namespace OneDo.ViewModels.Pages
 
         private async Task LoadData()
         {
-            using (var dc = new OneDoContext())
+            try
             {
-                var folders = await dc.Set<Folder>().ToListAsync();
-                var folderItems = folders.Select(f => new FolderItemViewModel(f));
-                FolderItems = new ObservableCollection<FolderItemViewModel>(folderItems);
+                ProgressService.IsBusy = true;
+                using (var dc = new DataContext())
+                {
+                    var folders = await dc.Set<Folder>().ToListAsync();
+                    var folderItems = folders.Select(f => new FolderItemViewModel(f));
+                    FolderItems = new ObservableCollection<FolderItemViewModel>(folderItems);
 
-                var todos = await dc.Set<Todo>().ToListAsync();
-                var todoItems = todos.Select(t => new TodoItemViewModel(t));
-                TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);
+                    var todos = await dc.Set<Todo>().ToListAsync();
+                    var todoItems = todos.Select(t => new TodoItemViewModel(t));
+                    TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);
+                }
+            }
+            finally
+            {
+                ProgressService.IsBusy = false;
             }
         }
 
         private async Task ResetData()
         {
-            using (var dc = new OneDoContext())
+            try
             {
-                var todos = TodoItems.Select(x => x.Todo);
-                dc.Set<Todo>().AttachRange(todos);
-                dc.Set<Todo>().RemoveRange(todos);
-                await dc.SaveChangesAsync();
-                TodoItems.Clear();
+                ProgressService.IsBusy = true;
+                using (var dc = new DataContext())
+                {
+                    var todos = TodoItems.Select(x => x.Todo);
+                    dc.Set<Todo>().AttachRange(todos);
+                    dc.Set<Todo>().RemoveRange(todos);
+                    await dc.SaveChangesAsync();
+                    TodoItems.Clear();
+                }
+            }
+            finally
+            {
+                ProgressService.IsBusy = false;
             }
         }
 
         private void AddTodo()
         {
-            var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, null);
+            var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, ProgressService, null);
             editor.Saved += (s, e) => TodoItems.Add(new TodoItemViewModel(e.Todo));
             ShowTodoEditor(editor);
         }
@@ -103,7 +124,7 @@ namespace OneDo.ViewModels.Pages
         {
             if (SelectedTodoItem != null)
             {
-                var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, SelectedTodoItem.Todo);
+                var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, ProgressService, SelectedTodoItem.Todo);
                 editor.Deleted += (s, e) => TodoItems.Remove(SelectedTodoItem);
                 editor.Saved += (s, e) => SelectedTodoItem.Refresh();
                 ShowTodoEditor(editor);

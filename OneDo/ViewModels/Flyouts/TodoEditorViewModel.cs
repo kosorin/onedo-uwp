@@ -6,6 +6,7 @@ using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
 using OneDo.Services.NavigationService;
+using OneDo.Services.ProgressService;
 using OneDo.ViewModels.Commands;
 using System;
 using System.Globalization;
@@ -91,23 +92,25 @@ namespace OneDo.ViewModels.Flyouts
 
         public ICommand DeleteCommand { get; }
 
-        public ICommand DoneCommand { get; }
+        public ICommand CompleteCommand { get; }
 
         public ICommand SaveCommand { get; }
 
+        public IProgressService ProgressService { get; }
 
         private readonly Todo original;
 
         private readonly TodoBusiness business;
 
-        public TodoEditorViewModel(INavigationService navigationService, ISettingsProvider settingsProvider, Todo todo) : base(navigationService, settingsProvider)
+        public TodoEditorViewModel(INavigationService navigationService, ISettingsProvider settingsProvider, IProgressService progressService, Todo todo) : base(navigationService, settingsProvider)
         {
-            business = new TodoBusiness(SettingsProvider);
-            original = todo ?? business.GetDefault();
+            ProgressService = progressService;
 
+            business = new TodoBusiness(SettingsProvider);
+            original = todo ?? business.Default();
 
             DeleteCommand = new AsyncRelayCommand(Delete);
-            DoneCommand = new AsyncRelayCommand(Done);
+            CompleteCommand = new AsyncRelayCommand(Complete);
             SaveCommand = new AsyncRelayCommand(Save);
 
             Load();
@@ -129,20 +132,28 @@ namespace OneDo.ViewModels.Flyouts
         {
             if (!IsNew)
             {
-                using (var dc = new OneDoContext())
+                try
                 {
-                    dc.Set<Todo>().Attach(original);
-                    dc.Set<Todo>().Remove(original);
-                    await dc.SaveChangesAsync();
+                    ProgressService.IsBusy = true;
+                    using (var dc = new DataContext())
+                    {
+                        dc.Set<Todo>().Attach(original);
+                        dc.Set<Todo>().Remove(original);
+                        await dc.SaveChangesAsync();
+                    }
+                }
+                finally
+                {
+                    ProgressService.IsBusy = false;
                 }
 
                 OnDeleted();
             }
         }
 
-        private async Task Done()
+        private async Task Complete()
         {
-            original.Completed = DateTime.Now;
+            business.ToggleComplete(original);
             await Save();
         }
 
@@ -152,18 +163,25 @@ namespace OneDo.ViewModels.Flyouts
             original.Note = Note;
             original.Date = Date?.DateTime;
 
-            using (var dc = new OneDoContext())
+            try
             {
-                if (IsNew)
+                ProgressService.IsBusy = true;
+                using (var dc = new DataContext())
                 {
-                    original.Id = Guid.NewGuid();
-                    dc.Set<Todo>().Add(original);
+                    if (IsNew)
+                    {
+                        dc.Set<Todo>().Add(original);
+                    }
+                    else
+                    {
+                        dc.Set<Todo>().Update(original);
+                    }
+                    await dc.SaveChangesAsync();
                 }
-                else
-                {
-                    dc.Set<Todo>().Update(original);
-                }
-                await dc.SaveChangesAsync();
+            }
+            finally
+            {
+                ProgressService.IsBusy = false;
             }
 
             OnSaved();
