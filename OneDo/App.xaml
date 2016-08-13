@@ -1,8 +1,8 @@
 ﻿<Application x:Class="OneDo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:OneDo.ViewModels"
              xmlns:converters="using:OneDo.Converters"
+             xmlns:vm="using:OneDo.ViewModels"
              RequestedTheme="Light">
 
     <Application.Resources>
@@ -13,8 +13,7 @@
             <converters:ChangeTypeConverter x:Key="ChangeTypeConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:ConditionConverter x:Key="NullToVisibilityConverter"
-                                           If="{x:Null}">
+            <converters:ConditionConverter x:Key="NullToVisibilityConverter" If="{x:Null}">
                 <converters:ConditionConverter.Then>
                     <Visibility>Collapsed</Visibility>
                 </converters:ConditionConverter.Then>

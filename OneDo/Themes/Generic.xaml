@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:OneDo.Controls">
 
-    <Style TargetType="controls:SlidableListItem" >
+    <Style TargetType="controls:SlidableListItem">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ActivationWidth" Value="64" />
@@ -11,25 +11,47 @@
                 <ControlTemplate TargetType="controls:SlidableListItem">
                     <Grid>
                         <Grid x:Name="CommandContainer" Margin="1">
-                            <StackPanel x:Name="LeftCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                <FontIcon FontSize="16" Glyph="{TemplateBinding LeftGlyph}" Foreground="{TemplateBinding LeftForeground}" VerticalAlignment="Center" />
-                                <TextBlock FontSize="14" Margin="10,0,0,0" Text="{TemplateBinding LeftLabel}" Foreground="{TemplateBinding LeftForeground}" VerticalAlignment="Center" />
+                            <StackPanel x:Name="LeftCommandPanel"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <FontIcon VerticalAlignment="Center"
+                                          Foreground="{TemplateBinding LeftForeground}"
+                                          FontSize="16"
+                                          Glyph="{TemplateBinding LeftGlyph}" />
+                                <TextBlock Margin="10,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{TemplateBinding LeftForeground}"
+                                           FontSize="14"
+                                           Text="{TemplateBinding LeftLabel}" />
                                 <StackPanel.RenderTransform>
-                                    <CompositeTransform></CompositeTransform>
+                                    <CompositeTransform />
                                 </StackPanel.RenderTransform>
                             </StackPanel>
-                            <StackPanel x:Name="RightCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                <TextBlock FontSize="14" Margin="0,0,10,0" Text="{TemplateBinding RightLabel}" Foreground="{TemplateBinding RightForeground}" VerticalAlignment="Center" />
-                                <FontIcon FontSize="16" Glyph="{TemplateBinding RightGlyph}" Foreground="{TemplateBinding RightForeground}" VerticalAlignment="Center" />
+                            <StackPanel x:Name="RightCommandPanel"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <TextBlock Margin="0,0,10,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{TemplateBinding RightForeground}"
+                                           FontSize="14"
+                                           Text="{TemplateBinding RightLabel}" />
+                                <FontIcon VerticalAlignment="Center"
+                                          Foreground="{TemplateBinding RightForeground}"
+                                          FontSize="16"
+                                          Glyph="{TemplateBinding RightGlyph}" />
                                 <StackPanel.RenderTransform>
-                                    <CompositeTransform></CompositeTransform>
+                                    <CompositeTransform />
                                 </StackPanel.RenderTransform>
                             </StackPanel>
                         </Grid>
-                        <Grid ManipulationMode="TranslateX,System" x:Name="ContentGrid" Background="{TemplateBinding Background}">
+                        <Grid x:Name="ContentGrid"
+                              Background="{TemplateBinding Background}"
+                              ManipulationMode="TranslateX,System">
                             <ContentPresenter />
                             <Grid.RenderTransform>
-                                <CompositeTransform x:Name="ContentTransform"/>
+                                <CompositeTransform x:Name="ContentTransform" />
                             </Grid.RenderTransform>
                         </Grid>
                     </Grid>

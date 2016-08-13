@@ -66,7 +66,7 @@ namespace OneDo.ViewModels.Flyouts
             get { return date; }
             set
             {
-                if (Set(ref date, value))
+                if (Set(ref date, value?.Date))
                 {
                     IsDirty = true;
                 }

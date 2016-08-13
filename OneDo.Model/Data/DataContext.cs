@@ -26,10 +26,11 @@ namespace OneDo.Model.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var todo = modelBuilder.Entity<Todo>();
-            var folder = modelBuilder.Entity<Folder>();
-
-            todo.HasOne(x => x.Parent);
             todo.HasOne(x => x.Folder).WithMany(x => x.Todos);
+
+            var folder = modelBuilder.Entity<Folder>();
+            folder.Property(x => x.Name).IsRequired();
+            folder.Property(x => x.Color).IsRequired().HasMaxLength(7);
             folder.HasMany(x => x.Todos).WithOne(x => x.Folder);
         }
     }

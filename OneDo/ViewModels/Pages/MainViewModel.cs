@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OneDo.ViewModels.Commands;
 using OneDo.Services.ProgressService;
+using System;
 
 namespace OneDo.ViewModels.Pages
 {
@@ -78,10 +79,39 @@ namespace OneDo.ViewModels.Pages
                 ProgressService.IsBusy = true;
                 using (var dc = new DataContext())
                 {
+                    if (await dc.Set<Folder>().FirstOrDefaultAsync() == null)
+                    {
+                        dc.Set<Folder>().Add(new Folder
+                        {
+                            Name = "Inbox",
+                            Color = "#0063AF",
+                        });
+                        await dc.SaveChangesAsync();
+                    }
                     var folders = await dc.Set<Folder>().ToListAsync();
                     var folderItems = folders.Select(f => new FolderItemViewModel(f));
                     FolderItems = new ObservableCollection<FolderItemViewModel>(folderItems);
+                    SelectedFolderItem = FolderItems.FirstOrDefault();
 
+                    if (await dc.Set<Todo>().FirstOrDefaultAsync() == null)
+                    {
+                        dc.Set<Todo>().Add(new Todo
+                        {
+                            Title = "Buy milk",
+                        });
+                        dc.Set<Todo>().Add(new Todo
+                        {
+                            Title = "Call mom",
+                            Date = DateTime.Today.AddDays(5),
+                        });
+                        dc.Set<Todo>().Add(new Todo
+                        {
+                            Title = "Walk Max",
+                            Date = DateTime.Today,
+                            Reminder = TimeSpan.FromHours(7.25),
+                        });
+                        await dc.SaveChangesAsync();
+                    }
                     var todos = await dc.Set<Todo>().ToListAsync();
                     var todoItems = todos.Select(t => new TodoItemViewModel(t));
                     TodoItems = new ObservableCollection<TodoItemViewModel>(todoItems);

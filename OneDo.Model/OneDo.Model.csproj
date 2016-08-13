@@ -116,15 +116,11 @@
     <Compile Include="Data\IEntity.cs" />
     <Compile Include="Data\DataContext.cs" />
     <Compile Include="Data\Settings.cs" />
-    <Compile Include="Migrations\20160809175603_Initialize.cs" />
-    <Compile Include="Migrations\20160809175603_Initialize.designer.cs">
-      <DependentUpon>20160809175603_Initialize.cs</DependentUpon>
+    <Compile Include="Migrations\20160813160821_init.cs" />
+    <Compile Include="Migrations\20160813160821_init.designer.cs">
+      <DependentUpon>20160813160821_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20160811222247_Folder-Sort.cs" />
-    <Compile Include="Migrations\20160811222247_Folder-Sort.designer.cs">
-      <DependentUpon>20160811222247_Folder-Sort.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\OneDoContextModelSnapshot.cs" />
+    <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Entities\Folder.cs" />
     <Compile Include="Data\Entities\Todo.cs" />

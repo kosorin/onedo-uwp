@@ -1,127 +1,81 @@
 ﻿<v:ExtendedPage x:Class="OneDo.Views.Pages.MainPage"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:i="using:Microsoft.Xaml.Interactivity"
-                xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:behaviors="using:OneDo.Behaviors"
                 xmlns:controls="using:OneDo.Controls"
                 xmlns:converters="using:OneDo.Converters"
+                xmlns:entities="using:OneDo.Model.Data.Entities"
+                xmlns:i="using:Microsoft.Xaml.Interactivity"
+                xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:v="using:OneDo.Views"
                 xmlns:vFlyouts="using:OneDo.Views.Flyouts"
                 xmlns:vmFlyouts="using:OneDo.ViewModels.Flyouts"
                 xmlns:vmItems="using:OneDo.ViewModels.Items"
-                xmlns:entities="using:OneDo.Model.Data.Entities"
                 DataContext="{Binding MainPage, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
     <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Themes/FolderListView.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <converters:HexToBrushConverter x:Key="HexToBrushConverter" />
+            <Style x:Key="TodoItemContainerStyle" TargetType="ListViewItem">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            </Style>
 
-
-
-
-        <Style x:Key="TodoItemContainerStyle" TargetType="ListViewItem">
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        </Style>
-
-        <DataTemplate x:Key="TodoItemTemplate" x:DataType="vmItems:TodoItemViewModel">
-            <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                                       LeftForeground="Black"
-                                       LeftBackground="Khaki"
-                                       LeftGlyph="&#xE7C1;"
-                                       LeftLabel="Flag"
-                                       RightForeground="White"
-                                       RightBackground="Tomato"
-                                       RightGlyph="&#xE74D;"
-                                       RightLabel="Delete"
-                                       MouseSlidingEnabled="True">
-                <Grid VerticalAlignment="Center"
-                      Margin="0,8">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon Glyph="&#xE8FB;" 
-                                  Visibility="{x:Bind IsCompleted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                  Margin="12,0,4,0"
-                                  FontSize="18" />
-                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="8,0,0,0" />
-                    </StackPanel>
-                </Grid>
-            </controls:SlidableListItem>
-        </DataTemplate>
-
-        <DataTemplate x:Key="TodoEditorTemplate" x:DataType="vmFlyouts:TodoEditorViewModel">
-            <vFlyouts:TodoEditor Margin="16" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="SettingsTemplate" x:DataType="vmFlyouts:SettingsViewModel">
-            <vFlyouts:SettingsView Width="400"
-                                   HorizontalAlignment="Right" />
-        </DataTemplate>
+            <DataTemplate x:Key="TodoItemTemplate" x:DataType="vmItems:TodoItemViewModel">
+                <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                                           LeftBackground="Khaki"
+                                           LeftForeground="Black"
+                                           LeftGlyph="&#xE7C1;"
+                                           LeftLabel="Flag"
+                                           MouseSlidingEnabled="True"
+                                           RightBackground="Tomato"
+                                           RightForeground="White"
+                                           RightGlyph="&#xE74D;"
+                                           RightLabel="Delete">
+                    <Grid Margin="0,8" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Margin="12,0,4,0"
+                                      FontSize="18"
+                                      Glyph="&#xE8FB;"
+                                      Visibility="{x:Bind IsCompleted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Margin="8,0,0,0" Text="{x:Bind Title, Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
+                </controls:SlidableListItem>
+            </DataTemplate>
+        </ResourceDictionary>
 
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="4" />
-            </Grid.RowDefinitions>
-            <ListView x:Name="FolderListView"
-                      SelectedItem="{x:Bind VM.SelectedFolderItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
-                      ItemsSource="{x:Bind VM.FolderItems, Mode=OneWay}"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      ScrollViewer.HorizontalScrollMode="Enabled"
-                      ScrollViewer.VerticalScrollMode="Disabled"
-                      CanReorderItems="True" 
-                      ReorderMode="Enabled" 
-                      AllowDrop="True">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsStackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="MinWidth" Value="0"/>
-                        <Setter Property="MinHeight" Value="0"/>
-                        <Setter Property="Padding" Value="0"/>
-                        <Setter Property="Margin" Value="0,8,0,0"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vmItems:FolderItemViewModel">
-                        <Border Background="{x:Bind Color, Mode=OneWay, Converter={StaticResource HexToBrushConverter}, FallbackValue=#646464}">
-                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
-                                       Margin="16,0"
-                                       Foreground="White"
-                                       VerticalAlignment="Center" />
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Border Grid.Row="1" Background="{x:Bind VM.SelectedFolderItem.Color, Mode=OneWay, Converter={StaticResource HexToBrushConverter}}" />
-        </Grid>
+        <!--  Folders  -->
+        <controls:FolderListView x:Name="FolderListView"
+                                 Grid.Row="0"
+                                 Style="{StaticResource FolderListViewStyle}"
+                                 ItemsSource="{x:Bind VM.FolderItems, Mode=OneWay}"
+                                 SelectedItem="{x:Bind VM.SelectedFolderItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
+        <!--  Todos  -->
         <ListView x:Name="TodoListView"
                   Grid.Row="1"
-                  SelectedItem="{x:Bind VM.SelectedTodoItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
-                  ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
+                  VerticalAlignment="Top"
                   ItemContainerStyle="{StaticResource TodoItemContainerStyle}"
-                  ItemTemplate="{StaticResource TodoItemTemplate}" 
-                  VerticalAlignment="Top">
+                  ItemTemplate="{StaticResource TodoItemTemplate}"
+                  ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
+                  SelectedItem="{x:Bind VM.SelectedTodoItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="Tapped">
                     <ic:InvokeCommandAction Command="{x:Bind VM.TodoItemTappedCommand}" />
@@ -129,18 +83,20 @@
             </i:Interaction.Behaviors>
         </ListView>
 
+        <!--  AppBar  -->
         <CommandBar Grid.Row="2">
-            <AppBarButton Label="Add to-do" Command="{x:Bind VM.AddTodoCommand}">
+            <AppBarButton Command="{x:Bind VM.AddTodoCommand}" Label="Add to-do">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Reset data" Command="{x:Bind VM.ResetDataCommand}" />
-                <AppBarButton Label="Settings" Command="{x:Bind VM.ShowSettingsCommand}" />
+                <AppBarButton Command="{x:Bind VM.ResetDataCommand}" Label="Reset data" />
+                <AppBarButton Command="{x:Bind VM.ShowSettingsCommand}" Label="Settings" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
+        <!--  Flyouts  -->
         <Border Grid.RowSpan="3"
                 DataContext="{Binding NavigationService, Source={StaticResource Locator}}"
                 Visibility="{Binding Flyout, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
@@ -152,22 +108,33 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Border>
-                <ContentControl Content="{Binding Flyout}"
-                                HorizontalContentAlignment="Stretch" 
-                                VerticalContentAlignment="Stretch">
+                <ContentControl HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Content="{Binding Flyout}">
                     <ContentControl.ContentTemplateSelector>
-                        <v:FlyoutTemplateSelector TodoEditorTemplate="{StaticResource TodoEditorTemplate}"
-                                                  SettingsTemplate="{StaticResource SettingsTemplate}" />
+                        <v:FlyoutTemplateSelector>
+                            <v:FlyoutTemplateSelector.TodoEditorTemplate>
+                                <DataTemplate x:DataType="vmFlyouts:TodoEditorViewModel">
+                                    <vFlyouts:TodoEditor Margin="16" />
+                                </DataTemplate>
+                            </v:FlyoutTemplateSelector.TodoEditorTemplate>
+                            <v:FlyoutTemplateSelector.SettingsTemplate>
+                                <DataTemplate x:DataType="vmFlyouts:SettingsViewModel">
+                                    <vFlyouts:SettingsView Width="400" HorizontalAlignment="Right" />
+                                </DataTemplate>
+                            </v:FlyoutTemplateSelector.SettingsTemplate>
+                        </v:FlyoutTemplateSelector>
                     </ContentControl.ContentTemplateSelector>
                 </ContentControl>
             </Grid>
         </Border>
 
+        <!--  Progress  -->
         <Grid Grid.RowSpan="3">
-            <ProgressBar DataContext="{Binding ProgressService, Source={StaticResource Locator}}" 
-                         IsIndeterminate="{Binding IsBusy}"
+            <ProgressBar VerticalAlignment="Top"
                          Background="Transparent"
-                         VerticalAlignment="Top" />
+                         DataContext="{Binding ProgressService, Source={StaticResource Locator}}"
+                         IsIndeterminate="{Binding IsBusy}" />
         </Grid>
 
     </Grid>

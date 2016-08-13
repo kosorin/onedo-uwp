@@ -104,6 +104,7 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
+    <Compile Include="Controls\FolderListView.cs" />
     <Compile Include="Controls\SlidableListItem.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChangeTypeConverter.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="ViewModels\TodoEventArgs.cs" />
     <Compile Include="Views\FlyoutBase.cs" />
     <Compile Include="Views\FlyoutTemplateSelector.cs" />
+    <Compile Include="Views\Items\FolderTemplateSelector.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\ExtendedUserControl.cs" />
     <Compile Include="Views\Flyouts\TodoEditor.xaml.cs">
@@ -172,6 +174,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\FolderListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,9 +211,7 @@
       <Name>OneDo.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Items\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

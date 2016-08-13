@@ -11,10 +11,6 @@ namespace OneDo.Model.Data.Entities
     {
         public Guid Id { get; set; }
 
-        public Guid? ParentId { get; set; }
-
-        public virtual Todo Parent { get; set; }
-
 
         public string Title { get; set; }
 

@@ -8,10 +8,9 @@ using OneDo.Model.Data;
 namespace OneDo.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20160811222247_Folder-Sort")]
-    partial class FolderSort
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
@@ -21,7 +20,8 @@ namespace OneDo.Model.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Color");
+                    b.Property<string>("Color")
+                        .HasAnnotation("MaxLength", 7);
 
                     b.Property<Guid?>("Left");
 
@@ -49,8 +49,6 @@ namespace OneDo.Model.Migrations
 
                     b.Property<string>("Note");
 
-                    b.Property<Guid?>("ParentId");
-
                     b.Property<TimeSpan?>("Reminder");
 
                     b.Property<string>("Title");
@@ -58,8 +56,6 @@ namespace OneDo.Model.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FolderId");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Todos");
                 });
@@ -69,10 +65,6 @@ namespace OneDo.Model.Migrations
                     b.HasOne("OneDo.Model.Data.Entities.Folder", "Folder")
                         .WithMany("Todos")
                         .HasForeignKey("FolderId");
-
-                    b.HasOne("OneDo.Model.Data.Entities.Todo", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
                 });
         }
     }
