@@ -9,16 +9,16 @@ namespace OneDo.Model.Data.Entities
     [DebuggerDisplay("{Id}: {Name}")]
     public class Folder : IEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
         public string Color { get; set; }
 
 
-        public Guid? Left { get; set; }
+        public int? Left { get; set; }
 
-        public Guid? Right { get; set; }
+        public int? Right { get; set; }
 
 
         public virtual ICollection<Todo> Todos { get; set; }

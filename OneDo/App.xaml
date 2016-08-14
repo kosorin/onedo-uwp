@@ -10,6 +10,7 @@
 
             <vm:ViewModelLocator x:Key="Locator" />
 
+            <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
             <converters:ChangeTypeConverter x:Key="ChangeTypeConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

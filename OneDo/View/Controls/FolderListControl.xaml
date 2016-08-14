@@ -15,8 +15,6 @@
                        mc:Ignorable="d">
     <UserControl.Resources>
 
-        <converters:HexToBrushConverter x:Key="HexToBrushConverter" />
-
         <Style x:Key="FolderListViewScrollViewerStyle" TargetType="ScrollViewer">
             <Setter Property="HorizontalScrollMode" Value="Auto" />
             <Setter Property="VerticalScrollMode" Value="Auto" />
@@ -194,10 +192,15 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="12" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="6" />
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="4" />
                         </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <ItemsPresenter Grid.Row="1"
+                                        Grid.Column="0"
                                         Padding="{TemplateBinding Padding}"
                                         Footer="{TemplateBinding Footer}"
                                         FooterTemplate="{TemplateBinding FooterTemplate}"
@@ -205,7 +208,22 @@
                                         Header="{TemplateBinding Header}"
                                         HeaderTemplate="{TemplateBinding HeaderTemplate}"
                                         HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-                        <Border Grid.Row="2" Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource HexToBrushConverter}}" />
+                        <Button Grid.Row="1"
+                                Grid.Column="1"
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                HorizontalAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Tapped="AddButton_Tapped">
+                            <FontIcon FontSize="16"
+                                      FontWeight="Light"
+                                      Glyph="&#xE710;" />
+                        </Button>
+                        <Border Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                     </Grid>
                 </ScrollViewer>
             </Border>
@@ -215,24 +233,22 @@
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="TabNavigation" Value="Local" />
             <Setter Property="IsHoldingEnabled" Value="True" />
             <Setter Property="MinWidth" Value="0" />
             <Setter Property="MinHeight" Value="0" />
-            <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="0" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        <ListViewItemPresenter x:Name="Presenter"
+                                               HorizontalContentAlignment="Stretch"
+                                               VerticalContentAlignment="Stretch"
+                                               Foreground="{Binding Color}"
                                                CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                                                CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                                                CheckMode="Inline"
-                                               ContentMargin="{TemplateBinding Padding}"
+                                               ContentMargin="0"
                                                ContentTransitions="{TemplateBinding ContentTransitions}"
                                                DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                                                DragBackground="Transparent"
@@ -242,18 +258,42 @@
                                                FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                                PlaceholderBackground="Transparent"
                                                PointerOverBackground="Transparent"
-                                               PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                                               PointerOverForeground="{Binding Color}"
                                                PressedBackground="Transparent"
                                                ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                                               SelectedBackground="Transparent"
-                                               SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
-                                               SelectedPointerOverBackground="Transparent"
-                                               SelectedPressedBackground="Transparent"
-                                               SelectionCheckMarkVisualEnabled="True" />
+                                               RightTapped="FolderItem_RightTapped"
+                                               SelectedBackground="{Binding Color}"
+                                               SelectedForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                               SelectedPointerOverBackground="{Binding Color}"
+                                               SelectedPressedBackground="{Binding Color}"
+                                               SelectionCheckMarkVisualEnabled="True">
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Edit">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <Flyout>
+                                                <Border Background="Red" />
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem IsEnabled="False" Text="Pin to start" />
+                                    <MenuFlyoutItem Text="Delete" />
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </ListViewItemPresenter>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <DataTemplate x:Key="FolderItemDataTemplate" x:DataType="vmItems:FolderItemViewModel">
+            <Border Background="Transparent">
+                <TextBlock Margin="12,0"
+                           VerticalAlignment="Center"
+                           FontWeight="Medium"
+                           Text="{x:Bind Name, Mode=OneWay}" />
+            </Border>
+        </DataTemplate>
 
         <Style x:Key="FolderListViewStyle" TargetType="ListView">
             <Setter Property="IsTabStop" Value="False" />
@@ -290,31 +330,13 @@
             </Setter>
             <Setter Property="Template" Value="{StaticResource FolderListViewTemplate}" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource FolderListViewItemStyle}" />
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <Border Background="Transparent" RightTapped="FolderItem_RightTapped">
-                            <FlyoutBase.AttachedFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="Edit" />
-                                    <MenuFlyoutItem Text="Pin to start" IsEnabled="False" />
-                                    <MenuFlyoutItem Text="Delete" />
-                                </MenuFlyout>
-                            </FlyoutBase.AttachedFlyout>
-                            <TextBlock Margin="12,0"
-                                       VerticalAlignment="Center"
-                                       Foreground="{Binding Color, Converter={StaticResource HexToBrushConverter}}"
-                                       Text="{Binding Name}" />
-                        </Border>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="ItemTemplate" Value="{StaticResource FolderItemDataTemplate}" />
         </Style>
 
     </UserControl.Resources>
 
     <ListView Style="{StaticResource FolderListViewStyle}"
-              ItemsSource="{x:Bind VM.FolderItems, Mode=OneWay}"
-              SelectedItem="{x:Bind VM.SelectedFolderItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
+              ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
+              SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
 </v:ExtendedUserControl>

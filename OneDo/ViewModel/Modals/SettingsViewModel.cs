@@ -2,9 +2,9 @@
 using OneDo.Services.NavigationService;
 using Windows.ApplicationModel;
 
-namespace OneDo.ViewModel.Flyouts
+namespace OneDo.ViewModel.Modals
 {
-    public class SettingsViewModel : FlyoutViewModel
+    public class SettingsViewModel : ModalViewModel
     {
         public SettingsViewModel(INavigationService navigationService, ISettingsProvider settingsProvider) : base(navigationService, settingsProvider)
         {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OneDo.Model.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,11 +12,12 @@ namespace OneDo.Model.Migrations
                 name: "Folders",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Color = table.Column<string>(maxLength: 7, nullable: true),
-                    Left = table.Column<Guid>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Right = table.Column<Guid>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Color = table.Column<string>(maxLength: 7, nullable: false),
+                    Left = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Right = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,11 +28,12 @@ namespace OneDo.Model.Migrations
                 name: "Todos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
                     Completed = table.Column<DateTime>(nullable: true),
                     Date = table.Column<DateTime>(nullable: true),
                     Flag = table.Column<bool>(nullable: false),
-                    FolderId = table.Column<Guid>(nullable: true),
+                    FolderId = table.Column<int>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     Reminder = table.Column<TimeSpan>(nullable: true),
                     Title = table.Column<string>(nullable: true)

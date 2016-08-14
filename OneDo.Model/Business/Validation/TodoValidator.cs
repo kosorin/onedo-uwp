@@ -10,7 +10,7 @@ namespace OneDo.Model.Business.Validation
         {
             new Rule<Todo>(o => o.Date != null),
             new Rule<Todo>(o => o.Reminder != null && o.Date != null),
-            new Rule<Todo>(o => o.Id != Guid.Empty),
+            new Rule<Todo>(o => o.Id != default(int)),
             new Rule<Todo>(o => !string.IsNullOrWhiteSpace(o.Title)),
         };
     }

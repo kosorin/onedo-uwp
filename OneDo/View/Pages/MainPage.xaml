@@ -10,8 +10,8 @@
                 xmlns:i="using:Microsoft.Xaml.Interactivity"
                 xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:v="using:OneDo.View"
-                xmlns:vFlyouts="using:OneDo.View.Flyouts"
-                xmlns:vmFlyouts="using:OneDo.ViewModel.Flyouts"
+                xmlns:vModals="using:OneDo.View.Modals"
+                xmlns:vmModals="using:OneDo.ViewModel.Modals"
                 xmlns:vmItems="using:OneDo.ViewModel.Items"
                 DataContext="{Binding MainPage, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
@@ -90,10 +90,10 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <!--  Flyouts  -->
+        <!--  Modals  -->
         <Border Grid.RowSpan="3"
                 DataContext="{Binding NavigationService, Source={StaticResource Locator}}"
-                Visibility="{Binding Flyout, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
+                Visibility="{Binding Modal, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
             <Grid>
                 <Border Background="#66000000">
                     <i:Interaction.Behaviors>
@@ -104,20 +104,20 @@
                 </Border>
                 <ContentControl HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
-                                Content="{Binding Flyout}">
+                                Content="{Binding Modal}">
                     <ContentControl.ContentTemplateSelector>
-                        <v:FlyoutTemplateSelector>
-                            <v:FlyoutTemplateSelector.TodoEditorTemplate>
-                                <DataTemplate x:DataType="vmFlyouts:TodoEditorViewModel">
-                                    <vFlyouts:TodoEditor Margin="16" />
+                        <v:ModalTemplateSelector>
+                            <v:ModalTemplateSelector.TodoEditorTemplate>
+                                <DataTemplate x:DataType="vmModals:TodoEditorViewModel">
+                                    <vModals:TodoEditor Margin="16" />
                                 </DataTemplate>
-                            </v:FlyoutTemplateSelector.TodoEditorTemplate>
-                            <v:FlyoutTemplateSelector.SettingsTemplate>
-                                <DataTemplate x:DataType="vmFlyouts:SettingsViewModel">
-                                    <vFlyouts:SettingsView Width="400" HorizontalAlignment="Right" />
+                            </v:ModalTemplateSelector.TodoEditorTemplate>
+                            <v:ModalTemplateSelector.SettingsTemplate>
+                                <DataTemplate x:DataType="vmModals:SettingsViewModel">
+                                    <vModals:SettingsView Width="400" HorizontalAlignment="Right" />
                                 </DataTemplate>
-                            </v:FlyoutTemplateSelector.SettingsTemplate>
-                        </v:FlyoutTemplateSelector>
+                            </v:ModalTemplateSelector.SettingsTemplate>
+                        </v:ModalTemplateSelector>
                     </ContentControl.ContentTemplateSelector>
                 </ContentControl>
             </Grid>

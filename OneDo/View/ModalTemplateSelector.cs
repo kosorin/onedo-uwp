@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Flyouts;
+using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.View
 {
-    public class FlyoutTemplateSelector : DataTemplateSelector
+    public class ModalTemplateSelector : DataTemplateSelector
     {
         public DataTemplate TodoEditorTemplate { get; set; }
 
@@ -17,21 +17,21 @@ namespace OneDo.View
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            return SelectTemplate(item as FlyoutViewModel);
+            return SelectTemplate(item as ModalViewModel);
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            return SelectTemplate(item as FlyoutViewModel);
+            return SelectTemplate(item as ModalViewModel);
         }
 
-        private DataTemplate SelectTemplate(FlyoutViewModel flyout)
+        private DataTemplate SelectTemplate(ModalViewModel modal)
         {
-            if (flyout is TodoEditorViewModel)
+            if (modal is TodoEditorViewModel)
             {
                 return TodoEditorTemplate;
             }
-            else if (flyout is SettingsViewModel)
+            else if (modal is SettingsViewModel)
             {
                 return SettingsTemplate;
             }

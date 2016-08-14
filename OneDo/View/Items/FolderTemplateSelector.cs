@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Flyouts;
+using OneDo.ViewModel.Modals;
 using OneDo.ViewModel.Items;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

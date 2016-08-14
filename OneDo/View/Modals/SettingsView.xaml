@@ -1,4 +1,4 @@
-﻿<v:FlyoutBase x:Class="OneDo.View.Flyouts.SettingsView"
+﻿<v:ModalBase x:Class="OneDo.View.Modals.SettingsView"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,4 +11,4 @@
             <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Text="Settings" />
         </StackPanel>
     </Grid>
-</v:FlyoutBase>
+</v:ModalBase>

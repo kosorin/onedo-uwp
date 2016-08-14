@@ -16,22 +16,22 @@ namespace OneDo.Services.NavigationService
     {
         public Frame Frame { get; }
 
-        private FlyoutViewModel flyout;
-        public FlyoutViewModel Flyout
+        private ModalViewModel modal;
+        public ModalViewModel Modal
         {
-            get { return flyout; }
+            get { return modal; }
             private set
             {
-                if (Set(ref flyout, value))
+                if (Set(ref modal, value))
                 {
                     UpdateBackButtonVisibility();
                 }
             }
         }
 
-        public bool CanGoForward => Flyout == null && Frame.CanGoForward;
+        public bool CanGoForward => Modal == null && Frame.CanGoForward;
 
-        public bool CanGoBack => Flyout != null || Frame.CanGoBack;
+        public bool CanGoBack => Modal != null || Frame.CanGoBack;
 
 
         public ICommand GoForwardCommand { get; }
@@ -73,13 +73,13 @@ namespace OneDo.Services.NavigationService
 
         public bool Navigate(Type pageType)
         {
-            CloseFlyout();
+            CloseModal();
             return Frame.Navigate(pageType);
         }
 
         public bool Navigate(Type pageType, object parameter)
         {
-            CloseFlyout();
+            CloseModal();
             return Frame.Navigate(pageType, parameter);
         }
 
@@ -92,7 +92,7 @@ namespace OneDo.Services.NavigationService
 
         public void GoForward()
         {
-            CloseFlyout();
+            CloseModal();
             Frame.GoForward();
         }
 
@@ -106,9 +106,9 @@ namespace OneDo.Services.NavigationService
 
         public void GoBack()
         {
-            if (Flyout != null)
+            if (Modal != null)
             {
-                CloseFlyout();
+                CloseModal();
             }
             else
             {
@@ -124,14 +124,14 @@ namespace OneDo.Services.NavigationService
             }
         }
 
-        public void ShowFlyout(FlyoutViewModel flyout)
+        public void ShowModal(ModalViewModel modal)
         {
-            Flyout = flyout;
+            Modal = modal;
         }
 
-        public void CloseFlyout()
+        public void CloseModal()
         {
-            Flyout = null;
+            Modal = null;
         }
 
 

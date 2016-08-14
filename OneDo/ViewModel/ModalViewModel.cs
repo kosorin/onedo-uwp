@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public abstract class FlyoutViewModel : ExtendedViewModel
+    public abstract class ModalViewModel : ExtendedViewModel
     {
         public INavigationService NavigationService { get; }
 
         public ISettingsProvider SettingsProvider { get; }
 
-        protected FlyoutViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
+        protected ModalViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
         {
             NavigationService = navigationService;
             SettingsProvider = settingsProvider;

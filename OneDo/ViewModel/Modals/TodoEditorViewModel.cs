@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModel.Flyouts
+namespace OneDo.ViewModel.Modals
 {
-    public class TodoEditorViewModel : FlyoutViewModel
+    public class TodoEditorViewModel : ModalViewModel
     {
         private bool isNew;
         public bool IsNew

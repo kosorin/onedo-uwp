@@ -30,7 +30,7 @@ namespace OneDo.Model.Data
 
             var folder = modelBuilder.Entity<Folder>();
             folder.Property(x => x.Name).IsRequired();
-            folder.Property(x => x.Color).IsRequired().HasMaxLength(7);
+            folder.Property(x => x.Color).IsRequired();
             folder.HasMany(x => x.Todos).WithOne(x => x.Folder);
         }
     }

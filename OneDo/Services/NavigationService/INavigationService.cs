@@ -11,7 +11,7 @@ namespace OneDo.Services.NavigationService
     {
         Frame Frame { get; }
 
-        FlyoutViewModel Flyout { get; }
+        ModalViewModel Modal { get; }
 
         bool CanGoForward { get; }
 
@@ -42,8 +42,8 @@ namespace OneDo.Services.NavigationService
         void TryGoBack();
 
 
-        void ShowFlyout(FlyoutViewModel flyout);
+        void ShowModal(ModalViewModel modal);
 
-        void CloseFlyout();
+        void CloseModal();
     }
 }

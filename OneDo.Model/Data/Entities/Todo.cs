@@ -9,7 +9,7 @@ namespace OneDo.Model.Data.Entities
     [DebuggerDisplay("{Id}: {Title}")]
     public class Todo : IEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
 
         public string Title { get; set; }
@@ -25,7 +25,7 @@ namespace OneDo.Model.Data.Entities
         public bool Flag { get; set; }
 
 
-        public Guid? FolderId { get; set; }
+        public int? FolderId { get; set; }
 
         public virtual Folder Folder { get; set; }
 

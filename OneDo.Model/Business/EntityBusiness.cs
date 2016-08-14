@@ -17,7 +17,7 @@ namespace OneDo.Model.Business
 
         public bool IsNew(TEntity entity)
         {
-            return entity.Id == default(Guid);
+            return entity.Id == default(int);
         }
 
         public virtual TEntity Default()

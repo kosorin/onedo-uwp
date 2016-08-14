@@ -1,9 +1,9 @@
-﻿using OneDo.ViewModel.Flyouts;
+﻿using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml.Controls;
 
-namespace OneDo.View.Flyouts
+namespace OneDo.View.Modals
 {
-    public sealed partial class TodoEditor : FlyoutBase, IXBind<TodoEditorViewModel>
+    public sealed partial class TodoEditor : ModalBase, IXBind<TodoEditorViewModel>
     {
         public TodoEditorViewModel VM => ViewModel as TodoEditorViewModel;
 

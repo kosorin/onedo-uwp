@@ -17,17 +17,19 @@ namespace OneDo.Model.Migrations
 
             modelBuilder.Entity("OneDo.Model.Data.Entities.Folder", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Color")
+                        .IsRequired()
                         .HasAnnotation("MaxLength", 7);
 
-                    b.Property<Guid?>("Left");
+                    b.Property<int?>("Left");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
-                    b.Property<Guid?>("Right");
+                    b.Property<int?>("Right");
 
                     b.HasKey("Id");
 
@@ -36,7 +38,7 @@ namespace OneDo.Model.Migrations
 
             modelBuilder.Entity("OneDo.Model.Data.Entities.Todo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("Completed");
@@ -45,7 +47,7 @@ namespace OneDo.Model.Migrations
 
                     b.Property<bool>("Flag");
 
-                    b.Property<Guid?>("FolderId");
+                    b.Property<int?>("FolderId");
 
                     b.Property<string>("Note");
 

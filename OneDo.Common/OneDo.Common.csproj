@@ -115,6 +115,7 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LoggerBase.cs" />
     <Compile Include="Logging\NullLogger.cs" />
+    <Compile Include="Media\ColorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\OneDo.Common.rd.xml" />
   </ItemGroup>

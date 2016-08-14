@@ -6,7 +6,7 @@ using OneDo.Model.Data;
 using System.Collections.Generic;
 using System.Linq;
 using OneDo.ViewModel.Items;
-using OneDo.ViewModel.Flyouts;
+using OneDo.ViewModel.Modals;
 using Windows.UI.Core;
 using OneDo.Model.Data.Entities;
 using System.Collections.ObjectModel;
@@ -146,14 +146,14 @@ namespace OneDo.ViewModel.Pages
 
         private void ShowTodoEditor(TodoEditorViewModel editor)
         {
-            editor.Deleted += (s, e) => NavigationService.CloseFlyout();
-            editor.Saved += (s, e) => NavigationService.CloseFlyout();
-            NavigationService.ShowFlyout(editor);
+            editor.Deleted += (s, e) => NavigationService.CloseModal();
+            editor.Saved += (s, e) => NavigationService.CloseModal();
+            NavigationService.ShowModal(editor);
         }
 
         private void ShowSettings()
         {
-            NavigationService.ShowFlyout(new SettingsViewModel(NavigationService, SettingsProvider));
+            NavigationService.ShowModal(new SettingsViewModel(NavigationService, SettingsProvider));
         }
     }
 }
