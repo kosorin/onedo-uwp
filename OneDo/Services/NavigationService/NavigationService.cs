@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using OneDo.ViewModels;
-using OneDo.Views;
+using OneDo.ViewModel;
+using OneDo.View;
 using System;
 using System.Windows.Input;
 using Windows.ApplicationModel;

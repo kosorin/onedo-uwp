@@ -1,0 +1,41 @@
+﻿<Page x:Class="OneDo.View.Pages.SplashScreenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <Storyboard x:Name="SplashDismissedStoryboard">
+            <DoubleAnimation Duration="0:0:1"
+                             Storyboard.TargetName="SplashProgressRing"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseIn" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+
+    <Grid>
+        <Canvas Background="{ThemeResource SystemControlHighlightAccentBrush}">
+            <Image x:Name="SplashImage" Source="ms-appx:///Assets/SplashScreen.png" />
+            <ProgressRing x:Name="SplashProgressRing"
+                          Width="20"
+                          HorizontalAlignment="Center"
+                          Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                          Opacity="0"
+                          IsActive="True" />
+        </Canvas>
+
+        <TextBlock x:Name="SplashText"
+                   Margin="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   Style="{ThemeResource BodyTextBlockStyle}"
+                   Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                   Opacity="{Binding Opacity, ElementName=SplashProgressRing}"
+                   Text="Loading..." />
+    </Grid>
+</Page>

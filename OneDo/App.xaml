@@ -1,8 +1,8 @@
 ﻿<Application x:Class="OneDo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="using:OneDo.Converters"
-             xmlns:vm="using:OneDo.ViewModels"
+             xmlns:converters="using:OneDo.View.Converters"
+             xmlns:vm="using:OneDo.ViewModel"
              RequestedTheme="Light">
 
     <Application.Resources>

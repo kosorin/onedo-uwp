@@ -98,19 +98,18 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Behaviors\CommandBarBehavior.cs" />
-    <Compile Include="Behaviors\ItemClickAction.cs" />
-    <Compile Include="Behaviors\TitleBarBehavior.cs" />
+    <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
+    <Compile Include="View\Behaviors\ItemClickAction.cs" />
+    <Compile Include="View\Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
-    <Compile Include="Controls\FolderListView.cs" />
-    <Compile Include="Controls\SlidableListItem.cs" />
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\ChangeTypeConverter.cs" />
-    <Compile Include="Converters\HexToBrushConverter.cs" />
-    <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="Converters\ConditionConverter.cs" />
+    <Compile Include="View\Controls\SlidableListItem.cs" />
+    <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="View\Converters\ChangeTypeConverter.cs" />
+    <Compile Include="View\Converters\HexToBrushConverter.cs" />
+    <Compile Include="View\Converters\StringFormatConverter.cs" />
+    <Compile Include="View\Converters\ConditionConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Services\NavigationService\BackButtonEventArgs.cs" />
     <Compile Include="Services\NavigationService\INavigable.cs" />
@@ -119,36 +118,40 @@
     <Compile Include="Services\NavigationService\NavigationService.cs" />
     <Compile Include="Services\ProgressService\IProgressService.cs" />
     <Compile Include="Services\ProgressService\ProgressService.cs" />
-    <Compile Include="ViewModels\Commands\AsyncRelayCommand.cs" />
-    <Compile Include="ViewModels\FlyoutViewModel.cs" />
-    <Compile Include="ViewModels\Flyouts\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\Items\FolderItemViewModel.cs" />
-    <Compile Include="ViewModels\PageViewModel.cs" />
-    <Compile Include="ViewModels\Items\TodoItemViewModel.cs" />
-    <Compile Include="ViewModels\Flyouts\TodoEditorViewModel.cs" />
-    <Compile Include="ViewModels\ExtendedViewModel.cs" />
-    <Compile Include="ViewModels\SplashScreenMessage.cs" />
-    <Compile Include="ViewModels\TodoEventArgs.cs" />
-    <Compile Include="Views\FlyoutBase.cs" />
-    <Compile Include="Views\FlyoutTemplateSelector.cs" />
-    <Compile Include="Views\Items\FolderTemplateSelector.cs" />
-    <Compile Include="Views\IView.cs" />
-    <Compile Include="Views\ExtendedUserControl.cs" />
-    <Compile Include="Views\Flyouts\TodoEditor.xaml.cs">
+    <Compile Include="ViewModel\Commands\AsyncRelayCommand.cs" />
+    <Compile Include="ViewModel\Controls\FolderListViewModel.cs" />
+    <Compile Include="ViewModel\FlyoutViewModel.cs" />
+    <Compile Include="ViewModel\Flyouts\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\Items\FolderItemViewModel.cs" />
+    <Compile Include="ViewModel\PageViewModel.cs" />
+    <Compile Include="ViewModel\Items\TodoItemViewModel.cs" />
+    <Compile Include="ViewModel\Flyouts\TodoEditorViewModel.cs" />
+    <Compile Include="ViewModel\ExtendedViewModel.cs" />
+    <Compile Include="ViewModel\SplashScreenMessage.cs" />
+    <Compile Include="ViewModel\TodoEventArgs.cs" />
+    <Compile Include="View\Controls\FolderListControl.xaml.cs">
+      <DependentUpon>FolderListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FlyoutBase.cs" />
+    <Compile Include="View\FlyoutTemplateSelector.cs" />
+    <Compile Include="View\Items\FolderTemplateSelector.cs" />
+    <Compile Include="View\IView.cs" />
+    <Compile Include="View\ExtendedUserControl.cs" />
+    <Compile Include="View\Flyouts\TodoEditor.xaml.cs">
       <DependentUpon>TodoEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Flyouts\SettingsView.xaml.cs">
+    <Compile Include="View\Flyouts\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\MainPage.xaml.cs">
+    <Compile Include="View\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\Pages\MainViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\ExtendedPage.cs" />
-    <Compile Include="Views\IXBind.cs" />
-    <Compile Include="Views\Pages\SplashScreenPage.xaml.cs">
+    <Compile Include="ViewModel\Pages\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\ExtendedPage.cs" />
+    <Compile Include="View\IXBind.cs" />
+    <Compile Include="View\Pages\SplashScreenPage.xaml.cs">
       <DependentUpon>SplashScreenPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -174,29 +177,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Themes\FolderListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Views\Flyouts\TodoEditor.xaml">
+    <Page Include="View\Controls\FolderListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Flyouts\SettingsView.xaml">
+    <Page Include="View\Flyouts\TodoEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Flyouts\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Pages\MainPage.xaml">
+    <Page Include="View\Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Pages\SplashScreenPage.xaml">
+    <Page Include="View\Pages\SplashScreenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
