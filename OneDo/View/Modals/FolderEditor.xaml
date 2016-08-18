@@ -28,7 +28,7 @@
                       SelectedItem="{Binding SelectedColor, Mode=TwoWay}">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" />
+                        <ItemsWrapGrid  MaximumRowsOrColumns="4" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <GridView.ItemContainerStyle>
@@ -36,15 +36,21 @@
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="MinWidth" Value="40" />
                         <Setter Property="MinHeight" Value="40" />
-                        <Setter Property="Width" Value="40" />
-                        <Setter Property="Height" Value="40" />
+                        <Setter Property="Width" Value="48" />
+                        <Setter Property="Height" Value="48" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="Margin" Value="0,0,4,4" />
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vmItems:ColorItem">
-                        <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}" ToolTipService.ToolTip="{x:Bind Name}" />
+                        <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}" >
+                            <FontIcon HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                                  Glyph="&#xE73E;" />
+                        </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
