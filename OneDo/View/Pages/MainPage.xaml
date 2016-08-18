@@ -103,8 +103,6 @@
                     </i:Interaction.Behaviors>
                 </Border>
                 <ItemsControl HorizontalContentAlignment="Stretch"
-                              Width="500"
-                              Height="500"
                               VerticalContentAlignment="Stretch"
                               ItemsSource="{Binding Items}">
                     <ItemsControl.ItemsPanel>

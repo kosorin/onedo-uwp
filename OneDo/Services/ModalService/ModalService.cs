@@ -20,7 +20,7 @@ namespace OneDo.Services.ModalService
 {
     public class ModalService : ViewModelBase, IModalService
     {
-        public ObservableStack<ModalViewModel> Items { get; } = new ObservableStack<ModalViewModel>();
+        public ObservableCollection<ModalViewModel> Items { get; } = new ObservableCollection<ModalViewModel>();
 
         private ModalViewModel current;
         public ModalViewModel Current
@@ -66,18 +66,18 @@ namespace OneDo.Services.ModalService
 
         public void Pop()
         {
-            Items.Pop();
+            Items.RemoveAt(0);
         }
 
         public void Push(ModalViewModel modal)
         {
-            Items.Push(modal);
+            Items.Insert(0, modal);
         }
 
 
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Current = Items.Count > 0 ? Items.Peek() : null;
+            Current = Items.Count > 0 ? Items.First() : null;
             UpdateBackButtonVisibility();
             RaisePropertyChanged(nameof(CanPop));
         }
