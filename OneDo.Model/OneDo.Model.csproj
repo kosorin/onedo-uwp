@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Business\BusinessBase.cs" />
     <Compile Include="Business\EntityBusiness.cs" />
+    <Compile Include="Business\FolderBusiness.cs" />
     <Compile Include="Business\TodoBusiness.cs" />
     <Compile Include="Business\Validation\Rule.cs" />
     <Compile Include="Business\Validation\TodoValidator.cs" />

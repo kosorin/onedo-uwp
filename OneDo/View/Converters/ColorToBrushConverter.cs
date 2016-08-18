@@ -10,16 +10,16 @@ using Windows.UI.Xaml.Media;
 
 namespace OneDo.View.Converters
 {
-    public class DoubleToGridLengthConverter : IValueConverter
+    public class ColorToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return new GridLength((double)value, GridUnitType.Pixel);
+            return new SolidColorBrush((Color)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return ((SolidColorBrush)value).Color;
         }
     }
 }

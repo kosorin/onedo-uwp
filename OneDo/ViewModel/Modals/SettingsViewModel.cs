@@ -1,12 +1,12 @@
 ﻿using OneDo.Model.Data;
-using OneDo.Services.NavigationService;
+using OneDo.Services.ModalService;
 using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel.Modals
 {
     public class SettingsViewModel : ModalViewModel
     {
-        public SettingsViewModel(INavigationService navigationService, ISettingsProvider settingsProvider) : base(navigationService, settingsProvider)
+        public SettingsViewModel(IModalService modalService, ISettingsProvider settingsProvider) : base(modalService, settingsProvider)
         {
 
         }

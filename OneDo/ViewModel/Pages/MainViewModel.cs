@@ -1,4 +1,4 @@
-﻿using OneDo.Services.NavigationService;
+﻿using OneDo.Services.ModalService;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
@@ -53,8 +53,8 @@ namespace OneDo.ViewModel.Pages
 
         public IProgressService ProgressService { get; }
 
-        public MainViewModel(INavigationService navigationService, ISettingsProvider settingsProvider, IProgressService progressService)
-            : base(navigationService, settingsProvider)
+        public MainViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
+            : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
 
@@ -63,7 +63,7 @@ namespace OneDo.ViewModel.Pages
             ResetDataCommand = new AsyncRelayCommand(ResetData);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
-            FolderList = new FolderListViewModel();
+            FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
 
             LoadData();
         }
@@ -128,7 +128,7 @@ namespace OneDo.ViewModel.Pages
 
         private void AddTodo()
         {
-            var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, ProgressService, null);
+            var editor = new TodoEditorViewModel(ModalService, SettingsProvider, ProgressService, null);
             editor.Saved += (s, e) => TodoItems.Add(new TodoItemViewModel(e.Todo));
             ShowTodoEditor(editor);
         }
@@ -137,7 +137,7 @@ namespace OneDo.ViewModel.Pages
         {
             if (SelectedTodoItem != null)
             {
-                var editor = new TodoEditorViewModel(NavigationService, SettingsProvider, ProgressService, SelectedTodoItem.Todo);
+                var editor = new TodoEditorViewModel(ModalService, SettingsProvider, ProgressService, SelectedTodoItem.Todo);
                 editor.Deleted += (s, e) => TodoItems.Remove(SelectedTodoItem);
                 editor.Saved += (s, e) => SelectedTodoItem.Refresh();
                 ShowTodoEditor(editor);
@@ -146,14 +146,14 @@ namespace OneDo.ViewModel.Pages
 
         private void ShowTodoEditor(TodoEditorViewModel editor)
         {
-            editor.Deleted += (s, e) => NavigationService.CloseModal();
-            editor.Saved += (s, e) => NavigationService.CloseModal();
-            NavigationService.ShowModal(editor);
+            editor.Deleted += (s, e) => ModalService.Pop();
+            editor.Saved += (s, e) => ModalService.Pop();
+            ModalService.Push(editor);
         }
 
         private void ShowSettings()
         {
-            NavigationService.ShowModal(new SettingsViewModel(NavigationService, SettingsProvider));
+            ModalService.Push(new SettingsViewModel(ModalService, SettingsProvider));
         }
     }
 }

@@ -51,4 +51,50 @@ namespace OneDo.ViewModel.Commands
             }
         }
     }
+
+    public class AsyncRelayCommand<T> : ICommand
+    {
+        private readonly WeakFunc<T, Task> execute;
+
+        private readonly WeakFunc<T, bool> canExecute;
+
+        public AsyncRelayCommand(Func<T, Task> execute) : this(execute, null)
+        {
+
+        }
+
+        public AsyncRelayCommand(Func<T, Task> execute, Func<T, bool> canExecute)
+        {
+            if (execute == null)
+            {
+                throw new ArgumentNullException(nameof(execute));
+            }
+
+            this.execute = new WeakFunc<T, Task>(execute);
+            if (canExecute != null)
+            {
+                this.canExecute = new WeakFunc<T, bool>(canExecute);
+            }
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return canExecute == null || (canExecute.IsStatic || canExecute.IsAlive) && canExecute.Execute((T)parameter);
+        }
+
+        public async void Execute(object parameter)
+        {
+            if (CanExecute(parameter) && execute != null && (execute.IsStatic || execute.IsAlive))
+            {
+                await execute.Execute((T)parameter);
+            }
+        }
+    }
 }

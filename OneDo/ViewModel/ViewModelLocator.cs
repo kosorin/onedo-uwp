@@ -2,7 +2,7 @@ using Autofac;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
-using OneDo.Services.NavigationService;
+using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Controls;
 using OneDo.ViewModel.Modals;
@@ -23,7 +23,7 @@ namespace OneDo.ViewModel
 
             builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
             builder.RegisterType<SettingsProvider>().As<ISettingsProvider>().SingleInstance();
-            builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
+            builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
 
             builder.RegisterType<MainViewModel>().SingleInstance();
 
@@ -32,7 +32,7 @@ namespace OneDo.ViewModel
 
         public IProgressService ProgressService => Container?.Resolve<IProgressService>();
 
-        public INavigationService NavigationService => Container?.Resolve<INavigationService>();
+        public IModalService ModalService => Container?.Resolve<IModalService>();
 
         public MainViewModel MainPage => Container?.Resolve<MainViewModel>();
     }

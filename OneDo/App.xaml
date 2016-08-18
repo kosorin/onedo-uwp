@@ -11,6 +11,7 @@
             <vm:ViewModelLocator x:Key="Locator" />
 
             <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
+            <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
             <converters:ChangeTypeConverter x:Key="ChangeTypeConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -20,6 +21,14 @@
                 </converters:ConditionConverter.Then>
                 <converters:ConditionConverter.Else>
                     <Visibility>Visible</Visibility>
+                </converters:ConditionConverter.Else>
+            </converters:ConditionConverter>
+            <converters:ConditionConverter x:Key="NullToBoolConverter" If="{x:Null}">
+                <converters:ConditionConverter.Then>
+                    <x:Boolean>False</x:Boolean>
+                </converters:ConditionConverter.Then>
+                <converters:ConditionConverter.Else>
+                    <x:Boolean>True</x:Boolean>
                 </converters:ConditionConverter.Else>
             </converters:ConditionConverter>
 

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OneDo.Common.Logging;
 using OneDo.Model.Data;
-using OneDo.Services.NavigationService;
+using OneDo.Services.ModalService;
 using OneDo.View;
 using OneDo.ViewModel;
 using System;
@@ -20,14 +20,13 @@ using OneDo.View.Pages;
 using Windows.UI.Core;
 using OneDo.Model.Data.Entities;
 using GalaSoft.MvvmLight.Messaging;
+using Windows.System;
+using Windows.UI.Xaml.Media;
 
 namespace OneDo
 {
     sealed partial class App : Application
     {
-        public Type StartPageType => typeof(MainPage);
-
-
         private readonly Stopwatch stopwatch = new Stopwatch();
 
         static App()
@@ -85,9 +84,9 @@ namespace OneDo
 
             await InitializeSettings();
             await InitializeData();
-            InitializeNavigation();
+            InitializeModalService();
 
-            ShowStartPage();
+            ShowContent();
 
             stopwatch.Stop();
             Logger.Current.Info($"Start-up time: {stopwatch.Elapsed}");
@@ -163,28 +162,15 @@ namespace OneDo
             Logger.Current.Info("Data initialized");
         }
 
-        private void InitializeNavigation()
+        private void InitializeModalService()
         {
             ShowSplashScreenText(null);
 
-            var navigationService = ViewModelLocator.Container.Resolve<INavigationService>(TypedParameter.From(Window.Current));
-            Window.Current.CoreWindow.PointerPressed += (sender, args) =>
-            {
-                try
-                {
-                    var pointer = args.CurrentPoint;
-                    if (pointer.Properties.IsXButton1Pressed)
-                    {
-                        navigationService.TryGoBack();
-                        args.Handled = true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Current.Debug("PointerPressed", e);
-                }
-            };
-            Logger.Current.Info("Navigation initialized");
+            ViewModelLocator.Container.Resolve<IModalService>(
+                TypedParameter.From(Window.Current),
+                TypedParameter.From(SystemNavigationManager.GetForCurrentView()));
+
+            Logger.Current.Info("Modal service initialized");
         }
 
 
@@ -194,13 +180,12 @@ namespace OneDo
             Window.Current.Activate();
         }
 
-        private void ShowStartPage()
+        private void ShowContent()
         {
             ShowSplashScreenText(null);
 
-            var navigationService = ViewModelLocator.Container.Resolve<INavigationService>();
-            navigationService.Navigate(StartPageType);
-            Window.Current.Content = navigationService.Frame;
+            var content = new MainPage();
+            Window.Current.Content = content;
         }
 
 

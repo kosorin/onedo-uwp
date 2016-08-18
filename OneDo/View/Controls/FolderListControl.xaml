@@ -3,6 +3,7 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:behaviors="using:OneDo.View.Behaviors"
                        xmlns:controls="using:OneDo.View.Controls"
                        xmlns:converters="using:OneDo.View.Converters"
                        xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -212,18 +213,30 @@
                                 Grid.Column="1"
                                 Width="32"
                                 Height="32"
+                                Margin="0,0,8,0"
                                 Padding="0"
                                 HorizontalAlignment="Left"
                                 Background="Transparent"
-                                BorderThickness="0"
+                                BorderBrush="Transparent"
+                                BorderThickness="1,1,1,0"
                                 Tapped="AddButton_Tapped">
                             <FontIcon FontSize="16"
                                       FontWeight="Light"
                                       Glyph="&#xE710;" />
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="PointerEntered">
+                                    <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+                                </ic:EventTriggerBehavior>
+                                <ic:EventTriggerBehavior EventName="PointerExited">
+                                    <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
+                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
                         </Button>
                         <Border Grid.Row="2"
                                 Grid.ColumnSpan="2"
-                                Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorToBrushConverter}}" />
                     </Grid>
                 </ScrollViewer>
             </Border>
@@ -244,7 +257,8 @@
                         <ListViewItemPresenter x:Name="Presenter"
                                                HorizontalContentAlignment="Stretch"
                                                VerticalContentAlignment="Stretch"
-                                               Foreground="{Binding Color}"
+                                               Foreground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               BorderThickness="2"
                                                CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                                                CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                                                CheckMode="Inline"
@@ -258,40 +272,46 @@
                                                FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                                PlaceholderBackground="Transparent"
                                                PointerOverBackground="Transparent"
-                                               PointerOverForeground="{Binding Color}"
+                                               PointerOverForeground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                                                PressedBackground="Transparent"
                                                ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                                               RightTapped="FolderItem_RightTapped"
-                                               SelectedBackground="{Binding Color}"
+                                               SelectedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                                                SelectedForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                                               SelectedPointerOverBackground="{Binding Color}"
-                                               SelectedPressedBackground="{Binding Color}"
-                                               SelectionCheckMarkVisualEnabled="True">
-                            <FlyoutBase.AttachedFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="Edit">
-                                        <FlyoutBase.AttachedFlyout>
-                                            <Flyout>
-                                                <Border Background="Red" />
-                                            </Flyout>
-                                        </FlyoutBase.AttachedFlyout>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem IsEnabled="False" Text="Pin to start" />
-                                    <MenuFlyoutItem Text="Delete" />
-                                </MenuFlyout>
-                            </FlyoutBase.AttachedFlyout>
-                        </ListViewItemPresenter>
+                                               SelectedPointerOverBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               SelectedPressedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               SelectionCheckMarkVisualEnabled="True" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
         <DataTemplate x:Key="FolderItemDataTemplate" x:DataType="vmItems:FolderItemViewModel">
-            <Border Background="Transparent">
+            <Border Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="1,1,1,0">
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Tapped="EditItem_Tapped" Text="Edit" />
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="RightTapped">
+                        <behaviors:ShowAttachedFlyoutAction />
+                    </ic:EventTriggerBehavior>
+                    <ic:EventTriggerBehavior EventName="PointerEntered">
+                        <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+                    </ic:EventTriggerBehavior>
+                    <ic:EventTriggerBehavior EventName="PointerExited">
+                        <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
+                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <TextBlock Margin="12,0"
                            VerticalAlignment="Center"
                            FontWeight="Medium"
                            Text="{x:Bind Name, Mode=OneWay}" />
+
             </Border>
         </DataTemplate>
 

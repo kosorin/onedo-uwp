@@ -11,14 +11,16 @@ namespace OneDo.View.Behaviors
         {
             return (bool)obj.GetValue(HideMoreButtonProperty);
         }
+
         public static void SetHideMoreButton(DependencyObject obj, bool value)
         {
             obj.SetValue(HideMoreButtonProperty, value);
         }
-        public static readonly DependencyProperty HideMoreButtonProperty =
-            DependencyProperty.RegisterAttached("HideMoreButton", typeof(bool), typeof(CommandBarBehavior), new PropertyMetadata(false, OnHideMoreButton_Changed));
 
-        private static void OnHideMoreButton_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty HideMoreButtonProperty =
+            DependencyProperty.RegisterAttached("HideMoreButton", typeof(bool), typeof(CommandBarBehavior), new PropertyMetadata(false, HideMoreButton_Changed));
+
+        private static void HideMoreButton_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var commandBar = d as CommandBar;
             var morebutton = TreeHelper.FindChild<ButtonBase>(commandBar, "MoreButton");

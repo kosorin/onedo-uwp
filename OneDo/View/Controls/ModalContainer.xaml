@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="OneDo.View.Controls.ModalContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:behaviors="using:OneDo.View.Behaviors"
+             xmlns:controls="using:OneDo.View.Controls"
+             xmlns:converters="using:OneDo.View.Converters"
+             xmlns:entities="using:OneDo.Model.Data.Entities"
+             xmlns:i="using:Microsoft.Xaml.Interactivity"
+             xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+             xmlns:v="using:OneDo.View"
+             xmlns:vModals="using:OneDo.View.Modals"
+             xmlns:vmItems="using:OneDo.ViewModel.Items"
+             xmlns:vmModals="using:OneDo.ViewModel.Modals"
+             mc:Ignorable="d">
+    <Grid>
+        <Border Background="#66000000">
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="Tapped">
+                    <ic:InvokeCommandAction Command="{Binding GoBackCommand}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </Border>
+        <ContentControl HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Content="{Binding Modal}">
+            <ContentControl.ContentTemplateSelector>
+                <v:ModalTemplateSelector>
+                    <v:ModalTemplateSelector.TodoEditorTemplate>
+                        <DataTemplate x:DataType="vmModals:TodoEditorViewModel">
+                            <vModals:TodoEditor Margin="16" />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.TodoEditorTemplate>
+                    <v:ModalTemplateSelector.FolderEditorTemplate>
+                        <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
+                            <vModals:FolderEditor Width="288" VerticalAlignment="Top" />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.FolderEditorTemplate>
+                    <v:ModalTemplateSelector.SettingsTemplate>
+                        <DataTemplate x:DataType="vmModals:SettingsViewModel">
+                            <vModals:SettingsView Width="400" HorizontalAlignment="Right" />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.SettingsTemplate>
+                </v:ModalTemplateSelector>
+            </ContentControl.ContentTemplateSelector>
+        </ContentControl>
+    </Grid>
+</UserControl>

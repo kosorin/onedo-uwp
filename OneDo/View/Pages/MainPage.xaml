@@ -11,8 +11,8 @@
                 xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:v="using:OneDo.View"
                 xmlns:vModals="using:OneDo.View.Modals"
-                xmlns:vmModals="using:OneDo.ViewModel.Modals"
                 xmlns:vmItems="using:OneDo.ViewModel.Items"
+                xmlns:vmModals="using:OneDo.ViewModel.Modals"
                 DataContext="{Binding MainPage, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
@@ -91,37 +91,49 @@
         </CommandBar>
 
         <!--  Modals  -->
-        <Border Grid.RowSpan="3"
-                DataContext="{Binding NavigationService, Source={StaticResource Locator}}"
-                Visibility="{Binding Modal, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
+        <Grid Grid.RowSpan="3"
+              DataContext="{Binding ModalService, Source={StaticResource Locator}}"
+              Visibility="{Binding Current, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
             <Grid>
                 <Border Background="#66000000">
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="Tapped">
-                            <ic:InvokeCommandAction Command="{Binding GoBackCommand}" />
+                            <ic:InvokeCommandAction Command="{Binding PopCommand}" />
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Border>
-                <ContentControl HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
-                                Content="{Binding Modal}">
-                    <ContentControl.ContentTemplateSelector>
+                <ItemsControl HorizontalContentAlignment="Stretch"
+                              Width="500"
+                              Height="500"
+                              VerticalContentAlignment="Stretch"
+                              ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplateSelector>
                         <v:ModalTemplateSelector>
                             <v:ModalTemplateSelector.TodoEditorTemplate>
                                 <DataTemplate x:DataType="vmModals:TodoEditorViewModel">
                                     <vModals:TodoEditor Margin="16" />
                                 </DataTemplate>
                             </v:ModalTemplateSelector.TodoEditorTemplate>
+                            <v:ModalTemplateSelector.FolderEditorTemplate>
+                                <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
+                                    <vModals:FolderEditor Width="288" VerticalAlignment="Top" />
+                                </DataTemplate>
+                            </v:ModalTemplateSelector.FolderEditorTemplate>
                             <v:ModalTemplateSelector.SettingsTemplate>
                                 <DataTemplate x:DataType="vmModals:SettingsViewModel">
                                     <vModals:SettingsView Width="400" HorizontalAlignment="Right" />
                                 </DataTemplate>
                             </v:ModalTemplateSelector.SettingsTemplate>
                         </v:ModalTemplateSelector>
-                    </ContentControl.ContentTemplateSelector>
-                </ContentControl>
+                    </ItemsControl.ItemTemplateSelector>
+                </ItemsControl>
             </Grid>
-        </Border>
+        </Grid>
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="3">

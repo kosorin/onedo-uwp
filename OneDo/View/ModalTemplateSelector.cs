@@ -13,6 +13,8 @@ namespace OneDo.View
     {
         public DataTemplate TodoEditorTemplate { get; set; }
 
+        public DataTemplate FolderEditorTemplate { get; set; }
+
         public DataTemplate SettingsTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
@@ -30,6 +32,10 @@ namespace OneDo.View
             if (modal is TodoEditorViewModel)
             {
                 return TodoEditorTemplate;
+            }
+            else if (modal is FolderEditorViewModel)
+            {
+                return FolderEditorTemplate;
             }
             else if (modal is SettingsViewModel)
             {

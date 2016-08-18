@@ -98,24 +98,30 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ModalService\IModalService.cs" />
+    <Compile Include="Services\ModalService\ModalService.cs" />
+    <Compile Include="ViewModel\FolderEventArgs.cs" />
+    <Compile Include="ViewModel\Items\ColorItem.cs" />
+    <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
+    <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
     <Compile Include="View\Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
+    <Compile Include="View\Controls\DeleteFlyout.cs" />
+    <Compile Include="View\Controls\ModalContainer.xaml.cs">
+      <DependentUpon>ModalContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\SlidableListItem.cs" />
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\Converters\ChangeTypeConverter.cs" />
+    <Compile Include="View\Converters\ColorToBrushConverter.cs" />
     <Compile Include="View\Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="View\Converters\StringFormatConverter.cs" />
     <Compile Include="View\Converters\ConditionConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Services\NavigationService\BackButtonEventArgs.cs" />
-    <Compile Include="Services\NavigationService\INavigable.cs" />
-    <Compile Include="Services\NavigationService\INavigationService.cs" />
-    <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
-    <Compile Include="Services\NavigationService\NavigationService.cs" />
     <Compile Include="Services\ProgressService\IProgressService.cs" />
     <Compile Include="Services\ProgressService\ProgressService.cs" />
     <Compile Include="ViewModel\Commands\AsyncRelayCommand.cs" />
@@ -133,6 +139,9 @@
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModalBase.cs" />
+    <Compile Include="View\Modals\FolderEditor.xaml.cs">
+      <DependentUpon>FolderEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ModalTemplateSelector.cs" />
     <Compile Include="View\Items\FolderTemplateSelector.cs" />
     <Compile Include="View\IView.cs" />
@@ -183,6 +192,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="View\Controls\FolderListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ModalContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Modals\FolderEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

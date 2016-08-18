@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Model.Data;
-using OneDo.Services.NavigationService;
+using OneDo.Services.ModalService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +11,13 @@ namespace OneDo.ViewModel
 {
     public abstract class ModalViewModel : ExtendedViewModel
     {
-        public INavigationService NavigationService { get; }
+        public IModalService ModalService { get; }
 
         public ISettingsProvider SettingsProvider { get; }
 
-        protected ModalViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
+        protected ModalViewModel(IModalService modalService, ISettingsProvider settingsProvider)
         {
-            NavigationService = navigationService;
+            ModalService = modalService;
             SettingsProvider = settingsProvider;
         }
     }

@@ -1,4 +1,4 @@
-﻿using OneDo.ViewModel.Controls;
+﻿    using OneDo.ViewModel.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,14 +26,14 @@ namespace OneDo.View.Controls
             InitializeComponent();
         }
 
-        private void FolderItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-        }
-
         private void AddButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
+        }
+
+        private void EditItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            VM.TodoItemTapped();
         }
     }
 }

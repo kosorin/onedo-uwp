@@ -5,7 +5,7 @@ using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
-using OneDo.Services.NavigationService;
+using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Commands;
 using System;
@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Foundation;
 using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModel.Modals
@@ -74,7 +75,7 @@ namespace OneDo.ViewModel.Modals
         }
 
 
-        public event EventHandler<TodoEditorViewModel, TodoEventArgs> Deleted;
+        public event TypedEventHandler<TodoEditorViewModel, TodoEventArgs> Deleted;
 
         private void OnDeleted()
         {
@@ -82,7 +83,7 @@ namespace OneDo.ViewModel.Modals
         }
 
 
-        public event EventHandler<TodoEditorViewModel, TodoEventArgs> Saved;
+        public event TypedEventHandler<TodoEditorViewModel, TodoEventArgs> Saved;
 
         private void OnSaved()
         {
@@ -102,7 +103,7 @@ namespace OneDo.ViewModel.Modals
 
         private readonly TodoBusiness business;
 
-        public TodoEditorViewModel(INavigationService navigationService, ISettingsProvider settingsProvider, IProgressService progressService, Todo todo) : base(navigationService, settingsProvider)
+        public TodoEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Todo todo) : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
 

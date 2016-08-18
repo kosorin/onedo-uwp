@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 namespace OneDo.ViewModel.Items
@@ -14,7 +15,7 @@ namespace OneDo.ViewModel.Items
     {
         public string Name => Folder.Name;
 
-        public Brush Color => ColorHelper.FromHex(Folder.Color);
+        public Color Color => Common.Media.ColorHelper.FromHex(Folder.Color);
 
 
         public Folder Folder { get; }

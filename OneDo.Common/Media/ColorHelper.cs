@@ -11,9 +11,14 @@ namespace OneDo.Common.Media
 {
     public static class ColorHelper
     {
-        public static Brush FromHex(string hex)
+        public static string ToHex(Color color)
         {
-            if (string.IsNullOrEmpty(hex)) return new SolidColorBrush(Colors.Transparent);
+            return string.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
+        }
+
+        public static Color FromHex(string hex)
+        {
+            if (string.IsNullOrEmpty(hex)) return Colors.Transparent;
 
             byte a = 255, r = 0, g = 0, b = 0;
             if (hex.Length == 7)
@@ -30,8 +35,7 @@ namespace OneDo.Common.Media
                 b = HexToByte(hex, 7);
             }
 
-            var color = Color.FromArgb(a, r, g, b);
-            return new SolidColorBrush(color);
+            return Color.FromArgb(a, r, g, b);
         }
 
         private static byte HexToByte(string text, int offset)

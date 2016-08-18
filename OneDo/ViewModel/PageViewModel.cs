@@ -1,44 +1,23 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Common.Logging;
 using OneDo.Model.Data;
-using OneDo.Services.NavigationService;
+using OneDo.Services.ModalService;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 using System;
 
 namespace OneDo.ViewModel
 {
-    public abstract class PageViewModel : ExtendedViewModel, INavigable
+    public abstract class PageViewModel : ExtendedViewModel
     {
-        public INavigationService NavigationService { get; }
+        public IModalService ModalService { get; }
 
         public ISettingsProvider SettingsProvider { get; }
 
-        protected PageViewModel(INavigationService navigationService, ISettingsProvider settingsProvider)
+        protected PageViewModel(IModalService modalService, ISettingsProvider settingsProvider)
         {
-            NavigationService = navigationService;
+            ModalService = modalService;
             SettingsProvider = settingsProvider;
-        }
-
-
-        public virtual void OnNavigatingFrom(NavigatingEventArgs args)
-        {
-
-        }
-
-        public virtual Task OnNavigatedFromAsync()
-        {
-            return Task.CompletedTask;
-        }
-
-        public virtual void OnNavigatedTo(object parameter, NavigationMode mode)
-        {
-
-        }
-
-        public virtual void OnBackButton(BackButtonEventArgs args)
-        {
-
         }
     }
 }
