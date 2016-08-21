@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
+    <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\FolderEventArgs.cs" />
     <Compile Include="ViewModel\Items\ColorItemViewModel.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />

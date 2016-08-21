@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
+using System.Text.RegularExpressions;
 
 namespace OneDo.Model.Business
 {
@@ -18,6 +19,11 @@ namespace OneDo.Model.Business
         public override Folder Clone(Folder folder)
         {
             return folder;
+        }
+
+        public string NormalizeName(string name)
+        {
+            return (name ?? "").Trim();
         }
     }
 }

@@ -17,10 +17,6 @@ namespace OneDo.ViewModel.Items
 
         public Color Color => Common.Media.ColorHelper.FromHex(Folder.Color);
 
-        public bool HasParent => Folder.ParentId != null;
-
-        public int? ParentId => Folder.ParentId;
-
 
         public Folder Folder { get; }
 

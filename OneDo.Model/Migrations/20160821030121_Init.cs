@@ -15,20 +15,11 @@ namespace OneDo.Model.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     Color = table.Column<string>(nullable: false),
-                    Left = table.Column<int>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
-                    ParentId = table.Column<int>(nullable: true),
-                    Right = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Folders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Folders_Folders_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Folders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,32 +39,16 @@ namespace OneDo.Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Todos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Todos_Folders_FolderId",
-                        column: x => x.FolderId,
-                        principalTable: "Folders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Folders_ParentId",
-                table: "Folders",
-                column: "ParentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Todos_FolderId",
-                table: "Todos",
-                column: "FolderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Todos");
+                name: "Folders");
 
             migrationBuilder.DropTable(
-                name: "Folders");
+                name: "Todos");
         }
     }
 }

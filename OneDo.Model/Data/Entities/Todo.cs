@@ -27,8 +27,6 @@ namespace OneDo.Model.Data.Entities
 
         public int? FolderId { get; set; }
 
-        public virtual Folder Folder { get; set; }
-
 
         public DateTime? Completed { get; set; }
     }

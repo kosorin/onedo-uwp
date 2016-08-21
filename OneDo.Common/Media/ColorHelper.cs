@@ -11,8 +11,12 @@ namespace OneDo.Common.Media
 {
     public static class ColorHelper
     {
-        public static string ToHex(Color color)
+        public static string ToHex(this Color color)
         {
+            if (color.A != 255)
+            {
+                return string.Format("#{3:X2}{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B, color.A);
+            }
             return string.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
         }
 

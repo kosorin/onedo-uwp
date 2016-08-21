@@ -21,22 +21,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModel.Modals
 {
-    public class FolderEditorViewModel : ModalViewModel
+    public class FolderEditorViewModel : EditorViewModel<Folder>
     {
-        private bool isNew;
-        public bool IsNew
-        {
-            get { return isNew; }
-            set { Set(ref isNew, value); }
-        }
-
-        private bool isDirty;
-        public bool IsDirty
-        {
-            get { return isDirty; }
-            set { Set(ref isDirty, value); }
-        }
-
+        public static List<ColorItemViewModel> colors;
+        public List<ColorItemViewModel> Colors => colors;
 
         private string name;
         public string Name
@@ -44,15 +32,12 @@ namespace OneDo.ViewModel.Modals
             get { return name; }
             set
             {
-                if (Set(ref name, value))
+                if (Set(ref name, business.NormalizeName(value)))
                 {
-                    IsDirty = true;
+                    SetDirtyProperty(() => Name != original.Name);
                 }
             }
         }
-
-        public static List<ColorItemViewModel> colors;
-        public List<ColorItemViewModel> Colors => colors;
 
         private ColorItemViewModel selectedColor;
         public ColorItemViewModel SelectedColor
@@ -62,37 +47,22 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref selectedColor, value))
                 {
-                    IsDirty = true;
+                    SetDirtyProperty(() => SelectedColor?.Color.ToHex() != original.Color);
                 }
             }
         }
 
 
-        public event TypedEventHandler<FolderEditorViewModel, FolderEventArgs> Deleted;
-
-        private void OnDeleted()
-        {
-            Deleted?.Invoke(this, new FolderEventArgs(original));
-        }
-
-
         public event TypedEventHandler<FolderEditorViewModel, FolderEventArgs> Saved;
 
-        private void OnSaved()
-        {
-            Saved?.Invoke(this, new FolderEventArgs(original));
-        }
+        public event TypedEventHandler<FolderEditorViewModel, FolderEventArgs> Deleted;
 
 
-        public ICommand DeleteCommand { get; }
-
-        public ICommand SaveCommand { get; }
-
-        public IProgressService ProgressService { get; }
+        private readonly FolderBusiness business;
 
         private readonly Folder original;
 
-        private readonly FolderBusiness business;
+        private readonly Random random = new Random();
 
         static FolderEditorViewModel()
         {
@@ -124,15 +94,10 @@ namespace OneDo.ViewModel.Modals
         }
 
         public FolderEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Folder folder)
-            : base(modalService, settingsProvider)
+            : base(modalService, settingsProvider, progressService)
         {
-            ProgressService = progressService;
-
             business = new FolderBusiness(SettingsProvider);
             original = folder ?? business.Default();
-
-            DeleteCommand = new AsyncRelayCommand(Delete);
-            SaveCommand = new AsyncRelayCommand(Save);
 
             Load();
         }
@@ -142,38 +107,16 @@ namespace OneDo.ViewModel.Modals
             IsNew = business.IsNew(original);
 
             Name = original.Name;
-            SelectedColor = Colors.Where(x => x.Color == ColorHelper.FromHex(original.Color)).FirstOrDefault();
-
-            IsDirty = IsNew;
+            SelectedColor = Colors
+                .Where(x => x.Color.ToHex() == original.Color)
+                .FirstOrDefault() ?? Colors[random.Next(Colors.Count)];
         }
 
-        private async Task Delete()
-        {
-            if (!IsNew)
-            {
-                try
-                {
-                    ProgressService.IsBusy = true;
-                    using (var dc = new DataContext())
-                    {
-                        dc.Set<Folder>().Attach(original);
-                        dc.Set<Folder>().Remove(original);
-                        await dc.SaveChangesAsync();
-                    }
-                }
-                finally
-                {
-                    ProgressService.IsBusy = false;
-                }
 
-                OnDeleted();
-            }
-        }
-
-        private async Task Save()
+        protected override async Task Save()
         {
-            original.Name = Name;
-            original.Color = ColorHelper.ToHex(SelectedColor.Color);
+            original.Name = business.NormalizeName(Name);
+            original.Color = SelectedColor.Color.ToHex();
 
             try
             {
@@ -197,6 +140,39 @@ namespace OneDo.ViewModel.Modals
             }
 
             OnSaved();
+        }
+
+        protected override async Task Delete()
+        {
+            if (!IsNew)
+            {
+                try
+                {
+                    ProgressService.IsBusy = true;
+                    using (var dc = new DataContext())
+                    {
+                        dc.Set<Folder>().Attach(original);
+                        dc.Set<Folder>().Remove(original);
+                        await dc.SaveChangesAsync();
+                    }
+                }
+                finally
+                {
+                    ProgressService.IsBusy = false;
+                }
+
+                OnDeleted();
+            }
+        }
+
+        protected override void OnSaved()
+        {
+            Saved?.Invoke(this, new FolderEventArgs(original));
+        }
+
+        protected override void OnDeleted()
+        {
+            Deleted?.Invoke(this, new FolderEventArgs(original));
         }
     }
 }
