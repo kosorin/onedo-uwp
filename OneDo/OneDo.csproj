@@ -98,10 +98,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Event\EntityEventArgs.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\FolderEventArgs.cs" />
     <Compile Include="ViewModel\Items\ColorItemViewModel.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
@@ -135,7 +135,6 @@
     <Compile Include="ViewModel\Modals\NoteEditorViewModel.cs" />
     <Compile Include="ViewModel\ExtendedViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenMessage.cs" />
-    <Compile Include="ViewModel\NoteEventArgs.cs" />
     <Compile Include="View\Controls\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>

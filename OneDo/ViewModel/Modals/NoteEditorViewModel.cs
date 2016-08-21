@@ -75,19 +75,19 @@ namespace OneDo.ViewModel.Modals
         }
 
 
-        public event TypedEventHandler<NoteEditorViewModel, NoteEventArgs> Deleted;
+        public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Deleted;
 
         private void OnDeleted()
         {
-            Deleted?.Invoke(this, new NoteEventArgs(original));
+            Deleted?.Invoke(this, new EntityEventArgs<Note>(original));
         }
 
 
-        public event TypedEventHandler<NoteEditorViewModel, NoteEventArgs> Saved;
+        public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Saved;
 
         private void OnSaved()
         {
-            Saved?.Invoke(this, new NoteEventArgs(original));
+            Saved?.Invoke(this, new EntityEventArgs<Note>(original));
         }
 
 

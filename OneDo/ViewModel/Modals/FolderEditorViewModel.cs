@@ -53,9 +53,9 @@ namespace OneDo.ViewModel.Modals
         }
 
 
-        public event TypedEventHandler<FolderEditorViewModel, FolderEventArgs> Saved;
+        public event TypedEventHandler<FolderEditorViewModel, EntityEventArgs<Folder>> Saved;
 
-        public event TypedEventHandler<FolderEditorViewModel, FolderEventArgs> Deleted;
+        public event TypedEventHandler<FolderEditorViewModel, EntityEventArgs<Folder>> Deleted;
 
 
         private readonly FolderBusiness business;
@@ -167,12 +167,12 @@ namespace OneDo.ViewModel.Modals
 
         protected override void OnSaved()
         {
-            Saved?.Invoke(this, new FolderEventArgs(original));
+            Saved?.Invoke(this, new EntityEventArgs<Folder>(original));
         }
 
         protected override void OnDeleted()
         {
-            Deleted?.Invoke(this, new FolderEventArgs(original));
+            Deleted?.Invoke(this, new EntityEventArgs<Folder>(original));
         }
     }
 }
