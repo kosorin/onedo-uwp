@@ -51,15 +51,11 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
-        private List<ColorItem> colors;
-        public List<ColorItem> Colors
-        {
-            get { return colors; }
-            set { Set(ref colors, value); }
-        }
+        public static List<ColorItemViewModel> colors;
+        public List<ColorItemViewModel> Colors => colors;
 
-        private ColorItem selectedColor;
-        public ColorItem SelectedColor
+        private ColorItemViewModel selectedColor;
+        public ColorItemViewModel SelectedColor
         {
             get { return selectedColor; }
             set
@@ -98,7 +94,37 @@ namespace OneDo.ViewModel.Modals
 
         private readonly FolderBusiness business;
 
-        public FolderEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Folder folder) : base(modalService, settingsProvider)
+        static FolderEditorViewModel()
+        {
+            colors = new List<ColorItemViewModel>
+            {
+                new ColorItemViewModel("#C10051"),
+                new ColorItemViewModel("#E81123"),
+                new ColorItemViewModel("#F7630D"),
+                new ColorItemViewModel("#FABD14"),
+                new ColorItemViewModel("#7EC500"),
+                new ColorItemViewModel("#0F893E"),
+                new ColorItemViewModel("#00AC56"),
+                new ColorItemViewModel("#00B6C1"),
+                new ColorItemViewModel("#0099BB"),
+                new ColorItemViewModel("#0063AF"),
+                new ColorItemViewModel("#004E8C"),
+                new ColorItemViewModel("#5B2D90"),
+                new ColorItemViewModel("#AC008C"),
+                new ColorItemViewModel("#D40078"),
+                new ColorItemViewModel("#C6A477"),
+                new ColorItemViewModel("#84939A"),
+            };
+        }
+
+        public FolderEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
+            : this(modalService, settingsProvider, progressService, null)
+        {
+
+        }
+
+        public FolderEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Folder folder)
+            : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
 
@@ -108,29 +134,8 @@ namespace OneDo.ViewModel.Modals
             DeleteCommand = new AsyncRelayCommand(Delete);
             SaveCommand = new AsyncRelayCommand(Save);
 
-            Colors = new List<ColorItem>
-            {
-                new ColorItem(ColorHelper.FromHex("#D40078"), ""),
-                new ColorItem(ColorHelper.FromHex("#AC008C"), ""),
-                new ColorItem(ColorHelper.FromHex("#C10051"), ""),
-                new ColorItem(ColorHelper.FromHex("#E81123"), ""),
-                new ColorItem(ColorHelper.FromHex("#F7630D"), ""),
-                new ColorItem(ColorHelper.FromHex("#FABD14"), ""),
-                new ColorItem(ColorHelper.FromHex("#7EC500"), ""),
-                new ColorItem(ColorHelper.FromHex("#0F893E"), ""),
-                new ColorItem(ColorHelper.FromHex("#00AC56"), ""),
-                new ColorItem(ColorHelper.FromHex("#00B6C1"), ""),
-                new ColorItem(ColorHelper.FromHex("#0099BB"), ""),
-                new ColorItem(ColorHelper.FromHex("#0063AF"), ""),
-                new ColorItem(ColorHelper.FromHex("#004E8C"), ""),
-                new ColorItem(ColorHelper.FromHex("#5B2D90"), ""),
-                new ColorItem(ColorHelper.FromHex("#C6A477"), ""),
-                new ColorItem(ColorHelper.FromHex("#84939A"), ""),
-            };
-
             Load();
         }
-
 
         private void Load()
         {

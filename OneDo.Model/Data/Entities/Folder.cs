@@ -21,6 +21,13 @@ namespace OneDo.Model.Data.Entities
         public int? Right { get; set; }
 
 
+        public int? ParentId { get; set; }
+
+        public virtual Folder Parent { get; set; }
+
+        public virtual ICollection<Folder> Subfolders { get; set; }
+
+
         public virtual ICollection<Todo> Todos { get; set; }
     }
 }

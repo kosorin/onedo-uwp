@@ -1,4 +1,5 @@
-﻿    using OneDo.ViewModel.Controls;
+﻿using OneDo.ViewModel.Controls;
+using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,14 +27,23 @@ namespace OneDo.View.Controls
             InitializeComponent();
         }
 
-        private void AddButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void AddItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            VM.AddItem();
         }
 
         private void EditItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            VM.TodoItemTapped();
+            var element = (FrameworkElement)sender;
+            var item = (FolderItemViewModel)element.DataContext;
+            VM.EditItem(item);
+        }
+
+        private async void DeleteItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var element = (FrameworkElement)sender;
+            var item = (FolderItemViewModel)element.DataContext;
+            await VM.DeleteItem(item);
         }
     }
 }

@@ -33,8 +33,6 @@ namespace OneDo.ViewModel.Controls
             set { Set(ref selectedItem, value); }
         }
 
-        public ICommand DeleteCommand { get; }
-
         public IModalService ModalService { get; }
 
         public ISettingsProvider SettingsProvider { get; }
@@ -46,8 +44,6 @@ namespace OneDo.ViewModel.Controls
             ModalService = modalService;
             SettingsProvider = settingsProvider;
             ProgressService = progressService;
-
-            DeleteCommand = new AsyncRelayCommand<FolderItemViewModel>(Delete);
         }
 
         public async Task Load()
@@ -70,39 +66,43 @@ namespace OneDo.ViewModel.Controls
             }
         }
 
-        private async Task Add(FolderItemViewModel item)
+        public void AddItem()
         {
-            using (var dc = new DataContext())
+            var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService);
+            editor.Saved += (s, e) =>
             {
-                dc.Set<Folder>().Add(item.Folder);
-                await dc.SaveChangesAsync();
-            }
+                Items.Add(new FolderItemViewModel(e.Folder));
+                SelectedItem = Items.Last();
+            };
+
+            ShowEditor(editor);
         }
 
-        private async Task Delete(FolderItemViewModel item)
+        public void EditItem(FolderItemViewModel item)
+        {
+            var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService, item.Folder);
+            editor.Deleted += (s, e) => Items.Remove(item);
+            editor.Saved += (s, e) => item.Refresh();
+
+            ShowEditor(editor);
+        }
+
+        public async Task DeleteItem(FolderItemViewModel item)
         {
             using (var dc = new DataContext())
             {
+                if (SelectedItem == item)
+                {
+                    SelectedItem = Items.FirstOrDefault();
+                }
+                Items.Remove(item);
                 dc.Set<Folder>().Attach(item.Folder);
                 dc.Set<Folder>().Remove(item.Folder);
                 await dc.SaveChangesAsync();
             }
         }
 
-
-
-        public void TodoItemTapped()
-        {
-            if (SelectedItem != null)
-            {
-                var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService, SelectedItem.Folder);
-                editor.Deleted += (s, e) => Items.Remove(SelectedItem);
-                editor.Saved += (s, e) => SelectedItem.Refresh();
-                ShowTodoEditor(editor);
-            }
-        }
-
-        private void ShowTodoEditor(FolderEditorViewModel editor)
+        private void ShowEditor(FolderEditorViewModel editor)
         {
             editor.Deleted += (s, e) => ModalService.Pop();
             editor.Saved += (s, e) => ModalService.Pop();

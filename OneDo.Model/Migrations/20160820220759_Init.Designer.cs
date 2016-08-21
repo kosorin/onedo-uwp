@@ -8,7 +8,7 @@ using OneDo.Model.Data;
 namespace OneDo.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20160814141023_Init")]
+    [Migration("20160820220759_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,17 +22,20 @@ namespace OneDo.Model.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Color")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 7);
+                        .IsRequired();
 
                     b.Property<int?>("Left");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int?>("ParentId");
+
                     b.Property<int?>("Right");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Folders");
                 });
@@ -61,6 +64,13 @@ namespace OneDo.Model.Migrations
                     b.HasIndex("FolderId");
 
                     b.ToTable("Todos");
+                });
+
+            modelBuilder.Entity("OneDo.Model.Data.Entities.Folder", b =>
+                {
+                    b.HasOne("OneDo.Model.Data.Entities.Folder", "Parent")
+                        .WithMany("Subfolders")
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("OneDo.Model.Data.Entities.Todo", b =>

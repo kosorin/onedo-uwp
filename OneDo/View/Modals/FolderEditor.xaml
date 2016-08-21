@@ -8,8 +8,8 @@
              xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:v="using:OneDo.View"
              xmlns:vmItems="using:OneDo.ViewModel.Items"
-             d:DesignHeight="640"
-             d:DesignWidth="360"
+             d:DesignHeight="400"
+             d:DesignWidth="300"
              mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -20,36 +20,69 @@
 
         <StackPanel Margin="16">
             <TextBox Margin="0,0,0,16"
-                     Header="Name"
+                     PlaceholderText="Folder"
                      Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <GridView Margin="0,0,0,16"
-                      Header="Color"
-                      ItemsSource="{Binding Colors}"
-                      SelectedItem="{Binding SelectedColor, Mode=TwoWay}">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid  MaximumRowsOrColumns="4" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
+            <GridView Margin="0,0,-8,-8"
+                      ItemsSource="{x:Bind VM.Colors}"
+                      Loaded="Colors_Loaded"
+                      SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                      SelectionChanged="Colors_SelectionChanged">
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
+                        <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="MinWidth" Value="40" />
-                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="MinWidth" Value="48" />
+                        <Setter Property="MinHeight" Value="48" />
                         <Setter Property="Width" Value="48" />
                         <Setter Property="Height" Value="48" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                        <Setter Property="Margin" Value="0,0,4,4" />
+                        <Setter Property="Margin" Value="0,0,8,8" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="GridViewItem">
+                                    <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                           CheckBoxBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                                                           CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                                           CheckMode="Overlay"
+                                                           ContentMargin="{TemplateBinding Padding}"
+                                                           ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                           DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                                           DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                                                           DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                                                           DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                                           FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                                           FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                                           PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                                                           PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                                                           PointerOverForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                                           PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                                           ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                                           SelectedBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                                                           SelectedForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                                           SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                                                           SelectedPressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                                           SelectionCheckMarkVisualEnabled="True" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </GridView.ItemContainerStyle>
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="vmItems:ColorItem">
-                        <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}" >
-                            <FontIcon HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                                                  Glyph="&#xE73E;" />
+                    <DataTemplate x:DataType="vmItems:ColorItemViewModel">
+                        <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}">
+                            <FontIcon x:Name="SelectedIcon"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                      Glyph="&#xE73E;"
+                                      Visibility="Collapsed" />
                         </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -75,4 +108,5 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Grid>
+
 </v:ModalBase>

@@ -16,7 +16,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.Storage;
 using Autofac;
-using OneDo.View.Pages;
 using Windows.UI.Core;
 using OneDo.Model.Data.Entities;
 using GalaSoft.MvvmLight.Messaging;

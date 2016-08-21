@@ -1,7 +1,6 @@
 ﻿using OneDo.ViewModel;
-using OneDo.ViewModel.Pages;
 
-namespace OneDo.View.Pages
+namespace OneDo.View
 {
     public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>
     {

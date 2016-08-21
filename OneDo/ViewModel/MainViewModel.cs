@@ -16,7 +16,7 @@ using OneDo.Services.ProgressService;
 using System;
 using OneDo.ViewModel.Controls;
 
-namespace OneDo.ViewModel.Pages
+namespace OneDo.ViewModel
 {
     public class MainViewModel : PageViewModel
     {

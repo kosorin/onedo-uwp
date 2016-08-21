@@ -31,6 +31,7 @@ namespace OneDo.Model.Data
             var folder = modelBuilder.Entity<Folder>();
             folder.Property(x => x.Name).IsRequired();
             folder.Property(x => x.Color).IsRequired();
+            folder.HasOne(x => x.Parent).WithMany(x => x.Subfolders);
             folder.HasMany(x => x.Todos).WithOne(x => x.Folder);
         }
     }

@@ -117,9 +117,9 @@
     <Compile Include="Data\IEntity.cs" />
     <Compile Include="Data\DataContext.cs" />
     <Compile Include="Data\Settings.cs" />
-    <Compile Include="Migrations\20160814141023_Init.cs" />
-    <Compile Include="Migrations\20160814141023_Init.designer.cs">
-      <DependentUpon>20160814141023_Init.cs</DependentUpon>
+    <Compile Include="Migrations\20160820220759_Init.cs" />
+    <Compile Include="Migrations\20160820220759_Init.designer.cs">
+      <DependentUpon>20160820220759_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

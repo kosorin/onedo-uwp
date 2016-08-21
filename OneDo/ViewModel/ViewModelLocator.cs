@@ -6,7 +6,6 @@ using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Controls;
 using OneDo.ViewModel.Modals;
-using OneDo.ViewModel.Pages;
 using Windows.UI.Xaml;
 
 namespace OneDo.ViewModel

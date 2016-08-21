@@ -171,6 +171,16 @@
             </Setter>
         </Style>
 
+        <Style x:Key="FolderListButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1,1,1,0" />
+        </Style>
+
         <ControlTemplate x:Key="FolderListViewTemplate" TargetType="ListView">
             <Border Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
@@ -198,10 +208,30 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource FolderListButtonStyle}"
+                                Visibility="{Binding SelectedItem.HasParent, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <FontIcon FontSize="16"
+                                      FontWeight="Light"
+                                      Glyph="&#xE74A;" />
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="PointerEntered">
+                                    <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+                                </ic:EventTriggerBehavior>
+                                <ic:EventTriggerBehavior EventName="PointerExited">
+                                    <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
+                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </Button>
                         <ItemsPresenter Grid.Row="1"
-                                        Grid.Column="0"
+                                        Grid.Column="1"
                                         Padding="{TemplateBinding Padding}"
                                         Footer="{TemplateBinding Footer}"
                                         FooterTemplate="{TemplateBinding FooterTemplate}"
@@ -210,16 +240,9 @@
                                         HeaderTemplate="{TemplateBinding HeaderTemplate}"
                                         HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                         <Button Grid.Row="1"
-                                Grid.Column="1"
-                                Width="32"
-                                Height="32"
-                                Margin="0,0,8,0"
-                                Padding="0"
-                                HorizontalAlignment="Left"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="1,1,1,0"
-                                Tapped="AddButton_Tapped">
+                                Grid.Column="2"
+                                Style="{StaticResource FolderListButtonStyle}"
+                                Tapped="AddItem_Tapped">
                             <FontIcon FontSize="16"
                                       FontWeight="Light"
                                       Glyph="&#xE710;" />
@@ -235,7 +258,7 @@
                             </i:Interaction.Behaviors>
                         </Button>
                         <Border Grid.Row="2"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="4"
                                 Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorToBrushConverter}}" />
                     </Grid>
                 </ScrollViewer>
@@ -292,6 +315,7 @@
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Tapped="EditItem_Tapped" Text="Edit" />
+                        <MenuFlyoutItem Tapped="DeleteItem_Tapped" Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>
