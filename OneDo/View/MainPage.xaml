@@ -91,47 +91,7 @@
         </CommandBar>
 
         <!--  Modals  -->
-        <Grid Grid.RowSpan="3"
-              DataContext="{Binding ModalService, Source={StaticResource Locator}}"
-              Visibility="{Binding Current, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid>
-                <Border Background="#66000000">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Tapped">
-                            <ic:InvokeCommandAction Command="{Binding PopCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </Border>
-                <ItemsControl HorizontalContentAlignment="Stretch"
-                              VerticalContentAlignment="Stretch"
-                              ItemsSource="{Binding Items}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Grid />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplateSelector>
-                        <v:ModalTemplateSelector>
-                            <v:ModalTemplateSelector.FolderEditorTemplate>
-                                <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
-                                    <vModals:FolderEditor HorizontalAlignment="Center" VerticalAlignment="Top" />
-                                </DataTemplate>
-                            </v:ModalTemplateSelector.FolderEditorTemplate>
-                            <v:ModalTemplateSelector.NoteEditorTemplate>
-                                <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
-                                    <vModals:NoteEditor Margin="16" />
-                                </DataTemplate>
-                            </v:ModalTemplateSelector.NoteEditorTemplate>
-                            <v:ModalTemplateSelector.SettingsTemplate>
-                                <DataTemplate x:DataType="vmModals:SettingsViewModel">
-                                    <vModals:SettingsView Width="400" HorizontalAlignment="Right" />
-                                </DataTemplate>
-                            </v:ModalTemplateSelector.SettingsTemplate>
-                        </v:ModalTemplateSelector>
-                    </ItemsControl.ItemTemplateSelector>
-                </ItemsControl>
-            </Grid>
-        </Grid>
+        <controls:ModalContainer Grid.RowSpan="3" />
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="3">

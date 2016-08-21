@@ -18,15 +18,15 @@ using Windows.System;
 
 namespace OneDo.Services.ModalService
 {
-    public class ModalService : ViewModelBase, IModalService
+    public class ModalService : ExtendedViewModel, IModalService
     {
         public ObservableCollection<ModalViewModel> Items { get; } = new ObservableCollection<ModalViewModel>();
 
-        private ModalViewModel current;
-        public ModalViewModel Current
+        private ModalViewModel currentItem;
+        public ModalViewModel CurrentItem
         {
-            get { return current; }
-            private set { Set(ref current, value); }
+            get { return currentItem; }
+            private set { Set(ref currentItem, value); }
         }
 
         public bool CanPop => Items.Count > 0;
@@ -77,7 +77,7 @@ namespace OneDo.Services.ModalService
 
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Current = Items.Count > 0 ? Items.First() : null;
+            CurrentItem = Items.Count > 0 ? Items.First() : null;
             UpdateBackButtonVisibility();
             RaisePropertyChanged(nameof(CanPop));
         }
