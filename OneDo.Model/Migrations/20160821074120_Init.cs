@@ -23,7 +23,7 @@ namespace OneDo.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Todos",
+                name: "Notes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -32,13 +32,13 @@ namespace OneDo.Model.Migrations
                     Date = table.Column<DateTime>(nullable: true),
                     Flag = table.Column<bool>(nullable: false),
                     FolderId = table.Column<int>(nullable: true),
-                    Note = table.Column<string>(nullable: true),
                     Reminder = table.Column<TimeSpan>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Todos", x => x.Id);
+                    table.PrimaryKey("PK_Notes", x => x.Id);
                 });
         }
 
@@ -48,7 +48,7 @@ namespace OneDo.Model.Migrations
                 name: "Folders");
 
             migrationBuilder.DropTable(
-                name: "Todos");
+                name: "Notes");
         }
     }
 }

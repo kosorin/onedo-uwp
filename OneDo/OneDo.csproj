@@ -131,11 +131,11 @@
     <Compile Include="ViewModel\Modals\SettingsViewModel.cs" />
     <Compile Include="ViewModel\Items\FolderItemViewModel.cs" />
     <Compile Include="ViewModel\PageViewModel.cs" />
-    <Compile Include="ViewModel\Items\TodoItemViewModel.cs" />
-    <Compile Include="ViewModel\Modals\TodoEditorViewModel.cs" />
+    <Compile Include="ViewModel\Items\NoteItemViewModel.cs" />
+    <Compile Include="ViewModel\Modals\NoteEditorViewModel.cs" />
     <Compile Include="ViewModel\ExtendedViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenMessage.cs" />
-    <Compile Include="ViewModel\TodoEventArgs.cs" />
+    <Compile Include="ViewModel\NoteEventArgs.cs" />
     <Compile Include="View\Controls\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
@@ -147,8 +147,8 @@
     <Compile Include="View\Items\FolderTemplateSelector.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="View\ExtendedUserControl.cs" />
-    <Compile Include="View\Modals\TodoEditor.xaml.cs">
-      <DependentUpon>TodoEditor.xaml</DependentUpon>
+    <Compile Include="View\Modals\NoteEditor.xaml.cs">
+      <DependentUpon>NoteEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Modals\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -204,7 +204,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Modals\TodoEditor.xaml">
+    <Page Include="View\Modals\NoteEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

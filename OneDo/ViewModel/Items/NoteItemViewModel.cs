@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel.Items
 {
-    public class TodoItemViewModel : ExtendedViewModel
+    public class NoteItemViewModel : ExtendedViewModel
     {
-        public bool IsCompleted => Todo.Completed != null;
+        public bool IsCompleted => Entity.Completed != null;
 
-        public string Title => Todo.Title;
+        public string Title => Entity.Title;
 
 
-        public Todo Todo { get; }
+        public Note Entity { get; }
 
-        public TodoItemViewModel(Todo todo)
+        public NoteItemViewModel(Note entity)
         {
-            Todo = todo;
+            Entity = entity;
         }
 
         public void Refresh()

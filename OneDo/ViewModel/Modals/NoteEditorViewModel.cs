@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModel.Modals
 {
-    public class TodoEditorViewModel : ModalViewModel
+    public class NoteEditorViewModel : ModalViewModel
     {
         private bool isNew;
         public bool IsNew
@@ -75,19 +75,19 @@ namespace OneDo.ViewModel.Modals
         }
 
 
-        public event TypedEventHandler<TodoEditorViewModel, TodoEventArgs> Deleted;
+        public event TypedEventHandler<NoteEditorViewModel, NoteEventArgs> Deleted;
 
         private void OnDeleted()
         {
-            Deleted?.Invoke(this, new TodoEventArgs(original));
+            Deleted?.Invoke(this, new NoteEventArgs(original));
         }
 
 
-        public event TypedEventHandler<TodoEditorViewModel, TodoEventArgs> Saved;
+        public event TypedEventHandler<NoteEditorViewModel, NoteEventArgs> Saved;
 
         private void OnSaved()
         {
-            Saved?.Invoke(this, new TodoEventArgs(original));
+            Saved?.Invoke(this, new NoteEventArgs(original));
         }
 
 
@@ -99,16 +99,16 @@ namespace OneDo.ViewModel.Modals
 
         public IProgressService ProgressService { get; }
 
-        private readonly Todo original;
+        private readonly Note original;
 
-        private readonly TodoBusiness business;
+        private readonly NoteBusiness business;
 
-        public TodoEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Todo todo) : base(modalService, settingsProvider)
+        public NoteEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Note note) : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
 
-            business = new TodoBusiness(SettingsProvider);
-            original = todo ?? business.Default();
+            business = new NoteBusiness(SettingsProvider);
+            original = note ?? business.Default();
 
             DeleteCommand = new AsyncRelayCommand(Delete);
             CompleteCommand = new AsyncRelayCommand(Complete);
@@ -123,7 +123,7 @@ namespace OneDo.ViewModel.Modals
             IsNew = business.IsNew(original);
 
             Title = original.Title;
-            Note = original.Note;
+            Note = original.Text;
             Date = original.Date;
 
             IsDirty = IsNew;
@@ -138,8 +138,8 @@ namespace OneDo.ViewModel.Modals
                     ProgressService.IsBusy = true;
                     using (var dc = new DataContext())
                     {
-                        dc.Set<Todo>().Attach(original);
-                        dc.Set<Todo>().Remove(original);
+                        dc.Set<Note>().Attach(original);
+                        dc.Set<Note>().Remove(original);
                         await dc.SaveChangesAsync();
                     }
                 }
@@ -161,7 +161,7 @@ namespace OneDo.ViewModel.Modals
         private async Task Save()
         {
             original.Title = Title;
-            original.Note = Note;
+            original.Text = Note;
             original.Date = Date?.DateTime;
 
             try
@@ -171,11 +171,11 @@ namespace OneDo.ViewModel.Modals
                 {
                     if (IsNew)
                     {
-                        dc.Set<Todo>().Add(original);
+                        dc.Set<Note>().Add(original);
                     }
                     else
                     {
-                        dc.Set<Todo>().Update(original);
+                        dc.Set<Note>().Update(original);
                     }
                     await dc.SaveChangesAsync();
                 }

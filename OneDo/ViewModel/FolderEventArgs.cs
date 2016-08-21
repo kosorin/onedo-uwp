@@ -9,11 +9,11 @@ namespace OneDo.ViewModel
 {
     public class FolderEventArgs : EventArgs
     {
-        public Folder Folder { get; set; }
+        public Folder Entity { get; set; }
 
-        public FolderEventArgs(Folder folder)
+        public FolderEventArgs(Folder entity)
         {
-            Folder = folder;
+            Entity = entity;
         }
     }
 }

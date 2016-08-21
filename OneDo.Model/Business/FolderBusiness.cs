@@ -16,9 +16,9 @@ namespace OneDo.Model.Business
 
         }
 
-        public override Folder Clone(Folder folder)
+        public override Folder Clone(Folder entity)
         {
-            return folder;
+            return entity;
         }
 
         public string NormalizeName(string name)

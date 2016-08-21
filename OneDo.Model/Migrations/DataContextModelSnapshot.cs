@@ -31,7 +31,7 @@ namespace OneDo.Model.Migrations
                     b.ToTable("Folders");
                 });
 
-            modelBuilder.Entity("OneDo.Model.Data.Entities.Todo", b =>
+            modelBuilder.Entity("OneDo.Model.Data.Entities.Note", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -44,15 +44,15 @@ namespace OneDo.Model.Migrations
 
                     b.Property<int?>("FolderId");
 
-                    b.Property<string>("Note");
-
                     b.Property<TimeSpan?>("Reminder");
+
+                    b.Property<string>("Text");
 
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Todos");
+                    b.ToTable("Notes");
                 });
         }
     }

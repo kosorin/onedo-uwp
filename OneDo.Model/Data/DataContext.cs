@@ -13,7 +13,7 @@ namespace OneDo.Model.Data
         private const string FileName = "OneDo.Data.db";
 
 
-        public DbSet<Todo> Todos { get; set; }
+        public DbSet<Note> Notes { get; set; }
 
         public DbSet<Folder> Folders { get; set; }
 
@@ -25,7 +25,7 @@ namespace OneDo.Model.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var todo = modelBuilder.Entity<Todo>();
+            var note = modelBuilder.Entity<Note>();
 
             var folder = modelBuilder.Entity<Folder>();
             folder.Property(x => x.Name).IsRequired();

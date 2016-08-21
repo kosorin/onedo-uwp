@@ -27,16 +27,16 @@
                                 Content="{Binding Modal}">
             <ContentControl.ContentTemplateSelector>
                 <v:ModalTemplateSelector>
-                    <v:ModalTemplateSelector.TodoEditorTemplate>
-                        <DataTemplate x:DataType="vmModals:TodoEditorViewModel">
-                            <vModals:TodoEditor Margin="16" />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.TodoEditorTemplate>
                     <v:ModalTemplateSelector.FolderEditorTemplate>
                         <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
                             <vModals:FolderEditor Width="288" VerticalAlignment="Top" />
                         </DataTemplate>
                     </v:ModalTemplateSelector.FolderEditorTemplate>
+                    <v:ModalTemplateSelector.NoteEditorTemplate>
+                        <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
+                            <vModals:NoteEditor Margin="16" />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.NoteEditorTemplate>
                     <v:ModalTemplateSelector.SettingsTemplate>
                         <DataTemplate x:DataType="vmModals:SettingsViewModel">
                             <vModals:SettingsView Width="400" HorizontalAlignment="Right" />

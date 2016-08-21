@@ -11,9 +11,9 @@ namespace OneDo.View
 {
     public class ModalTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate TodoEditorTemplate { get; set; }
-
         public DataTemplate FolderEditorTemplate { get; set; }
+
+        public DataTemplate NoteEditorTemplate { get; set; }
 
         public DataTemplate SettingsTemplate { get; set; }
 
@@ -29,13 +29,13 @@ namespace OneDo.View
 
         private DataTemplate SelectTemplate(ModalViewModel modal)
         {
-            if (modal is TodoEditorViewModel)
-            {
-                return TodoEditorTemplate;
-            }
-            else if (modal is FolderEditorViewModel)
+            if (modal is FolderEditorViewModel)
             {
                 return FolderEditorTemplate;
+            }
+            else if (modal is NoteEditorViewModel)
+            {
+                return NoteEditorTemplate;
             }
             else if (modal is SettingsViewModel)
             {

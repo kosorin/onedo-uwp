@@ -20,13 +20,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries />
 
-            <Style x:Key="TodoItemContainerStyle" TargetType="ListViewItem">
+            <Style x:Key="NoteItemContainerStyle" TargetType="ListViewItem">
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="VerticalContentAlignment" Value="Stretch" />
             </Style>
 
-            <DataTemplate x:Key="TodoItemTemplate" x:DataType="vmItems:TodoItemViewModel">
+            <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemViewModel">
                 <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                                            LeftBackground="Khaki"
                                            LeftForeground="Black"
@@ -62,24 +62,24 @@
         <!--  Folders  -->
         <controls:FolderListControl Grid.Row="0" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
 
-        <!--  Todos  -->
-        <ListView x:Name="TodoListView"
+        <!--  Notes  -->
+        <ListView x:Name="NoteListView"
                   Grid.Row="1"
                   VerticalAlignment="Top"
-                  ItemContainerStyle="{StaticResource TodoItemContainerStyle}"
-                  ItemTemplate="{StaticResource TodoItemTemplate}"
-                  ItemsSource="{x:Bind VM.TodoItems, Mode=OneWay}"
-                  SelectedItem="{x:Bind VM.SelectedTodoItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
+                  ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
+                  ItemTemplate="{StaticResource NoteItemTemplate}"
+                  ItemsSource="{x:Bind VM.NoteItems, Mode=OneWay}"
+                  SelectedItem="{x:Bind VM.SelectedNoteItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="Tapped">
-                    <ic:InvokeCommandAction Command="{x:Bind VM.TodoItemTappedCommand}" />
+                    <ic:InvokeCommandAction Command="{x:Bind VM.NoteItemTappedCommand}" />
                 </ic:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </ListView>
 
         <!--  AppBar  -->
         <CommandBar Grid.Row="2">
-            <AppBarButton Command="{x:Bind VM.AddTodoCommand}" Label="Add to-do">
+            <AppBarButton Command="{x:Bind VM.AddNoteCommand}" Label="Add note">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </AppBarButton.Icon>
@@ -112,16 +112,16 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplateSelector>
                         <v:ModalTemplateSelector>
-                            <v:ModalTemplateSelector.TodoEditorTemplate>
-                                <DataTemplate x:DataType="vmModals:TodoEditorViewModel">
-                                    <vModals:TodoEditor Margin="16" />
-                                </DataTemplate>
-                            </v:ModalTemplateSelector.TodoEditorTemplate>
                             <v:ModalTemplateSelector.FolderEditorTemplate>
                                 <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
                                     <vModals:FolderEditor HorizontalAlignment="Center" VerticalAlignment="Top" />
                                 </DataTemplate>
                             </v:ModalTemplateSelector.FolderEditorTemplate>
+                            <v:ModalTemplateSelector.NoteEditorTemplate>
+                                <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
+                                    <vModals:NoteEditor Margin="16" />
+                                </DataTemplate>
+                            </v:ModalTemplateSelector.NoteEditorTemplate>
                             <v:ModalTemplateSelector.SettingsTemplate>
                                 <DataTemplate x:DataType="vmModals:SettingsViewModel">
                                     <vModals:SettingsView Width="400" HorizontalAlignment="Right" />

@@ -13,16 +13,16 @@ namespace OneDo.ViewModel.Items
 {
     public class FolderItemViewModel : ExtendedViewModel
     {
-        public string Name => Folder.Name;
+        public string Name => Entity.Name;
 
-        public Color Color => Common.Media.ColorHelper.FromHex(Folder.Color);
+        public Color Color => Common.Media.ColorHelper.FromHex(Entity.Color);
 
 
-        public Folder Folder { get; }
+        public Folder Entity { get; }
 
-        public FolderItemViewModel(Folder folder)
+        public FolderItemViewModel(Folder entity)
         {
-            Folder = folder;
+            Entity = entity;
         }
 
         public void Refresh()

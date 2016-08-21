@@ -7,14 +7,14 @@ using System.Runtime.Serialization;
 namespace OneDo.Model.Data.Entities
 {
     [DebuggerDisplay("{Id}: {Title}")]
-    public class Todo : IEntity
+    public class Note : IEntity
     {
         public int Id { get; set; }
 
 
         public string Title { get; set; }
 
-        public string Note { get; set; }
+        public string Text { get; set; }
 
 
         public DateTime? Date { get; set; }

@@ -110,21 +110,21 @@
     <Compile Include="Business\BusinessBase.cs" />
     <Compile Include="Business\EntityBusiness.cs" />
     <Compile Include="Business\FolderBusiness.cs" />
-    <Compile Include="Business\TodoBusiness.cs" />
+    <Compile Include="Business\NoteBusiness.cs" />
     <Compile Include="Business\Validation\Rule.cs" />
-    <Compile Include="Business\Validation\TodoValidator.cs" />
+    <Compile Include="Business\Validation\NoteValidator.cs" />
     <Compile Include="Business\Validation\Validator.cs" />
     <Compile Include="Data\IEntity.cs" />
     <Compile Include="Data\DataContext.cs" />
     <Compile Include="Data\Settings.cs" />
-    <Compile Include="Migrations\20160821030121_Init.cs" />
-    <Compile Include="Migrations\20160821030121_Init.designer.cs">
-      <DependentUpon>20160821030121_Init.cs</DependentUpon>
+    <Compile Include="Migrations\20160821074120_Init.cs" />
+    <Compile Include="Migrations\20160821074120_Init.designer.cs">
+      <DependentUpon>20160821074120_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Entities\Folder.cs" />
-    <Compile Include="Data\Entities\Todo.cs" />
+    <Compile Include="Data\Entities\Note.cs" />
     <Compile Include="Data\ISettingsProvider.cs" />
     <Compile Include="Data\SettingsProvider.cs" />
     <EmbeddedResource Include="Properties\OneDo.Model.rd.xml" />

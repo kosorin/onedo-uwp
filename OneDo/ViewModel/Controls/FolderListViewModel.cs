@@ -71,7 +71,7 @@ namespace OneDo.ViewModel.Controls
             var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService);
             editor.Saved += (s, e) =>
             {
-                Items.Add(new FolderItemViewModel(e.Folder));
+                Items.Add(new FolderItemViewModel(e.Entity));
                 SelectedItem = Items.Last();
             };
 
@@ -80,7 +80,7 @@ namespace OneDo.ViewModel.Controls
 
         public void EditItem(FolderItemViewModel item)
         {
-            var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService, item.Folder);
+            var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
             editor.Saved += (s, e) => item.Refresh();
 
@@ -96,8 +96,8 @@ namespace OneDo.ViewModel.Controls
                     SelectedItem = Items.FirstOrDefault();
                 }
                 Items.Remove(item);
-                dc.Set<Folder>().Attach(item.Folder);
-                dc.Set<Folder>().Remove(item.Folder);
+                dc.Set<Folder>().Attach(item.Entity);
+                dc.Set<Folder>().Remove(item.Entity);
                 await dc.SaveChangesAsync();
             }
         }

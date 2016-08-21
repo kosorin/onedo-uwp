@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public class TodoEventArgs : EventArgs
+    public class NoteEventArgs : EventArgs
     {
-        public Todo Todo { get; set; }
+        public Note Entity { get; set; }
 
-        public TodoEventArgs(Todo todo)
+        public NoteEventArgs(Note entity)
         {
-            Todo = todo;
+            Entity = entity;
         }
     }
 }
