@@ -130,7 +130,6 @@
     <Compile Include="ViewModel\ModalViewModel.cs" />
     <Compile Include="ViewModel\Modals\SettingsViewModel.cs" />
     <Compile Include="ViewModel\Items\FolderItemViewModel.cs" />
-    <Compile Include="ViewModel\PageViewModel.cs" />
     <Compile Include="ViewModel\Items\NoteItemViewModel.cs" />
     <Compile Include="ViewModel\Modals\NoteEditorViewModel.cs" />
     <Compile Include="ViewModel\ExtendedViewModel.cs" />

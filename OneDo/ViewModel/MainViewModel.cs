@@ -18,7 +18,7 @@ using OneDo.ViewModel.Controls;
 
 namespace OneDo.ViewModel
 {
-    public class MainViewModel : PageViewModel
+    public class MainViewModel : ExtendedViewModel
     {
         private FolderListViewModel folderList;
         public FolderListViewModel FolderList
@@ -51,11 +51,16 @@ namespace OneDo.ViewModel
 
         public ICommand ShowSettingsCommand { get; }
 
+        public IModalService ModalService { get; }
+
+        public ISettingsProvider SettingsProvider { get; }
+
         public IProgressService ProgressService { get; }
 
         public MainViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
-            : base(modalService, settingsProvider)
         {
+            ModalService = modalService;
+            SettingsProvider = settingsProvider;
             ProgressService = progressService;
 
             NoteItemTappedCommand = new RelayCommand(NoteItemTapped);
