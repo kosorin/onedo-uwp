@@ -26,7 +26,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Stretch" />
             </Style>
 
-            <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemViewModel">
+            <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemObject">
                 <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                                            LeftBackground="Khaki"
                                            LeftForeground="Black"

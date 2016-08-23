@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.View.Controls
@@ -26,6 +27,14 @@ namespace OneDo.View.Controls
         public ModalContainer()
         {
             InitializeComponent();
+        }
+
+        private void FolderEditor_Loaded(object sender, RoutedEventArgs e)
+        {
+            var element = (FrameworkElement)sender;
+            var sb = element.Resources["LoadedStoryboard"] as Storyboard;
+            sb.Children.OfType<DoubleAnimation>().ElementAt(0).From = -element.ActualHeight;
+            sb.Begin();
         }
     }
 }

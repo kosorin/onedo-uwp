@@ -307,7 +307,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="FolderItemDataTemplate" x:DataType="vmItems:FolderItemViewModel">
+        <DataTemplate x:Key="FolderItemDataTemplate" x:DataType="vmItems:FolderItemObject">
             <Border Background="Transparent"
                     BorderBrush="Transparent"
                     BorderThickness="1,1,1,0">

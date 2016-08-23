@@ -28,15 +28,15 @@ namespace OneDo.ViewModel
         }
 
 
-        private ObservableCollection<NoteItemViewModel> noteItems;
-        public ObservableCollection<NoteItemViewModel> NoteItems
+        private ObservableCollection<NoteItemObject> noteItems;
+        public ObservableCollection<NoteItemObject> NoteItems
         {
             get { return noteItems; }
             set { Set(ref noteItems, value); }
         }
 
-        private NoteItemViewModel selectedNoteItem;
-        public NoteItemViewModel SelectedNoteItem
+        private NoteItemObject selectedNoteItem;
+        public NoteItemObject SelectedNoteItem
         {
             get { return selectedNoteItem; }
             set { Set(ref selectedNoteItem, value); }
@@ -101,8 +101,8 @@ namespace OneDo.ViewModel
                         await dc.SaveChangesAsync();
                     }
                     var notes = await dc.Set<Note>().ToListAsync();
-                    var noteItems = notes.Select(t => new NoteItemViewModel(t));
-                    NoteItems = new ObservableCollection<NoteItemViewModel>(noteItems);
+                    var noteItems = notes.Select(t => new NoteItemObject(t));
+                    NoteItems = new ObservableCollection<NoteItemObject>(noteItems);
                 }
             }
             finally
@@ -134,7 +134,7 @@ namespace OneDo.ViewModel
         private void AddNote()
         {
             var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, null);
-            editor.Saved += (s, e) => NoteItems.Add(new NoteItemViewModel(e.Entity));
+            editor.Saved += (s, e) => NoteItems.Add(new NoteItemObject(e.Entity));
             ShowNoteEditor(editor);
         }
 
@@ -151,14 +151,14 @@ namespace OneDo.ViewModel
 
         private void ShowNoteEditor(NoteEditorViewModel editor)
         {
-            editor.Deleted += (s, e) => ModalService.Pop();
-            editor.Saved += (s, e) => ModalService.Pop();
-            ModalService.Push(editor);
+            editor.Deleted += (s, e) => ModalService.CloseCurrent();
+            editor.Saved += (s, e) => ModalService.CloseCurrent();
+            ModalService.Show(editor);
         }
 
         private void ShowSettings()
         {
-            ModalService.Push(new SettingsViewModel(ModalService, SettingsProvider));
+            ModalService.Show(new SettingsViewModel(ModalService, SettingsProvider));
         }
     }
 }

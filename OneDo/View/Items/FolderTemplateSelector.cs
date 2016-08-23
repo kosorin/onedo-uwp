@@ -12,7 +12,7 @@ namespace OneDo.View.Items
 {
     public class FolderTemplateSelector : DataTemplateSelector
     {
-        public FolderItemViewModel SelectedFolder { get; set; }
+        public FolderItemObject SelectedFolder { get; set; }
 
         public DataTemplate DefaultTemplate { get; set; }
 
@@ -20,15 +20,15 @@ namespace OneDo.View.Items
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            return SelectTemplate(item as FolderItemViewModel);
+            return SelectTemplate(item as FolderItemObject);
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            return SelectTemplate(item as FolderItemViewModel);
+            return SelectTemplate(item as FolderItemObject);
         }
 
-        private DataTemplate SelectTemplate(FolderItemViewModel folder)
+        private DataTemplate SelectTemplate(FolderItemObject folder)
         {
             return SelectedFolder == folder ? SelectedTemplate : DefaultTemplate;
         }

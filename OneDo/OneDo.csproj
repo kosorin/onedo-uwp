@@ -102,7 +102,8 @@
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\Items\ColorItemViewModel.cs" />
+    <Compile Include="ViewModel\IItemObject.cs" />
+    <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
@@ -128,8 +129,8 @@
     <Compile Include="ViewModel\Controls\FolderListViewModel.cs" />
     <Compile Include="ViewModel\ModalViewModel.cs" />
     <Compile Include="ViewModel\Modals\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\Items\FolderItemViewModel.cs" />
-    <Compile Include="ViewModel\Items\NoteItemViewModel.cs" />
+    <Compile Include="ViewModel\Items\FolderItemObject.cs" />
+    <Compile Include="ViewModel\Items\NoteItemObject.cs" />
     <Compile Include="ViewModel\Modals\NoteEditorViewModel.cs" />
     <Compile Include="ViewModel\ExtendedViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenMessage.cs" />

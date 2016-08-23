@@ -12,16 +12,16 @@ namespace OneDo.Services.ModalService
     {
         ObservableCollection<ModalViewModel> Items { get; }
 
-        ModalViewModel CurrentItem { get; }
+        ModalViewModel Current { get; }
 
-        bool CanPop { get; }
+        bool CanCloseCurrent { get; }
 
-        ICommand PopCommand { get; }
+        ICommand CloseCurrentCommand { get; }
 
-        bool TryPop();
+        bool TryCloseCurrent();
 
-        void Pop();
+        void CloseCurrent();
 
-        void Push(ModalViewModel modal);
+        void Show(ModalViewModel modal);
     }
 }

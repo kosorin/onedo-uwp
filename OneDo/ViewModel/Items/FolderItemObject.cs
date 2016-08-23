@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 
 namespace OneDo.ViewModel.Items
 {
-    public class FolderItemViewModel : ExtendedViewModel
+    public class FolderItemObject : ObservableObject, IItemObject<Folder>
     {
         public string Name => Entity.Name;
 
@@ -20,15 +20,14 @@ namespace OneDo.ViewModel.Items
 
         public Folder Entity { get; }
 
-        public FolderItemViewModel(Folder entity)
+        public FolderItemObject(Folder entity)
         {
             Entity = entity;
         }
 
         public void Refresh()
         {
-            RaisePropertyChanged(nameof(Name));
-            RaisePropertyChanged(nameof(Color));
+            RaisePropertyChanged(null);
         }
     }
 }

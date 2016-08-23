@@ -75,7 +75,7 @@
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="vmItems:ColorItemViewModel">
+                    <DataTemplate x:DataType="vmItems:ColorItemObject">
                         <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}">
                             <FontIcon x:Name="SelectedIcon"
                                       HorizontalAlignment="Center"

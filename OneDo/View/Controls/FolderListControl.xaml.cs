@@ -35,14 +35,14 @@ namespace OneDo.View.Controls
         private void EditItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var element = (FrameworkElement)sender;
-            var item = (FolderItemViewModel)element.DataContext;
+            var item = (FolderItemObject)element.DataContext;
             VM.EditItem(item);
         }
 
         private async void DeleteItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var element = (FrameworkElement)sender;
-            var item = (FolderItemViewModel)element.DataContext;
+            var item = (FolderItemObject)element.DataContext;
             await VM.DeleteItem(item);
         }
     }

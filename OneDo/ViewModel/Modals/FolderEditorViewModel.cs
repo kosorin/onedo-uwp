@@ -23,8 +23,8 @@ namespace OneDo.ViewModel.Modals
 {
     public class FolderEditorViewModel : EditorViewModel<Folder>
     {
-        public static List<ColorItemViewModel> colors;
-        public List<ColorItemViewModel> Colors => colors;
+        public static List<ColorItemObject> colors;
+        public List<ColorItemObject> Colors => colors;
 
         private string name;
         public string Name
@@ -39,8 +39,8 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
-        private ColorItemViewModel selectedColor;
-        public ColorItemViewModel SelectedColor
+        private ColorItemObject selectedColor;
+        public ColorItemObject SelectedColor
         {
             get { return selectedColor; }
             set
@@ -66,24 +66,24 @@ namespace OneDo.ViewModel.Modals
 
         static FolderEditorViewModel()
         {
-            colors = new List<ColorItemViewModel>
+            colors = new List<ColorItemObject>
             {
-                new ColorItemViewModel("#C10051"),
-                new ColorItemViewModel("#E81123"),
-                new ColorItemViewModel("#F7630D"),
-                new ColorItemViewModel("#FABD14"),
-                new ColorItemViewModel("#7EC500"),
-                new ColorItemViewModel("#0F893E"),
-                new ColorItemViewModel("#00AC56"),
-                new ColorItemViewModel("#00B6C1"),
-                new ColorItemViewModel("#0099BB"),
-                new ColorItemViewModel("#0063AF"),
-                new ColorItemViewModel("#004E8C"),
-                new ColorItemViewModel("#5B2D90"),
-                new ColorItemViewModel("#AC008C"),
-                new ColorItemViewModel("#D40078"),
-                new ColorItemViewModel("#C6A477"),
-                new ColorItemViewModel("#84939A"),
+                new ColorItemObject("#C10051"),
+                new ColorItemObject("#E81123"),
+                new ColorItemObject("#F7630D"),
+                new ColorItemObject("#FABD14"),
+                new ColorItemObject("#7EC500"),
+                new ColorItemObject("#0F893E"),
+                new ColorItemObject("#00AC56"),
+                new ColorItemObject("#00B6C1"),
+                new ColorItemObject("#0099BB"),
+                new ColorItemObject("#0063AF"),
+                new ColorItemObject("#004E8C"),
+                new ColorItemObject("#5B2D90"),
+                new ColorItemObject("#AC008C"),
+                new ColorItemObject("#D40078"),
+                new ColorItemObject("#C6A477"),
+                new ColorItemObject("#84939A"),
             };
         }
 

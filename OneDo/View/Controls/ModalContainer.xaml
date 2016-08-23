@@ -16,18 +16,26 @@
                        DataContext="{Binding ModalService, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
 
-    <Grid Grid.RowSpan="3" Visibility="{x:Bind VM.CurrentItem, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+    <Grid Grid.RowSpan="3" Visibility="{x:Bind VM.Current, Mode=OneWay, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
         <Grid>
-            <Border Background="#66000000">
+            <Border>
+                <Border.Background>
+                    <SolidColorBrush Color="{ThemeResource SystemChromeBlackMediumLowColor}" />
+                </Border.Background>
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="Tapped">
-                        <ic:InvokeCommandAction Command="{x:Bind VM.PopCommand}" />
+                        <ic:InvokeCommandAction Command="{x:Bind VM.CloseCurrentCommand}" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Border>
             <ItemsControl HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
                           ItemsSource="{x:Bind VM.Items, Mode=OneWay}">
+                <ItemsControl.Transitions>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition />
+                    </TransitionCollection>
+                </ItemsControl.Transitions>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid />
@@ -37,7 +45,29 @@
                     <v:ModalTemplateSelector>
                         <v:ModalTemplateSelector.FolderEditorTemplate>
                             <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
-                                <vModals:FolderEditor HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                <vModals:FolderEditor x:Name="Root"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Top"
+                                                      Loaded="FolderEditor_Loaded"
+                                                      RenderTransformOrigin="0.5,0">
+                                    <vModals:FolderEditor.RenderTransform>
+                                        <CompositeTransform x:Name="RootTransform"
+                                                            TranslateX="0"
+                                                            TranslateY="0" />
+                                    </vModals:FolderEditor.RenderTransform>
+                                    <vModals:FolderEditor.Resources>
+                                        <Storyboard x:Key="LoadedStoryboard">
+                                            <DoubleAnimation Duration="0:0:0.3"
+                                                             Storyboard.TargetName="RootTransform"
+                                                             Storyboard.TargetProperty="TranslateY"
+                                                             To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </vModals:FolderEditor.Resources>
+                                </vModals:FolderEditor>
                             </DataTemplate>
                         </v:ModalTemplateSelector.FolderEditorTemplate>
                         <v:ModalTemplateSelector.NoteEditorTemplate>

@@ -23,16 +23,16 @@ namespace OneDo.Services.ModalService
         public ObservableCollection<ModalViewModel> Items { get; } = new ObservableCollection<ModalViewModel>();
 
         private ModalViewModel currentItem;
-        public ModalViewModel CurrentItem
+        public ModalViewModel Current
         {
             get { return currentItem; }
             private set { Set(ref currentItem, value); }
         }
 
-        public bool CanPop => Items.Count > 0;
+        public bool CanCloseCurrent => Items.Count > 0;
 
 
-        public ICommand PopCommand { get; }
+        public ICommand CloseCurrentCommand { get; }
 
 
         private readonly SystemNavigationManager navigationManager;
@@ -51,35 +51,35 @@ namespace OneDo.Services.ModalService
             window.CoreWindow.KeyDown += OnKeyDown;
             navigationManager.BackRequested += OnBackRequested;
 
-            PopCommand = new RelayCommand(Pop, () => CanPop);
+            CloseCurrentCommand = new RelayCommand(CloseCurrent, () => CanCloseCurrent);
         }
 
-        public bool TryPop()
+        public bool TryCloseCurrent()
         {
-            if (CanPop)
+            if (CanCloseCurrent)
             {
-                Pop();
+                CloseCurrent();
                 return true;
             }
             return false;
         }
 
-        public void Pop()
+        public void CloseCurrent()
         {
-            Items.RemoveAt(0);
+            Items.RemoveAt(Items.Count - 1);
         }
 
-        public void Push(ModalViewModel modal)
+        public void Show(ModalViewModel modal)
         {
-            Items.Insert(0, modal);
+            Items.Add(modal);
         }
 
 
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CurrentItem = Items.Count > 0 ? Items.First() : null;
+            Current = Items.Count > 0 ? Items.First() : null;
             UpdateBackButtonVisibility();
-            RaisePropertyChanged(nameof(CanPop));
+            RaisePropertyChanged(nameof(CanCloseCurrent));
         }
 
         private void OnPointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -87,7 +87,7 @@ namespace OneDo.Services.ModalService
             var pointer = args.CurrentPoint;
             if (pointer.Properties.IsXButton1Pressed)
             {
-                if (TryPop())
+                if (TryCloseCurrent())
                 {
                     args.Handled = true;
                 }
@@ -98,7 +98,7 @@ namespace OneDo.Services.ModalService
         {
             if (args.VirtualKey == VirtualKey.Escape)
             {
-                if (TryPop())
+                if (TryCloseCurrent())
                 {
                     args.Handled = true;
                 }
@@ -107,7 +107,7 @@ namespace OneDo.Services.ModalService
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (TryPop())
+            if (TryCloseCurrent())
             {
                 e.Handled = true;
             }
@@ -116,7 +116,7 @@ namespace OneDo.Services.ModalService
 
         private void UpdateBackButtonVisibility()
         {
-            navigationManager.AppViewBackButtonVisibility = CanPop
+            navigationManager.AppViewBackButtonVisibility = CanCloseCurrent
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }
