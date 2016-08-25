@@ -19,7 +19,7 @@ namespace OneDo.View
                 DataContextChanged += (s, e) =>
                 {
                     ViewModel = e.NewValue as ExtendedViewModel;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VM"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
                 };
             }
         }
