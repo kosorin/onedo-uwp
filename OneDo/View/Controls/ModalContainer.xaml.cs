@@ -28,13 +28,5 @@ namespace OneDo.View.Controls
         {
             InitializeComponent();
         }
-
-        private void FolderEditor_Loaded(object sender, RoutedEventArgs e)
-        {
-            var element = (FrameworkElement)sender;
-            var sb = element.Resources["LoadedStoryboard"] as Storyboard;
-            sb.Children.OfType<DoubleAnimation>().ElementAt(0).From = -element.ActualHeight;
-            sb.Begin();
-        }
     }
 }

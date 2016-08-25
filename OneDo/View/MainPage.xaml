@@ -91,7 +91,7 @@
         </CommandBar>
 
         <!--  Modals  -->
-        <controls:ModalContainer Grid.RowSpan="3" />
+        <controls:ModalContainer Grid.Row="1" Grid.RowSpan="2" />
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="3">

@@ -24,7 +24,7 @@ namespace OneDo.ViewModel.Items
 
         public void Refresh()
         {
-            RaisePropertyChanged(null);
+            RaisePropertyChanged("");
         }
     }
 }

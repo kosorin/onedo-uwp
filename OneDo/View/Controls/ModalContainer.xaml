@@ -9,6 +9,7 @@
                        xmlns:entities="using:OneDo.Model.Data.Entities"
                        xmlns:i="using:Microsoft.Xaml.Interactivity"
                        xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                       xmlns:im="using:Microsoft.Xaml.Interactions.Media"
                        xmlns:v="using:OneDo.View"
                        xmlns:vModals="using:OneDo.View.Modals"
                        xmlns:vmItems="using:OneDo.ViewModel.Items"
@@ -16,9 +17,11 @@
                        DataContext="{Binding ModalService, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
 
-    <Grid Grid.RowSpan="3" Visibility="{x:Bind VM.Current, Mode=OneWay, FallbackValue=Collapsed, Converter={StaticResource NullToVisibilityConverter}}">
+    <Grid Grid.RowSpan="3">
         <Grid>
-            <Border>
+            <Border x:Name="RootBorder"
+                    Opacity="0"
+                    Visibility="Collapsed">
                 <Border.Background>
                     <SolidColorBrush Color="{ThemeResource SystemChromeBlackMediumLowColor}" />
                 </Border.Background>
@@ -26,16 +29,52 @@
                     <ic:EventTriggerBehavior EventName="Tapped">
                         <ic:InvokeCommandAction Command="{x:Bind VM.CloseCurrentCommand}" />
                     </ic:EventTriggerBehavior>
+                    <ic:DataTriggerBehavior Binding="{x:Bind VM.Items.Count, Mode=OneWay}"
+                                            ComparisonCondition="Equal"
+                                            Value="0">
+                        <im:ControlStoryboardAction>
+                            <im:ControlStoryboardAction.Storyboard>
+                                <Storyboard>
+                                    <DoubleAnimation BeginTime="0:0:0.3"
+                                                     Duration="0:0:0.3"
+                                                     Storyboard.TargetName="RootBorder"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0" />
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="Collapsed" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </im:ControlStoryboardAction.Storyboard>
+                        </im:ControlStoryboardAction>
+                    </ic:DataTriggerBehavior>
+                    <ic:DataTriggerBehavior Binding="{x:Bind VM.Items.Count, Mode=OneWay}"
+                                            ComparisonCondition="GreaterThan"
+                                            Value="0">
+                        <im:ControlStoryboardAction>
+                            <im:ControlStoryboardAction.Storyboard>
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <DoubleAnimation Duration="0:0:0.3"
+                                                     Storyboard.TargetName="RootBorder"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1" />
+                                </Storyboard>
+                            </im:ControlStoryboardAction.Storyboard>
+                        </im:ControlStoryboardAction>
+                    </ic:DataTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Border>
             <ItemsControl HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
                           ItemsSource="{x:Bind VM.Items, Mode=OneWay}">
-                <ItemsControl.Transitions>
+                <ItemsControl.ItemContainerTransitions>
                     <TransitionCollection>
                         <AddDeleteThemeTransition />
+                        <!--<EntranceThemeTransition IsStaggeringEnabled="True" />-->
                     </TransitionCollection>
-                </ItemsControl.Transitions>
+                </ItemsControl.ItemContainerTransitions>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid />
@@ -47,27 +86,7 @@
                             <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
                                 <vModals:FolderEditor x:Name="Root"
                                                       HorizontalAlignment="Center"
-                                                      VerticalAlignment="Top"
-                                                      Loaded="FolderEditor_Loaded"
-                                                      RenderTransformOrigin="0.5,0">
-                                    <vModals:FolderEditor.RenderTransform>
-                                        <CompositeTransform x:Name="RootTransform"
-                                                            TranslateX="0"
-                                                            TranslateY="0" />
-                                    </vModals:FolderEditor.RenderTransform>
-                                    <vModals:FolderEditor.Resources>
-                                        <Storyboard x:Key="LoadedStoryboard">
-                                            <DoubleAnimation Duration="0:0:0.3"
-                                                             Storyboard.TargetName="RootTransform"
-                                                             Storyboard.TargetProperty="TranslateY"
-                                                             To="0">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <CubicEase EasingMode="EaseOut" />
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </vModals:FolderEditor.Resources>
-                                </vModals:FolderEditor>
+                                                      VerticalAlignment="Top" />
                             </DataTemplate>
                         </v:ModalTemplateSelector.FolderEditorTemplate>
                         <v:ModalTemplateSelector.NoteEditorTemplate>
