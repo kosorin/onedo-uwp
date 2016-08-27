@@ -22,11 +22,11 @@ namespace OneDo.Services.ModalService
     {
         public ObservableCollection<ModalViewModel> Items { get; } = new ObservableCollection<ModalViewModel>();
 
-        private ModalViewModel currentItem;
+        private ModalViewModel current;
         public ModalViewModel Current
         {
-            get { return currentItem; }
-            private set { Set(ref currentItem, value); }
+            get { return current; }
+            private set { Set(ref current, value); }
         }
 
         public bool CanCloseCurrent => Items.Count > 0;

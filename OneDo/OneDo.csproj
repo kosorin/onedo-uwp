@@ -112,7 +112,6 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
-    <Compile Include="View\Controls\ModalBackgroundControl.cs" />
     <Compile Include="View\Controls\ModalContainer.xaml.cs">
       <DependentUpon>ModalContainer.xaml</DependentUpon>
     </Compile>
