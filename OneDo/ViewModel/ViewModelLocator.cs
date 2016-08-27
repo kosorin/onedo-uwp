@@ -4,7 +4,6 @@ using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
-using OneDo.ViewModel.Controls;
 using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml;
 

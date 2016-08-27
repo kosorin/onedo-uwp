@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using OneDo.ViewModel.Commands;
 using OneDo.Services.ProgressService;
 using System;
-using OneDo.ViewModel.Controls;
 
 namespace OneDo.ViewModel
 {

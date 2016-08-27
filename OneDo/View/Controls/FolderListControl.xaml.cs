@@ -1,4 +1,4 @@
-﻿using OneDo.ViewModel.Controls;
+﻿using OneDo.ViewModel;
 using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;

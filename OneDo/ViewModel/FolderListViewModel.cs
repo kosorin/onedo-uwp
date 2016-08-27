@@ -15,7 +15,7 @@ using OneDo.Services.ModalService;
 using OneDo.ViewModel.Modals;
 using OneDo.Services.ProgressService;
 
-namespace OneDo.ViewModel.Controls
+namespace OneDo.ViewModel
 {
     public class FolderListViewModel : ExtendedViewModel
     {

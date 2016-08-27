@@ -126,7 +126,7 @@
     <Compile Include="Services\ProgressService\IProgressService.cs" />
     <Compile Include="Services\ProgressService\ProgressService.cs" />
     <Compile Include="ViewModel\Commands\AsyncRelayCommand.cs" />
-    <Compile Include="ViewModel\Controls\FolderListViewModel.cs" />
+    <Compile Include="ViewModel\FolderListViewModel.cs" />
     <Compile Include="ViewModel\ModalViewModel.cs" />
     <Compile Include="ViewModel\Modals\SettingsViewModel.cs" />
     <Compile Include="ViewModel\Items\FolderItemObject.cs" />
