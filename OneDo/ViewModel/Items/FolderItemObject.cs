@@ -11,23 +11,16 @@ using Windows.UI.Xaml.Media;
 
 namespace OneDo.ViewModel.Items
 {
-    public class FolderItemObject : ObservableObject, IItemObject<Folder>
+    public class FolderItemObject : ItemObject<Folder>
     {
         public string Name => Entity.Name;
 
         public Color Color => Common.Media.ColorHelper.FromHex(Entity.Color);
 
 
-        public Folder Entity { get; }
-
-        public FolderItemObject(Folder entity)
+        public FolderItemObject(Folder entity) : base(entity)
         {
-            Entity = entity;
-        }
 
-        public void Refresh()
-        {
-            RaisePropertyChanged("");
         }
     }
 }

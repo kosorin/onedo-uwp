@@ -102,7 +102,7 @@
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\IItemObject.cs" />
+    <Compile Include="ViewModel\ItemObject.cs" />
     <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />

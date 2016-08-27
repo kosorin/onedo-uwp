@@ -8,23 +8,16 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel.Items
 {
-    public class NoteItemObject : ObservableObject, IItemObject<Note>
+    public class NoteItemObject : ItemObject<Note>
     {
         public bool IsCompleted => Entity.Completed != null;
 
         public string Title => Entity.Title;
 
 
-        public Note Entity { get; }
-
-        public NoteItemObject(Note entity)
+        public NoteItemObject(Note entity) : base(entity)
         {
-            Entity = entity;
-        }
 
-        public void Refresh()
-        {
-            RaisePropertyChanged("");
         }
     }
 }
