@@ -58,8 +58,8 @@ namespace OneDo.View.Modals
         {
             if (container != null)
             {
-                var root = (FrameworkElement)container.ContentTemplateRoot;
-                var icon = root.FindName("SelectedIcon") as FrameworkElement;
+                var templateRoot = (FrameworkElement)container.ContentTemplateRoot;
+                var icon = templateRoot.FindName("SelectedIcon") as FrameworkElement;
                 if (icon != null)
                 {
                     icon.Visibility = visibility;
