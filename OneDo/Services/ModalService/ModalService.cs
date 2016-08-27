@@ -29,8 +29,20 @@ namespace OneDo.Services.ModalService
             private set { Set(ref current, value); }
         }
 
-        public bool CanCloseCurrent => Items.Count > 0;
+        private bool canCloseCurrent;
+        public bool CanCloseCurrent
+        {
+            get { return canCloseCurrent; }
+            set
+            {
+                if (Set(ref canCloseCurrent, value))
+                {
+                    OnCanCloseCurrentChanged();
+                }
+            }
+        }
 
+        public event EventHandler CanCloseCurrentChanged;
 
         public ICommand CloseCurrentCommand { get; }
 
@@ -77,9 +89,14 @@ namespace OneDo.Services.ModalService
 
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Current = Items.Count > 0 ? Items.First() : null;
+            CanCloseCurrent = Items.Count > 0;
+            Current = Items.FirstOrDefault();
+        }
+
+        private void OnCanCloseCurrentChanged()
+        {
+            CanCloseCurrentChanged?.Invoke(this, EventArgs.Empty);
             UpdateBackButtonVisibility();
-            RaisePropertyChanged(nameof(CanCloseCurrent));
         }
 
         private void OnPointerPressed(CoreWindow sender, PointerEventArgs args)

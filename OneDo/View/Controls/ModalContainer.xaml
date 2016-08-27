@@ -17,82 +17,48 @@
                        DataContext="{Binding ModalService, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
 
-    <Grid Grid.RowSpan="3">
-        <Grid>
-            <Border x:Name="BackgroundBorder" Visibility="Collapsed">
-                <Border.Background>
-                    <SolidColorBrush Color="{ThemeResource SystemChromeBlackMediumLowColor}" />
-                </Border.Background>
-                <i:Interaction.Behaviors>
-                    <ic:DataTriggerBehavior Binding="{x:Bind VM.Items.Count, Mode=OneWay}"
-                                            ComparisonCondition="Equal"
-                                            Value="0">
-                        <im:ControlStoryboardAction>
-                            <im:ControlStoryboardAction.Storyboard>
-                                <Storyboard>
-                                    <FadeOutThemeAnimation BeginTime="0:0:0.4"
-                                                           Duration="0:0:0.2"
-                                                           Storyboard.TargetName="BackgroundBorder" />
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundBorder" Storyboard.TargetProperty="Visibility">
-                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="Collapsed" />
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </im:ControlStoryboardAction.Storyboard>
-                        </im:ControlStoryboardAction>
-                    </ic:DataTriggerBehavior>
-                    <ic:DataTriggerBehavior Binding="{x:Bind VM.Items.Count, Mode=OneWay}"
-                                            ComparisonCondition="GreaterThan"
-                                            Value="0">
-                        <im:ControlStoryboardAction>
-                            <im:ControlStoryboardAction.Storyboard>
-                                <Storyboard>
-                                    <FadeInThemeAnimation Duration="0:0:0.2" Storyboard.TargetName="BackgroundBorder" />
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundBorder" Storyboard.TargetProperty="Visibility">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </im:ControlStoryboardAction.Storyboard>
-                        </im:ControlStoryboardAction>
-                    </ic:DataTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </Border>
-            <ItemsControl HorizontalContentAlignment="Stretch"
-                          VerticalContentAlignment="Stretch"
-                          ItemsSource="{x:Bind VM.Items, Mode=OneWay}">
-                <ItemsControl.ItemContainerTransitions>
-                    <TransitionCollection>
-                        <AddDeleteThemeTransition />
-                        <!--<ContentThemeTransition />-->
-                        <!--<PopupThemeTransition />-->
-                        <!--<EntranceThemeTransition />-->
-                    </TransitionCollection>
-                </ItemsControl.ItemContainerTransitions>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Grid />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplateSelector>
-                    <v:ModalTemplateSelector>
-                        <v:ModalTemplateSelector.FolderEditorTemplate>
-                            <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
-                                <vModals:FolderEditor HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </DataTemplate>
-                        </v:ModalTemplateSelector.FolderEditorTemplate>
-                        <v:ModalTemplateSelector.NoteEditorTemplate>
-                            <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
-                                <vModals:NoteEditor Margin="16" />
-                            </DataTemplate>
-                        </v:ModalTemplateSelector.NoteEditorTemplate>
-                        <v:ModalTemplateSelector.SettingsTemplate>
-                            <DataTemplate x:DataType="vmModals:SettingsViewModel">
-                                <vModals:SettingsView Width="400" HorizontalAlignment="Right" />
-                            </DataTemplate>
-                        </v:ModalTemplateSelector.SettingsTemplate>
-                    </v:ModalTemplateSelector>
-                </ItemsControl.ItemTemplateSelector>
-            </ItemsControl>
-        </Grid>
+    <Grid>
+        <Border x:Name="BackgroundControl">
+            <Border.Background>
+                <SolidColorBrush Color="{ThemeResource SystemChromeBlackMediumLowColor}" />
+            </Border.Background>
+        </Border>
+        <ItemsControl HorizontalContentAlignment="Stretch"
+                      VerticalContentAlignment="Stretch"
+                      ItemsSource="{x:Bind VM.Items, Mode=OneWay}">
+            <ItemsControl.ItemContainerTransitions>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <!--<ContentThemeTransition />-->
+                    <!--<PopupThemeTransition />-->
+                    <!--<EntranceThemeTransition />-->
+                </TransitionCollection>
+            </ItemsControl.ItemContainerTransitions>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplateSelector>
+                <v:ModalTemplateSelector>
+                    <v:ModalTemplateSelector.FolderEditorTemplate>
+                        <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
+                            <vModals:FolderEditor HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.FolderEditorTemplate>
+                    <v:ModalTemplateSelector.NoteEditorTemplate>
+                        <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
+                            <vModals:NoteEditor />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.NoteEditorTemplate>
+                    <v:ModalTemplateSelector.SettingsTemplate>
+                        <DataTemplate x:DataType="vmModals:SettingsViewModel">
+                            <vModals:SettingsView />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.SettingsTemplate>
+                </v:ModalTemplateSelector>
+            </ItemsControl.ItemTemplateSelector>
+        </ItemsControl>
     </Grid>
 
 </v:ExtendedUserControl>
