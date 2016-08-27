@@ -360,7 +360,7 @@
                         <AddDeleteThemeTransition />
                         <ContentThemeTransition />
                         <ReorderThemeTransition />
-                        <EntranceThemeTransition FromVerticalOffset="-32" IsStaggeringEnabled="False" />
+                        <EntranceThemeTransition FromVerticalOffset="32" />
                     </TransitionCollection>
                 </Setter.Value>
             </Setter>
@@ -378,7 +378,8 @@
 
     </UserControl.Resources>
 
-    <ListView Style="{StaticResource FolderListViewStyle}"
+    <ListView x:Name="FolderList"
+              Style="{StaticResource FolderListViewStyle}"
               ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
               SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
