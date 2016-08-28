@@ -29,9 +29,6 @@
             <ItemsControl.ItemContainerTransitions>
                 <TransitionCollection>
                     <AddDeleteThemeTransition />
-                    <!--<ContentThemeTransition />-->
-                    <!--<PopupThemeTransition />-->
-                    <!--<EntranceThemeTransition />-->
                 </TransitionCollection>
             </ItemsControl.ItemContainerTransitions>
             <ItemsControl.ItemsPanel>

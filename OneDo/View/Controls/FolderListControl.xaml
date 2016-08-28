@@ -185,64 +185,63 @@
             <Border Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
-                <ScrollViewer x:Name="ScrollViewer"
-                              Style="{StaticResource FolderListViewScrollViewerStyle}"
-                              AutomationProperties.AccessibilityView="Raw"
-                              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                              IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                              IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                              IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                              IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                              IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                              TabNavigation="{TemplateBinding TabNavigation}"
-                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                              ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="12" />
-                            <RowDefinition Height="32" />
-                            <RowDefinition Height="4" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <ItemsPresenter Grid.Row="1"
-                                        Grid.Column="0"
-                                        Padding="{TemplateBinding Padding}"
-                                        Footer="{TemplateBinding Footer}"
-                                        FooterTemplate="{TemplateBinding FooterTemplate}"
-                                        FooterTransitions="{TemplateBinding FooterTransitions}"
-                                        Header="{TemplateBinding Header}"
-                                        HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                        HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-                        <Button Grid.Row="1"
-                                Grid.Column="1"
-                                Style="{StaticResource FolderListButtonStyle}"
-                                Tapped="AddItem_Tapped">
-                            <FontIcon FontSize="16"
-                                      FontWeight="Light"
-                                      Glyph="&#xE710;" />
-                            <i:Interaction.Behaviors>
-                                <ic:EventTriggerBehavior EventName="PointerEntered">
-                                    <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
-                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
-                                </ic:EventTriggerBehavior>
-                                <ic:EventTriggerBehavior EventName="PointerExited">
-                                    <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
-                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
-                                </ic:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-                        </Button>
-                        <Border Grid.Row="2"
-                                Grid.ColumnSpan="4"
-                                Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorToBrushConverter}}" />
-                    </Grid>
-                </ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="44" />
+                        <RowDefinition Height="4" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer x:Name="ScrollViewer"
+                                  Grid.Row="0"
+                                  Padding="0,12,0,0"
+                                  Style="{StaticResource FolderListViewScrollViewerStyle}"
+                                  AutomationProperties.AccessibilityView="Raw"
+                                  BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                  HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                  IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                  IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                  IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                  IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                  IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                  TabNavigation="{TemplateBinding TabNavigation}"
+                                  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                  VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                  ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ItemsPresenter Grid.Column="0"
+                                            Padding="{TemplateBinding Padding}"
+                                            Footer="{TemplateBinding Footer}"
+                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                            Header="{TemplateBinding Header}"
+                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                            HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                            <Button Grid.Column="1"
+                                    Style="{StaticResource FolderListButtonStyle}"
+                                    Tapped="AddItem_Tapped">
+                                <FontIcon FontSize="16"
+                                          FontWeight="Light"
+                                          Glyph="&#xE710;" />
+                                <i:Interaction.Behaviors>
+                                    <ic:EventTriggerBehavior EventName="PointerEntered">
+                                        <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+                                    </ic:EventTriggerBehavior>
+                                    <ic:EventTriggerBehavior EventName="PointerExited">
+                                        <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
+                                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
+                                    </ic:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </Button>
+                        </Grid>
+                    </ScrollViewer>
+                    <Border Grid.Row="1" Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorToBrushConverter}}" />
+                </Grid>
             </Border>
         </ControlTemplate>
 
