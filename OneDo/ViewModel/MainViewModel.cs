@@ -46,8 +46,6 @@ namespace OneDo.ViewModel
 
         public ICommand AddNoteCommand { get; }
 
-        public ICommand ResetDataCommand { get; }
-
         public ICommand ShowSettingsCommand { get; }
 
         public IModalService ModalService { get; }
@@ -64,7 +62,6 @@ namespace OneDo.ViewModel
 
             NoteItemTappedCommand = new RelayCommand(NoteItemTapped);
             AddNoteCommand = new RelayCommand(AddNote);
-            ResetDataCommand = new AsyncRelayCommand(ResetData);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
@@ -88,7 +85,8 @@ namespace OneDo.ViewModel
             });
         }
 
-        private async Task ResetData()
+#if DEBUG
+        public async Task ResetData()
         {
             await ProgressService.RunAsync(async () =>
             {
@@ -101,6 +99,7 @@ namespace OneDo.ViewModel
                 }
             });
         }
+#endif
 
         private void AddNote()
         {

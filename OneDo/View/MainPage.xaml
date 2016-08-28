@@ -78,14 +78,13 @@
         </ListView>
 
         <!--  AppBar  -->
-        <CommandBar Grid.Row="2">
+        <CommandBar x:Name="MainCommandBar" Grid.Row="2">
             <AppBarButton Command="{x:Bind VM.AddNoteCommand}" Label="Add note">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Command="{x:Bind VM.ResetDataCommand}" Label="Reset data" />
                 <AppBarButton Command="{x:Bind VM.ShowSettingsCommand}" Label="Settings" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
