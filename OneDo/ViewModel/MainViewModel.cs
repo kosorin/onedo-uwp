@@ -68,15 +68,14 @@ namespace OneDo.ViewModel
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
-
-            LoadData();
+            FolderList.SelectionChanged += async (s, e) => await Load();
+            FolderList.Load();
         }
 
-        private async Task LoadData()
+        private async Task Load()
         {
             await ProgressService.RunAsync(async () =>
             {
-                await FolderList.Load();
                 using (var dc = new DataContext())
                 {
                     if (await dc.Set<Note>().FirstOrDefaultAsync() == null)

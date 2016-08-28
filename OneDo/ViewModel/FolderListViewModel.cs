@@ -14,6 +14,7 @@ using OneDo.ViewModel.Commands;
 using OneDo.Services.ModalService;
 using OneDo.ViewModel.Modals;
 using OneDo.Services.ProgressService;
+using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
@@ -30,8 +31,16 @@ namespace OneDo.ViewModel
         public FolderItemObject SelectedItem
         {
             get { return selectedItem; }
-            set { Set(ref selectedItem, value); }
+            set
+            {
+                if (Set(ref selectedItem, value))
+                {
+                    SelectionChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
         }
+
+        public event TypedEventHandler<FolderListViewModel, EventArgs> SelectionChanged;
 
         public IModalService ModalService { get; }
 
@@ -48,22 +57,24 @@ namespace OneDo.ViewModel
 
         public async Task Load()
         {
-            using (var dc = new DataContext())
+            await ProgressService.RunAsync(async () =>
             {
-                if (!await dc.Set<Folder>().AnyAsync())
+                using (var dc = new DataContext())
                 {
-                    dc.Set<Folder>().Add(new Folder { Name = "Inbox", Color = "#0063AF", });
-                    dc.Set<Folder>().Add(new Folder { Name = "Work", Color = "#0F893E", });
-                    dc.Set<Folder>().Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
-                    dc.Set<Folder>().Add(new Folder { Name = "Vacation", Color = "#F7630D", });
-                    //dc.Set<Folder>().Add(new Folder { Name = "Folder with very long name", Color = "#00B6C1", });
-                    await dc.SaveChangesAsync();
+                    if (!await dc.Set<Folder>().AnyAsync())
+                    {
+                        dc.Set<Folder>().Add(new Folder { Name = "Inbox", Color = "#0063AF", });
+                        dc.Set<Folder>().Add(new Folder { Name = "Work", Color = "#0F893E", });
+                        dc.Set<Folder>().Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
+                        dc.Set<Folder>().Add(new Folder { Name = "Vacation", Color = "#F7630D", });
+                        await dc.SaveChangesAsync();
+                    }
+                    var folders = await dc.Set<Folder>().ToListAsync();
+                    var folderItems = folders.Select(f => new FolderItemObject(f));
+                    Items = new ObservableCollection<FolderItemObject>(folderItems);
+                    SelectedItem = Items.FirstOrDefault();
                 }
-                var folders = await dc.Set<Folder>().ToListAsync();
-                var folderItems = folders.Select(f => new FolderItemObject(f));
-                Items = new ObservableCollection<FolderItemObject>(folderItems);
-                SelectedItem = Items.FirstOrDefault();
-            }
+            });
         }
 
         public void AddItem()
