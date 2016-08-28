@@ -21,6 +21,7 @@ using OneDo.Model.Data.Entities;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.System;
 using Windows.UI.Xaml.Media;
+using Windows.ApplicationModel.Core;
 
 namespace OneDo
 {
@@ -72,6 +73,8 @@ namespace OneDo
 
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+
             await InitializeLogger();
 
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
