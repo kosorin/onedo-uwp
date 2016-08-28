@@ -126,7 +126,6 @@ namespace OneDo.ViewModel.Modals
             ProgressService = progressService;
 
             Folders = folderList.Items.ToList();
-            RaisePropertyChanged(nameof(Folders));
             SelectedFolder = folderList.SelectedItem;
 
             business = new NoteBusiness(SettingsProvider);
@@ -144,11 +143,7 @@ namespace OneDo.ViewModel.Modals
         {
             IsNew = business.IsNew(original);
 
-            if (IsNew)
-            {
-                original.FolderId = SelectedFolder.Entity.Id;
-            }
-            else
+            if (!IsNew)
             {
                 SelectedFolder = Folders.Where(x => x.Entity.Id == original.FolderId).FirstOrDefault() ?? Folders.FirstOrDefault();
             }
@@ -185,6 +180,7 @@ namespace OneDo.ViewModel.Modals
 
         private async Task Save()
         {
+            original.FolderId = SelectedFolder.Entity.Id;
             original.Title = Title;
             original.Text = Note;
             original.Date = Date?.DateTime;
