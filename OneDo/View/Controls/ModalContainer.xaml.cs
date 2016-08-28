@@ -54,7 +54,7 @@ namespace OneDo.View.Controls
             var blurEffect = new GaussianBlurEffect()
             {
                 Name = "Blur",
-                BlurAmount = 6,
+                BlurAmount = 10,
                 BorderMode = EffectBorderMode.Hard,
                 Optimization = EffectOptimization.Balanced,
                 Source = new CompositionEffectSourceParameter("Backdrop"),
