@@ -41,7 +41,9 @@ namespace OneDo.View.Controls
 
         private void InitializeBackgroundControl()
         {
-            BackgroundControl.Visibility = Visibility.Collapsed;
+            BackgroundControl.Visibility = VM.CanCloseCurrent
+                ? Visibility.Visible
+                : Visibility.Collapsed;
 
             InitializeBackgroundBlur();
             InitializeBackgroundAnimations();
