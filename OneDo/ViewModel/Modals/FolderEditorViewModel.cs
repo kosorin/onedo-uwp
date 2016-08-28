@@ -118,9 +118,8 @@ namespace OneDo.ViewModel.Modals
             original.Name = business.NormalizeName(Name);
             original.Color = SelectedColor.Color.ToHex();
 
-            try
+            await ProgressService.RunAsync(async () =>
             {
-                ProgressService.IsBusy = true;
                 using (var dc = new DataContext())
                 {
                     if (IsNew)
@@ -133,11 +132,7 @@ namespace OneDo.ViewModel.Modals
                     }
                     await dc.SaveChangesAsync();
                 }
-            }
-            finally
-            {
-                ProgressService.IsBusy = false;
-            }
+            });
 
             OnSaved();
         }
@@ -146,20 +141,15 @@ namespace OneDo.ViewModel.Modals
         {
             if (!IsNew)
             {
-                try
+                await ProgressService.RunAsync(async () =>
                 {
-                    ProgressService.IsBusy = true;
                     using (var dc = new DataContext())
                     {
                         dc.Set<Folder>().Attach(original);
                         dc.Set<Folder>().Remove(original);
                         await dc.SaveChangesAsync();
                     }
-                }
-                finally
-                {
-                    ProgressService.IsBusy = false;
-                }
+                });
 
                 OnDeleted();
             }

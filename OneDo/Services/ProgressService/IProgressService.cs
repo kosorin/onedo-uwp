@@ -1,7 +1,18 @@
-﻿namespace OneDo.Services.ProgressService
+﻿using System;
+using System.Threading.Tasks;
+
+namespace OneDo.Services.ProgressService
 {
     public interface IProgressService
     {
-        bool IsBusy { get; set; }
+        bool IsBusy { get; }
+
+        void Push();
+
+        void Pop();
+
+        void Run(Action action);
+
+        Task RunAsync(Func<Task> action);
     }
 }

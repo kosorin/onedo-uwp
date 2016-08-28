@@ -133,20 +133,15 @@ namespace OneDo.ViewModel.Modals
         {
             if (!IsNew)
             {
-                try
+                await ProgressService.RunAsync(async () =>
                 {
-                    ProgressService.IsBusy = true;
                     using (var dc = new DataContext())
                     {
                         dc.Set<Note>().Attach(original);
                         dc.Set<Note>().Remove(original);
                         await dc.SaveChangesAsync();
                     }
-                }
-                finally
-                {
-                    ProgressService.IsBusy = false;
-                }
+                });
 
                 OnDeleted();
             }
@@ -164,9 +159,8 @@ namespace OneDo.ViewModel.Modals
             original.Text = Note;
             original.Date = Date?.DateTime;
 
-            try
+            await ProgressService.RunAsync(async () =>
             {
-                ProgressService.IsBusy = true;
                 using (var dc = new DataContext())
                 {
                     if (IsNew)
@@ -179,11 +173,7 @@ namespace OneDo.ViewModel.Modals
                     }
                     await dc.SaveChangesAsync();
                 }
-            }
-            finally
-            {
-                ProgressService.IsBusy = false;
-            }
+            });
 
             OnSaved();
         }

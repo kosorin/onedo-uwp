@@ -74,9 +74,8 @@ namespace OneDo.ViewModel
 
         private async Task LoadData()
         {
-            try
+            await ProgressService.RunAsync(async () =>
             {
-                ProgressService.IsBusy = true;
                 await FolderList.Load();
                 using (var dc = new DataContext())
                 {
@@ -103,18 +102,13 @@ namespace OneDo.ViewModel
                     var noteItems = notes.Select(t => new NoteItemObject(t));
                     NoteItems = new ObservableCollection<NoteItemObject>(noteItems);
                 }
-            }
-            finally
-            {
-                ProgressService.IsBusy = false;
-            }
+            });
         }
 
         private async Task ResetData()
         {
-            try
+            await ProgressService.RunAsync(async () =>
             {
-                ProgressService.IsBusy = true;
                 using (var dc = new DataContext())
                 {
                     var notes = NoteItems.Select(x => x.Entity);
@@ -123,11 +117,7 @@ namespace OneDo.ViewModel
                     await dc.SaveChangesAsync();
                     NoteItems.Clear();
                 }
-            }
-            finally
-            {
-                ProgressService.IsBusy = false;
-            }
+            });
         }
 
         private void AddNote()
