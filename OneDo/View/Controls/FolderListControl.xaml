@@ -211,24 +211,6 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <!--<Button Grid.Row="1"
-                                Grid.Column="0"
-                                Style="{StaticResource FolderListButtonStyle}"
-                                Visibility="{Binding SelectedItem.HasParent, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <FontIcon FontSize="16"
-                                      FontWeight="Light"
-                                      Glyph="&#xE74A;" />
-                            <i:Interaction.Behaviors>
-                                <ic:EventTriggerBehavior EventName="PointerEntered">
-                                    <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
-                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
-                                </ic:EventTriggerBehavior>
-                                <ic:EventTriggerBehavior EventName="PointerExited">
-                                    <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
-                                    <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
-                                </ic:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-                        </Button>-->
                         <ItemsPresenter Grid.Row="1"
                                         Grid.Column="0"
                                         Padding="{TemplateBinding Padding}"
