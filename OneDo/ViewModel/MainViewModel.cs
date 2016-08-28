@@ -65,7 +65,17 @@ namespace OneDo.ViewModel
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
-            FolderList.SelectionChanged += async (s, e) => await LoadNotes(e.Entity.Id);
+            FolderList.SelectionChanged += async (s, e) =>
+            {
+                if (e.Entity != null)
+                {
+                    await LoadNotes(e.Entity.Id);
+                }
+                else
+                {
+                    ClearNotes();
+                }
+            };
             FolderList.Load();
         }
 
@@ -83,6 +93,11 @@ namespace OneDo.ViewModel
                     NoteItems = new ObservableCollection<NoteItemObject>(noteItems);
                 }
             });
+        }
+
+        private void ClearNotes()
+        {
+            NoteItems = new ObservableCollection<NoteItemObject>();
         }
 
 #if DEBUG
@@ -106,7 +121,7 @@ namespace OneDo.ViewModel
             var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, FolderList, null);
             editor.Saved += (s, e) =>
             {
-                if (e.Entity.FolderId == FolderList.SelectedItem.Entity.Id)
+                if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
                 {
                     NoteItems.Add(new NoteItemObject(e.Entity));
                 }

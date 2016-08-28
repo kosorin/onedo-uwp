@@ -128,11 +128,11 @@ namespace OneDo.ViewModel
         {
             using (var dc = new DataContext())
             {
-                if (SelectedItem == item)
+                Items.Remove(item);
+                if (SelectedItem == null)
                 {
                     SelectedItem = Items.FirstOrDefault();
                 }
-                Items.Remove(item);
                 dc.Set<Folder>().Attach(item.Entity);
                 dc.Set<Folder>().Remove(item.Entity);
                 await dc.SaveChangesAsync();
