@@ -8,7 +8,9 @@ using OneDo.Model.Data.Entities;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Commands;
+using OneDo.ViewModel.Items;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,6 +36,21 @@ namespace OneDo.ViewModel.Modals
             set { Set(ref isDirty, value); }
         }
 
+
+        public List<FolderItemObject> Folders { get; }
+
+        private FolderItemObject selectedFolder;
+        public FolderItemObject SelectedFolder
+        {
+            get { return selectedFolder; }
+            set
+            {
+                if (Set(ref selectedFolder, value))
+                {
+                    IsDirty = true;
+                }
+            }
+        }
 
         private string title;
         public string Title
@@ -103,9 +120,14 @@ namespace OneDo.ViewModel.Modals
 
         private readonly NoteBusiness business;
 
-        public NoteEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Note note) : base(modalService, settingsProvider)
+        public NoteEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, FolderListViewModel folderList, Note note)
+            : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
+
+            Folders = folderList.Items.ToList();
+            RaisePropertyChanged(nameof(Folders));
+            SelectedFolder = folderList.SelectedItem;
 
             business = new NoteBusiness(SettingsProvider);
             original = note ?? business.Default();
@@ -122,6 +144,14 @@ namespace OneDo.ViewModel.Modals
         {
             IsNew = business.IsNew(original);
 
+            if (IsNew)
+            {
+                original.FolderId = SelectedFolder.Entity.Id;
+            }
+            else
+            {
+                SelectedFolder = Folders.Where(x => x.Entity.Id == original.FolderId).FirstOrDefault() ?? Folders.FirstOrDefault();
+            }
             Title = original.Title;
             Note = original.Text;
             Date = original.Date;

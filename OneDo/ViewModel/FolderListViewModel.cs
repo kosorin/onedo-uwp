@@ -15,6 +15,7 @@ using OneDo.Services.ModalService;
 using OneDo.ViewModel.Modals;
 using OneDo.Services.ProgressService;
 using Windows.Foundation;
+using OneDo.Common.Event;
 
 namespace OneDo.ViewModel
 {
@@ -35,12 +36,12 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedItem, value))
                 {
-                    SelectionChanged?.Invoke(this, EventArgs.Empty);
+                    SelectionChanged?.Invoke(this, new EntityEventArgs<Folder>(SelectedItem?.Entity));
                 }
             }
         }
 
-        public event TypedEventHandler<FolderListViewModel, EventArgs> SelectionChanged;
+        public event TypedEventHandler<FolderListViewModel, EntityEventArgs<Folder>> SelectionChanged;
 
         public IModalService ModalService { get; }
 
@@ -69,6 +70,31 @@ namespace OneDo.ViewModel
                         dc.Set<Folder>().Add(new Folder { Name = "Vacation", Color = "#F7630D", });
                         await dc.SaveChangesAsync();
                     }
+
+                    if (!await dc.Set<Note>().AnyAsync())
+                    {
+                        var folder = await dc.Set<Folder>().FirstOrDefaultAsync();
+                        dc.Set<Note>().Add(new Note
+                        {
+                            FolderId = folder.Id,
+                            Title = "Buy milk",
+                        });
+                        dc.Set<Note>().Add(new Note
+                        {
+                            FolderId = folder.Id,
+                            Title = "Call mom",
+                            Date = DateTime.Today.AddDays(5),
+                        });
+                        dc.Set<Note>().Add(new Note
+                        {
+                            FolderId = folder.Id,
+                            Title = "Walk Max",
+                            Date = DateTime.Today,
+                            Reminder = TimeSpan.FromHours(7.25),
+                        });
+                        await dc.SaveChangesAsync();
+                    }
+
                     var folders = await dc.Set<Folder>().ToListAsync();
                     var folderItems = folders.Select(f => new FolderItemObject(f));
                     Items = new ObservableCollection<FolderItemObject>(folderItems);

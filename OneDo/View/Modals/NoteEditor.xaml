@@ -7,6 +7,7 @@
              xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
              xmlns:v="using:OneDo.View"
+             xmlns:vmItems="using:OneDo.ViewModel.Items"
              d:DesignHeight="640"
              d:DesignWidth="360"
              mc:Ignorable="d">
@@ -18,6 +19,17 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="16">
+            <ComboBox Margin="0,0,0,16"
+                      HorizontalAlignment="Stretch"
+                      Header="Folder"
+                      ItemsSource="{Binding Folders}"
+                      SelectedItem="{Binding SelectedFolder, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vmItems:FolderItemObject">
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <TextBox Margin="0,0,0,16"
                      Header="Title"
                      Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
