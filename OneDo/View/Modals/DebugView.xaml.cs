@@ -16,7 +16,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.View.Modals
 {
-    [Modal(typeof(DebugViewModel))]
     public sealed partial class DebugView : ModalBase, IXBind<DebugViewModel>
     {
         public DebugViewModel VM => (DebugViewModel)ViewModel;

@@ -138,7 +138,6 @@
     <Compile Include="View\Controls\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ModalAttribute.cs" />
     <Compile Include="View\ModalBase.cs" />
     <Compile Include="View\Modals\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>

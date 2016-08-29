@@ -17,6 +17,8 @@ namespace OneDo.View
 
         public DataTemplate SettingsTemplate { get; set; }
 
+        public DataTemplate DebugTemplate { get; set; }
+
         protected override DataTemplate SelectTemplateCore(object item)
         {
             return SelectTemplate(item as ModalViewModel);
@@ -40,6 +42,10 @@ namespace OneDo.View
             else if (modal is SettingsViewModel)
             {
                 return SettingsTemplate;
+            }
+            else if (modal is DebugViewModel)
+            {
+                return DebugTemplate;
             }
             return null;
         }

@@ -62,6 +62,11 @@
                             <vModals:SettingsView />
                         </DataTemplate>
                     </v:ModalTemplateSelector.SettingsTemplate>
+                    <v:ModalTemplateSelector.DebugTemplate>
+                        <DataTemplate x:DataType="vmModals:DebugViewModel">
+                            <vModals:DebugView Margin="32" />
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.DebugTemplate>
                 </v:ModalTemplateSelector>
             </ItemsControl.ItemTemplateSelector>
         </ItemsControl>
