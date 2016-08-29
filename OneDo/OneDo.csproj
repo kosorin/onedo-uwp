@@ -137,6 +137,7 @@
     <Compile Include="View\Controls\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ModalAttribute.cs" />
     <Compile Include="View\ModalBase.cs" />
     <Compile Include="View\Modals\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
