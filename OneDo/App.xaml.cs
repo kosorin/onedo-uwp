@@ -22,6 +22,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Windows.System;
 using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 
 namespace OneDo
 {
@@ -86,6 +87,7 @@ namespace OneDo
 
             await InitializeSettings();
             await InitializeData();
+            await InitializeStatusBar();
             InitializeModalService();
 
             ShowContent();
@@ -162,6 +164,19 @@ namespace OneDo
                 await dc.Database.MigrateAsync();
             }
             Logger.Current.Info("Data initialized");
+        }
+
+        private async Task InitializeStatusBar()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusBar = StatusBar.GetForCurrentView();
+                if (statusBar != null)
+                {
+                    await statusBar.ShowAsync();
+                    statusBar.BackgroundOpacity = 1;
+                }
+            }
         }
 
         private void InitializeModalService()
