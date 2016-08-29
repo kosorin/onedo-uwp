@@ -24,6 +24,7 @@ namespace OneDo.ViewModel
             builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
 
             builder.RegisterType<MainViewModel>().SingleInstance();
+            builder.RegisterType<DebugViewModel>();
 
             Container = builder.Build();
         }
@@ -33,5 +34,7 @@ namespace OneDo.ViewModel
         public IModalService ModalService => Container?.Resolve<IModalService>();
 
         public MainViewModel MainPage => Container?.Resolve<MainViewModel>();
+
+        public DebugViewModel Debug => Container?.Resolve<DebugViewModel>();
     }
 }

@@ -104,6 +104,7 @@
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\ItemObject.cs" />
     <Compile Include="ViewModel\Items\ColorItemObject.cs" />
+    <Compile Include="ViewModel\Modals\DebugViewModel.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
@@ -139,6 +140,9 @@
     </Compile>
     <Compile Include="View\ModalAttribute.cs" />
     <Compile Include="View\ModalBase.cs" />
+    <Compile Include="View\Modals\DebugView.xaml.cs">
+      <DependentUpon>DebugView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Modals\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
     </Compile>
@@ -196,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ModalContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Modals\DebugView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
