@@ -21,10 +21,10 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="{ThemeResource SystemBaseLowColor}" />
+                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="#20FFFFFF" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="{ThemeResource SystemBaseLowColor}" />
+                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="#33000000" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -49,7 +49,12 @@
                 <v:ModalTemplateSelector>
                     <v:ModalTemplateSelector.FolderEditorTemplate>
                         <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
-                            <vModals:FolderEditor HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Border HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    BorderThickness="1">
+                                <vModals:FolderEditor />
+                            </Border>
                         </DataTemplate>
                     </v:ModalTemplateSelector.FolderEditorTemplate>
                     <v:ModalTemplateSelector.NoteEditorTemplate>
