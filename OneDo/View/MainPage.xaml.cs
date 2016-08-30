@@ -48,11 +48,18 @@ namespace OneDo.View
         private void SwitchRequestedTheme_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             var targetTheme = RequestedTheme;
+            if (targetTheme == ElementTheme.Default)
+            {
+                switch (Application.Current.RequestedTheme)
+                {
+                    case ApplicationTheme.Light: targetTheme = ElementTheme.Light; break;
+                    case ApplicationTheme.Dark: targetTheme = ElementTheme.Dark; break;
+                }
+            }
             switch (targetTheme)
             {
                 case ElementTheme.Light: targetTheme = ElementTheme.Dark; break;
                 case ElementTheme.Dark: targetTheme = ElementTheme.Light; break;
-                default: targetTheme = ElementTheme.Dark; break;
             }
             RequestedTheme = targetTheme;
         }
