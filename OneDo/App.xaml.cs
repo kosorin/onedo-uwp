@@ -23,6 +23,7 @@ using Windows.System;
 using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
+using Windows.UI;
 
 namespace OneDo
 {
@@ -168,13 +169,15 @@ namespace OneDo
 
         private async Task InitializeStatusBar()
         {
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1))
             {
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
-                    await statusBar.ShowAsync();
+                    statusBar.ForegroundColor = (Color)Resources["SystemChromeAltLowColor"];
+                    statusBar.BackgroundColor = (Color)Resources["SystemChromeLowColor"];
                     statusBar.BackgroundOpacity = 1;
+                    await statusBar.ShowAsync();
                 }
             }
         }
