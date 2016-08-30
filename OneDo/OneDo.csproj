@@ -109,7 +109,6 @@
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
     <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
-    <Compile Include="View\Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
