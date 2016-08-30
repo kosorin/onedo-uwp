@@ -1,4 +1,5 @@
-﻿using OneDo.ViewModel.Modals;
+﻿using OneDo.Common.UI;
+using OneDo.ViewModel.Modals;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,15 @@ namespace OneDo.View.Modals
         public DebugView()
         {
             InitializeComponent();
+        }
+
+        private void Log_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var scrollViewer = TreeHelper.FindChild<ScrollViewer>((DependencyObject)sender);
+            if (scrollViewer != null)
+            {
+                scrollViewer.ChangeView(0, scrollViewer.ExtentHeight, 1, true);
+            }
         }
     }
 }

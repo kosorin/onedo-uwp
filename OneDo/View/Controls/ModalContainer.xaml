@@ -69,7 +69,7 @@
                     </v:ModalTemplateSelector.SettingsTemplate>
                     <v:ModalTemplateSelector.DebugTemplate>
                         <DataTemplate x:DataType="vmModals:DebugViewModel">
-                            <vModals:DebugView Margin="32" />
+                            <vModals:DebugView />
                         </DataTemplate>
                     </v:ModalTemplateSelector.DebugTemplate>
                 </v:ModalTemplateSelector>

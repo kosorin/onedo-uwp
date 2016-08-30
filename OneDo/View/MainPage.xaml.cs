@@ -25,7 +25,7 @@ namespace OneDo.View
             {
                 Label = "Debug",
             };
-            debugButton.Tapped += (s, e) => VM.ModalService.Show(new DebugViewModel(VM.ModalService, VM.SettingsProvider));
+            debugButton.Tapped += (s, e) => VM.ModalService.Show(new DebugViewModel(VM.ModalService, VM.SettingsProvider, VM.ProgressService));
 
             var switchRequestedThemeButton = new AppBarButton
             {
