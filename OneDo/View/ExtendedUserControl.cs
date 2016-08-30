@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.ViewModel;
 using System.ComponentModel;
+using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -18,7 +19,7 @@ namespace OneDo.View
 
         public ExtendedUserControl()
         {
-            if (!ViewModelBase.IsInDesignModeStatic)
+            if (!DesignMode.DesignModeEnabled)
             {
                 DataContextChanged += (s, e) =>
                 {

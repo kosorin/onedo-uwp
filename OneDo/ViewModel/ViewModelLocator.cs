@@ -5,6 +5,7 @@ using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Modals;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 
 namespace OneDo.ViewModel
@@ -15,18 +16,19 @@ namespace OneDo.ViewModel
 
         static ViewModelLocator()
         {
-            if (ViewModelBase.IsInDesignModeStatic) return;
+            if (!DesignMode.DesignModeEnabled)
+            {
+                var builder = new ContainerBuilder();
 
-            var builder = new ContainerBuilder();
+                builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
+                builder.RegisterType<SettingsProvider>().As<ISettingsProvider>().SingleInstance();
+                builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
 
-            builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
-            builder.RegisterType<SettingsProvider>().As<ISettingsProvider>().SingleInstance();
-            builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
+                builder.RegisterType<MainViewModel>().SingleInstance();
+                builder.RegisterType<DebugViewModel>();
 
-            builder.RegisterType<MainViewModel>().SingleInstance();
-            builder.RegisterType<DebugViewModel>();
-
-            Container = builder.Build();
+                Container = builder.Build();
+            }
         }
 
         public IProgressService ProgressService => Container?.Resolve<IProgressService>();

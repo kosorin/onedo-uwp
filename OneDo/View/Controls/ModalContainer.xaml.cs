@@ -1,4 +1,5 @@
-﻿using Microsoft.Graphics.Canvas;
+﻿using GalaSoft.MvvmLight;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using OneDo.Common.UI;
 using OneDo.Services.ModalService;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -36,7 +38,10 @@ namespace OneDo.View.Controls
         public ModalContainer()
         {
             InitializeComponent();
-            InitializeBackgroundControl();
+            if (!DesignMode.DesignModeEnabled)
+            {
+                InitializeBackgroundControl();
+            }
         }
 
         private void InitializeBackgroundControl()

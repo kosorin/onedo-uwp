@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.ViewModel;
 using System.ComponentModel;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
@@ -14,7 +15,7 @@ namespace OneDo.View
 
         public ExtendedPage()
         {
-            if (!ViewModelBase.IsInDesignModeStatic)
+            if (!DesignMode.DesignModeEnabled)
             {
                 DataContextChanged += (s, e) =>
                 {
