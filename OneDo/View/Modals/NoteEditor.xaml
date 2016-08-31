@@ -35,7 +35,7 @@
                      Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox Margin="0,0,0,16"
                      Header="Note"
-                     Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <CalendarDatePicker Margin="0,0,0,16"
                                 HorizontalAlignment="Stretch"
                                 Date="{x:Bind VM.Date, Mode=TwoWay}"
@@ -51,6 +51,12 @@
                         <FontIcon Glyph="&#xE8FB;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
+                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}"
+                              Label="Save">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE74E;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <AppBarButton Label="Delete" Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
                     <AppBarButton.Flyout>
                         <Flyout PickerFlyoutBase.Title="Test">
@@ -62,12 +68,6 @@
                     </AppBarButton.Flyout>
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74D;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}"
-                              Label="Save">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE74E;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>

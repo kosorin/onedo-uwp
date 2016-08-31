@@ -20,23 +20,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.ViewModel.Modals
 {
-    public class NoteEditorViewModel : ModalViewModel
+    public class NoteEditorViewModel : EditorViewModel<Note>
     {
-        private bool isNew;
-        public bool IsNew
-        {
-            get { return isNew; }
-            set { Set(ref isNew, value); }
-        }
-
-        private bool isDirty;
-        public bool IsDirty
-        {
-            get { return isDirty; }
-            set { Set(ref isDirty, value); }
-        }
-
-
         public List<FolderItemObject> Folders { get; }
 
         private FolderItemObject selectedFolder;
@@ -47,7 +32,7 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref selectedFolder, value))
                 {
-                    IsDirty = true;
+                    UpdateDirtyProperty(() => SelectedFolder?.Entity.Id != original.FolderId);
                 }
             }
         }
@@ -60,20 +45,20 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref title, value))
                 {
-                    IsDirty = true;
+                    UpdateDirtyProperty(() => Title != original.Title);
                 }
             }
         }
 
-        private string note;
-        public string Note
+        private string text;
+        public string Text
         {
-            get { return note; }
+            get { return text; }
             set
             {
-                if (Set(ref note, value))
+                if (Set(ref text, value))
                 {
-                    IsDirty = true;
+                    UpdateDirtyProperty(() => Text != original.Text);
                 }
             }
         }
@@ -86,7 +71,7 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref date, value?.Date))
                 {
-                    IsDirty = true;
+                    UpdateDirtyProperty(() => Date != original.Date);
                 }
             }
         }
@@ -94,46 +79,25 @@ namespace OneDo.ViewModel.Modals
 
         public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Deleted;
 
-        private void OnDeleted()
-        {
-            Deleted?.Invoke(this, new EntityEventArgs<Note>(original));
-        }
-
-
         public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Saved;
 
-        private void OnSaved()
-        {
-            Saved?.Invoke(this, new EntityEventArgs<Note>(original));
-        }
-
-
-        public ICommand DeleteCommand { get; }
 
         public ICommand CompleteCommand { get; }
 
-        public ICommand SaveCommand { get; }
-
-        public IProgressService ProgressService { get; }
+        private readonly NoteBusiness business;
 
         private readonly Note original;
 
-        private readonly NoteBusiness business;
-
         public NoteEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, FolderListViewModel folderList, Note note)
-            : base(modalService, settingsProvider)
+            : base(modalService, settingsProvider, progressService)
         {
-            ProgressService = progressService;
+            business = new NoteBusiness(SettingsProvider);
+            original = note ?? business.Default();
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
-            business = new NoteBusiness(SettingsProvider);
-            original = note ?? business.Default();
-
-            DeleteCommand = new AsyncRelayCommand(Delete);
             CompleteCommand = new AsyncRelayCommand(Complete);
-            SaveCommand = new AsyncRelayCommand(Save);
 
             Load();
         }
@@ -145,16 +109,18 @@ namespace OneDo.ViewModel.Modals
 
             if (!IsNew)
             {
-                SelectedFolder = Folders.Where(x => x.Entity.Id == original.FolderId).FirstOrDefault() ?? Folders.FirstOrDefault();
+                var folder = Folders.Where(x => x.Entity.Id == original.FolderId).FirstOrDefault();
+                if (folder != null)
+                {
+                    SelectedFolder = folder;
+                }
             }
             Title = original.Title;
-            Note = original.Text;
+            Text = original.Text;
             Date = original.Date;
-
-            IsDirty = IsNew;
         }
 
-        private async Task Delete()
+        protected override async Task Delete()
         {
             if (!IsNew)
             {
@@ -178,11 +144,11 @@ namespace OneDo.ViewModel.Modals
             await Save();
         }
 
-        private async Task Save()
+        protected override async Task Save()
         {
             original.FolderId = SelectedFolder.Entity.Id;
             original.Title = Title;
-            original.Text = Note;
+            original.Text = Text;
             original.Date = Date?.DateTime;
 
             await ProgressService.RunAsync(async () =>
@@ -202,6 +168,16 @@ namespace OneDo.ViewModel.Modals
             });
 
             OnSaved();
+        }
+
+        protected override void OnSaved()
+        {
+            Saved?.Invoke(this, new EntityEventArgs<Note>(original));
+        }
+
+        protected override void OnDeleted()
+        {
+            Deleted?.Invoke(this, new EntityEventArgs<Note>(original));
         }
     }
 }

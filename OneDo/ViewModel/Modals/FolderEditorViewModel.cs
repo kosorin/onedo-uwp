@@ -34,7 +34,7 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref name, business.NormalizeName(value)))
                 {
-                    SetDirtyProperty(() => Name != original.Name);
+                    UpdateDirtyProperty(() => Name != original.Name);
                     ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
                 }
             }
@@ -48,7 +48,7 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref selectedColor, value))
                 {
-                    SetDirtyProperty(() => SelectedColor?.Color.ToHex() != original.Color);
+                    UpdateDirtyProperty(() => SelectedColor?.Color.ToHex() != original.Color);
                 }
             }
         }

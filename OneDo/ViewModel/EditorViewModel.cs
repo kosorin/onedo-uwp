@@ -24,7 +24,7 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref isNew, value))
                 {
-                    SetDirtyProperty(() => value);
+                    UpdateDirtyProperty(() => value);
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace OneDo.ViewModel
         protected abstract void OnDeleted();
 
 
-        protected void SetDirtyProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
+        protected void UpdateDirtyProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
         {
             dirtyProperties[propertyName] = isDirtyTest();
             OnCanSave();

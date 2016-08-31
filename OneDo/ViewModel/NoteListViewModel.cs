@@ -97,7 +97,17 @@ namespace OneDo.ViewModel
         {
             var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, FolderList, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
-            editor.Saved += (s, e) => item.Refresh();
+            editor.Saved += (s, e) =>
+            {
+                if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
+                {
+                    item.Refresh();
+                }
+                else
+                {
+                    FolderList.SelectedItem = FolderList.Items.FirstOrDefault(x => x.Entity.Id == item.Entity.FolderId);
+                }
+            };
 
             ShowEditor(editor);
         }
