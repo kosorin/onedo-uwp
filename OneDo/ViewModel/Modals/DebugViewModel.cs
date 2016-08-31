@@ -46,7 +46,7 @@ namespace OneDo.ViewModel.Modals
                         var file = await folder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists);
                         Log = await FileIO.ReadTextAsync(file);
                     }
-                    catch (Exception e)
+                    catch
                     {
                         Log = "Failed to load log";
                     }
