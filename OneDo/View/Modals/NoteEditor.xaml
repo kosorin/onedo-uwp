@@ -65,7 +65,6 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}"
-                              IsEnabled="{x:Bind VM.IsDirty, Mode=OneWay}"
                               Label="Save">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;" />

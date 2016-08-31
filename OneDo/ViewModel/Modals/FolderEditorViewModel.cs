@@ -35,6 +35,7 @@ namespace OneDo.ViewModel.Modals
                 if (Set(ref name, business.NormalizeName(value)))
                 {
                     SetDirtyProperty(() => Name != original.Name);
+                    ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
                 }
             }
         }

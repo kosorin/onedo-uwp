@@ -29,25 +29,27 @@ namespace OneDo.ViewModel
             }
         }
 
-        private Dictionary<string, bool> dirtyProperties = new Dictionary<string, bool>();
-        public bool IsDirty => dirtyProperties.Any(x => x.Value);
+
+        public bool CanSave => dirtyProperties.Any(x => x.Value) && validProperties.All(x => x.Value);
 
 
         public IProgressService ProgressService { get; }
 
-
-        public ICommand SaveCommand { get; }
+        public AsyncRelayCommand SaveCommand { get; }
 
         public ICommand DeleteCommand { get; }
 
+        private Dictionary<string, bool> dirtyProperties = new Dictionary<string, bool>();
+
+        private Dictionary<string, bool> validProperties = new Dictionary<string, bool>();
 
         protected EditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
             : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
 
-            SaveCommand = new AsyncRelayCommand(Save);
-            DeleteCommand = new AsyncRelayCommand(Delete);
+            SaveCommand = new AsyncRelayCommand(Save, () => CanSave);
+            DeleteCommand = new AsyncRelayCommand(Delete, () => !IsNew);
         }
 
 
@@ -63,7 +65,19 @@ namespace OneDo.ViewModel
         protected void SetDirtyProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
         {
             dirtyProperties[propertyName] = isDirtyTest();
-            RaisePropertyChanged(nameof(IsDirty));
+            OnCanSave();
+        }
+
+        protected void ValidateProperty(Func<bool> isValidTest, [CallerMemberName] string propertyName = null)
+        {
+            validProperties[propertyName] = isValidTest();
+            OnCanSave();
+        }
+
+        private void OnCanSave()
+        {
+            RaisePropertyChanged(nameof(CanSave));
+            SaveCommand.RaiseCanExecuteChanged();
         }
     }
 }
