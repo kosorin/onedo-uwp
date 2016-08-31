@@ -25,6 +25,31 @@ namespace OneDo.Model.Business
             return new TEntity();
         }
 
+        public async Task Save(TEntity entity)
+        {
+            using (var dc = new DataContext())
+            {
+                if (IsNew(entity))
+                {
+                    dc.Set<TEntity>().Add(entity);
+                }
+                else
+                {
+                    dc.Set<TEntity>().Update(entity);
+                }
+                await dc.SaveChangesAsync();
+            }
+        }
+
+        public async Task Delete(TEntity entity)
+        {
+            using (var dc = new DataContext())
+            {
+                dc.Set<TEntity>().Remove(entity);
+                await dc.SaveChangesAsync();
+            }
+        }
+
         public abstract TEntity Clone(TEntity entity);
     }
 }

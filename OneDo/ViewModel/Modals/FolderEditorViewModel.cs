@@ -121,18 +121,7 @@ namespace OneDo.ViewModel.Modals
 
             await ProgressService.RunAsync(async () =>
             {
-                using (var dc = new DataContext())
-                {
-                    if (IsNew)
-                    {
-                        dc.Folders.Add(original);
-                    }
-                    else
-                    {
-                        dc.Folders.Update(original);
-                    }
-                    await dc.SaveChangesAsync();
-                }
+                await business.Save(original);
             });
 
             OnSaved();
@@ -144,12 +133,7 @@ namespace OneDo.ViewModel.Modals
             {
                 await ProgressService.RunAsync(async () =>
                 {
-                    using (var dc = new DataContext())
-                    {
-                        dc.Folders.Attach(original);
-                        dc.Folders.Remove(original);
-                        await dc.SaveChangesAsync();
-                    }
+                    await business.Delete(original);
                 });
 
                 OnDeleted();

@@ -62,6 +62,7 @@ namespace OneDo.ViewModel
             {
                 using (var dc = new DataContext())
                 {
+#if DEBUG
                     if (!await dc.Folders.AnyAsync())
                     {
                         dc.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
@@ -94,6 +95,7 @@ namespace OneDo.ViewModel
                         });
                         await dc.SaveChangesAsync();
                     }
+#endif
 
                     var folders = await dc.Folders.ToListAsync();
                     var folderItems = folders.Select(f => new FolderItemObject(f));

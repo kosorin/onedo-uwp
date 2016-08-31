@@ -126,12 +126,8 @@ namespace OneDo.ViewModel.Modals
             {
                 await ProgressService.RunAsync(async () =>
                 {
-                    using (var dc = new DataContext())
-                    {
-                        dc.Notes.Attach(original);
-                        dc.Notes.Remove(original);
-                        await dc.SaveChangesAsync();
-                    }
+                    await business.Delete(original);
+
                 });
 
                 OnDeleted();
@@ -153,18 +149,7 @@ namespace OneDo.ViewModel.Modals
 
             await ProgressService.RunAsync(async () =>
             {
-                using (var dc = new DataContext())
-                {
-                    if (IsNew)
-                    {
-                        dc.Notes.Add(original);
-                    }
-                    else
-                    {
-                        dc.Notes.Update(original);
-                    }
-                    await dc.SaveChangesAsync();
-                }
+                await business.Save(original);
             });
 
             OnSaved();
