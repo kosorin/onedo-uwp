@@ -162,8 +162,8 @@ namespace OneDo.ViewModel.Modals
                 {
                     using (var dc = new DataContext())
                     {
-                        dc.Set<Note>().Attach(original);
-                        dc.Set<Note>().Remove(original);
+                        dc.Notes.Attach(original);
+                        dc.Notes.Remove(original);
                         await dc.SaveChangesAsync();
                     }
                 });
@@ -191,11 +191,11 @@ namespace OneDo.ViewModel.Modals
                 {
                     if (IsNew)
                     {
-                        dc.Set<Note>().Add(original);
+                        dc.Notes.Add(original);
                     }
                     else
                     {
-                        dc.Set<Note>().Update(original);
+                        dc.Notes.Update(original);
                     }
                     await dc.SaveChangesAsync();
                 }

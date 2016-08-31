@@ -31,5 +31,11 @@ namespace OneDo.Model.Data
             folder.Property(x => x.Name).IsRequired();
             folder.Property(x => x.Color).IsRequired();
         }
+
+        public async Task Clear()
+        {
+            Notes.RemoveRange(await Notes.ToListAsync());
+            Folders.RemoveRange(await Folders.ToListAsync());
+        }
     }
 }

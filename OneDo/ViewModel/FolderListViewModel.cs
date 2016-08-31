@@ -62,30 +62,30 @@ namespace OneDo.ViewModel
             {
                 using (var dc = new DataContext())
                 {
-                    if (!await dc.Set<Folder>().AnyAsync())
+                    if (!await dc.Folders.AnyAsync())
                     {
-                        dc.Set<Folder>().Add(new Folder { Name = "Inbox", Color = "#0063AF", });
-                        dc.Set<Folder>().Add(new Folder { Name = "Work", Color = "#0F893E", });
-                        dc.Set<Folder>().Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
-                        dc.Set<Folder>().Add(new Folder { Name = "Vacation", Color = "#F7630D", });
+                        dc.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
+                        dc.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
+                        dc.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
+                        dc.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
                         await dc.SaveChangesAsync();
                     }
 
-                    if (!await dc.Set<Note>().AnyAsync())
+                    if (!await dc.Notes.AnyAsync())
                     {
-                        var folder = await dc.Set<Folder>().FirstOrDefaultAsync();
-                        dc.Set<Note>().Add(new Note
+                        var folder = await dc.Folders.FirstOrDefaultAsync();
+                        dc.Notes.Add(new Note
                         {
                             FolderId = folder.Id,
                             Title = "Buy milk",
                         });
-                        dc.Set<Note>().Add(new Note
+                        dc.Notes.Add(new Note
                         {
                             FolderId = folder.Id,
                             Title = "Call mom",
                             Date = DateTime.Today.AddDays(5),
                         });
-                        dc.Set<Note>().Add(new Note
+                        dc.Notes.Add(new Note
                         {
                             FolderId = folder.Id,
                             Title = "Walk Max",
@@ -95,7 +95,7 @@ namespace OneDo.ViewModel
                         await dc.SaveChangesAsync();
                     }
 
-                    var folders = await dc.Set<Folder>().ToListAsync();
+                    var folders = await dc.Folders.ToListAsync();
                     var folderItems = folders.Select(f => new FolderItemObject(f));
                     Items = new ObservableCollection<FolderItemObject>(folderItems);
                     SelectedItem = Items.FirstOrDefault();
@@ -133,8 +133,8 @@ namespace OneDo.ViewModel
                 {
                     SelectedItem = Items.FirstOrDefault();
                 }
-                dc.Set<Folder>().Attach(item.Entity);
-                dc.Set<Folder>().Remove(item.Entity);
+                dc.Folders.Attach(item.Entity);
+                dc.Folders.Remove(item.Entity);
                 await dc.SaveChangesAsync();
             }
         }

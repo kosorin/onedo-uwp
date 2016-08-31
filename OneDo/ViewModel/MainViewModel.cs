@@ -86,7 +86,7 @@ namespace OneDo.ViewModel
                 using (var dc = new DataContext())
                 {
                     var notes = await dc
-                        .Set<Note>()
+                        .Notes
                         .Where(x => x.FolderId == folderId)
                         .ToListAsync();
                     var noteItems = notes.Select(t => new NoteItemObject(t));
@@ -107,10 +107,10 @@ namespace OneDo.ViewModel
             {
                 using (var dc = new DataContext())
                 {
-                    var notes = await dc.Set<Note>().ToListAsync();
-                    dc.Set<Note>().RemoveRange(notes);
+                    await dc.Clear();
                     await dc.SaveChangesAsync();
-                    NoteItems.Clear();
+                    await FolderList.Load();
+                    await dc.SaveChangesAsync();
                 }
             });
         }

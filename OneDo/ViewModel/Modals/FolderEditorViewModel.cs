@@ -125,11 +125,11 @@ namespace OneDo.ViewModel.Modals
                 {
                     if (IsNew)
                     {
-                        dc.Set<Folder>().Add(original);
+                        dc.Folders.Add(original);
                     }
                     else
                     {
-                        dc.Set<Folder>().Update(original);
+                        dc.Folders.Update(original);
                     }
                     await dc.SaveChangesAsync();
                 }
@@ -146,8 +146,8 @@ namespace OneDo.ViewModel.Modals
                 {
                     using (var dc = new DataContext())
                     {
-                        dc.Set<Folder>().Attach(original);
-                        dc.Set<Folder>().Remove(original);
+                        dc.Folders.Attach(original);
+                        dc.Folders.Remove(original);
                         await dc.SaveChangesAsync();
                     }
                 });
