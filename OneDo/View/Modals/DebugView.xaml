@@ -17,21 +17,32 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBox x:Name="Log"
-                         Grid.Row="0"
-                         Padding="4"
-                         BorderThickness="0"
-                         FontFamily="Consolas"
-                         FontSize="12"
-                         AcceptsReturn="True"
-                         IsEnabled="False"
-                         IsReadOnly="True"
-                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         Text="{x:Bind VM.Log, Mode=OneWay}"
-                         TextChanged="Log_TextChanged" />
+                <ListView x:Name="Log"
+                          Padding="0"
+                          FontSize="12"
+                          ItemsSource="{x:Bind VM.Log, Mode=OneWay}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollMode="Enabled">
+                    <ListView.Resources>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="FontFamily" Value="Consolas" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+                            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
+                            <Setter Property="Padding" Value="0,1" />
+                            <Setter Property="MinHeight" Value="0" />
+                        </Style>
+                    </ListView.Resources>
+                </ListView>
                 <CommandBar x:Name="MainCommandBar" Grid.Row="2">
-                    <AppBarButton Command="{x:Bind VM.ClearLogCommand}" Label="Clear log">
+                    <AppBarButton Command="{x:Bind VM.LoadLogCommand}" Label="Reload">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE149;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Command="{x:Bind VM.ClearLogCommand}" Label="Clear">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE107;" />
                         </AppBarButton.Icon>

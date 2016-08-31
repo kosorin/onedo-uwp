@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -15,12 +16,14 @@ namespace OneDo.ViewModel.Modals
 {
     public class DebugViewModel : ModalViewModel
     {
-        private string log;
-        public string Log
+        private List<string> log;
+        public List<string> Log
         {
             get { return log; }
             set { Set(ref log, value); }
         }
+
+        public ICommand LoadLogCommand { get; }
 
         public ICommand ClearLogCommand { get; }
 
@@ -29,6 +32,7 @@ namespace OneDo.ViewModel.Modals
         public DebugViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService) : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
+            LoadLogCommand = new AsyncRelayCommand(LoadLog);
             ClearLogCommand = new AsyncRelayCommand(ClearLog);
         }
 
@@ -44,11 +48,12 @@ namespace OneDo.ViewModel.Modals
                         var folder = ApplicationData.Current.LocalFolder;
                         var path = logger.Path.Replace(folder.Path, "");
                         var file = await folder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists);
-                        Log = await FileIO.ReadTextAsync(file);
+                        var logText = await FileIO.ReadTextAsync(file);
+                        Log = Regex.Split(logText, @"\r?\n").ToList();
                     }
                     catch
                     {
-                        Log = "Failed to load log";
+                        Log = new List<string>();
                     }
                 }
             });
@@ -66,7 +71,7 @@ namespace OneDo.ViewModel.Modals
                         var folder = ApplicationData.Current.LocalFolder;
                         var path = logger.Path.Replace(folder.Path, "");
                         var file = await folder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);
-                        Log = "";
+                        Log = new List<string>();
                     }
                     catch { }
                 }

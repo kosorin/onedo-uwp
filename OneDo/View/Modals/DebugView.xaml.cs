@@ -26,20 +26,12 @@ namespace OneDo.View.Modals
             InitializeComponent();
         }
 
-        private void Log_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var scrollViewer = TreeHelper.FindChild<ScrollViewer>((DependencyObject)sender);
-            if (scrollViewer != null)
-            {
-                scrollViewer.ChangeView(0, scrollViewer.ExtentHeight, 1, true);
-            }
-        }
-
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Contains(LogPivotItem))
             {
                 await VM.LoadLog();
+                Log.ScrollIntoView(VM.Log.LastOrDefault());
             }
         }
     }
