@@ -2,11 +2,13 @@
 using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
+using OneDo.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 
 namespace OneDo.ViewModel.Modals
@@ -20,16 +22,17 @@ namespace OneDo.ViewModel.Modals
             set { Set(ref log, value); }
         }
 
+        public ICommand ClearLogCommand { get; }
 
         public IProgressService ProgressService { get; }
 
         public DebugViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService) : base(modalService, settingsProvider)
         {
             ProgressService = progressService;
-            Initialize();
+            ClearLogCommand = new AsyncRelayCommand(ClearLog);
         }
 
-        private async Task Initialize()
+        public async Task LoadLog()
         {
             await ProgressService.RunAsync(async () =>
             {
@@ -47,6 +50,25 @@ namespace OneDo.ViewModel.Modals
                     {
                         Log = "Failed to load log";
                     }
+                }
+            });
+        }
+
+        private async Task ClearLog()
+        {
+            await ProgressService.RunAsync(async () =>
+            {
+                var logger = Logger.Current as FileLogger;
+                if (logger != null)
+                {
+                    try
+                    {
+                        var folder = ApplicationData.Current.LocalFolder;
+                        var path = logger.Path.Replace(folder.Path, "");
+                        var file = await folder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);
+                        Log = "";
+                    }
+                    catch { }
                 }
             });
         }

@@ -34,5 +34,13 @@ namespace OneDo.View.Modals
                 scrollViewer.ChangeView(0, scrollViewer.ExtentHeight, 1, true);
             }
         }
+
+        private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Contains(LogPivotItem))
+            {
+                await VM.LoadLog();
+            }
+        }
     }
 }
