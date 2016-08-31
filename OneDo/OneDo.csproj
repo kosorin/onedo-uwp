@@ -106,6 +106,7 @@
     <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\Modals\DebugViewModel.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
+    <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
     <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
@@ -114,6 +115,9 @@
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="View\Controls\ModalContainer.xaml.cs">
       <DependentUpon>ModalContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\NoteListControl.xaml.cs">
+      <DependentUpon>NoteListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\SlidableListItem.cs" />
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
@@ -198,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ModalContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\NoteListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

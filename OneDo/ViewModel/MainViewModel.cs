@@ -26,6 +26,13 @@ namespace OneDo.ViewModel
             set { Set(ref folderList, value); }
         }
 
+        private NoteListViewModel noteList;
+        public NoteListViewModel NoteList
+        {
+            get { return noteList; }
+            set { Set(ref noteList, value); }
+        }
+
 
         private ObservableCollection<NoteItemObject> noteItems;
         public ObservableCollection<NoteItemObject> NoteItems
@@ -41,8 +48,6 @@ namespace OneDo.ViewModel
             set { Set(ref selectedNoteItem, value); }
         }
 
-
-        public ICommand NoteItemTappedCommand { get; }
 
         public ICommand AddNoteCommand { get; }
 
@@ -60,44 +65,30 @@ namespace OneDo.ViewModel
             SettingsProvider = settingsProvider;
             ProgressService = progressService;
 
-            NoteItemTappedCommand = new RelayCommand(NoteItemTapped);
-            AddNoteCommand = new RelayCommand(AddNote);
+            FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
+            NoteList = new NoteListViewModel(ModalService, SettingsProvider, ProgressService, FolderList);
+
+            AddNoteCommand = new RelayCommand(NoteList.AddItem);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
-            FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
             FolderList.SelectionChanged += async (s, e) =>
             {
                 if (e.Entity != null)
                 {
-                    await LoadNotes(e.Entity.Id);
+                    await NoteList.Load(e.Entity.Id);
                 }
                 else
                 {
-                    ClearNotes();
+                    NoteList.Clear();
                 }
             };
-            FolderList.Load();
+
+            Load();
         }
 
-        private async Task LoadNotes(int folderId)
+        private async Task Load()
         {
-            await ProgressService.RunAsync(async () =>
-            {
-                using (var dc = new DataContext())
-                {
-                    var notes = await dc
-                        .Notes
-                        .Where(x => x.FolderId == folderId)
-                        .ToListAsync();
-                    var noteItems = notes.Select(t => new NoteItemObject(t));
-                    NoteItems = new ObservableCollection<NoteItemObject>(noteItems);
-                }
-            });
-        }
-
-        private void ClearNotes()
-        {
-            NoteItems = new ObservableCollection<NoteItemObject>();
+            await FolderList.Load();
         }
 
 #if DEBUG
@@ -115,37 +106,6 @@ namespace OneDo.ViewModel
             });
         }
 #endif
-
-        private void AddNote()
-        {
-            var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, FolderList, null);
-            editor.Saved += (s, e) =>
-            {
-                if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
-                {
-                    NoteItems.Add(new NoteItemObject(e.Entity));
-                }
-            };
-            ShowNoteEditor(editor);
-        }
-
-        private void NoteItemTapped()
-        {
-            if (SelectedNoteItem != null)
-            {
-                var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, FolderList, SelectedNoteItem.Entity);
-                editor.Deleted += (s, e) => NoteItems.Remove(SelectedNoteItem);
-                editor.Saved += (s, e) => SelectedNoteItem.Refresh();
-                ShowNoteEditor(editor);
-            }
-        }
-
-        private void ShowNoteEditor(NoteEditorViewModel editor)
-        {
-            editor.Deleted += (s, e) => ModalService.CloseCurrent();
-            editor.Saved += (s, e) => ModalService.CloseCurrent();
-            ModalService.Show(editor);
-        }
 
         private void ShowSettings()
         {

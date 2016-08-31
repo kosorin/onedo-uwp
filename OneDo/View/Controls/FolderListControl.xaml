@@ -11,9 +11,8 @@
                        xmlns:v="using:OneDo.View"
                        xmlns:vItems="using:OneDo.View.Items"
                        xmlns:vmItems="using:OneDo.ViewModel.Items"
-                       d:DesignHeight="300"
-                       d:DesignWidth="400"
                        mc:Ignorable="d">
+
     <UserControl.Resources>
 
         <Style x:Key="FolderListViewScrollViewerStyle" TargetType="ScrollViewer">

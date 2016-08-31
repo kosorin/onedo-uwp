@@ -63,19 +63,7 @@
         <controls:FolderListControl Grid.Row="0" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
 
         <!--  Notes  -->
-        <ListView x:Name="NoteListView"
-                  Grid.Row="1"
-                  VerticalAlignment="Top"
-                  ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
-                  ItemTemplate="{StaticResource NoteItemTemplate}"
-                  ItemsSource="{x:Bind VM.NoteItems, Mode=OneWay}"
-                  SelectedItem="{x:Bind VM.SelectedNoteItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
-            <i:Interaction.Behaviors>
-                <ic:EventTriggerBehavior EventName="Tapped">
-                    <ic:InvokeCommandAction Command="{x:Bind VM.NoteItemTappedCommand}" />
-                </ic:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
-        </ListView>
+        <controls:NoteListControl Grid.Row="1" DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
 
         <!--  AppBar  -->
         <CommandBar x:Name="MainCommandBar" Grid.Row="2">
