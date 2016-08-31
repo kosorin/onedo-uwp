@@ -69,7 +69,7 @@ namespace OneDo.ViewModel
                         .Notes
                         .Where(x => x.FolderId == folderId)
                         .ToListAsync();
-                    var noteItems = notes.Select(t => new NoteItemObject(t));
+                    var noteItems = notes.Select(x => new NoteItemObject(x));
                     Items = new ObservableCollection<NoteItemObject>(noteItems);
                 }
             });

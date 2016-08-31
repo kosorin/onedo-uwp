@@ -91,8 +91,7 @@ namespace OneDo.ViewModel
             await FolderList.Load();
         }
 
-#if DEBUG
-        public async Task ResetData()
+        private async Task Clear()
         {
             await ProgressService.RunAsync(async () =>
             {
@@ -100,10 +99,15 @@ namespace OneDo.ViewModel
                 {
                     await dc.Clear();
                     await dc.SaveChangesAsync();
-                    await FolderList.Load();
-                    await dc.SaveChangesAsync();
                 }
             });
+        }
+
+#if DEBUG
+        public async Task ResetData()
+        {
+            await Clear();
+            await Load();
         }
 #endif
 

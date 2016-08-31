@@ -98,7 +98,7 @@ namespace OneDo.ViewModel
 #endif
 
                     var folders = await dc.Folders.ToListAsync();
-                    var folderItems = folders.Select(f => new FolderItemObject(f));
+                    var folderItems = folders.Select(x => new FolderItemObject(x));
                     Items = new ObservableCollection<FolderItemObject>(folderItems);
                     SelectedItem = Items.FirstOrDefault();
                 }
