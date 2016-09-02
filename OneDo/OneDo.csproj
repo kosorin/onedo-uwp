@@ -105,6 +105,7 @@
     <Compile Include="Services\StringProvider\IStringProvider.cs" />
     <Compile Include="Services\StringProvider\StringProvider.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
+    <Compile Include="ViewModel\IFolderListCommands.cs" />
     <Compile Include="ViewModel\ItemObject.cs" />
     <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\Modals\DebugViewModel.cs" />

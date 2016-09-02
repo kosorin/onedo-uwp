@@ -290,7 +290,7 @@
                                             HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                             <Button Grid.Column="1"
                                     Style="{StaticResource FolderListButtonStyle}"
-                                    Tapped="AddItem_Tapped">
+                                    Command="{Binding AddItemCommand}">
                                 <FontIcon FontSize="16"
                                           FontWeight="Light"
                                           Glyph="&#xE710;" />
@@ -351,8 +351,8 @@
                     BorderThickness="1,1,1,0">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Tapped="EditItem_Tapped" Text="Edit" />
-                        <MenuFlyoutItem Tapped="DeleteItem_Tapped" Text="Delete" />
+                        <MenuFlyoutItem Command="{x:Bind FolderListCommands.EditItemCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Edit" />
+                        <MenuFlyoutItem Command="{x:Bind FolderListCommands.DeleteItemCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>

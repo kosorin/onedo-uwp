@@ -19,7 +19,7 @@ using OneDo.Common.Event;
 
 namespace OneDo.ViewModel
 {
-    public class FolderListViewModel : ExtendedViewModel
+    public class FolderListViewModel : ExtendedViewModel, IFolderListCommands
     {
         private ObservableCollection<FolderItemObject> items;
         public ObservableCollection<FolderItemObject> Items
@@ -43,6 +43,14 @@ namespace OneDo.ViewModel
 
         public event TypedEventHandler<FolderListViewModel, EntityEventArgs<Folder>> SelectionChanged;
 
+
+        public RelayCommand AddItemCommand { get; }
+
+        public RelayCommand<FolderItemObject> EditItemCommand { get; }
+
+        public AsyncRelayCommand<FolderItemObject> DeleteItemCommand { get; }
+
+
         public IModalService ModalService { get; }
 
         public ISettingsProvider SettingsProvider { get; }
@@ -54,6 +62,10 @@ namespace OneDo.ViewModel
             ModalService = modalService;
             SettingsProvider = settingsProvider;
             ProgressService = progressService;
+
+            AddItemCommand = new RelayCommand(AddItem);
+            EditItemCommand = new RelayCommand<FolderItemObject>(EditItem);
+            DeleteItemCommand = new AsyncRelayCommand<FolderItemObject>(DeleteItem, CanDeleteItem);
         }
 
         public async Task Load()
@@ -98,26 +110,30 @@ namespace OneDo.ViewModel
 #endif
 
                     var folders = await dc.Folders.ToListAsync();
-                    var folderItems = folders.Select(x => new FolderItemObject(x));
+                    var folderItems = folders.Select(x => new FolderItemObject(x, this));
                     Items = new ObservableCollection<FolderItemObject>(folderItems);
+                    Items.CollectionChanged += (s, e) =>
+                    {
+                        DeleteItemCommand.RaiseCanExecuteChanged();
+                    };
                     SelectedItem = Items.FirstOrDefault();
                 }
             });
         }
 
-        public void AddItem()
+        private void AddItem()
         {
             var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService);
             editor.Saved += (s, e) =>
             {
-                Items.Add(new FolderItemObject(e.Entity));
+                Items.Add(new FolderItemObject(e.Entity, this));
                 SelectedItem = Items.Last();
             };
 
             ShowEditor(editor);
         }
 
-        public void EditItem(FolderItemObject item)
+        private void EditItem(FolderItemObject item)
         {
             var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
@@ -126,7 +142,12 @@ namespace OneDo.ViewModel
             ShowEditor(editor);
         }
 
-        public async Task DeleteItem(FolderItemObject item)
+        private bool CanDeleteItem(FolderItemObject item)
+        {
+            return Items?.Count > 1;
+        }
+
+        private async Task DeleteItem(FolderItemObject item)
         {
             using (var dc = new DataContext())
             {

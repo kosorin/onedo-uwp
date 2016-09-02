@@ -17,10 +17,11 @@ namespace OneDo.ViewModel.Items
 
         public Color Color => Common.Media.ColorHelper.FromHex(Entity.Color);
 
+        public IFolderListCommands FolderListCommands { get; }
 
-        public FolderItemObject(Folder entity) : base(entity)
+        public FolderItemObject(Folder entity, IFolderListCommands folderListCommands) : base(entity)
         {
-
+            FolderListCommands = folderListCommands;
         }
     }
 }
