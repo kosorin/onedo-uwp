@@ -40,9 +40,9 @@ namespace OneDo.Model.Migrations
 
                     b.Property<DateTime?>("Date");
 
-                    b.Property<bool>("Flag");
-
                     b.Property<int?>("FolderId");
+
+                    b.Property<bool>("IsFlagged");
 
                     b.Property<TimeSpan?>("Reminder");
 

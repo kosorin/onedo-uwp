@@ -22,7 +22,7 @@ namespace OneDo.Model.Data.Entities
         public TimeSpan? Reminder { get; set; }
 
 
-        public bool Flag { get; set; }
+        public bool IsFlagged { get; set; }
 
 
         public int? FolderId { get; set; }

@@ -30,8 +30,8 @@ namespace OneDo.Model.Migrations
                         .Annotation("Autoincrement", true),
                     Completed = table.Column<DateTime>(nullable: true),
                     Date = table.Column<DateTime>(nullable: true),
-                    Flag = table.Column<bool>(nullable: false),
                     FolderId = table.Column<int>(nullable: true),
+                    IsFlagged = table.Column<bool>(nullable: false),
                     Reminder = table.Column<TimeSpan>(nullable: true),
                     Text = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)

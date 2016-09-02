@@ -45,7 +45,7 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref isFlagged, value))
                 {
-                    UpdateDirtyProperty(() => IsFlagged != original.Flag);
+                    UpdateDirtyProperty(() => IsFlagged != original.IsFlagged);
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace OneDo.ViewModel.Modals
                     SelectedFolder = folder;
                 }
             }
-            IsFlagged = original.Flag;
+            IsFlagged = original.IsFlagged;
             Title = original.Title;
             Text = original.Text;
             Date = original.Date;
@@ -171,7 +171,7 @@ namespace OneDo.ViewModel.Modals
         protected override async Task Save()
         {
             original.FolderId = SelectedFolder.Entity.Id;
-            original.Flag = IsFlagged ?? false;
+            original.IsFlagged = IsFlagged ?? false;
             original.Title = Title;
             original.Text = Text;
             original.Date = Date?.DateTime;
