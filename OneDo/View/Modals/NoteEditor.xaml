@@ -19,6 +19,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="16">
+            <CheckBox Content="Is flagged" IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}" />
             <ComboBox Margin="0,0,0,16"
                       HorizontalAlignment="Stretch"
                       Header="Folder"
@@ -40,6 +41,10 @@
                                 HorizontalAlignment="Stretch"
                                 Date="{x:Bind VM.Date, Mode=TwoWay}"
                                 Header="Date" />
+            <TimePicker Margin="0,0,0,16"
+                        HorizontalAlignment="Stretch"
+                        Header="Reminder"
+                        Time="{x:Bind VM.Reminder, Mode=TwoWay}" />
         </StackPanel>
 
         <CommandBar Grid.Row="1">
@@ -51,8 +56,7 @@
                         <FontIcon Glyph="&#xE8FB;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}"
-                              Label="Save">
+                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;" />
                     </AppBarButton.Icon>

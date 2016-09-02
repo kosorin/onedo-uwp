@@ -37,6 +37,19 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
+        private bool? isFlagged;
+        public bool? IsFlagged
+        {
+            get { return isFlagged; }
+            set
+            {
+                if (Set(ref isFlagged, value))
+                {
+                    UpdateDirtyProperty(() => IsFlagged != original.Flag);
+                }
+            }
+        }
+
         private string title;
         public string Title
         {
@@ -72,6 +85,19 @@ namespace OneDo.ViewModel.Modals
                 if (Set(ref date, value?.Date))
                 {
                     UpdateDirtyProperty(() => Date != original.Date);
+                }
+            }
+        }
+
+        private TimeSpan reminder;
+        public TimeSpan Reminder
+        {
+            get { return reminder; }
+            set
+            {
+                if (Set(ref reminder, value))
+                {
+                    UpdateDirtyProperty(() => Reminder != original.Reminder);
                 }
             }
         }
@@ -115,9 +141,11 @@ namespace OneDo.ViewModel.Modals
                     SelectedFolder = folder;
                 }
             }
+            IsFlagged = original.Flag;
             Title = original.Title;
             Text = original.Text;
             Date = original.Date;
+            Reminder = original.Reminder ?? TimeSpan.Zero;
         }
 
         protected override async Task Delete()
@@ -143,9 +171,11 @@ namespace OneDo.ViewModel.Modals
         protected override async Task Save()
         {
             original.FolderId = SelectedFolder.Entity.Id;
+            original.Flag = IsFlagged ?? false;
             original.Title = Title;
             original.Text = Text;
             original.Date = Date?.DateTime;
+            original.Reminder = Reminder;
 
             await ProgressService.RunAsync(async () =>
             {
