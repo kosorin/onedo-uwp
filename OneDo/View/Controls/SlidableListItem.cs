@@ -2,55 +2,33 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace OneDo.View.Controls
 {
-    [TemplatePart(Name = PART_CONTENT_GRID, Type = typeof(Grid))]
+    [TemplatePart(Name = PART_CONTENT_PANEL, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = PART_COMMAND_CONTAINER, Type = typeof(Grid))]
-    [TemplatePart(Name = PART_LEFT_COMMAND_PANEL, Type = typeof(StackPanel))]
-    [TemplatePart(Name = PART_RIGHT_COMMAND_PANEL, Type = typeof(StackPanel))]
+    [TemplatePart(Name = PART_LEFT_COMMAND_PANEL, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = PART_RIGHT_COMMAND_PANEL, Type = typeof(FrameworkElement))]
     public class SlidableListItem : ContentControl
     {
-        const string PART_CONTENT_GRID = "ContentGrid";
+        const string PART_CONTENT_PANEL = "ContentPanel";
         const string PART_COMMAND_CONTAINER = "CommandContainer";
         const string PART_LEFT_COMMAND_PANEL = "LeftCommandPanel";
         const string PART_RIGHT_COMMAND_PANEL = "RightCommandPanel";
-
-        // Content Container
-        private Grid contentGrid;
-
-        // transform for sliding content
-        private CompositeTransform transform;
-
-        // container for command content
-        private Grid commandContainer;
-
-        // container for left command content
-        private StackPanel leftCommandPanel;
-
-        // transform for left command content
-        private CompositeTransform leftCommandTransform;
-
-        // container for right command content
-        private StackPanel rightCommandPanel;
-
-        // transform for right command content
-        private CompositeTransform rightCommandTransform;
-
-        // doubleanimation for snaping back to default position
-        private DoubleAnimation contentAnimation;
-
-        // storyboard for snaping back to default position
-        private Storyboard contentStoryboard;
 
 
         public event EventHandler RightCommandRequested;
@@ -58,37 +36,45 @@ namespace OneDo.View.Controls
         public event EventHandler LeftCommandRequested;
 
 
+        private FrameworkElement contentPanel;
+
+        private Grid commandContainer;
+
+        private FrameworkElement leftCommandPanel;
+
+        private FrameworkElement rightCommandPanel;
+
+        protected readonly Compositor compositor;
+
+        private readonly CompositionAnimation resetOffsetAnimation;
+
+        private readonly CompositionAnimation resetOpacityAnimation;
+
+        private readonly CompositionAnimation offsetAnimation;
+
+        private readonly CompositionAnimation opacityAnimation;
+
         public SlidableListItem()
         {
             DefaultStyleKey = typeof(SlidableListItem);
+
+            compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            resetOffsetAnimation = CreateAnimation(200);
+            resetOpacityAnimation = CreateAnimation(200);
+            offsetAnimation = CreateAnimation(350);
+            opacityAnimation = CreateAnimation(350);
         }
 
 
         protected override void OnApplyTemplate()
         {
-            contentGrid = this.GetTemplateChild(PART_CONTENT_GRID) as Grid;
-            commandContainer = this.GetTemplateChild(PART_COMMAND_CONTAINER) as Grid;
-            leftCommandPanel = this.GetTemplateChild(PART_LEFT_COMMAND_PANEL) as StackPanel;
-            rightCommandPanel = this.GetTemplateChild(PART_RIGHT_COMMAND_PANEL) as StackPanel;
+            contentPanel = GetTemplateChild(PART_CONTENT_PANEL) as FrameworkElement;
+            commandContainer = GetTemplateChild(PART_COMMAND_CONTAINER) as Grid;
+            leftCommandPanel = GetTemplateChild(PART_LEFT_COMMAND_PANEL) as FrameworkElement;
+            rightCommandPanel = GetTemplateChild(PART_RIGHT_COMMAND_PANEL) as FrameworkElement;
 
-            transform = contentGrid.RenderTransform as CompositeTransform;
-
-            leftCommandTransform = leftCommandPanel.RenderTransform as CompositeTransform;
-            rightCommandTransform = rightCommandPanel.RenderTransform as CompositeTransform;
-
-            contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
-            contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
-
-            contentAnimation = new DoubleAnimation();
-            Storyboard.SetTarget(contentAnimation, transform);
-            Storyboard.SetTargetProperty(contentAnimation, nameof(transform.TranslateX));
-            contentAnimation.To = 0;
-            contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
-
-            contentStoryboard = new Storyboard();
-            contentStoryboard.Children.Add(contentAnimation);
-
-            commandContainer.Background = LeftBackground as SolidColorBrush;
+            contentPanel.ManipulationDelta += ContentGrid_ManipulationDelta;
+            contentPanel.ManipulationCompleted += ContentGrid_ManipulationCompleted;
 
             base.OnApplyTemplate();
         }
@@ -96,74 +82,131 @@ namespace OneDo.View.Controls
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             if (!MouseSlidingEnabled && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
                 return;
+            }
 
-            var x = transform.TranslateX;
-            contentAnimation.From = x;
-            contentStoryboard.Begin();
+            var contentVisual = ElementCompositionPreview.GetElementVisual(contentPanel);
+            var leftCommandVisual = ElementCompositionPreview.GetElementVisual(leftCommandPanel);
+            var rightCommandVisual = ElementCompositionPreview.GetElementVisual(rightCommandPanel);
 
-            leftCommandTransform.TranslateX = 0;
-            rightCommandTransform.TranslateX = 0;
-            leftCommandPanel.Opacity = 1;
-            rightCommandPanel.Opacity = 1;
+            AnimateResetOffset(contentVisual);
+            AnimateResetOffset(leftCommandVisual);
+            AnimateResetOffset(rightCommandVisual);
+            AnimateResetOpacity(leftCommandVisual);
+            AnimateResetOpacity(rightCommandVisual);
 
-            if (x < -ActivationWidth)
+            TryExecuteCommand(contentVisual.Offset.X);
+        }
+
+        private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (!MouseSlidingEnabled && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                return;
+            }
+
+            var contentVisual = ElementCompositionPreview.GetElementVisual(contentPanel);
+
+            var previousOffset = contentVisual.Offset.X;
+            SetOffset(contentVisual, previousOffset + (float)e.Delta.Translation.X);
+            var offset = contentVisual.Offset.X;
+
+            var previousAbsOffset = Math.Abs(previousOffset);
+            var absOffset = Math.Abs(offset);
+
+
+            var factor = offset > 0 ? 1 : -1;
+            var visibleCommandVisual = ElementCompositionPreview.GetElementVisual(offset > 0 ? leftCommandPanel : rightCommandPanel);
+            var hiddenCommandVisual = ElementCompositionPreview.GetElementVisual(offset > 0 ? rightCommandPanel : leftCommandPanel);
+
+            commandContainer.Background = offset > 0 ? LeftBackground : RightBackground;
+
+            visibleCommandVisual.Opacity = 1;
+            hiddenCommandVisual.Opacity = 0;
+            if (previousAbsOffset < ActivationOffset)
+            {
+                if (absOffset < ActivationOffset)
+                {
+                    SetOffset(visibleCommandVisual, factor * absOffset / 3);
+                }
+                else
+                {
+                    AnimateOffset(visibleCommandVisual, (float)(factor * ActivatedOffset));
+                }
+            }
+        }
+
+        private void SetOffset(Visual visual, float offset)
+        {
+            visual.Offset = new Vector3(offset, visual.Offset.Y, visual.Offset.Z);
+        }
+
+        private void AnimateResetOffset(Visual visual)
+        {
+            resetOffsetAnimation.SetScalarParameter("To", 0f);
+            visual.StartAnimation("Offset.X", resetOffsetAnimation);
+        }
+
+        private void AnimateOffset(Visual visual, float offset)
+        {
+            offsetAnimation.SetScalarParameter("To", offset);
+            visual.StartAnimation("Offset.X", offsetAnimation);
+        }
+
+        private void AnimateResetOpacity(Visual visual)
+        {
+            resetOpacityAnimation.SetScalarParameter("To", 0f);
+            visual.StartAnimation("Opacity", resetOpacityAnimation);
+        }
+
+        private void AnimateOpacity(Visual visual, float opacity)
+        {
+            opacityAnimation.SetScalarParameter("To", opacity);
+            visual.StartAnimation("Opacity", opacityAnimation);
+        }
+
+        private CompositionAnimation CreateAnimation(int duration)
+        {
+            var animation = compositor.CreateScalarKeyFrameAnimation();
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.InsertExpressionKeyFrame(0f, "this.CurrentValue");
+            animation.InsertExpressionKeyFrame(1f, "To");
+            return animation;
+        }
+
+        private void TryExecuteCommand(double x)
+        {
+            if (x < -ActivationOffset)
             {
                 RightCommandRequested?.Invoke(this, new EventArgs());
                 RightCommand?.Execute(null);
             }
-            else if (x > ActivationWidth)
+            else if (x > ActivationOffset)
             {
                 LeftCommandRequested?.Invoke(this, new EventArgs());
                 LeftCommand?.Execute(null);
             }
         }
 
-        private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+
+        public double ActivatedOffset
         {
-            if (!MouseSlidingEnabled && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-                return;
-
-            transform.TranslateX += e.Delta.Translation.X;
-            var abs = Math.Abs(transform.TranslateX);
-
-            if (transform.TranslateX > 0)
-            {
-                commandContainer.Background = LeftBackground as SolidColorBrush;
-
-                leftCommandPanel.Opacity = 1;
-                rightCommandPanel.Opacity = 0;
-
-                if (abs < ActivationWidth)
-                    leftCommandTransform.TranslateX = transform.TranslateX / 2;
-                else
-                    leftCommandTransform.TranslateX = 16;
-            }
-            else
-            {
-                commandContainer.Background = RightBackground as SolidColorBrush;
-
-                rightCommandPanel.Opacity = 1;
-                leftCommandPanel.Opacity = 0;
-
-                if (abs < ActivationWidth)
-                    rightCommandTransform.TranslateX = transform.TranslateX / 2;
-                else
-                    rightCommandTransform.TranslateX = -16;
-            }
-
+            get { return (double)GetValue(ActivatedOffsetProperty); }
+            set { SetValue(ActivatedOffsetProperty, value); }
         }
 
+        public static readonly DependencyProperty ActivatedOffsetProperty =
+            DependencyProperty.Register(nameof(ActivatedOffset), typeof(double), typeof(SlidableListItem), new PropertyMetadata(40f));
 
-
-        public double ActivationWidth
+        public double ActivationOffset
         {
-            get { return (double)GetValue(ActivationWidthProperty); }
-            set { SetValue(ActivationWidthProperty, value); }
+            get { return (double)GetValue(ActivationOffsetProperty); }
+            set { SetValue(ActivationOffsetProperty, value); }
         }
 
-        public static readonly DependencyProperty ActivationWidthProperty =
-            DependencyProperty.Register(nameof(ActivationWidth), typeof(double), typeof(SlidableListItem), new PropertyMetadata(80));
+        public static readonly DependencyProperty ActivationOffsetProperty =
+            DependencyProperty.Register(nameof(ActivationOffset), typeof(double), typeof(SlidableListItem), new PropertyMetadata(80f));
 
         public string LeftGlyph
         {
