@@ -59,6 +59,7 @@ namespace OneDo.ViewModel.Modals
                 if (Set(ref title, value))
                 {
                     UpdateDirtyProperty(() => Title != original.Title);
+                    ValidateProperty(() => !string.IsNullOrWhiteSpace(Title));
                 }
             }
         }
