@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI;
+using OneDo.Common.Metadata;
 
 namespace OneDo
 {
@@ -172,7 +173,7 @@ namespace OneDo
 
         private async Task InitializeStatusBar()
         {
-            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1))
+            if (ApiInformationHelper.Check(ApiContract.Phone, 1, 0))
             {
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)

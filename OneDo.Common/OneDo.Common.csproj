@@ -117,6 +117,8 @@
     <Compile Include="Logging\MemoryLogger.cs" />
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="Media\ColorHelper.cs" />
+    <Compile Include="Metadata\ApiContract.cs" />
+    <Compile Include="Metadata\ApiInformationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\OneDo.Common.rd.xml" />
   </ItemGroup>
