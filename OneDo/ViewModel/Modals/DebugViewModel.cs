@@ -40,21 +40,26 @@ namespace OneDo.ViewModel.Modals
         {
             await ProgressService.RunAsync(async () =>
             {
-                var logger = Logger.Current as FileLogger;
-                if (logger != null)
+                try
                 {
-                    try
+                    var fileLogger = Logger.Current as FileLogger;
+                    if (fileLogger != null)
                     {
                         var folder = ApplicationData.Current.LocalFolder;
-                        var path = logger.Path.Replace(folder.Path, "");
+                        var path = fileLogger.Path.Replace(folder.Path, "");
                         var file = await folder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists);
                         var logText = await FileIO.ReadTextAsync(file);
                         Log = Regex.Split(logText, @"\r?\n").ToList();
                     }
-                    catch
+                    var memoryLogger = Logger.Current as MemoryLogger;
+                    if (memoryLogger != null)
                     {
-                        Log = new List<string>();
+                        Log = memoryLogger.Items.ToList();
                     }
+                }
+                catch
+                {
+                    Log = new List<string>();
                 }
             });
         }
@@ -63,17 +68,26 @@ namespace OneDo.ViewModel.Modals
         {
             await ProgressService.RunAsync(async () =>
             {
-                var logger = Logger.Current as FileLogger;
-                if (logger != null)
+                try
                 {
-                    try
+                    var fileLogger = Logger.Current as FileLogger;
+                    if (fileLogger != null)
                     {
+
                         var folder = ApplicationData.Current.LocalFolder;
-                        var path = logger.Path.Replace(folder.Path, "");
+                        var path = fileLogger.Path.Replace(folder.Path, "");
                         var file = await folder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);
-                        Log = new List<string>();
                     }
-                    catch { }
+                    var memoryLogger = Logger.Current as MemoryLogger;
+                    if (memoryLogger != null)
+                    {
+                        memoryLogger.Items.Clear();
+                    }
+                }
+                catch { }
+                finally
+                {
+                    Log = new List<string>();
                 }
             });
         }

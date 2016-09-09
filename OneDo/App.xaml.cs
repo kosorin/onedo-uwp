@@ -134,12 +134,15 @@ namespace OneDo
         private async Task InitializeLogger()
         {
 #if DEBUG
-            var folder = ApplicationData.Current.LocalFolder;
-            var file = await folder.CreateFileAsync("OneDo.Log.txt", CreationCollisionOption.OpenIfExists);
-            var logger = new FileLogger(file.Path);
-            Logger.Current = logger;
+            //var folder = ApplicationData.Current.LocalFolder;
+            //var file = await folder.CreateFileAsync("OneDo.Log.txt", CreationCollisionOption.OpenIfExists);
+            //var logger = new FileLogger(file.Path);
+            //Logger.Current = logger;
+            Logger.Current = Debugger.IsAttached
+                ? (ILogger)new DebugLogger()
+                : (ILogger)new MemoryLogger();
 #else
-            // Logger v releasu zatím nepoužíváme.
+            // Logger v releasu zatím nepoužíváme - výchozí je NullLogger.
 #endif
             Logger.Current.Line("=================================================");
             Logger.Current.Line("===================== OneDo =====================");

@@ -31,7 +31,7 @@ namespace OneDo.View.Modals
             if (e.AddedItems.Contains(LogPivotItem))
             {
                 await VM.LoadLog();
-                Log.ScrollIntoView(VM.Log.LastOrDefault());
+                Log.ScrollIntoView(VM.Log?.LastOrDefault());
             }
         }
     }

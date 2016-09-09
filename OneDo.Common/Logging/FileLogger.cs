@@ -5,10 +5,6 @@ namespace OneDo.Common.Logging
 {
     public class FileLogger : LoggerBase
     {
-        private bool isEnabled = true;
-        private const int maxFailCount = 100;
-        private int failCount = 0;
-
         public string Path { get; }
 
         /// <summary>
@@ -23,21 +19,11 @@ namespace OneDo.Common.Logging
         {
             lock (syncObject)
             {
-                if (isEnabled)
+                try
                 {
-                    try
-                    {
-                        File.AppendAllLines(Path, Regex.Split(message, @"\r?\n"));
-                    }
-                    catch
-                    {
-                        if (failCount < maxFailCount)
-                        {
-                            isEnabled = false;
-                        }
-                        failCount++;
-                    }
+                    File.AppendAllLines(Path, Regex.Split(message, @"\r?\n"));
                 }
+                catch { }
             }
         }
     }
