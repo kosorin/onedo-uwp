@@ -116,11 +116,12 @@ namespace OneDo.View.Controls
             var absOffset = Math.Abs(offset);
 
 
-            var factor = offset > 0 ? 1 : -1;
-            var visibleCommandVisual = ElementCompositionPreview.GetElementVisual(offset > 0 ? leftCommandPanel : rightCommandPanel);
-            var hiddenCommandVisual = ElementCompositionPreview.GetElementVisual(offset > 0 ? rightCommandPanel : leftCommandPanel);
+            var isLeft = offset > 0;
+            var factor = isLeft ? 1 : -1;
+            var visibleCommandVisual = ElementCompositionPreview.GetElementVisual(isLeft ? leftCommandPanel : rightCommandPanel);
+            var hiddenCommandVisual = ElementCompositionPreview.GetElementVisual(isLeft ? rightCommandPanel : leftCommandPanel);
 
-            commandContainer.Background = offset > 0 ? LeftBackground : RightBackground;
+            commandContainer.Background = isLeft ? LeftBackground : RightBackground;
 
             visibleCommandVisual.Opacity = 1;
             hiddenCommandVisual.Opacity = 0;

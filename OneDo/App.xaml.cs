@@ -78,7 +78,7 @@ namespace OneDo
         {
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
 
-            await InitializeLogger();
+            InitializeLogger();
 
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
@@ -132,7 +132,7 @@ namespace OneDo
         }
 
 
-        private async Task InitializeLogger()
+        private void InitializeLogger()
         {
 #if DEBUG
             //var folder = ApplicationData.Current.LocalFolder;
