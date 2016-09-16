@@ -14,6 +14,12 @@ using System.Threading.Tasks;
 using OneDo.ViewModel.Commands;
 using OneDo.Services.ProgressService;
 using System;
+using Microsoft.Band;
+using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Band.Tiles;
+using OneDo.Band;
+using Microsoft.Band.Tiles.Pages;
+using OneDo.Common.Logging;
 
 namespace OneDo.ViewModel
 {
@@ -47,7 +53,6 @@ namespace OneDo.ViewModel
             get { return selectedNoteItem; }
             set { Set(ref selectedNoteItem, value); }
         }
-
 
         public ICommand AddNoteCommand { get; }
 
@@ -114,6 +119,76 @@ namespace OneDo.ViewModel
         private void ShowSettings()
         {
             ModalService.Show(new SettingsViewModel(ModalService, SettingsProvider));
+        }
+
+        private readonly Guid tileGuid = new Guid("7610751c-f243-4a33-b5b6-7d7934152f47");
+
+        public async Task Band()
+        {
+            try
+            {
+                var pairedBands = await BandClientManager.Instance.GetBandsAsync();
+                using (var bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0]))
+                {
+                    await RemoveBandTiles(bandClient);
+
+                    // Create the small and tile icons from writable bitmaps.
+                    // Small icons are 24x24 pixels.
+                    var smallIconBitmap = new WriteableBitmap(24, 24);
+                    var smallIcon = smallIconBitmap.ToBandIcon();
+
+                    // Tile icons are 46x46 pixels for Microsoft Band 1, and 48x48 pixels
+                    // for Microsoft Band 2.
+                    var tileIconBitmap = new WriteableBitmap(46, 46);
+                    var tileIcon = tileIconBitmap.ToBandIcon();
+
+                    // create a new Guid for the tile
+
+                    // create a new tile with a new Guid
+                    var tile = new BandTile(tileGuid)
+                    {
+                        // enable badging (the count of unread messages)
+                        IsBadgingEnabled = true,
+
+                        // set the name
+                        Name = "OneDo",
+
+                        // set the icons
+                        SmallIcon = smallIcon,
+                        TileIcon = tileIcon
+                    };
+
+                    var designed = new BandTileLayout();
+                    tile.PageLayouts.Add(designed.Layout);
+                    await designed.LoadIconsAsync(tile);
+
+                    if (await bandClient.TileManager.GetRemainingTileCapacityAsync() > 0)
+                    {
+                        // add the tile to the Band
+                        if (await bandClient.TileManager.AddTileAsync(tile))
+                        {
+                            await bandClient.TileManager.SetPagesAsync(tileGuid, new PageData(Guid.NewGuid(), 0, designed.Data.All));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // handle a Band connection exception
+                Logger.Current.Error("Band", e);
+            }
+        }
+
+        private async Task RemoveBandTiles(IBandClient bandClient)
+        {
+            foreach (var tile in await bandClient.TileManager.GetTilesAsync())
+            {
+                // remove the tile from the Band
+                if (await bandClient.TileManager.RemoveTileAsync(tile))
+                {
+                    // do work if the tile was successfully removed
+                }
+            }
         }
     }
 }

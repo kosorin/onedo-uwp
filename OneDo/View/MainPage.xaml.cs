@@ -39,7 +39,14 @@ namespace OneDo.View
             };
             resetDataButton.Tapped += async (s, e) => await VM.ResetData();
 
+            var bandButton = new AppBarButton
+            {
+                Label = "Band",
+            };
+            bandButton.Tapped += async (s, e) => await VM.Band();
+
             MainCommandBar.SecondaryCommands.Insert(0, new AppBarSeparator());
+            MainCommandBar.SecondaryCommands.Insert(0, bandButton);
             MainCommandBar.SecondaryCommands.Insert(0, resetDataButton);
             MainCommandBar.SecondaryCommands.Insert(0, switchRequestedThemeButton);
             MainCommandBar.SecondaryCommands.Insert(0, debugButton);

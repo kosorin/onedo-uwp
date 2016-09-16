@@ -91,6 +91,10 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="App.config" />
+    <None Include="Band\BandTileLayout.msbtl">
+      <Generator>MSBandLayoutCodeGenerator</Generator>
+      <LastGenOutput>BandTileLayout.cs</LastGenOutput>
+    </None>
     <None Include="OneDo_StoreKey.pfx" />
     <None Include="project.json" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
@@ -98,6 +102,11 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Band\BandTileLayout.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BandTileLayout.msbtl</DependentUpon>
     </Compile>
     <Compile Include="Common\Event\EntityEventArgs.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
