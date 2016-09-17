@@ -9,13 +9,18 @@ namespace OneDo.Common.Metadata
 {
     public static class ApiInformationHelper
     {
+        private static Dictionary<ApiContract, string> contracts = new Dictionary<ApiContract, string>
+        {
+            [ApiContract.Phone] = "Windows.Phone.PhoneContract",
+        };
+
         public static bool Check(ApiContract contract, ushort majorVersion = 1, ushort minorVersion = 0)
         {
-            switch (contract)
+            if (contracts.ContainsKey(contract))
             {
-            case ApiContract.Phone: return ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", majorVersion, minorVersion);
-            default: return false;
+                return ApiInformation.IsApiContractPresent(contracts[contract], majorVersion, minorVersion);
             }
+            return false;
         }
     }
 }
