@@ -53,7 +53,7 @@
                               Label="Complete"
                               Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8FB;" />
+                        <FontIcon Glyph="&#xE73A;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
