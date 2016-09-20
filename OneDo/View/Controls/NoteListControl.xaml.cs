@@ -30,8 +30,11 @@ namespace OneDo.View.Controls
         private void NoteListView_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var element = (FrameworkElement)e.OriginalSource;
-            var item = (NoteItemObject)element.DataContext;
-            VM.EditItem(item);
+            var item = element?.DataContext as NoteItemObject;
+            if (item != null)
+            {
+                VM.EditItem(item);
+            }
         }
     }
 }
