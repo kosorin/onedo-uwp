@@ -14,7 +14,6 @@
                        xmlns:vModals="using:OneDo.View.Modals"
                        xmlns:vmItems="using:OneDo.ViewModel.Items"
                        xmlns:vmModals="using:OneDo.ViewModel.Modals"
-                       DataContext="{Binding ModalService, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
 
     <Control.Resources>
@@ -30,22 +29,13 @@
         </ResourceDictionary>
     </Control.Resources>
 
-    <Grid>
+    <Grid x:Name="RootGrid">
         <Border x:Name="BackgroundControl" Background="{ThemeResource BackgroundControlBrush}" />
-        <ItemsControl HorizontalContentAlignment="Stretch"
-                      VerticalContentAlignment="Stretch"
-                      ItemsSource="{x:Bind VM.Items, Mode=OneWay}">
-            <ItemsControl.ItemContainerTransitions>
-                <TransitionCollection>
-                    <AddDeleteThemeTransition />
-                </TransitionCollection>
-            </ItemsControl.ItemContainerTransitions>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplateSelector>
+        <ContentControl x:Name="ContentControl"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Content="{x:Bind ActualModal, Mode=OneWay}">
+            <ContentControl.ContentTemplateSelector>
                 <v:ModalTemplateSelector>
                     <v:ModalTemplateSelector.FolderEditorTemplate>
                         <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
@@ -73,8 +63,8 @@
                         </DataTemplate>
                     </v:ModalTemplateSelector.DebugTemplate>
                 </v:ModalTemplateSelector>
-            </ItemsControl.ItemTemplateSelector>
-        </ItemsControl>
+            </ContentControl.ContentTemplateSelector>
+        </ContentControl>
     </Grid>
 
 </v:ExtendedUserControl>

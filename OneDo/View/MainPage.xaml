@@ -13,7 +13,7 @@
                 xmlns:vModals="using:OneDo.View.Modals"
                 xmlns:vmItems="using:OneDo.ViewModel.Items"
                 xmlns:vmModals="using:OneDo.ViewModel.Modals"
-                DataContext="{Binding MainPage, Source={StaticResource Locator}}"
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
     <Page.Resources>
@@ -78,7 +78,9 @@
         </CommandBar>
 
         <!--  Modals  -->
-        <controls:ModalContainer Grid.RowSpan="3" />
+        <controls:ModalContainer Grid.RowSpan="3"
+                                 DataContext="{Binding ModalService, Source={StaticResource Locator}}"
+                                 Modal="{Binding Current}" />
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="3">

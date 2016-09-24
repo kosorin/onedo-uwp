@@ -20,31 +20,36 @@ namespace OneDo.Services.ModalService
 {
     public class ModalService : ExtendedViewModel, IModalService
     {
-        public ObservableCollection<ModalViewModel> Items { get; } = new ObservableCollection<ModalViewModel>();
-
         private ModalViewModel current;
         public ModalViewModel Current
         {
             get { return current; }
-            private set { Set(ref current, value); }
-        }
-
-        private bool canCloseCurrent;
-        public bool CanCloseCurrent
-        {
-            get { return canCloseCurrent; }
-            set
+            private set
             {
-                if (Set(ref canCloseCurrent, value))
+                if (Set(ref current, value))
                 {
-                    OnCanCloseCurrentChanged();
+                    CanClose = Current != null;
+                    CurrentChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        public event EventHandler CanCloseCurrentChanged;
+        private bool canClose;
+        public bool CanClose
+        {
+            get { return canClose; }
+            set
+            {
+                if (Set(ref canClose, value))
+                {
+                    UpdateBackButtonVisibility();
+                }
+            }
+        }
 
-        public ICommand CloseCurrentCommand { get; }
+        public event EventHandler CurrentChanged;
+
+        public ICommand CloseCommand { get; }
 
 
         private readonly SystemNavigationManager navigationManager;
@@ -58,53 +63,40 @@ namespace OneDo.Services.ModalService
         {
             this.navigationManager = navigationManager;
 
-            Items.CollectionChanged += OnItemsCollectionChanged;
             window.CoreWindow.PointerPressed += OnPointerPressed;
             window.CoreWindow.KeyDown += OnKeyDown;
             navigationManager.BackRequested += OnBackRequested;
 
-            CloseCurrentCommand = new RelayCommand(CloseCurrent, () => CanCloseCurrent);
+            CloseCommand = new RelayCommand(Close, () => CanClose);
         }
 
-        public bool TryCloseCurrent()
+        public bool TryClose()
         {
-            if (CanCloseCurrent)
+            if (CanClose)
             {
-                CloseCurrent();
+                Close();
                 return true;
             }
             return false;
         }
 
-        public void CloseCurrent()
+        public void Close()
         {
-            Items.RemoveAt(Items.Count - 1);
+            Current = null;
         }
 
         public void Show(ModalViewModel modal)
         {
-            Items.Add(modal);
+            Current = modal;
         }
 
-
-        private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            CanCloseCurrent = Items.Count > 0;
-            Current = Items.FirstOrDefault();
-        }
-
-        private void OnCanCloseCurrentChanged()
-        {
-            CanCloseCurrentChanged?.Invoke(this, EventArgs.Empty);
-            UpdateBackButtonVisibility();
-        }
 
         private void OnPointerPressed(CoreWindow sender, PointerEventArgs args)
         {
             var pointer = args.CurrentPoint;
             if (pointer.Properties.IsXButton1Pressed)
             {
-                if (TryCloseCurrent())
+                if (TryClose())
                 {
                     args.Handled = true;
                 }
@@ -115,7 +107,7 @@ namespace OneDo.Services.ModalService
         {
             if (args.VirtualKey == VirtualKey.Escape)
             {
-                if (TryCloseCurrent())
+                if (TryClose())
                 {
                     args.Handled = true;
                 }
@@ -124,7 +116,7 @@ namespace OneDo.Services.ModalService
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (TryCloseCurrent())
+            if (TryClose())
             {
                 e.Handled = true;
             }
@@ -133,7 +125,7 @@ namespace OneDo.Services.ModalService
 
         private void UpdateBackButtonVisibility()
         {
-            navigationManager.AppViewBackButtonVisibility = CanCloseCurrent
+            navigationManager.AppViewBackButtonVisibility = CanClose
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }

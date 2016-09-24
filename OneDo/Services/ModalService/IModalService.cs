@@ -10,17 +10,17 @@ namespace OneDo.Services.ModalService
 {
     public interface IModalService
     {
-        ObservableCollection<ModalViewModel> Items { get; }
-
         ModalViewModel Current { get; }
 
-        bool CanCloseCurrent { get; }
+        bool CanClose { get; }
 
-        ICommand CloseCurrentCommand { get; }
+        event EventHandler CurrentChanged;
 
-        bool TryCloseCurrent();
+        ICommand CloseCommand { get; }
 
-        void CloseCurrent();
+        bool TryClose();
+
+        void Close();
 
         void Show(ModalViewModel modal);
     }

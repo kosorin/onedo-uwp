@@ -25,6 +25,7 @@
             <GridView Margin="0,0,-8,-8"
                       ItemsSource="{x:Bind VM.Colors}"
                       Loaded="Colors_Loaded"
+                      ItemContainerTransitions="{x:Null}"
                       SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
                       SelectionChanged="Colors_SelectionChanged">
                 <GridView.ItemContainerStyle>
