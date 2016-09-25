@@ -30,8 +30,6 @@ namespace OneDo
 {
     sealed partial class App : Application
     {
-        private readonly Stopwatch stopwatch = new Stopwatch();
-
         static App()
         {
             RuntimeHelpers.RunClassConstructor(typeof(ViewModelLocator).TypeHandle);
@@ -39,8 +37,6 @@ namespace OneDo
 
         public App()
         {
-            stopwatch.Start();
-
             InitializeComponent();
 
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
@@ -76,8 +72,10 @@ namespace OneDo
 
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
+            InitializeTitleBar();
             InitializeLogger();
 
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
@@ -95,7 +93,7 @@ namespace OneDo
             ShowContent();
 
             stopwatch.Stop();
-            Logger.Current.Info($"Start-up time: {stopwatch.Elapsed}");
+            Logger.Current.Info($"Launch time: {stopwatch.Elapsed}");
         }
 
         private async Task OnSuspendingAsync(DateTimeOffset deadline)
@@ -131,6 +129,12 @@ namespace OneDo
 #endif
         }
 
+
+        private void InitializeTitleBar()
+        {
+            var titleBar = CoreApplication.GetCurrentView().TitleBar;
+            titleBar.ExtendViewIntoTitleBar = false;
+        }
 
         private void InitializeLogger()
         {
