@@ -88,16 +88,16 @@ namespace OneDo.ViewModel.Modals
             };
         }
 
-        public FolderEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
-            : this(modalService, settingsProvider, progressService, null)
+        public FolderEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
+            : this(modalService, dataService, progressService, null)
         {
 
         }
 
-        public FolderEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, Folder folder)
-            : base(modalService, settingsProvider, progressService)
+        public FolderEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService, Folder folder)
+            : base(modalService, dataService, progressService)
         {
-            business = new FolderBusiness(SettingsProvider);
+            business = new FolderBusiness(DataService);
             original = folder ?? business.Default();
 
             Load();

@@ -44,16 +44,16 @@ namespace OneDo.ViewModel
 
         public IModalService ModalService { get; }
 
-        public ISettingsProvider SettingsProvider { get; }
+        public DataService DataService { get; }
 
         public IProgressService ProgressService { get; }
 
         public FolderListViewModel FolderList { get; }
 
-        public NoteListViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, FolderListViewModel folderList)
+        public NoteListViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList)
         {
             ModalService = modalService;
-            SettingsProvider = settingsProvider;
+            DataService = dataService;
             ProgressService = progressService;
             FolderList = folderList;
         }
@@ -62,15 +62,11 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                //TODO:using (var dc = new DataContext())
-                //{
-                //    var notes = await dc
-                //        .Notes
-                //        .Where(x => x.FolderId == folderId)
-                //        .ToListAsync();
-                //    var noteItems = notes.Select(x => new NoteItemObject(x));
-                //    Items = new ObservableCollection<NoteItemObject>(noteItems);
-                //}
+                var notes = await DataService
+                    .Notes
+                    .GetAll(x => x.FolderId == folderId);
+                var noteItems = notes.Select(x => new NoteItemObject(x));
+                Items = new ObservableCollection<NoteItemObject>(noteItems);
             });
         }
 
@@ -81,7 +77,7 @@ namespace OneDo.ViewModel
 
         public void AddItem()
         {
-            var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, FolderList, null);
+            var editor = new NoteEditorViewModel(ModalService, DataService, ProgressService, FolderList, null);
             editor.Saved += (s, e) =>
             {
                 if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
@@ -94,7 +90,7 @@ namespace OneDo.ViewModel
 
         public void EditItem(NoteItemObject item)
         {
-            var editor = new NoteEditorViewModel(ModalService, SettingsProvider, ProgressService, FolderList, item.Entity);
+            var editor = new NoteEditorViewModel(ModalService, DataService, ProgressService, FolderList, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
             editor.Saved += (s, e) =>
             {

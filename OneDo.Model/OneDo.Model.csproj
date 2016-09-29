@@ -117,7 +117,6 @@
     <Compile Include="Business\Validation\Validator.cs" />
     <Compile Include="Data\DataService.Settings.cs" />
     <Compile Include="Data\Repository.cs" />
-    <Compile Include="Data\IDataService.cs" />
     <Compile Include="Data\IEntity.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\Settings.cs" />

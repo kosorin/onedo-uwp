@@ -59,18 +59,18 @@ namespace OneDo.ViewModel
 
         public IModalService ModalService { get; }
 
-        public ISettingsProvider SettingsProvider { get; }
+        public DataService DataService { get; }
 
         public IProgressService ProgressService { get; }
 
-        public MainViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
+        public MainViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
         {
             ModalService = modalService;
-            SettingsProvider = settingsProvider;
+            DataService = dataService;
             ProgressService = progressService;
 
-            FolderList = new FolderListViewModel(ModalService, SettingsProvider, ProgressService);
-            NoteList = new NoteListViewModel(ModalService, SettingsProvider, ProgressService, FolderList);
+            FolderList = new FolderListViewModel(ModalService, DataService, ProgressService);
+            NoteList = new NoteListViewModel(ModalService, DataService, ProgressService, FolderList);
 
             AddNoteCommand = new RelayCommand(NoteList.AddItem);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
@@ -99,11 +99,8 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                //TODO:using (var dc = new DataContext())
-                //{
-                //    await dc.Clear();
-                //    await dc.SaveChangesAsync();
-                //}
+                await DataService.Notes.DeleteAll();
+                await DataService.Folders.DeleteAll();
             });
         }
 
@@ -117,7 +114,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            ModalService.Show(new SettingsViewModel(ModalService, SettingsProvider));
+            ModalService.Show(new SettingsViewModel(ModalService, DataService));
         }
 
         private readonly Guid tileGuid = new Guid("7610751c-f243-4a33-b5b6-7d7934152f47");

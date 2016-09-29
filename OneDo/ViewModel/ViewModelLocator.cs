@@ -21,9 +21,8 @@ namespace OneDo.ViewModel
             {
                 var builder = new ContainerBuilder();
 
+                builder.RegisterType<DataService>().SingleInstance();
                 builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
-                builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
-                builder.RegisterType<SettingsProvider>().As<ISettingsProvider>().SingleInstance();
                 builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
 

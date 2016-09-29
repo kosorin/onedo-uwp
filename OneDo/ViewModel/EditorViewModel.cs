@@ -43,8 +43,8 @@ namespace OneDo.ViewModel
 
         private Dictionary<string, bool> validProperties = new Dictionary<string, bool>();
 
-        protected EditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
-            : base(modalService, settingsProvider)
+        protected EditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
+            : base(modalService, dataService)
         {
             ProgressService = progressService;
 

@@ -13,12 +13,12 @@ namespace OneDo.ViewModel
     {
         public IModalService ModalService { get; }
 
-        public ISettingsProvider SettingsProvider { get; }
+        public DataService DataService { get; }
 
-        protected ModalViewModel(IModalService modalService, ISettingsProvider settingsProvider)
+        protected ModalViewModel(IModalService modalService, DataService dataService)
         {
             ModalService = modalService;
-            SettingsProvider = settingsProvider;
+            DataService = dataService;
         }
     }
 }

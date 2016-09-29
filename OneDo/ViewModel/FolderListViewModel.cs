@@ -52,14 +52,14 @@ namespace OneDo.ViewModel
 
         public IModalService ModalService { get; }
 
-        public ISettingsProvider SettingsProvider { get; }
+        public DataService DataService { get; }
 
         public IProgressService ProgressService { get; }
 
-        public FolderListViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService)
+        public FolderListViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
         {
             ModalService = modalService;
-            SettingsProvider = settingsProvider;
+            DataService = dataService;
             ProgressService = progressService;
 
             AddItemCommand = new RelayCommand(AddItem);
@@ -71,58 +71,60 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-//                TODO: using (var dc = new DataContext())
-//                {
-//#if DEBUG
-//                    if (!await dc.Folders.AnyAsync())
-//                    {
-//                        dc.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
-//                        dc.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
-//                        dc.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
-//                        dc.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
-//                        await dc.SaveChangesAsync();
-//                    }
+                var folders = await DataService.Folders.GetAll();
 
-//                    if (!await dc.Notes.AnyAsync())
-//                    {
-//                        var folder = await dc.Folders.FirstOrDefaultAsync();
-//                        dc.Notes.Add(new Note
-//                        {
-//                            FolderId = folder.Id,
-//                            Title = "Buy milk",
-//                        });
-//                        dc.Notes.Add(new Note
-//                        {
-//                            FolderId = folder.Id,
-//                            Title = "Call mom",
-//                            Date = DateTime.Today.AddDays(5),
-//                        });
-//                        dc.Notes.Add(new Note
-//                        {
-//                            FolderId = folder.Id,
-//                            Title = "Walk Max",
-//                            Date = DateTime.Today,
-//                            Reminder = TimeSpan.FromHours(7.25),
-//                        });
-//                        await dc.SaveChangesAsync();
-//                    }
-//#endif
+#if DEBUG
+                if (!folders.Any())
+                {
+                    await DataService.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
+                    await DataService.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
+                    await DataService.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
+                    await DataService.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
+                    folders = await DataService.Folders.GetAll();
+                }
 
-//                    var folders = await dc.Folders.ToListAsync();
-//                    var folderItems = folders.Select(x => new FolderItemObject(x, this));
-//                    Items = new ObservableCollection<FolderItemObject>(folderItems);
-//                    Items.CollectionChanged += (s, e) =>
-//                    {
-//                        DeleteItemCommand.RaiseCanExecuteChanged();
-//                    };
-//                    SelectedItem = Items.FirstOrDefault();
-//                }
+                if (!await DataService.Notes.Any())
+                {
+                    var folder = folders.FirstOrDefault();
+                    await DataService.Notes.Add(new Note
+                    {
+                        Title = "Buy milk",
+                        Text = "",
+                        IsFlagged = false,
+                        FolderId = folder.Id,
+                    });
+                    await DataService.Notes.Add(new Note
+                    {
+                        Title = "Call mom",
+                        Text = "",
+                        Date = DateTime.Today.AddDays(5),
+                        IsFlagged = true,
+                        FolderId = folder.Id,
+                    });
+                    await DataService.Notes.Add(new Note
+                    {
+                        Title = "Walk Max",
+                        Text = "",
+                        Date = DateTime.Today,
+                        Reminder = TimeSpan.FromHours(7.25),
+                        IsFlagged = false,
+                        FolderId = folder.Id,
+                    });
+                }
+#endif
+                var folderItems = folders.Select(x => new FolderItemObject(x, this));
+                Items = new ObservableCollection<FolderItemObject>(folderItems);
+                Items.CollectionChanged += (s, e) =>
+                {
+                    DeleteItemCommand.RaiseCanExecuteChanged();
+                };
+                SelectedItem = Items.FirstOrDefault();
             });
         }
 
         private void AddItem()
         {
-            var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService);
+            var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService);
             editor.Saved += (s, e) =>
             {
                 Items.Add(new FolderItemObject(e.Entity, this));
@@ -134,7 +136,7 @@ namespace OneDo.ViewModel
 
         private void EditItem(FolderItemObject item)
         {
-            var editor = new FolderEditorViewModel(ModalService, SettingsProvider, ProgressService, item.Entity);
+            var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
             editor.Saved += (s, e) => item.Refresh();
 
@@ -148,17 +150,12 @@ namespace OneDo.ViewModel
 
         private async Task DeleteItem(FolderItemObject item)
         {
-            //TODO: using (var dc = new DataContext())
-            //{
-            //    Items.Remove(item);
-            //    if (SelectedItem == null)
-            //    {
-            //        SelectedItem = Items.FirstOrDefault();
-            //    }
-            //    dc.Folders.Attach(item.Entity);
-            //    dc.Folders.Remove(item.Entity);
-            //    await dc.SaveChangesAsync();
-            //}
+            Items.Remove(item);
+            if (SelectedItem == null)
+            {
+                SelectedItem = Items.FirstOrDefault();
+            }
+            await DataService.Folders.Delete(item.Entity);
         }
 
         private void ShowEditor(FolderEditorViewModel editor)

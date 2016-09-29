@@ -29,7 +29,7 @@ namespace OneDo.ViewModel.Modals
 
         public IProgressService ProgressService { get; }
 
-        public DebugViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService) : base(modalService, settingsProvider)
+        public DebugViewModel(IModalService modalService, DataService dataService, IProgressService progressService) : base(modalService, dataService)
         {
             ProgressService = progressService;
             LoadLogCommand = new AsyncRelayCommand(LoadLog);

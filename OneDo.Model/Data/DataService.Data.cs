@@ -14,7 +14,7 @@ using SQLite.Net.Async;
 
 namespace OneDo.Model.Data
 {
-    public partial class DataService : IDisposable, IDataService
+    public partial class DataService : IDisposable
     {
         private const string FileName = "OneDo.Data.Test.db";
 
@@ -42,7 +42,15 @@ namespace OneDo.Model.Data
                     EnsureTableExists<Folder>();
                     EnsureTableExists<Note>();
                 }
+
+                Folders = new Repository<Folder>(connection);
+                Notes = new Repository<Note>(connection);
             });
+        }
+
+        public Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
+        {
+            return new Repository<TEntity>(connection);
         }
 
 

@@ -14,7 +14,7 @@ using SQLite.Net.Async;
 
 namespace OneDo.Model.Data
 {
-    public partial class DataService : IDisposable, IDataService
+    public partial class DataService : IDisposable
     {
         public void Dispose()
         {

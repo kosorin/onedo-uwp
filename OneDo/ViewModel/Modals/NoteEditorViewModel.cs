@@ -115,10 +115,10 @@ namespace OneDo.ViewModel.Modals
 
         private readonly Note original;
 
-        public NoteEditorViewModel(IModalService modalService, ISettingsProvider settingsProvider, IProgressService progressService, FolderListViewModel folderList, Note note)
-            : base(modalService, settingsProvider, progressService)
+        public NoteEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList, Note note)
+            : base(modalService, dataService, progressService)
         {
-            business = new NoteBusiness(SettingsProvider);
+            business = new NoteBusiness(DataService);
             original = note ?? business.Default();
 
             Folders = folderList.Items.ToList();

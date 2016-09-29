@@ -10,7 +10,7 @@ namespace OneDo.Model.Business
 {
     public class NoteBusiness : EntityBusiness<Note>
     {
-        public NoteBusiness(ISettingsProvider settingsProvider) : base(settingsProvider)
+        public NoteBusiness(DataService dataService) : base(dataService)
         {
 
         }

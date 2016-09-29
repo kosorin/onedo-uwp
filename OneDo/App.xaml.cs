@@ -84,7 +84,6 @@ namespace OneDo
 
             ShowSplashScreen(args.SplashScreen);
 
-            await InitializeSettings();
             await InitializeData();
             await InitializeStatusBar();
             InitializeModalService();
@@ -100,8 +99,8 @@ namespace OneDo
             Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
             // TODO: Save application state and stop any background activity
 
-            var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
-            await settingsProvider.SaveAsync();
+            var dataService = ViewModelLocator.Container.Resolve<DataService>();
+            await dataService.SaveSettingsAsync();
         }
 
         private void OnResuming(object data)
@@ -154,22 +153,16 @@ namespace OneDo
             Logger.Current.Info("Logger initialized");
         }
 
-        private async Task InitializeSettings()
-        {
-            ShowSplashScreenText("Loading settings...");
-
-            var settingsProvider = ViewModelLocator.Container.Resolve<ISettingsProvider>();
-            await settingsProvider.LoadAsync();
-            Logger.Current.Info("Settings initialized");
-        }
-
         private async Task InitializeData()
         {
-            ShowSplashScreenText("Initializing data...");
+            ShowSplashScreenText("Initializing data and settings...");
 
-            var dataProvider = ViewModelLocator.Container.Resolve<IDataService>();
-            await dataProvider.InitializeAsync();
+            var dataService = ViewModelLocator.Container.Resolve<DataService>();
 
+            await dataService.LoadSettingsAsync();
+            Logger.Current.Info("Settings loaded");
+
+            await dataService.InitializeAsync();
             Logger.Current.Info("Data initialized");
         }
 

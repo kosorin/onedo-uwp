@@ -10,9 +10,11 @@ namespace OneDo.Model.Business
 {
     public abstract class EntityBusiness<TEntity> : BusinessBase where TEntity : class, IEntity, new()
     {
-        public EntityBusiness(IDataService dataService) : base(dataService)
-        {
+        private readonly Repository<TEntity> repository;
 
+        public EntityBusiness(DataService dataService) : base(dataService)
+        {
+            repository = dataService.GetRepository<TEntity>();
         }
 
         public bool IsNew(TEntity entity)
@@ -27,24 +29,19 @@ namespace OneDo.Model.Business
 
         public async Task Save(TEntity entity)
         {
-                if (IsNew(entity))
-                {
-                DataService.
-                    dc.Set<TEntity>().Add(entity);
-                }
-                else
-                {
-                    dc.Set<TEntity>().Update(entity);
-                }
+            if (IsNew(entity))
+            {
+                await repository.Add(entity);
+            }
+            else
+            {
+                await repository.Update(entity);
+            }
         }
 
         public async Task Delete(TEntity entity)
         {
-            //TODO:using (var dc = new DataContext())
-            //{
-            //    dc.Set<TEntity>().Remove(entity);
-            //    await dc.SaveChangesAsync();
-            //}
+            await repository.Delete(entity);
         }
 
         public abstract TEntity Clone(TEntity entity);

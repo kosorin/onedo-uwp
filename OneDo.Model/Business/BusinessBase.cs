@@ -4,9 +4,9 @@ namespace OneDo.Model.Business
 {
     public abstract class BusinessBase
     {
-        public IDataService DataService { get; set; }
+        public DataService DataService { get; set; }
 
-        public BusinessBase(IDataService dataService)
+        public BusinessBase(DataService dataService)
         {
             DataService = dataService;
         }

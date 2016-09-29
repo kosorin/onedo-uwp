@@ -11,7 +11,7 @@ namespace OneDo.Model.Business
 {
     public class FolderBusiness : EntityBusiness<Folder>
     {
-        public FolderBusiness(ISettingsProvider settingsProvider) : base(settingsProvider)
+        public FolderBusiness(DataService dataService) : base(dataService)
         {
 
         }

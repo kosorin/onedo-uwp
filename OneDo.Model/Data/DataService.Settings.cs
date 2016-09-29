@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace OneDo.Model.Data
 {
-    public partial class DataService : IDisposable, IDataService
+    public partial class DataService : IDisposable
     {
         private const string SettingsFileName = "OneDo.Settings.json";
 

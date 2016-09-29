@@ -6,7 +6,7 @@ namespace OneDo.ViewModel.Modals
 {
     public class SettingsViewModel : ModalViewModel
     {
-        public SettingsViewModel(IModalService modalService, ISettingsProvider settingsProvider) : base(modalService, settingsProvider)
+        public SettingsViewModel(IModalService modalService, DataService dataService) : base(modalService, dataService)
         {
 
         }
