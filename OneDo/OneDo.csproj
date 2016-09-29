@@ -111,8 +111,8 @@
     <Compile Include="Common\Event\EntityEventArgs.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
-    <Compile Include="Services\StringProvider\IStringProvider.cs" />
-    <Compile Include="Services\StringProvider\StringProvider.cs" />
+    <Compile Include="Services\StringService\IStringService.cs" />
+    <Compile Include="Services\StringService\StringService.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\IFolderListCommands.cs" />
     <Compile Include="ViewModel\ItemObject.cs" />
