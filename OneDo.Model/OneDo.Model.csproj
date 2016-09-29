@@ -104,6 +104,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Data\DataService.Data.cs" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -114,27 +115,30 @@
     <Compile Include="Business\Validation\Rule.cs" />
     <Compile Include="Business\Validation\NoteValidator.cs" />
     <Compile Include="Business\Validation\Validator.cs" />
+    <Compile Include="Data\DataService.Settings.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Data\IDataService.cs" />
     <Compile Include="Data\IEntity.cs" />
-    <Compile Include="Data\DataContext.cs" />
+    <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\Settings.cs" />
-    <Compile Include="Migrations\20160902025603_Init.cs" />
-    <Compile Include="Migrations\20160902025603_Init.designer.cs">
-      <DependentUpon>20160902025603_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Entities\Folder.cs" />
     <Compile Include="Data\Entities\Note.cs" />
-    <Compile Include="Data\ISettingsProvider.cs" />
-    <Compile Include="Data\SettingsProvider.cs" />
     <EmbeddedResource Include="Properties\OneDo.Model.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.14.2">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
       <Name>OneDo.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Repositories\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -10,7 +10,7 @@ namespace OneDo.Model.Business
 {
     public abstract class EntityBusiness<TEntity> : BusinessBase where TEntity : class, IEntity, new()
     {
-        public EntityBusiness(ISettingsProvider settingsProvider) : base(settingsProvider)
+        public EntityBusiness(IDataService dataService) : base(dataService)
         {
 
         }
@@ -27,27 +27,24 @@ namespace OneDo.Model.Business
 
         public async Task Save(TEntity entity)
         {
-            using (var dc = new DataContext())
-            {
                 if (IsNew(entity))
                 {
+                DataService.
                     dc.Set<TEntity>().Add(entity);
                 }
                 else
                 {
                     dc.Set<TEntity>().Update(entity);
                 }
-                await dc.SaveChangesAsync();
-            }
         }
 
         public async Task Delete(TEntity entity)
         {
-            using (var dc = new DataContext())
-            {
-                dc.Set<TEntity>().Remove(entity);
-                await dc.SaveChangesAsync();
-            }
+            //TODO:using (var dc = new DataContext())
+            //{
+            //    dc.Set<TEntity>().Remove(entity);
+            //    await dc.SaveChangesAsync();
+            //}
         }
 
         public abstract TEntity Clone(TEntity entity);

@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.ViewModel.Commands;
@@ -72,52 +71,52 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                using (var dc = new DataContext())
-                {
-#if DEBUG
-                    if (!await dc.Folders.AnyAsync())
-                    {
-                        dc.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
-                        dc.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
-                        dc.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
-                        dc.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
-                        await dc.SaveChangesAsync();
-                    }
+//                TODO: using (var dc = new DataContext())
+//                {
+//#if DEBUG
+//                    if (!await dc.Folders.AnyAsync())
+//                    {
+//                        dc.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
+//                        dc.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
+//                        dc.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
+//                        dc.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
+//                        await dc.SaveChangesAsync();
+//                    }
 
-                    if (!await dc.Notes.AnyAsync())
-                    {
-                        var folder = await dc.Folders.FirstOrDefaultAsync();
-                        dc.Notes.Add(new Note
-                        {
-                            FolderId = folder.Id,
-                            Title = "Buy milk",
-                        });
-                        dc.Notes.Add(new Note
-                        {
-                            FolderId = folder.Id,
-                            Title = "Call mom",
-                            Date = DateTime.Today.AddDays(5),
-                        });
-                        dc.Notes.Add(new Note
-                        {
-                            FolderId = folder.Id,
-                            Title = "Walk Max",
-                            Date = DateTime.Today,
-                            Reminder = TimeSpan.FromHours(7.25),
-                        });
-                        await dc.SaveChangesAsync();
-                    }
-#endif
+//                    if (!await dc.Notes.AnyAsync())
+//                    {
+//                        var folder = await dc.Folders.FirstOrDefaultAsync();
+//                        dc.Notes.Add(new Note
+//                        {
+//                            FolderId = folder.Id,
+//                            Title = "Buy milk",
+//                        });
+//                        dc.Notes.Add(new Note
+//                        {
+//                            FolderId = folder.Id,
+//                            Title = "Call mom",
+//                            Date = DateTime.Today.AddDays(5),
+//                        });
+//                        dc.Notes.Add(new Note
+//                        {
+//                            FolderId = folder.Id,
+//                            Title = "Walk Max",
+//                            Date = DateTime.Today,
+//                            Reminder = TimeSpan.FromHours(7.25),
+//                        });
+//                        await dc.SaveChangesAsync();
+//                    }
+//#endif
 
-                    var folders = await dc.Folders.ToListAsync();
-                    var folderItems = folders.Select(x => new FolderItemObject(x, this));
-                    Items = new ObservableCollection<FolderItemObject>(folderItems);
-                    Items.CollectionChanged += (s, e) =>
-                    {
-                        DeleteItemCommand.RaiseCanExecuteChanged();
-                    };
-                    SelectedItem = Items.FirstOrDefault();
-                }
+//                    var folders = await dc.Folders.ToListAsync();
+//                    var folderItems = folders.Select(x => new FolderItemObject(x, this));
+//                    Items = new ObservableCollection<FolderItemObject>(folderItems);
+//                    Items.CollectionChanged += (s, e) =>
+//                    {
+//                        DeleteItemCommand.RaiseCanExecuteChanged();
+//                    };
+//                    SelectedItem = Items.FirstOrDefault();
+//                }
             });
         }
 
@@ -149,17 +148,17 @@ namespace OneDo.ViewModel
 
         private async Task DeleteItem(FolderItemObject item)
         {
-            using (var dc = new DataContext())
-            {
-                Items.Remove(item);
-                if (SelectedItem == null)
-                {
-                    SelectedItem = Items.FirstOrDefault();
-                }
-                dc.Folders.Attach(item.Entity);
-                dc.Folders.Remove(item.Entity);
-                await dc.SaveChangesAsync();
-            }
+            //TODO: using (var dc = new DataContext())
+            //{
+            //    Items.Remove(item);
+            //    if (SelectedItem == null)
+            //    {
+            //        SelectedItem = Items.FirstOrDefault();
+            //    }
+            //    dc.Folders.Attach(item.Entity);
+            //    dc.Folders.Remove(item.Entity);
+            //    await dc.SaveChangesAsync();
+            //}
         }
 
         private void ShowEditor(FolderEditorViewModel editor)

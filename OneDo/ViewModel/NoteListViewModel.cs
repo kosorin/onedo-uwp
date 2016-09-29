@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.ViewModel.Commands;
@@ -63,15 +62,15 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                using (var dc = new DataContext())
-                {
-                    var notes = await dc
-                        .Notes
-                        .Where(x => x.FolderId == folderId)
-                        .ToListAsync();
-                    var noteItems = notes.Select(x => new NoteItemObject(x));
-                    Items = new ObservableCollection<NoteItemObject>(noteItems);
-                }
+                //TODO:using (var dc = new DataContext())
+                //{
+                //    var notes = await dc
+                //        .Notes
+                //        .Where(x => x.FolderId == folderId)
+                //        .ToListAsync();
+                //    var noteItems = notes.Select(x => new NoteItemObject(x));
+                //    Items = new ObservableCollection<NoteItemObject>(noteItems);
+                //}
             });
         }
 

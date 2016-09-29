@@ -1,5 +1,4 @@
 ﻿using OneDo.Services.ModalService;
-using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using OneDo.Model.Data;
@@ -100,11 +99,11 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                using (var dc = new DataContext())
-                {
-                    await dc.Clear();
-                    await dc.SaveChangesAsync();
-                }
+                //TODO:using (var dc = new DataContext())
+                //{
+                //    await dc.Clear();
+                //    await dc.SaveChangesAsync();
+                //}
             });
         }
 

@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using Microsoft.EntityFrameworkCore;
 using OneDo.Common.Logging;
 using OneDo.Model.Data;
 using OneDo.Services.ModalService;
@@ -168,10 +167,9 @@ namespace OneDo
         {
             ShowSplashScreenText("Initializing data...");
 
-            using (var dc = new DataContext())
-            {
-                await dc.Database.MigrateAsync();
-            }
+            var dataProvider = ViewModelLocator.Container.Resolve<IDataService>();
+            await dataProvider.InitializeAsync();
+
             Logger.Current.Info("Data initialized");
         }
 
