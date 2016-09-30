@@ -23,11 +23,11 @@
                      PlaceholderText="Folder"
                      Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <GridView Margin="0,0,-8,-8"
-                      ItemsSource="{x:Bind VM.Colors}"
-                      Loaded="Colors_Loaded"
                       ItemContainerTransitions="{x:Null}"
+                      ItemsSource="{x:Bind VM.Colors}"
                       SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
-                      SelectionChanged="Colors_SelectionChanged">
+                      SelectionChanged="Colors_SelectionChanged"
+                      SelectionMode="Multiple">
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
                         <Setter Property="BorderThickness" Value="0" />
@@ -44,8 +44,8 @@
                                 <ControlTemplate TargetType="GridViewItem">
                                     <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                           CheckBoxBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
-                                                           CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                                           CheckBoxBrush="Transparent"
+                                                           CheckBrush="{ThemeResource SystemControlForegroundAltMediumHighBrush}"
                                                            CheckMode="Overlay"
                                                            ContentMargin="{TemplateBinding Padding}"
                                                            ContentTransitions="{TemplateBinding ContentTransitions}"
@@ -77,14 +77,7 @@
                 </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vmItems:ColorItemObject">
-                        <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}">
-                            <FontIcon x:Name="SelectedIcon"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                                      Glyph="&#xE73E;"
-                                      Visibility="Collapsed" />
-                        </Border>
+                        <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}" />
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
@@ -92,8 +85,7 @@
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}"
-                              Label="Save">
+                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;" />
                     </AppBarButton.Icon>

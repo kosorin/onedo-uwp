@@ -21,49 +21,30 @@ namespace OneDo.View.Modals
     {
         public FolderEditorViewModel VM => ViewModel as FolderEditorViewModel;
 
+        private bool isSelectionChanging = false;
+
         public FolderEditor()
         {
             InitializeComponent();
         }
 
-        private void Colors_Loaded(object sender, RoutedEventArgs e)
-        {
-            var gridView = (GridView)sender;
-
-            foreach (var item in gridView.Items)
-            {
-                var container = gridView.ContainerFromItem(item) as GridViewItem;
-                var isSelected = gridView.SelectedItems.Contains(item);
-                SetColorIconVisibility(container, isSelected ? Visibility.Visible : Visibility.Collapsed);
-            }
-        }
-
         private void Colors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var gridView = (GridView)sender;
+            if (!isSelectionChanging)
+            {
+                isSelectionChanging = true;
 
-            foreach (var item in e.AddedItems)
-            {
-                var container = gridView.ContainerFromItem(item) as GridViewItem;
-                SetColorIconVisibility(container, Visibility.Visible);
-            }
-            foreach (var item in e.RemovedItems)
-            {
-                var container = gridView.ContainerFromItem(item) as GridViewItem;
-                SetColorIconVisibility(container, Visibility.Collapsed);
-            }
-        }
-
-        private void SetColorIconVisibility(GridViewItem container, Visibility visibility)
-        {
-            if (container != null)
-            {
-                var templateRoot = (FrameworkElement)container.ContentTemplateRoot;
-                var icon = templateRoot.FindName("SelectedIcon") as FrameworkElement;
-                if (icon != null)
+                var gridView = (GridView)sender;
+                var selectedItem = e.AddedItems.FirstOrDefault();
+                if (selectedItem != null)
                 {
-                    icon.Visibility = visibility;
+                    foreach (var item in gridView.SelectedItems.Where(x => x != selectedItem).ToList())
+                    {
+                        gridView.SelectedItems.Remove(item);
+                    }
                 }
+
+                isSelectionChanging = false;
             }
         }
     }
