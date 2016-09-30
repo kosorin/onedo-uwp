@@ -38,10 +38,11 @@ namespace OneDo.View.Modals
                 var selectedItem = e.AddedItems.FirstOrDefault();
                 if (selectedItem != null)
                 {
-                    foreach (var item in gridView.SelectedItems.Where(x => x != selectedItem).ToList())
-                    {
-                        gridView.SelectedItems.Remove(item);
-                    }
+                    gridView
+                        .SelectedItems
+                        .Where(x => x != selectedItem)
+                        .ToList()
+                        .ForEach(x => gridView.SelectedItems.Remove(x));
                 }
 
                 isSelectionChanging = false;
