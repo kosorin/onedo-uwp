@@ -158,11 +158,9 @@ namespace OneDo
             ShowSplashScreenText("Initializing data and settings...");
 
             var dataService = ViewModelLocator.Container.Resolve<DataService>();
-
             await dataService.LoadSettingsAsync();
-            Logger.Current.Info("Settings loaded");
-
             await dataService.InitializeAsync();
+
             Logger.Current.Info("Data initialized");
         }
 
