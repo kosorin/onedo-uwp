@@ -75,7 +75,7 @@ namespace OneDo
             stopwatch.Start();
 
             InitializeTitleBar();
-            InitializeLogger();
+            await InitializeLogger();
 
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
@@ -134,16 +134,16 @@ namespace OneDo
             titleBar.ExtendViewIntoTitleBar = false;
         }
 
-        private void InitializeLogger()
+        private async Task InitializeLogger()
         {
 #if DEBUG
-            //var folder = ApplicationData.Current.LocalFolder;
-            //var file = await folder.CreateFileAsync("OneDo.Log.txt", CreationCollisionOption.OpenIfExists);
-            //var logger = new FileLogger(file.Path);
-            //Logger.Current = logger;
-            Logger.Current = Debugger.IsAttached
-                ? (ILogger)new DebugLogger()
-                : (ILogger)new MemoryLogger();
+            var folder = ApplicationData.Current.LocalFolder;
+            var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
+            var logger = new FileLogger(file.Path);
+            Logger.Current = logger;
+            //Logger.Current = Debugger.IsAttached
+            //    ? (ILogger)new DebugLogger()
+            //    : (ILogger)new MemoryLogger();
 #else
             // Logger v releasu zatím nepoužíváme - výchozí je NullLogger.
 #endif
