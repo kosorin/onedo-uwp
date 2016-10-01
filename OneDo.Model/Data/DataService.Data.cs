@@ -16,7 +16,7 @@ namespace OneDo.Model.Data
 {
     public partial class DataService : IDisposable
     {
-        private const string FileName = "OneDo.Data.Test.db";
+        private const string FileName = "Data.db";
 
 
         public Repository<Folder> Folders { get; set; }

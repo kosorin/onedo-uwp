@@ -11,7 +11,7 @@ namespace OneDo.Model.Data
 {
     public partial class DataService : IDisposable
     {
-        private const string SettingsFileName = "OneDo.Settings.json";
+        private const string SettingsFileName = "Settings.json";
 
 
         public Settings Settings { get; private set; } = new Settings();
