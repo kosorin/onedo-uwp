@@ -6,49 +6,47 @@
              xmlns:v="using:OneDo.View"
              mc:Ignorable="d">
 
-    <Pivot Title="Debug"
-           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-           SelectionChanged="Pivot_SelectionChanged">
-        <PivotItem x:Name="LogPivotItem"
-                   Margin="12,0,12,12"
-                   Header="Log">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ListView x:Name="Log"
-                          Padding="0"
-                          FontSize="12"
-                          ItemsSource="{x:Bind VM.Log, Mode=OneWay}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollMode="Enabled"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ScrollViewer.VerticalScrollMode="Enabled">
-                    <ListView.Resources>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="FontFamily" Value="Consolas" />
-                            <Setter Property="FontSize" Value="12" />
-                            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-                            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
-                            <Setter Property="Padding" Value="0,1" />
-                            <Setter Property="MinHeight" Value="0" />
-                        </Style>
-                    </ListView.Resources>
-                </ListView>
-                <CommandBar x:Name="MainCommandBar" Grid.Row="2">
-                    <AppBarButton Command="{x:Bind VM.LoadLogCommand}" Label="Reload">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE149;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                    <AppBarButton Command="{x:Bind VM.ClearLogCommand}" Label="Clear">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE107;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar>
-            </Grid>
-        </PivotItem>
-    </Pivot>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView x:Name="Log"
+                  Padding="6"
+                  FontSize="12"
+                  ItemsSource="{x:Bind VM.Log, Mode=OneWay}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollMode="Enabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollMode="Enabled">
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="FontFamily" Value="Consolas" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+                    <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
+                    <Setter Property="Padding" Value="0,1" />
+                    <Setter Property="MinHeight" Value="0" />
+                </Style>
+            </ListView.Resources>
+        </ListView>
+        <CommandBar x:Name="MainCommandBar" Grid.Row="2">
+            <AppBarButton Command="{x:Bind VM.LoadLogCommand}" Label="Reload">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE149;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind VM.ExportLogCommand}" Label="Export">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE74E;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind VM.ClearLogCommand}" Label="Clear">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE107;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Grid>
+
 </v:ModalBase>

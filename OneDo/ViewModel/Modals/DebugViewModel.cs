@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace OneDo.ViewModel.Modals
 {
@@ -25,6 +26,8 @@ namespace OneDo.ViewModel.Modals
 
         public ICommand LoadLogCommand { get; }
 
+        public ICommand ExportLogCommand { get; }
+
         public ICommand ClearLogCommand { get; }
 
         public IProgressService ProgressService { get; }
@@ -33,7 +36,10 @@ namespace OneDo.ViewModel.Modals
         {
             ProgressService = progressService;
             LoadLogCommand = new AsyncRelayCommand(LoadLog);
+            ExportLogCommand = new AsyncRelayCommand(ExportLog);
             ClearLogCommand = new AsyncRelayCommand(ClearLog);
+
+            LoadLog();
         }
 
         public async Task LoadLog()
@@ -60,6 +66,32 @@ namespace OneDo.ViewModel.Modals
                 catch
                 {
                     Log = new List<string>();
+                }
+            });
+        }
+
+        public async Task ExportLog()
+        {
+            await ProgressService.RunAsync(async () =>
+            {
+                var logText = string.Join(Environment.NewLine, Log ?? new List<string>());
+
+                try
+                {
+                    var picker = new FileSavePicker();
+                    picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                    picker.SuggestedFileName = $"Log_{DateTime.Now.ToString("yyyy-MM-dd_HH-dd-ss")}.txt";
+                    picker.FileTypeChoices.Add("Text", new List<string>() { ".txt" });
+
+                    var file = await picker.PickSaveFileAsync();
+                    if (file != null)
+                    {
+                        await FileIO.WriteTextAsync(file, logText);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Current.Error(e);
                 }
             });
         }

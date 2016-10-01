@@ -25,14 +25,5 @@ namespace OneDo.View.Modals
         {
             InitializeComponent();
         }
-
-        private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Contains(LogPivotItem))
-            {
-                await VM.LoadLog();
-                Log.ScrollIntoView(VM.Log?.LastOrDefault());
-            }
-        }
     }
 }
