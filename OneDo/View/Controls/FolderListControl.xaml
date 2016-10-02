@@ -351,8 +351,8 @@
                     BorderThickness="1,1,1,0">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Command="{x:Bind FolderListCommands.EditItemCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Edit" />
-                        <MenuFlyoutItem Command="{x:Bind FolderListCommands.DeleteItemCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Delete" />
+                        <MenuFlyoutItem Command="{x:Bind FolderCommands.EditCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Edit" />
+                        <MenuFlyoutItem Command="{x:Bind FolderCommands.DeleteCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>

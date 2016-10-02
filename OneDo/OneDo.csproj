@@ -114,7 +114,7 @@
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\IFolderListCommands.cs" />
+    <Compile Include="ViewModel\IFolderCommands.cs" />
     <Compile Include="ViewModel\ItemObject.cs" />
     <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\Modals\DebugViewModel.cs" />

@@ -18,7 +18,7 @@ using OneDo.Common.Event;
 
 namespace OneDo.ViewModel
 {
-    public class FolderListViewModel : ExtendedViewModel, IFolderListCommands
+    public class FolderListViewModel : ExtendedViewModel, IFolderCommands
     {
         private ObservableCollection<FolderItemObject> items;
         public ObservableCollection<FolderItemObject> Items
@@ -43,11 +43,11 @@ namespace OneDo.ViewModel
         public event TypedEventHandler<FolderListViewModel, EntityEventArgs<Folder>> SelectionChanged;
 
 
-        public RelayCommand AddItemCommand { get; }
+        public RelayCommand AddCommand { get; }
 
-        public RelayCommand<FolderItemObject> EditItemCommand { get; }
+        public RelayCommand<FolderItemObject> EditCommand { get; }
 
-        public AsyncRelayCommand<FolderItemObject> DeleteItemCommand { get; }
+        public AsyncRelayCommand<FolderItemObject> DeleteCommand { get; }
 
 
         public IModalService ModalService { get; }
@@ -62,9 +62,9 @@ namespace OneDo.ViewModel
             DataService = dataService;
             ProgressService = progressService;
 
-            AddItemCommand = new RelayCommand(AddItem);
-            EditItemCommand = new RelayCommand<FolderItemObject>(EditItem);
-            DeleteItemCommand = new AsyncRelayCommand<FolderItemObject>(DeleteItem, CanDeleteItem);
+            AddCommand = new RelayCommand(AddItem);
+            EditCommand = new RelayCommand<FolderItemObject>(EditItem);
+            DeleteCommand = new AsyncRelayCommand<FolderItemObject>(DeleteItem, CanDeleteItem);
         }
 
         public async Task Load()
@@ -116,7 +116,7 @@ namespace OneDo.ViewModel
                 Items = new ObservableCollection<FolderItemObject>(folderItems);
                 Items.CollectionChanged += (s, e) =>
                 {
-                    DeleteItemCommand.RaiseCanExecuteChanged();
+                    DeleteCommand.RaiseCanExecuteChanged();
                 };
                 SelectedItem = Items.FirstOrDefault();
             });
