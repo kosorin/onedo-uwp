@@ -290,7 +290,7 @@
                                             HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                             <Button Grid.Column="1"
                                     Style="{StaticResource FolderListButtonStyle}"
-                                    Command="{Binding AddItemCommand}">
+                                    Command="{Binding AddCommand}">
                                 <FontIcon FontSize="16"
                                           FontWeight="Light"
                                           Glyph="&#xE710;" />
