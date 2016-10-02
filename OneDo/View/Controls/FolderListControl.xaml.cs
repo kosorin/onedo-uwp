@@ -27,15 +27,5 @@ namespace OneDo.View.Controls
         {
             InitializeComponent();
         }
-
-        private void FolderItem_Holding(object sender, HoldingRoutedEventArgs e)
-        {
-            FlyoutExtensions.ShowAttachedMenuFlyout((FrameworkElement)sender, e);
-        }
-
-        private void FolderItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            FlyoutExtensions.ShowAttachedMenuFlyout((FrameworkElement)sender, e);
-        }
     }
 }
