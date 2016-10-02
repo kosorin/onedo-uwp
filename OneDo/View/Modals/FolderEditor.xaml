@@ -45,7 +45,7 @@
                                     <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                            CheckBoxBrush="Transparent"
-                                                           CheckBrush="{ThemeResource SystemControlForegroundAltMediumHighBrush}"
+                                                           CheckBrush="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
                                                            CheckMode="Overlay"
                                                            ContentMargin="{TemplateBinding Padding}"
                                                            ContentTransitions="{TemplateBinding ContentTransitions}"
