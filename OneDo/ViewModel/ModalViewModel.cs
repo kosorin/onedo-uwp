@@ -20,5 +20,10 @@ namespace OneDo.ViewModel
             ModalService = modalService;
             DataService = dataService;
         }
+
+        public void Close()
+        {
+            ModalService.Close();
+        }
     }
 }
