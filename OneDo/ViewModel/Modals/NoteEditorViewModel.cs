@@ -160,6 +160,7 @@ namespace OneDo.ViewModel.Modals
                 });
 
                 OnDeleted();
+                ModalService.Close();
             }
         }
 
@@ -184,6 +185,7 @@ namespace OneDo.ViewModel.Modals
             });
 
             OnSaved();
+            ModalService.Close();
         }
 
         protected override void OnSaved()

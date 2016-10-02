@@ -109,8 +109,6 @@ namespace OneDo.ViewModel
 
         private void ShowEditor(NoteEditorViewModel editor)
         {
-            editor.Deleted += (s, e) => ModalService.Close();
-            editor.Saved += (s, e) => ModalService.Close();
             ModalService.Show(editor);
         }
     }

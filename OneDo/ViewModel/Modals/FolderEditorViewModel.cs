@@ -125,6 +125,7 @@ namespace OneDo.ViewModel.Modals
             });
 
             OnSaved();
+            ModalService.Close();
         }
 
         protected override async Task Delete()
@@ -137,6 +138,7 @@ namespace OneDo.ViewModel.Modals
                 });
 
                 OnDeleted();
+                ModalService.Close();
             }
         }
 
