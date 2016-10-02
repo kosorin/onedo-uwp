@@ -109,6 +109,7 @@
       <DependentUpon>BandTileLayout.msbtl</DependentUpon>
     </Compile>
     <Compile Include="Common\Event\EntityEventArgs.cs" />
+    <Compile Include="Common\UI\FlyoutExtensions.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="Services\StringService\IStringService.cs" />
