@@ -1,6 +1,5 @@
 ﻿using OneDo.Services.ModalService;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
 using OneDo.Model.Data;
 using System.Collections.Generic;
 using System.Linq;

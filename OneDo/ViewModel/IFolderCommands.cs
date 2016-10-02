@@ -1,16 +1,18 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using OneDo.Common.UI;
 using OneDo.ViewModel.Commands;
 using OneDo.ViewModel.Items;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace OneDo.ViewModel
 {
     public interface IFolderCommands : INotifyPropertyChanged
     {
-        RelayCommand AddCommand { get; }
+        IExtendedCommand AddCommand { get; }
 
-        RelayCommand<FolderItemObject> EditCommand { get; }
+        IExtendedCommand EditCommand { get; }
 
-        AsyncRelayCommand<FolderItemObject> DeleteCommand { get; }
+        IExtendedCommand DeleteCommand { get; }
     }
 }

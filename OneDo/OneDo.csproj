@@ -110,10 +110,12 @@
     </Compile>
     <Compile Include="Common\Event\EntityEventArgs.cs" />
     <Compile Include="Common\UI\FlyoutExtensions.cs" />
+    <Compile Include="Common\UI\IExtendedCommand.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
+    <Compile Include="ViewModel\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\IFolderCommands.cs" />
     <Compile Include="ViewModel\INoteCommands.cs" />

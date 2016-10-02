@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
 using OneDo.ViewModel.Commands;
 using OneDo.Services.ModalService;
 using OneDo.ViewModel.Modals;
 using OneDo.Services.ProgressService;
 using Windows.Foundation;
 using OneDo.Common.Event;
+using OneDo.Common.UI;
 
 namespace OneDo.ViewModel
 {
@@ -43,11 +43,11 @@ namespace OneDo.ViewModel
         public event TypedEventHandler<FolderListViewModel, EntityEventArgs<Folder>> SelectionChanged;
 
 
-        public RelayCommand AddCommand { get; }
+        public IExtendedCommand AddCommand { get; }
 
-        public RelayCommand<FolderItemObject> EditCommand { get; }
+        public IExtendedCommand EditCommand { get; }
 
-        public AsyncRelayCommand<FolderItemObject> DeleteCommand { get; }
+        public IExtendedCommand DeleteCommand { get; }
 
 
         public IModalService ModalService { get; }

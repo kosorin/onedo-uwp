@@ -1,16 +1,18 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using OneDo.Common.UI;
 using OneDo.ViewModel.Commands;
 using OneDo.ViewModel.Items;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace OneDo.ViewModel
 {
     public interface INoteCommands : INotifyPropertyChanged
     {
-        RelayCommand AddCommand { get; }
+        IExtendedCommand AddCommand { get; }
 
-        RelayCommand<NoteItemObject> EditCommand { get; }
+        IExtendedCommand EditCommand { get; }
 
-        AsyncRelayCommand<NoteItemObject> DeleteCommand { get; }
+        IExtendedCommand DeleteCommand { get; }
     }
 }
