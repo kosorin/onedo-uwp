@@ -14,10 +14,11 @@ namespace OneDo.ViewModel.Items
 
         public string Title => Entity.Title;
 
+        public INoteCommands NoteCommands { get; }
 
-        public NoteItemObject(Note entity) : base(entity)
+        public NoteItemObject(Note entity, INoteCommands noteCommands) : base(entity)
         {
-
+            NoteCommands = noteCommands;
         }
     }
 }

@@ -72,7 +72,7 @@ namespace OneDo.ViewModel
             FolderList = new FolderListViewModel(ModalService, DataService, ProgressService);
             NoteList = new NoteListViewModel(ModalService, DataService, ProgressService, FolderList);
 
-            AddNoteCommand = new RelayCommand(NoteList.AddItem);
+            AddNoteCommand = NoteList.AddCommand;
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             FolderList.SelectionChanged += async (s, e) =>

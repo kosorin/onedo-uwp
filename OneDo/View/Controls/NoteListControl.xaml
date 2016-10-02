@@ -83,6 +83,21 @@
                                        RightForeground="White"
                                        RightGlyph="&#xE74D;"
                                        RightLabel="Delete">
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <controls:MenuFlyoutIconItem Glyph="&#xE8DE;" Text="Move" />
+                        <controls:MenuFlyoutIconItem Command="{x:Bind NoteCommands.DeleteCommand}"
+                                                     CommandParameter="{x:Bind Mode=OneWay}"
+                                                     Glyph="&#xE74D;"
+                                                     Text="Delete" />
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+                <i:Interaction.Behaviors>
+                    <behaviors:FlyoutMenuBehavior />
+                    <ic:EventTriggerBehavior EventName="Tapped">
+                        <ic:InvokeCommandAction Command="{x:Bind NoteCommands.EditCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <Grid Margin="0,8" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon Margin="12,0,4,0"
@@ -102,7 +117,6 @@
               ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
               ItemTemplate="{StaticResource NoteItemTemplate}"
               ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
-              SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
-              Tapped="NoteListView_Tapped" />
+              SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
 </v:ExtendedUserControl>

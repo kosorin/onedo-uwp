@@ -18,7 +18,7 @@ using OneDo.Common.Event;
 
 namespace OneDo.ViewModel
 {
-    public class NoteListViewModel : ExtendedViewModel
+    public class NoteListViewModel : ExtendedViewModel, INoteCommands
     {
         private ObservableCollection<NoteItemObject> items;
         public ObservableCollection<NoteItemObject> Items
@@ -42,6 +42,14 @@ namespace OneDo.ViewModel
 
         public event TypedEventHandler<NoteListViewModel, EntityEventArgs<Note>> SelectionChanged;
 
+
+        public RelayCommand AddCommand { get; }
+
+        public RelayCommand<NoteItemObject> EditCommand { get; }
+
+        public AsyncRelayCommand<NoteItemObject> DeleteCommand { get; }
+
+
         public IModalService ModalService { get; }
 
         public DataService DataService { get; }
@@ -56,6 +64,10 @@ namespace OneDo.ViewModel
             DataService = dataService;
             ProgressService = progressService;
             FolderList = folderList;
+
+            AddCommand = new RelayCommand(Add);
+            EditCommand = new RelayCommand<NoteItemObject>(Edit);
+            DeleteCommand = new AsyncRelayCommand<NoteItemObject>(Delete);
         }
 
         public async Task Load(int folderId)
@@ -65,7 +77,7 @@ namespace OneDo.ViewModel
                 var notes = await DataService
                     .Notes
                     .GetAll(x => x.FolderId == folderId);
-                var noteItems = notes.Select(x => new NoteItemObject(x));
+                var noteItems = notes.Select(x => new NoteItemObject(x, this));
                 Items = new ObservableCollection<NoteItemObject>(noteItems);
             });
         }
@@ -75,20 +87,20 @@ namespace OneDo.ViewModel
             Items?.Clear();
         }
 
-        public void AddItem()
+        private void Add()
         {
             var editor = new NoteEditorViewModel(ModalService, DataService, ProgressService, FolderList, null);
             editor.Saved += (s, e) =>
             {
                 if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
                 {
-                    Items.Add(new NoteItemObject(e.Entity));
+                    Items.Add(new NoteItemObject(e.Entity, this));
                 }
             };
             ShowEditor(editor);
         }
 
-        public void EditItem(NoteItemObject item)
+        private void Edit(NoteItemObject item)
         {
             var editor = new NoteEditorViewModel(ModalService, DataService, ProgressService, FolderList, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
@@ -105,6 +117,16 @@ namespace OneDo.ViewModel
             };
 
             ShowEditor(editor);
+        }
+
+        private async Task Delete(NoteItemObject item)
+        {
+            Items.Remove(item);
+            if (SelectedItem == null)
+            {
+                SelectedItem = Items.FirstOrDefault();
+            }
+            await DataService.Notes.Delete(item.Entity);
         }
 
         private void ShowEditor(NoteEditorViewModel editor)

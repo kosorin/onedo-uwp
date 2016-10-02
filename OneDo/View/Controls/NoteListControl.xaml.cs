@@ -1,4 +1,5 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Common.UI;
+using OneDo.ViewModel;
 using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,16 +27,6 @@ namespace OneDo.View.Controls
         public NoteListControl()
         {
             InitializeComponent();
-        }
-
-        private void NoteListView_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            var element = (FrameworkElement)e.OriginalSource;
-            var item = element?.DataContext as NoteItemObject;
-            if (item != null)
-            {
-                VM.EditItem(item);
-            }
         }
     }
 }
