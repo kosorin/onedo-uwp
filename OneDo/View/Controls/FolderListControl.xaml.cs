@@ -1,4 +1,5 @@
 ﻿using OneDo.ViewModel;
+using OneDo.Common.UI;
 using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,16 @@ namespace OneDo.View.Controls
         public FolderListControl()
         {
             InitializeComponent();
+        }
+
+        private void FolderItem_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            FlyoutExtensions.ShowAttachedMenuFlyout((FrameworkElement)sender, e);
+        }
+
+        private void FolderItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            FlyoutExtensions.ShowAttachedMenuFlyout((FrameworkElement)sender, e);
         }
     }
 }

@@ -348,17 +348,22 @@
         <DataTemplate x:Key="FolderItemDataTemplate" x:DataType="vmItems:FolderItemObject">
             <Border Background="Transparent"
                     BorderBrush="Transparent"
-                    BorderThickness="1,1,1,0">
+                    BorderThickness="1,1,1,0"
+                    Holding="FolderItem_Holding"
+                    RightTapped="FolderItem_RightTapped">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Command="{x:Bind FolderCommands.EditCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Edit" />
-                        <MenuFlyoutItem Command="{x:Bind FolderCommands.DeleteCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="Delete" />
+                        <controls:MenuFlyoutIconItem Command="{x:Bind FolderCommands.EditCommand}"
+                                                     CommandParameter="{x:Bind Mode=OneWay}"
+                                                     Glyph="&#xE70F;"
+                                                     Text="Edit" />
+                        <controls:MenuFlyoutIconItem Command="{x:Bind FolderCommands.DeleteCommand}"
+                                                     CommandParameter="{x:Bind Mode=OneWay}"
+                                                     Glyph="&#xE74D;"
+                                                     Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>
-                    <ic:EventTriggerBehavior EventName="RightTapped">
-                        <behaviors:ShowAttachedFlyoutAction />
-                    </ic:EventTriggerBehavior>
                     <ic:EventTriggerBehavior EventName="PointerEntered">
                         <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                         <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
