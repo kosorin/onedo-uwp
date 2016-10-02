@@ -62,9 +62,9 @@ namespace OneDo.ViewModel
             DataService = dataService;
             ProgressService = progressService;
 
-            AddCommand = new RelayCommand(AddItem);
-            EditCommand = new RelayCommand<FolderItemObject>(EditItem);
-            DeleteCommand = new AsyncRelayCommand<FolderItemObject>(DeleteItem, CanDeleteItem);
+            AddCommand = new RelayCommand(Add);
+            EditCommand = new RelayCommand<FolderItemObject>(Edit);
+            DeleteCommand = new AsyncRelayCommand<FolderItemObject>(Delete, CanDelete);
         }
 
         public async Task Load()
@@ -122,7 +122,7 @@ namespace OneDo.ViewModel
             });
         }
 
-        private void AddItem()
+        private void Add()
         {
             var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService);
             editor.Saved += (s, e) =>
@@ -134,7 +134,7 @@ namespace OneDo.ViewModel
             ShowEditor(editor);
         }
 
-        private void EditItem(FolderItemObject item)
+        private void Edit(FolderItemObject item)
         {
             var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
@@ -143,12 +143,12 @@ namespace OneDo.ViewModel
             ShowEditor(editor);
         }
 
-        private bool CanDeleteItem(FolderItemObject item)
+        private bool CanDelete(FolderItemObject item)
         {
             return Items?.Count > 1;
         }
 
-        private async Task DeleteItem(FolderItemObject item)
+        private async Task Delete(FolderItemObject item)
         {
             Items.Remove(item);
             if (SelectedItem == null)
