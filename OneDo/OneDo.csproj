@@ -122,6 +122,7 @@
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
+    <Compile Include="View\Behaviors\FlyoutMenuBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
     <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
