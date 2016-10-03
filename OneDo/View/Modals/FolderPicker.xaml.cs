@@ -27,13 +27,13 @@ namespace OneDo.View.Modals
             InitializeComponent();
         }
 
-        private void Folder_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void Folder_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var element = sender as FrameworkElement;
-            var item = element?.DataContext as FolderItemObject;
-            if (item != null)
+            var folder = element?.DataContext as FolderItemObject;
+            if (folder != null)
             {
-                VM.Close();
+                await VM.Pick(folder);
             }
         }
     }

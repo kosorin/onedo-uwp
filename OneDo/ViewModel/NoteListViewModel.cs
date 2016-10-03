@@ -139,14 +139,10 @@ namespace OneDo.ViewModel
 
         private void Move(NoteItemObject item)
         {
-            var picker = new FolderPickerViewModel(ModalService, DataService, ProgressService, item, FolderList.Items);
+            var picker = new FolderPickerViewModel(ModalService, DataService, ProgressService, item, FolderList);
             picker.Closed += (s, e) =>
             {
-                if (item.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
-                {
-                    item.Refresh();
-                }
-                else
+                if (item.Entity.FolderId != FolderList.SelectedItem?.Entity.Id)
                 {
                     FolderList.SelectedItem = FolderList.Items.FirstOrDefault(x => x.Entity.Id == item.Entity.FolderId);
                 }

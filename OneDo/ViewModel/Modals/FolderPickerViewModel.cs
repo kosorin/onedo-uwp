@@ -14,15 +14,29 @@ namespace OneDo.ViewModel.Modals
 {
     public class FolderPickerViewModel : ModalViewModel
     {
-        public ObservableCollection<FolderItemObject> Folders { get; }
+        public FolderListViewModel FolderList { get; }
 
-        private readonly NoteItemObject note;
+        public IProgressService ProgressService { get; }
 
-        public FolderPickerViewModel(IModalService modalService, DataService dataService, IProgressService progressService, NoteItemObject note, IEnumerable<FolderItemObject> folders)
+        public NoteItemObject Note { get; }
+
+        public FolderPickerViewModel(IModalService modalService, DataService dataService, IProgressService progressService, NoteItemObject note, FolderListViewModel folderList)
             : base(modalService, dataService)
         {
-            this.note = note;
-            Folders = new ObservableCollection<FolderItemObject>(folders);
+            ProgressService = progressService;
+
+            Note = note;
+            FolderList = folderList;
+        }
+
+        public async Task Pick(FolderItemObject folder)
+        {
+            Note.Entity.FolderId = folder.Entity.Id;
+            await ProgressService.RunAsync(async () =>
+            {
+                await DataService.Notes.Update(Note.Entity);
+            });
+            Close();
         }
     }
 }
