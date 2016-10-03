@@ -33,7 +33,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   Margin="16,16,16,4"
+                   Margin="16,12,16,8"
                    HorizontalAlignment="Left"
                    Style="{ThemeResource BaseTextBlockStyle}"
                    Text="Move to folder" />
