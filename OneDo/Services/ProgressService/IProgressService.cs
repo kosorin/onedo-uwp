@@ -7,10 +7,6 @@ namespace OneDo.Services.ProgressService
     {
         bool IsBusy { get; }
 
-        void Push();
-
-        void Pop();
-
         void Run(Action action);
 
         Task RunAsync(Func<Task> action);

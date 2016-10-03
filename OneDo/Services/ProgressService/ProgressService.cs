@@ -14,19 +14,6 @@ namespace OneDo.Services.ProgressService
 
         public bool IsBusy => stack.Count > 0;
 
-        public void Push()
-        {
-            stack.Push(default(int));
-            RaisePropertyChanged(nameof(IsBusy));
-        }
-
-        public void Pop()
-        {
-            int i;
-            stack.TryPop(out i);
-            RaisePropertyChanged(nameof(IsBusy));
-        }
-
         public void Run(Action action)
         {
             try
@@ -51,6 +38,19 @@ namespace OneDo.Services.ProgressService
             {
                 Pop();
             }
+        }
+
+        private void Push()
+        {
+            stack.Push(default(int));
+            RaisePropertyChanged(nameof(IsBusy));
+        }
+
+        private void Pop()
+        {
+            int i;
+            stack.TryPop(out i);
+            RaisePropertyChanged(nameof(IsBusy));
         }
     }
 }
