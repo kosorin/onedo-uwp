@@ -14,5 +14,7 @@ namespace OneDo.ViewModel
         IExtendedCommand EditCommand { get; }
 
         IExtendedCommand DeleteCommand { get; }
+
+        IExtendedCommand MoveCommand { get; }
     }
 }

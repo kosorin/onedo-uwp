@@ -85,7 +85,10 @@
                                        RightLabel="Delete">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <controls:MenuFlyoutIconItem Glyph="&#xE8DE;" Text="Move" />
+                        <controls:MenuFlyoutIconItem Command="{x:Bind NoteCommands.MoveCommand}"
+                                                     CommandParameter="{x:Bind Mode=OneWay}"
+                                                     Glyph="&#xE8DE;"
+                                                     Text="Move" />
                         <controls:MenuFlyoutIconItem Command="{x:Bind NoteCommands.DeleteCommand}"
                                                      CommandParameter="{x:Bind Mode=OneWay}"
                                                      Glyph="&#xE74D;"

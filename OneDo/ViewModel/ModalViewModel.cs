@@ -15,6 +15,8 @@ namespace OneDo.ViewModel
 
         public DataService DataService { get; }
 
+        public event EventHandler Closed;
+
         protected ModalViewModel(IModalService modalService, DataService dataService)
         {
             ModalService = modalService;
@@ -24,6 +26,12 @@ namespace OneDo.ViewModel
         public void Close()
         {
             ModalService.Close();
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnClosed()
+        {
+
         }
     }
 }

@@ -15,6 +15,8 @@ namespace OneDo.View
 
         public DataTemplate NoteEditorTemplate { get; set; }
 
+        public DataTemplate FolderPickerTemplate { get; set; }
+
         public DataTemplate SettingsTemplate { get; set; }
 
         public DataTemplate DebugTemplate { get; set; }
@@ -38,6 +40,10 @@ namespace OneDo.View
             else if (modal is NoteEditorViewModel)
             {
                 return NoteEditorTemplate;
+            }
+            else if (modal is FolderPickerViewModel)
+            {
+                return FolderPickerTemplate;
             }
             else if (modal is SettingsViewModel)
             {

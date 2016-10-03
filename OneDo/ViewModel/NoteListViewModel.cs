@@ -49,6 +49,8 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand DeleteCommand { get; }
 
+        public IExtendedCommand MoveCommand { get; }
+
 
         public IModalService ModalService { get; }
 
@@ -68,6 +70,7 @@ namespace OneDo.ViewModel
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand<NoteItemObject>(Edit);
             DeleteCommand = new AsyncRelayCommand<NoteItemObject>(Delete);
+            MoveCommand = new RelayCommand<NoteItemObject>(Move);
         }
 
         public async Task Load(int folderId)
@@ -97,7 +100,7 @@ namespace OneDo.ViewModel
                     Items.Add(new NoteItemObject(e.Entity, this));
                 }
             };
-            ShowEditor(editor);
+            ShowNoteEditor(editor);
         }
 
         private void Edit(NoteItemObject item)
@@ -116,7 +119,7 @@ namespace OneDo.ViewModel
                 }
             };
 
-            ShowEditor(editor);
+            ShowNoteEditor(editor);
         }
 
         private async Task Delete(NoteItemObject item)
@@ -129,9 +132,31 @@ namespace OneDo.ViewModel
             await DataService.Notes.Delete(item.Entity);
         }
 
-        private void ShowEditor(NoteEditorViewModel editor)
+        private void ShowNoteEditor(NoteEditorViewModel editor)
         {
             ModalService.Show(editor);
+        }
+
+        private void Move(NoteItemObject item)
+        {
+            var picker = new FolderPickerViewModel(ModalService, DataService, ProgressService, item, FolderList.Items);
+            picker.Closed += (s, e) =>
+            {
+                if (item.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
+                {
+                    item.Refresh();
+                }
+                else
+                {
+                    FolderList.SelectedItem = FolderList.Items.FirstOrDefault(x => x.Entity.Id == item.Entity.FolderId);
+                }
+            };
+            ShowFolderPicker(picker);
+        }
+
+        private void ShowFolderPicker(FolderPickerViewModel picker)
+        {
+            ModalService.Show(picker);
         }
     }
 }
