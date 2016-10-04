@@ -20,7 +20,7 @@
                 <x:Boolean>True</x:Boolean>
             </converters:ConditionConverter.If>
             <converters:ConditionConverter.Then>
-                <SolidColorBrush Color="#FFFFE0" />
+                <SolidColorBrush Color="{ThemeResource FlagBackgroundColor}" />
             </converters:ConditionConverter.Then>
             <converters:ConditionConverter.Else>
                 <SolidColorBrush Color="{ThemeResource SystemAltHighColor}" />
@@ -32,10 +32,10 @@
                 <x:Boolean>True</x:Boolean>
             </converters:ConditionConverter.If>
             <converters:ConditionConverter.Then>
-                <SolidColorBrush Color="#E81123" />
+                <SolidColorBrush Color="{ThemeResource FlagForegroundColor}" />
             </converters:ConditionConverter.Then>
             <converters:ConditionConverter.Else>
-                <SolidColorBrush Color="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                <SolidColorBrush Color="{ThemeResource SystemBaseMediumColor}" />
             </converters:ConditionConverter.Else>
         </converters:ConditionConverter>
 
@@ -150,32 +150,33 @@
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap"
                                    Visibility="{x:Bind HasText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="0,2,0,0"
+                                    Orientation="Horizontal"
+                                    Visibility="{x:Bind DateWithReminder, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                             <FontIcon Margin="0,0,4,0"
-                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                      Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
                                       FontSize="16"
                                       Glyph="&#xE787;"
                                       Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <TextBlock Margin="0,0,4,0"
                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                       Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
                                        Text="{x:Bind Date, Mode=OneWay, Converter={StaticResource DateConverter}}"
                                        Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <FontIcon Margin="0,0,4,0"
-                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                      Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
                                       FontSize="16"
                                       Glyph="&#xEA8F;"
                                       Visibility="{x:Bind HasReminder, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
-                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                       Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
                                        Text="{x:Bind Reminder, Mode=OneWay, Converter={StaticResource TimeConverter}}"
                                        Visibility="{x:Bind HasReminder, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </StackPanel>
-
                     </StackPanel>
                     <FontIcon Grid.Column="1"
                               Margin="0,0,12,0"
-                              Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                              Foreground="{ThemeResource FlagForegroundBrush}"
                               FontSize="16"
                               Glyph="&#xE129;"
                               Visibility="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

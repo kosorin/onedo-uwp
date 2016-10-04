@@ -7,6 +7,14 @@
 
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <Color x:Key="FlagForegroundColor">#E81123</Color>
+                    <Color x:Key="FlagBackgroundColor">#FFFFE0</Color>
+                    <SolidColorBrush x:Key="FlagForegroundBrush" Color="{ThemeResource FlagForegroundColor}" />
+                    <SolidColorBrush x:Key="FlagBackgroundBrush" Color="{ThemeResource FlagBackgroundColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
             <vm:ViewModelLocator x:Key="Locator" />
 
