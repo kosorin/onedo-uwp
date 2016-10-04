@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SlidableListItem">
-                    <Grid>
+                    <Grid BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid x:Name="CommandContainer">
                             <Border x:Name="LeftCommandPanel">
                                 <StackPanel HorizontalAlignment="Left"
