@@ -85,18 +85,26 @@
         </Style>
 
         <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemObject">
-            <controls:SlidableListItem Background="{x:Bind Entity.IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"
+            <controls:SlidableListItem MinHeight="50"
+                                       MaxHeight="100"
+                                       Background="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"
                                        BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                                        BorderThickness="0,0,0,1"
                                        LeftBackground="Khaki"
-                                       LeftForeground="Black"
+                                       LeftCommand="{x:Bind NoteCommands.ToggleFlagCommand}"
+                                       LeftCommandParameter="{x:Bind Mode=OneWay}"
+                                       LeftForeground="#443e09"
                                        LeftGlyph="&#xE7C1;"
                                        LeftLabel="Flag"
+                                       LeftReturnPosition="Back"
                                        MouseSlidingEnabled="True"
                                        RightBackground="Tomato"
-                                       RightForeground="White"
+                                       RightCommand="{x:Bind NoteCommands.DeleteCommand}"
+                                       RightCommandParameter="{x:Bind Mode=OneWay}"
+                                       RightForeground="#4d0b00"
                                        RightGlyph="&#xE74D;"
-                                       RightLabel="Delete">
+                                       RightLabel="Delete"
+                                       RightReturnPosition="Away">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
                         <controls:MenuFlyoutIconItem Command="{x:Bind NoteCommands.MoveCommand}"
@@ -120,16 +128,23 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Margin="8,0"
-                               Text="{x:Bind Title, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis" />
+                    <StackPanel Grid.Column="0" Margin="16,0,0,0">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind Title, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                                   Text="{x:Bind Text, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   Visibility="{x:Bind HasText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </StackPanel>
                     <FontIcon Grid.Column="1"
-                              Margin="0,0,12,0"
+                              Margin="4,0,12,0"
                               Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                               FontSize="16"
                               Glyph="&#xE129;"
-                              Visibility="{x:Bind Entity.IsFlagged, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                              Visibility="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </Grid>
             </controls:SlidableListItem>
         </DataTemplate>

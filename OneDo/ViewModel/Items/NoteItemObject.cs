@@ -12,7 +12,13 @@ namespace OneDo.ViewModel.Items
     {
         public bool IsCompleted => Entity.Completed != null;
 
+        public bool HasText => !string.IsNullOrWhiteSpace(Text);
+
+        public bool IsFlagged => Entity.IsFlagged;
+
         public string Title => Entity.Title;
+
+        public string Text => Entity.Text;
 
         public INoteCommands NoteCommands { get; }
 

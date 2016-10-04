@@ -90,13 +90,32 @@ namespace OneDo.View.Controls
             var leftCommandVisual = ElementCompositionPreview.GetElementVisual(leftCommandPanel);
             var rightCommandVisual = ElementCompositionPreview.GetElementVisual(rightCommandPanel);
 
-            AnimateResetOffset(contentVisual);
+            var fromOffset = contentVisual.Offset.X;
+            var toOffset = 0f;
+
+            if (fromOffset < -ActivationOffset)
+            {
+                switch (RightReturnPosition)
+                {
+                case ReturnPosition.Back: toOffset = 0; break;
+                case ReturnPosition.Away: toOffset = -contentVisual.Size.X; break;
+                }
+            }
+            else if (fromOffset > ActivationOffset)
+            {
+                switch (LeftReturnPosition)
+                {
+                case ReturnPosition.Back: toOffset = 0; break;
+                case ReturnPosition.Away: toOffset = contentVisual.Size.X; break;
+                }
+            }
+
+            AnimateResetOffset(contentVisual, fromOffset, toOffset);
             AnimateResetOffset(leftCommandVisual);
             AnimateResetOffset(rightCommandVisual);
             AnimateResetOpacity(leftCommandVisual);
             AnimateResetOpacity(rightCommandVisual);
 
-            TryExecuteCommand(contentVisual.Offset.X);
         }
 
         private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -149,6 +168,20 @@ namespace OneDo.View.Controls
             visual.StartAnimation("Offset.X", resetOffsetAnimation);
         }
 
+        private void AnimateResetOffset(Visual visual, float fromOffset, float toOffset)
+        {
+            var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            batch.Completed += (s, e) =>
+            {
+                TryExecuteCommand(fromOffset);
+            };
+
+            resetOffsetAnimation.SetScalarParameter("To", toOffset);
+            visual.StartAnimation("Offset.X", resetOffsetAnimation);
+
+            batch.End();
+        }
+
         private void AnimateOffset(Visual visual, float offset)
         {
             offsetAnimation.SetScalarParameter("To", offset);
@@ -181,12 +214,12 @@ namespace OneDo.View.Controls
             if (x < -ActivationOffset)
             {
                 RightCommandRequested?.Invoke(this, new EventArgs());
-                RightCommand?.Execute(null);
+                RightCommand?.Execute(RightCommandParameter);
             }
             else if (x > ActivationOffset)
             {
                 LeftCommandRequested?.Invoke(this, new EventArgs());
-                LeftCommand?.Execute(null);
+                LeftCommand?.Execute(LeftCommandParameter);
             }
         }
 
@@ -208,6 +241,24 @@ namespace OneDo.View.Controls
 
         public static readonly DependencyProperty ActivationOffsetProperty =
             DependencyProperty.Register(nameof(ActivationOffset), typeof(double), typeof(SlidableListItem), new PropertyMetadata(80f));
+
+        public ReturnPosition LeftReturnPosition
+        {
+            get { return (ReturnPosition)GetValue(LeftReturnPositionProperty); }
+            set { SetValue(LeftReturnPositionProperty, value); }
+        }
+
+        public static readonly DependencyProperty LeftReturnPositionProperty =
+            DependencyProperty.Register("LeftReturnPosition", typeof(ReturnPosition), typeof(SlidableListItem), new PropertyMetadata(ReturnPosition.Back));
+
+        public ReturnPosition RightReturnPosition
+        {
+            get { return (ReturnPosition)GetValue(RightReturnPositionProperty); }
+            set { SetValue(RightReturnPositionProperty, value); }
+        }
+
+        public static readonly DependencyProperty RightReturnPositionProperty =
+            DependencyProperty.Register("RightReturnPosition", typeof(ReturnPosition), typeof(SlidableListItem), new PropertyMetadata(ReturnPosition.Back));
 
         public string LeftGlyph
         {
@@ -299,6 +350,15 @@ namespace OneDo.View.Controls
         public static readonly DependencyProperty LeftCommandProperty =
             DependencyProperty.Register(nameof(LeftCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
 
+        public object LeftCommandParameter
+        {
+            get { return (object)GetValue(LeftCommandParameterProperty); }
+            set { SetValue(LeftCommandParameterProperty, value); }
+        }
+
+        public static readonly DependencyProperty LeftCommandParameterProperty =
+            DependencyProperty.Register("LeftCommandParameter", typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+
         public ICommand RightCommand
         {
             get { return (ICommand)GetValue(RightCommandProperty); }
@@ -307,5 +367,21 @@ namespace OneDo.View.Controls
 
         public static readonly DependencyProperty RightCommandProperty =
             DependencyProperty.Register(nameof(RightCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+
+        public object RightCommandParameter
+        {
+            get { return (object)GetValue(RightCommandParameterProperty); }
+            set { SetValue(RightCommandParameterProperty, value); }
+        }
+
+        public static readonly DependencyProperty RightCommandParameterProperty =
+            DependencyProperty.Register("RightCommandParameter", typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+
+
+        public enum ReturnPosition
+        {
+            Back,
+            Away,
+        }
     }
 }

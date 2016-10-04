@@ -86,11 +86,19 @@ namespace OneDo.ViewModel
                 if (!await DataService.Notes.Any())
                 {
                     var folder = folders.FirstOrDefault();
+                    var folder2 = folders.Skip(1).FirstOrDefault();
                     await DataService.Notes.Add(new Note
                     {
                         Title = "Buy milk",
                         Text = "",
-                        IsFlagged = false,
+                        FolderId = folder.Id,
+                    });
+                    await DataService.Notes.Add(new Note
+                    {
+                        Title = "Walk Max with bike",
+                        Text = "",
+                        Date = DateTime.Today,
+                        Reminder = TimeSpan.FromHours(7.25),
                         FolderId = folder.Id,
                     });
                     await DataService.Notes.Add(new Note
@@ -103,12 +111,16 @@ namespace OneDo.ViewModel
                     });
                     await DataService.Notes.Add(new Note
                     {
-                        Title = "Walk Max",
-                        Text = "",
-                        Date = DateTime.Today,
-                        Reminder = TimeSpan.FromHours(7.25),
-                        IsFlagged = false,
+                        Title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                        Text = "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
                         FolderId = folder.Id,
+                    });
+                    await DataService.Notes.Add(new Note
+                    {
+                        Title = "Test note",
+                        Text = "",
+                        IsFlagged = true,
+                        FolderId = (folder2 ?? folder).Id,
                     });
                 }
 #endif
