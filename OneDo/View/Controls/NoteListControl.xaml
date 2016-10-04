@@ -15,6 +15,8 @@
 
     <UserControl.Resources>
 
+        <CollectionViewSource x:Name="NotesViewSource" Source="{x:Bind VM.Items, Mode=OneWay}" />
+
         <converters:ConditionConverter x:Key="NoteBackgroundConverter" Debug="True">
             <converters:ConditionConverter.If>
                 <x:Boolean>True</x:Boolean>
@@ -97,7 +99,7 @@
         </Style>
 
         <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemObject">
-            <controls:SlidableListItem MinHeight="50"
+            <controls:SlidableListItem MinHeight="60"
                                        MaxHeight="100"
                                        Background="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"
                                        BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
@@ -119,6 +121,10 @@
                                        RightReturnPosition="Away">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
+                        <controls:MenuFlyoutIconItem Command="{x:Bind Commands.ToggleFlagCommand}"
+                                                     CommandParameter="{x:Bind Mode=OneWay}"
+                                                     Glyph="&#xE7C1;"
+                                                     Text="Flag" />
                         <controls:MenuFlyoutIconItem Command="{x:Bind Commands.MoveCommand}"
                                                      CommandParameter="{x:Bind Mode=OneWay}"
                                                      Glyph="&#xE8DE;"
@@ -190,7 +196,7 @@
               Grid.Row="1"
               ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
               ItemTemplate="{StaticResource NoteItemTemplate}"
-              ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
+              ItemsSource="{x:Bind NotesViewSource.View, Mode=OneWay}"
               SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
 </v:ExtendedUserControl>
