@@ -30,7 +30,7 @@ namespace OneDo.Model.Data
 
         public async Task Delete(TEntity entity)
         {
-            await connection.DeleteAsync<TEntity>(entity);
+            await connection.DeleteAsync<TEntity>(entity.Id);
         }
 
         public async Task DeleteAll()
