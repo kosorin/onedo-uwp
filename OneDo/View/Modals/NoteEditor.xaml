@@ -19,12 +19,11 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="16">
-            <CheckBox Content="Is flagged" IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}" />
             <ComboBox Margin="0,0,0,16"
                       HorizontalAlignment="Stretch"
                       Header="Folder"
-                      ItemsSource="{Binding Folders}"
-                      SelectedItem="{Binding SelectedFolder, Mode=TwoWay}">
+                      ItemsSource="{x:Bind VM.Folders}"
+                      SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="vmItems:FolderItemObject">
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
@@ -49,13 +48,13 @@
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Command="{x:Bind VM.CompleteCommand, Mode=OneWay}"
-                              Label="Complete"
-                              Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE73A;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
+                <AppBarToggleButton IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}"
+                                    Label="Flag"
+                                    Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon Glyph="&#xE7C1;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
                 <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;" />
