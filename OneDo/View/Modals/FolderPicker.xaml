@@ -15,79 +15,81 @@
 
     <UserControl.Resources>
 
-        <DataTemplate x:Key="FolderTemplate" x:DataType="vmItems:FolderItemObject">
-            <Border Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Folder_Tapped">
+        <Style x:Key="FolderItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="TabNavigation" Value="Local" />
+            <Setter Property="IsHoldingEnabled" Value="True" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="16,-8,16,16" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter x:Name="Presenter"
+                                               HorizontalAlignment="Left"
+                                               HorizontalContentAlignment="Left"
+                                               VerticalContentAlignment="Stretch"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CheckBoxBrush="Transparent"
+                                               CheckBrush="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                               CheckMode="Overlay"
+                                               ContentMargin="0"
+                                               ContentTransitions="{TemplateBinding ContentTransitions}"
+                                               DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                               DragBackground="Transparent"
+                                               DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                                               DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                               FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                               FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                               PlaceholderBackground="Transparent"
+                                               PointerOverBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               PointerOverForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                               PressedBackground="Transparent"
+                                               ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                               SelectedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               SelectedForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                               SelectedPointerOverBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               SelectedPressedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                               SelectionCheckMarkVisualEnabled="True" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vmItems:FolderItemObject">
+            <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}, Mode=OneWay}" Tapped="Folder_Tapped">
                 <TextBlock Margin="12,0"
                            VerticalAlignment="Center"
                            Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
                            FontWeight="Medium"
-                           Text="{x:Bind Name, Mode=OneWay}" />
+                           Text="{x:Bind Name, Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis" />
             </Border>
         </DataTemplate>
 
     </UserControl.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Width="240" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   Margin="16,12,16,8"
+                   Margin="16,12,16,4"
                    HorizontalAlignment="Left"
                    Style="{ThemeResource BaseTextBlockStyle}"
                    Text="Move to folder" />
-        <ListView Grid.Row="1"
+        <Border Grid.Row="1" Height="1" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="16,0,16,8" />
+        <ListView Grid.Row="2"
                   Padding="0,8,0,0"
-                  ItemTemplate="{StaticResource FolderTemplate}"
-                  ItemsSource="{x:Bind VM.FolderList.Items, Mode=OneWay}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-                    <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="TabNavigation" Value="Local" />
-                    <Setter Property="IsHoldingEnabled" Value="True" />
-                    <Setter Property="MinWidth" Value="0" />
-                    <Setter Property="MinHeight" Value="0" />
-                    <Setter Property="Height" Value="32" />
-                    <Setter Property="Margin" Value="16,-8,16,16" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
-                                <ListViewItemPresenter x:Name="Presenter"
-                                                       HorizontalAlignment="Left"
-                                                       HorizontalContentAlignment="Left"
-                                                       VerticalContentAlignment="Stretch"
-                                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CheckBoxBrush="Transparent"
-                                                       CheckBrush="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                                                       CheckMode="Overlay"
-                                                       ContentMargin="0"
-                                                       ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                       DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                                                       DragBackground="Transparent"
-                                                       DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
-                                                       DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                                                       FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
-                                                       FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                                       PlaceholderBackground="Transparent"
-                                                       PointerOverBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                                       PointerOverForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                                                       PressedBackground="Transparent"
-                                                       ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                                                       SelectedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                                       SelectedForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                                                       SelectedPointerOverBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                                       SelectedPressedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                                       SelectionCheckMarkVisualEnabled="True" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+                  ItemContainerStyle="{StaticResource FolderItemContainerStyle}"
+                  ItemTemplate="{StaticResource FolderItemTemplate}"
+                  ItemsSource="{x:Bind VM.FolderList.Items, Mode=OneWay}" />
     </Grid>
 
 </v:ExtendedUserControl>
