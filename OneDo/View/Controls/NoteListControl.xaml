@@ -91,7 +91,7 @@
                                        BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                                        BorderThickness="0,0,0,1"
                                        LeftBackground="Khaki"
-                                       LeftCommand="{x:Bind NoteCommands.ToggleFlagCommand}"
+                                       LeftCommand="{x:Bind Commands.ToggleFlagCommand}"
                                        LeftCommandParameter="{x:Bind Mode=OneWay}"
                                        LeftForeground="#443e09"
                                        LeftGlyph="&#xE7C1;"
@@ -99,7 +99,7 @@
                                        LeftReturnPosition="Back"
                                        MouseSlidingEnabled="True"
                                        RightBackground="Tomato"
-                                       RightCommand="{x:Bind NoteCommands.DeleteCommand}"
+                                       RightCommand="{x:Bind Commands.DeleteCommand}"
                                        RightCommandParameter="{x:Bind Mode=OneWay}"
                                        RightForeground="#4d0b00"
                                        RightGlyph="&#xE74D;"
@@ -107,11 +107,11 @@
                                        RightReturnPosition="Away">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <controls:MenuFlyoutIconItem Command="{x:Bind NoteCommands.MoveCommand}"
+                        <controls:MenuFlyoutIconItem Command="{x:Bind Commands.MoveCommand}"
                                                      CommandParameter="{x:Bind Mode=OneWay}"
                                                      Glyph="&#xE8DE;"
                                                      Text="Move" />
-                        <controls:MenuFlyoutIconItem Command="{x:Bind NoteCommands.DeleteCommand}"
+                        <controls:MenuFlyoutIconItem Command="{x:Bind Commands.DeleteCommand}"
                                                      CommandParameter="{x:Bind Mode=OneWay}"
                                                      Glyph="&#xE74D;"
                                                      Text="Delete" />
@@ -120,7 +120,7 @@
                 <i:Interaction.Behaviors>
                     <behaviors:FlyoutMenuBehavior />
                     <ic:EventTriggerBehavior EventName="Tapped">
-                        <ic:InvokeCommandAction Command="{x:Bind NoteCommands.EditCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
+                        <ic:InvokeCommandAction Command="{x:Bind Commands.EditCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <Grid Margin="0,8" VerticalAlignment="Center">
@@ -128,7 +128,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Margin="16,0,0,0">
+                    <StackPanel Grid.Column="0" Margin="16,0,4,0">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                                    Text="{x:Bind Title, Mode=OneWay}"
                                    TextTrimming="CharacterEllipsis"
@@ -140,7 +140,7 @@
                                    Visibility="{x:Bind HasText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </StackPanel>
                     <FontIcon Grid.Column="1"
-                              Margin="4,0,12,0"
+                              Margin="0,0,12,0"
                               Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                               FontSize="16"
                               Glyph="&#xE129;"
