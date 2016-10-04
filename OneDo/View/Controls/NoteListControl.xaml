@@ -15,6 +15,18 @@
 
     <UserControl.Resources>
 
+        <converters:ConditionConverter x:Key="NoteBackgroundConverter" Debug="True">
+            <converters:ConditionConverter.If>
+                <x:Boolean>True</x:Boolean>
+            </converters:ConditionConverter.If>
+            <converters:ConditionConverter.Then>
+                <SolidColorBrush Color="#FFFFE0" />
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Else>
+                <SolidColorBrush Color="{ThemeResource SystemAltHighColor}" />
+            </converters:ConditionConverter.Else>
+        </converters:ConditionConverter>
+
         <Style x:Key="NoteItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -73,7 +85,7 @@
         </Style>
 
         <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemObject">
-            <controls:SlidableListItem Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+            <controls:SlidableListItem Background="{x:Bind Entity.IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"
                                        BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                                        BorderThickness="0,0,0,1"
                                        LeftBackground="Khaki"
@@ -102,9 +114,6 @@
                     <ic:EventTriggerBehavior EventName="Tapped">
                         <ic:InvokeCommandAction Command="{x:Bind NoteCommands.EditCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
                     </ic:EventTriggerBehavior>
-                    <ic:DataTriggerBehavior Binding="{x:Bind Entity.IsFlagged, Mode=OneWay}" Value="True">
-                        <ic:ChangePropertyAction PropertyName="Background" Value="#FFFFE0" />
-                    </ic:DataTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <Grid Margin="0,8" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>

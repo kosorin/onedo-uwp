@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:OneDo.View.Converters"
-             xmlns:vm="using:OneDo.ViewModel">
+             xmlns:vm="using:OneDo.ViewModel"
+             RequestedTheme="Light">
 
     <Application.Resources>
         <ResourceDictionary>

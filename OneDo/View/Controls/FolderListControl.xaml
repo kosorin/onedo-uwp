@@ -248,14 +248,14 @@
             </Setter>
         </Style>
 
-        <ControlTemplate x:Key="FolderListViewTemplate" TargetType="ListView">
+        <ControlTemplate x:Key="FolderListTemplate" TargetType="ListView">
             <Border Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="44" />
-                        <RowDefinition Height="4" />
+                        <RowDefinition Height="2" />
                     </Grid.RowDefinitions>
                     <ScrollViewer x:Name="ScrollViewer"
                                   Grid.Row="0"
@@ -302,7 +302,7 @@
             </Border>
         </ControlTemplate>
 
-        <Style x:Key="FolderListViewItemStyle" TargetType="ListViewItem">
+        <Style x:Key="FolderItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="Background" Value="Transparent" />
@@ -345,7 +345,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="FolderItemDataTemplate" x:DataType="vmItems:FolderItemObject">
+        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vmItems:FolderItemObject">
             <Border Background="Transparent"
                     BorderBrush="Transparent"
                     BorderThickness="1,1,1,0">
@@ -387,7 +387,7 @@
             </Border>
         </DataTemplate>
 
-        <Style x:Key="FolderListViewStyle" TargetType="ListView">
+        <Style x:Key="FolderListStyle" TargetType="ListView">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="TabNavigation" Value="Once" />
             <Setter Property="IsSwipeEnabled" Value="True" />
@@ -420,15 +420,15 @@
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Template" Value="{StaticResource FolderListViewTemplate}" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource FolderListViewItemStyle}" />
-            <Setter Property="ItemTemplate" Value="{StaticResource FolderItemDataTemplate}" />
+            <Setter Property="Template" Value="{StaticResource FolderListTemplate}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource FolderItemContainerStyle}" />
+            <Setter Property="ItemTemplate" Value="{StaticResource FolderItemTemplate}" />
         </Style>
 
     </UserControl.Resources>
 
     <ListView x:Name="FolderList"
-              Style="{StaticResource FolderListViewStyle}"
+              Style="{StaticResource FolderListStyle}"
               ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
               SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
