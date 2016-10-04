@@ -15,6 +15,8 @@
             <converters:ChangeTypeConverter x:Key="ChangeTypeConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:DateConverter x:Key="DateConverter" />
+            <converters:TimeConverter x:Key="TimeConverter" />
             <converters:ConditionConverter x:Key="NullToVisibilityConverter" If="{x:Null}">
                 <converters:ConditionConverter.Then>
                     <Visibility>Collapsed</Visibility>

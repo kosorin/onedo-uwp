@@ -143,6 +143,7 @@
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\Converters\ChangeTypeConverter.cs" />
     <Compile Include="View\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="View\Converters\DateConverter.cs" />
     <Compile Include="View\Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="View\Converters\StringFormatConverter.cs" />
     <Compile Include="View\Converters\ConditionConverter.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="View\Controls\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converters\TimeConverter.cs" />
     <Compile Include="View\ModalBase.cs" />
     <Compile Include="View\Modals\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>

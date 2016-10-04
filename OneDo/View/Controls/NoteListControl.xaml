@@ -27,6 +27,18 @@
             </converters:ConditionConverter.Else>
         </converters:ConditionConverter>
 
+        <converters:ConditionConverter x:Key="OverdueForegroundConverter" Debug="True">
+            <converters:ConditionConverter.If>
+                <x:Boolean>True</x:Boolean>
+            </converters:ConditionConverter.If>
+            <converters:ConditionConverter.Then>
+                <SolidColorBrush Color="#E81123" />
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Else>
+                <SolidColorBrush Color="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+            </converters:ConditionConverter.Else>
+        </converters:ConditionConverter>
+
         <Style x:Key="NoteItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -138,6 +150,28 @@
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap"
                                    Visibility="{x:Bind HasText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                            <FontIcon Margin="0,0,4,0"
+                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                      FontSize="16"
+                                      Glyph="&#xE787;"
+                                      Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Margin="0,0,4,0"
+                                       Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                       Text="{x:Bind Date, Mode=OneWay, Converter={StaticResource DateConverter}}"
+                                       Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <FontIcon Margin="0,0,4,0"
+                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                      FontSize="16"
+                                      Glyph="&#xEA8F;"
+                                      Visibility="{x:Bind HasReminder, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                       Text="{x:Bind Reminder, Mode=OneWay, Converter={StaticResource TimeConverter}}"
+                                       Visibility="{x:Bind HasReminder, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </StackPanel>
+
                     </StackPanel>
                     <FontIcon Grid.Column="1"
                               Margin="0,0,12,0"

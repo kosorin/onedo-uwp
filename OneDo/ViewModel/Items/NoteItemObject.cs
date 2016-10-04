@@ -24,6 +24,10 @@ namespace OneDo.ViewModel.Items
 
         public bool HasDate => Date != null;
 
+        public TimeSpan? Reminder => Entity.Reminder;
+
+        public bool HasReminder => Reminder > TimeSpan.Zero;
+
         public INoteCommands Commands { get; }
 
         public NoteItemObject(Note entity, INoteCommands commands) : base(entity)
