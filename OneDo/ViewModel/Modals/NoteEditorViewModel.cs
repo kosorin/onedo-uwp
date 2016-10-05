@@ -85,7 +85,7 @@ namespace OneDo.ViewModel.Modals
             {
                 if (Set(ref date, value?.Date))
                 {
-                    UpdateDirtyProperty(() => Date != original.Date);
+                    UpdateDirtyProperty(() => Date?.DateTime.Date != original.Date?.Date);
                 }
             }
         }
@@ -145,7 +145,7 @@ namespace OneDo.ViewModel.Modals
             IsFlagged = original.IsFlagged;
             Title = original.Title;
             Text = original.Text;
-            Date = original.Date;
+            Date = original.Date?.Date;
             Reminder = original.Reminder ?? TimeSpan.Zero;
         }
 
@@ -176,7 +176,7 @@ namespace OneDo.ViewModel.Modals
             original.IsFlagged = IsFlagged ?? false;
             original.Title = Title;
             original.Text = Text;
-            original.Date = Date?.DateTime;
+            original.Date = Date?.DateTime.Date;
             original.Reminder = Reminder;
 
             await ProgressService.RunAsync(async () =>

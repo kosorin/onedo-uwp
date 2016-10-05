@@ -24,7 +24,7 @@ namespace OneDo.ViewModel.Items
 
         public DateTime? DateWithReminder => Reminder != null ? Date + Reminder : Date;
 
-        public DateTime? Date => Entity.Date;
+        public DateTime? Date => Entity.Date?.Date;
 
         public bool HasDate => Date != null;
 
