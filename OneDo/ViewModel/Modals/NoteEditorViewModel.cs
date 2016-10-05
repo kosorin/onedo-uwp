@@ -77,15 +77,15 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
-        private DateTimeOffset? date;
-        public DateTimeOffset? Date
+        private DateTime? date;
+        public DateTime? Date
         {
             get { return date; }
             set
             {
                 if (Set(ref date, value?.Date))
                 {
-                    UpdateDirtyProperty(() => Date?.DateTime.Date != original.Date?.Date);
+                    UpdateDirtyProperty(() => Date?.Date != original.Date?.Date);
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace OneDo.ViewModel.Modals
             original.IsFlagged = IsFlagged ?? false;
             original.Title = Title;
             original.Text = Text;
-            original.Date = Date?.DateTime.Date;
+            original.Date = Date?.Date;
             original.Reminder = Reminder;
 
             await ProgressService.RunAsync(async () =>

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="using:OneDo.View.Controls"
              xmlns:i="using:Microsoft.Xaml.Interactivity"
              xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
@@ -18,33 +19,34 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="16">
-            <ComboBox Margin="0,0,0,16"
-                      HorizontalAlignment="Stretch"
-                      Header="Folder"
-                      ItemsSource="{x:Bind VM.Folders}"
-                      SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="vmItems:FolderItemObject">
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <TextBox Margin="0,0,0,16"
-                     Header="Title"
-                     Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Margin="0,0,0,16"
-                     Header="Note"
-                     Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <CalendarDatePicker Margin="0,0,0,16"
-                                HorizontalAlignment="Stretch"
-                                Date="{x:Bind VM.Date, Mode=TwoWay}"
-                                Header="Date" />
-            <TimePicker Margin="0,0,0,16"
-                        HorizontalAlignment="Stretch"
-                        Header="Reminder"
-                        Time="{x:Bind VM.Reminder, Mode=TwoWay}" />
-        </StackPanel>
+        <ScrollViewer>
+            <StackPanel Margin="16">
+                <ComboBox Margin="0,0,0,16"
+                          HorizontalAlignment="Stretch"
+                          Header="Folder"
+                          ItemsSource="{x:Bind VM.Folders}"
+                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="vmItems:FolderItemObject">
+                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBox Margin="0,0,0,16"
+                         Header="Title"
+                         Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Margin="0,0,0,16"
+                         Header="Note"
+                         Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <controls:CustomCalendarView Margin="0,0,0,16"
+                                             HorizontalAlignment="Stretch"
+                                             SelectedDate="{x:Bind VM.Date, Mode=TwoWay}" />
+                <TimePicker Margin="0,0,0,16"
+                            HorizontalAlignment="Stretch"
+                            Header="Reminder"
+                            Time="{x:Bind VM.Reminder, Mode=TwoWay}" />
+            </StackPanel>
+        </ScrollViewer>
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
