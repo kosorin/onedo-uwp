@@ -17,7 +17,7 @@
 
         <CollectionViewSource x:Name="NotesViewSource" Source="{x:Bind VM.Items, Mode=OneWay}" />
 
-        <converters:ConditionConverter x:Key="NoteBackgroundConverter" Debug="True">
+        <converters:ConditionConverter x:Key="NoteBackgroundConverter">
             <converters:ConditionConverter.If>
                 <x:Boolean>True</x:Boolean>
             </converters:ConditionConverter.If>
@@ -29,7 +29,7 @@
             </converters:ConditionConverter.Else>
         </converters:ConditionConverter>
 
-        <converters:ConditionConverter x:Key="OverdueForegroundConverter" Debug="True">
+        <converters:ConditionConverter x:Key="OverdueForegroundConverter">
             <converters:ConditionConverter.If>
                 <x:Boolean>True</x:Boolean>
             </converters:ConditionConverter.If>
