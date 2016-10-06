@@ -171,8 +171,8 @@
         </Style>
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="32" />
-            <Setter Property="Height" Value="32" />
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Background" Value="Transparent" />
@@ -254,8 +254,8 @@
                     BorderThickness="{TemplateBinding BorderThickness}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="44" />
-                        <RowDefinition Height="2" />
+                        <RowDefinition Height="52" />
+                        <RowDefinition Height="4" />
                     </Grid.RowDefinitions>
                     <ScrollViewer x:Name="ScrollViewer"
                                   Grid.Row="0"
@@ -382,7 +382,7 @@
                         <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
-                <TextBlock Margin="12,0"
+                <TextBlock Margin="16,0"
                            VerticalAlignment="Center"
                            FontWeight="Medium"
                            Text="{x:Bind Name, Mode=OneWay}" />

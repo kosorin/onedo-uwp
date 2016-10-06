@@ -32,11 +32,14 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBox Margin="0,0,0,16"
-                         Header="Title"
+                <TextBox Margin="0,0,0,4"
+                         Style="{StaticResource SimpleTextBoxStyle}"
+                         PlaceholderText="Title"
                          Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBox Margin="0,0,0,16"
-                         Header="Note"
+                         Style="{StaticResource BorderlessTextBoxStyle}"
+                         AcceptsReturn="True"
+                         PlaceholderText="Note"
                          Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <controls:CustomCalendarView Margin="0,0,0,16"
                                              HorizontalAlignment="Stretch"
