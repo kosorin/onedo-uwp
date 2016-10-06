@@ -126,7 +126,7 @@
                                         Command="{x:Bind Commands.ToggleFlagCommand}"
                                         CommandParameter="{x:Bind Mode=OneWay}"
                                         Text="Flag" />
-                        <MenuFlyoutSubItem x:Name="FoldersRootMenuItem"
+                        <MenuFlyoutSubItem x:Name="MoveToFolderRootMenuItem"
                                            Style="{StaticResource MenuFlyoutSubItemWithIconStyle}"
                                            behaviors:FlyoutMenuItemBehavior.Glyph="&#xE8DE;"
                                            behaviors:FlyoutMenuItemBehavior.SubItemContext="{x:Bind Mode=OneWay}"

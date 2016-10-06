@@ -35,7 +35,7 @@ namespace OneDo.View.Controls
         private void NoteMenuFlyout_Opening(object sender, object e)
         {
             var menu = sender as MenuFlyout;
-            var rootItem = menu.Items.FirstOrDefault(x => x.Name == "FoldersRootMenuItem") as MenuFlyoutSubItem;
+            var rootItem = menu.Items.FirstOrDefault(x => x.Name == "MoveToFolderRootMenuItem") as MenuFlyoutSubItem;
             var note = FlyoutMenuItemBehavior.GetSubItemContext(rootItem) as NoteItemObject;
 
             rootItem.Items.Clear();
