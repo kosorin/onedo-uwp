@@ -126,14 +126,14 @@
     <Compile Include="ViewModel\Modals\FolderPickerViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
-    <Compile Include="View\Behaviors\FlyoutMenuBehavior.cs" />
+    <Compile Include="View\Behaviors\OpenFlyoutMenuBehavior.cs" />
+    <Compile Include="View\Behaviors\FlyoutMenuItemBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
     <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="View\Controls\CustomCalendarView.cs" />
-    <Compile Include="View\Controls\MenuFlyoutIconItem.cs" />
     <Compile Include="View\Controls\ModalContainer.xaml.cs">
       <DependentUpon>ModalContainer.xaml</DependentUpon>
     </Compile>
@@ -218,6 +218,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\FlyoutMenuStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

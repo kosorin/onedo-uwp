@@ -15,6 +15,9 @@
                     <SolidColorBrush x:Key="FlagBackgroundBrush" Color="{ThemeResource FlagBackgroundColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/FlyoutMenuStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
             <vm:ViewModelLocator x:Key="Locator" />
 

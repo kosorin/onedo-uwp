@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Input;
 
 namespace OneDo.View.Behaviors
 {
-    public class FlyoutMenuBehavior : DependencyObject, IBehavior
+    public class OpenFlyoutMenuBehavior : DependencyObject, IBehavior
     {
         public DependencyObject AssociatedObject { get; set; }
 

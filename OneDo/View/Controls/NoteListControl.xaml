@@ -121,22 +121,33 @@
                                        RightReturnPosition="Away">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <controls:MenuFlyoutIconItem Command="{x:Bind Commands.ToggleFlagCommand}"
-                                                     CommandParameter="{x:Bind Mode=OneWay}"
-                                                     Glyph="&#xE7C1;"
-                                                     Text="Flag" />
-                        <controls:MenuFlyoutIconItem Command="{x:Bind Commands.MoveCommand}"
-                                                     CommandParameter="{x:Bind Mode=OneWay}"
-                                                     Glyph="&#xE8DE;"
-                                                     Text="Move" />
-                        <controls:MenuFlyoutIconItem Command="{x:Bind Commands.DeleteCommand}"
-                                                     CommandParameter="{x:Bind Mode=OneWay}"
-                                                     Glyph="&#xE74D;"
-                                                     Text="Delete" />
+                        <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
+                                        behaviors:FlyoutMenuItemBehavior.Glyph="&#xE7C1;"
+                                        Command="{x:Bind Commands.ToggleFlagCommand}"
+                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Text="Flag" />
+                        <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
+                                        behaviors:FlyoutMenuItemBehavior.Glyph="&#xE8DE;"
+                                        Command="{x:Bind Commands.MoveCommand}"
+                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Text="Move to folder" />
+                        <MenuFlyoutSubItem Style="{StaticResource MenuFlyoutSubItemWithIconStyle}"
+                                           behaviors:FlyoutMenuItemBehavior.Glyph="&#xE8DE;"
+                                           Text="Move to folder">
+                            <MenuFlyoutItem Text="Inbox" />
+                            <MenuFlyoutItem Text="Shopping list" />
+                            <MenuFlyoutItem Text="Work" />
+                            <MenuFlyoutItem Text="Test" />
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
+                                        behaviors:FlyoutMenuItemBehavior.Glyph="&#xE74D;"
+                                        Command="{x:Bind Commands.DeleteCommand}"
+                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>
-                    <behaviors:FlyoutMenuBehavior />
+                    <behaviors:OpenFlyoutMenuBehavior />
                     <ic:EventTriggerBehavior EventName="Tapped">
                         <ic:InvokeCommandAction Command="{x:Bind Commands.EditCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
                     </ic:EventTriggerBehavior>
