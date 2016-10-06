@@ -1,5 +1,6 @@
 ﻿using OneDo.Common.UI;
 using OneDo.View.Behaviors;
+using OneDo.View.Converters;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Commands;
 using OneDo.ViewModel.Items;
@@ -40,12 +41,26 @@ namespace OneDo.View.Controls
             rootItem.Items.Clear();
             foreach (var folder in VM.FolderList.Items)
             {
-                rootItem.Items.Add(new MenuFlyoutItem
+                var item = new MenuFlyoutItem
                 {
-                    Text = folder.Name,
                     Command = new AsyncRelayCommand(() => VM.FolderList.MoveItem(folder, note)),
-                    Foreground = new SolidColorBrush(folder.Color),
+                };
+
+                BindingOperations.SetBinding(item, MenuFlyoutItem.TextProperty, new Binding
+                {
+                    Path = new PropertyPath(nameof(folder.Name)),
+                    Source = folder,
+                    Mode = BindingMode.OneWay,
                 });
+                BindingOperations.SetBinding(item, MenuFlyoutItem.ForegroundProperty, new Binding
+                {
+                    Path = new PropertyPath(nameof(folder.Color)),
+                    Source = folder,
+                    Mode = BindingMode.OneWay,
+                    Converter = Application.Current.Resources[nameof(ColorToBrushConverter)] as ColorToBrushConverter,
+                });
+
+                rootItem.Items.Add(item);
             }
         }
     }
