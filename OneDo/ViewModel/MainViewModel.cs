@@ -38,22 +38,6 @@ namespace OneDo.ViewModel
         }
 
 
-        private ObservableCollection<NoteItemObject> noteItems;
-        public ObservableCollection<NoteItemObject> NoteItems
-        {
-            get { return noteItems; }
-            set { Set(ref noteItems, value); }
-        }
-
-        private NoteItemObject selectedNoteItem;
-        public NoteItemObject SelectedNoteItem
-        {
-            get { return selectedNoteItem; }
-            set { Set(ref selectedNoteItem, value); }
-        }
-
-        public ICommand AddNoteCommand { get; }
-
         public ICommand ShowSettingsCommand { get; }
 
         public IModalService ModalService { get; }
@@ -71,7 +55,6 @@ namespace OneDo.ViewModel
             FolderList = new FolderListViewModel(ModalService, DataService, ProgressService);
             NoteList = new NoteListViewModel(ModalService, DataService, ProgressService, FolderList);
 
-            AddNoteCommand = NoteList.AddCommand;
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             FolderList.SelectionChanged += async (s, e) =>

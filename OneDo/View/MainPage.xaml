@@ -31,7 +31,7 @@
 
         <!--  AppBar  -->
         <CommandBar x:Name="MainCommandBar" Grid.Row="2">
-            <AppBarButton Command="{x:Bind VM.AddNoteCommand}" Label="Add note">
+            <AppBarButton Command="{x:Bind VM.NoteList.AddCommand}" Label="Add note">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </AppBarButton.Icon>
