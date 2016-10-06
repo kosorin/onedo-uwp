@@ -123,7 +123,6 @@
     <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\Modals\DebugViewModel.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
-    <Compile Include="ViewModel\Modals\FolderPickerViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\OpenFlyoutMenuBehavior.cs" />
@@ -170,9 +169,6 @@
     </Compile>
     <Compile Include="View\Modals\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Modals\FolderPicker.xaml.cs">
-      <DependentUpon>FolderPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModalTemplateSelector.cs" />
     <Compile Include="View\Items\FolderTemplateSelector.cs" />
@@ -245,10 +241,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Modals\FolderEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Modals\FolderPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

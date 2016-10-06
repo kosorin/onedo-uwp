@@ -52,16 +52,6 @@
                             <vModals:NoteEditor />
                         </DataTemplate>
                     </v:ModalTemplateSelector.NoteEditorTemplate>
-                    <v:ModalTemplateSelector.FolderPickerTemplate>
-                        <DataTemplate x:DataType="vmModals:FolderPickerViewModel">
-                            <Border HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                                    BorderThickness="1">
-                                <vModals:FolderPicker />
-                            </Border>
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.FolderPickerTemplate>
                     <v:ModalTemplateSelector.SettingsTemplate>
                         <DataTemplate x:DataType="vmModals:SettingsViewModel">
                             <vModals:SettingsView />

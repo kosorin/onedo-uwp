@@ -49,8 +49,6 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand DeleteCommand { get; }
 
-        public IExtendedCommand MoveCommand { get; }
-
         public IExtendedCommand ToggleFlagCommand { get; }
 
 
@@ -72,7 +70,6 @@ namespace OneDo.ViewModel
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand<NoteItemObject>(Edit);
             DeleteCommand = new AsyncRelayCommand<NoteItemObject>(Delete);
-            MoveCommand = new RelayCommand<NoteItemObject>(Move);
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemObject>(ToggleFlag);
         }
 
@@ -143,19 +140,6 @@ namespace OneDo.ViewModel
             ModalService.Show(editor);
         }
 
-        private void Move(NoteItemObject item)
-        {
-            var picker = new FolderPickerViewModel(ModalService, DataService, ProgressService, item, FolderList);
-            picker.Closed += (s, e) =>
-            {
-                if (item.Entity.FolderId != FolderList.SelectedItem?.Entity.Id)
-                {
-                    FolderList.SelectedItem = FolderList.Items.FirstOrDefault(x => x.Entity.Id == item.Entity.FolderId);
-                }
-            };
-            ShowFolderPicker(picker);
-        }
-
         private async Task ToggleFlag(NoteItemObject item)
         {
             await ProgressService.RunAsync(async () =>
@@ -164,11 +148,6 @@ namespace OneDo.ViewModel
                 item.Refresh();
                 await DataService.Notes.Update(item.Entity);
             });
-        }
-
-        private void ShowFolderPicker(FolderPickerViewModel picker)
-        {
-            ModalService.Show(picker);
         }
     }
 }
