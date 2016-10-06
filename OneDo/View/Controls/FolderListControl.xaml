@@ -177,7 +177,7 @@
             <Setter Property="Padding" Value="0" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="1,1,1,0" />
+            <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -204,26 +204,14 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>-->
                                             <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>-->
                                             <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
@@ -231,9 +219,6 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}" />
@@ -331,9 +316,9 @@
                                                FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
                                                FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                                PlaceholderBackground="Transparent"
-                                               PointerOverBackground="Transparent"
+                                               PointerOverBackground="{ThemeResource SystemControlBackgroundListLowBrush}"
                                                PointerOverForeground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                               PressedBackground="Transparent"
+                                               PressedBackground="{ThemeResource SystemControlBackgroundListMediumBrush}"
                                                ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                                SelectedBackground="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                                                SelectedForeground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
@@ -347,8 +332,7 @@
 
         <DataTemplate x:Key="FolderItemTemplate" x:DataType="vmItems:FolderItemObject">
             <Border Background="Transparent"
-                    BorderBrush="Transparent"
-                    BorderThickness="1,1,1,0">
+                    BorderThickness="0">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
@@ -365,22 +349,6 @@
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>
                     <behaviors:OpenFlyoutMenuBehavior />
-                    <ic:EventTriggerBehavior EventName="PointerEntered">
-                        <ic:ChangePropertyAction PropertyName="Background" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
-                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
-                    </ic:EventTriggerBehavior>
-                    <ic:EventTriggerBehavior EventName="PointerExited">
-                        <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
-                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
-                    </ic:EventTriggerBehavior>
-                    <ic:EventTriggerBehavior EventName="PointerCaptureLost">
-                        <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
-                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
-                    </ic:EventTriggerBehavior>
-                    <ic:EventTriggerBehavior EventName="PointerCanceled">
-                        <ic:ChangePropertyAction PropertyName="Background" Value="Transparent" />
-                        <ic:ChangePropertyAction PropertyName="BorderBrush" Value="Transparent" />
-                    </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <TextBlock Margin="16,0"
                            VerticalAlignment="Center"
