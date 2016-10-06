@@ -27,7 +27,6 @@ namespace OneDo.ViewModel
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
 
                 builder.RegisterType<MainViewModel>().SingleInstance();
-                builder.RegisterType<DebugViewModel>();
 
                 Container = builder.Build();
             }
@@ -38,7 +37,5 @@ namespace OneDo.ViewModel
         public IModalService ModalService => Container?.Resolve<IModalService>();
 
         public MainViewModel Main => Container?.Resolve<MainViewModel>();
-
-        public DebugViewModel Debug => Container?.Resolve<DebugViewModel>();
     }
 }
