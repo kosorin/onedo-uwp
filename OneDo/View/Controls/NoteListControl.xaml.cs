@@ -1,5 +1,7 @@
 ﻿using OneDo.Common.UI;
+using OneDo.View.Behaviors;
 using OneDo.ViewModel;
+using OneDo.ViewModel.Commands;
 using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,24 @@ namespace OneDo.View.Controls
         public NoteListControl()
         {
             InitializeComponent();
+        }
+
+        private void NoteMenuFlyout_Opening(object sender, object e)
+        {
+            var menu = sender as MenuFlyout;
+            var rootItem = menu.Items.FirstOrDefault(x => x.Name == "FoldersRootMenuItem") as MenuFlyoutSubItem;
+            var note = FlyoutMenuItemBehavior.GetSubItemContext(rootItem) as NoteItemObject;
+
+            rootItem.Items.Clear();
+            foreach (var folder in VM.FolderList.Items)
+            {
+                rootItem.Items.Add(new MenuFlyoutItem
+                {
+                    Text = folder.Name,
+                    Command = new AsyncRelayCommand(() => VM.FolderList.MoveItem(folder, note)),
+                    Foreground = new SolidColorBrush(folder.Color),
+                });
+            }
         }
     }
 }

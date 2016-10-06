@@ -134,6 +134,16 @@ namespace OneDo.ViewModel
             });
         }
 
+        public async Task MoveItem(FolderItemObject folder, NoteItemObject note)
+        {
+            await ProgressService.RunAsync(async () =>
+            {
+                note.Entity.FolderId = folder.Entity.Id;
+                await DataService.Notes.Update(note.Entity);
+            });
+            SelectedItem = folder;
+        }
+
         private void Add()
         {
             var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService);

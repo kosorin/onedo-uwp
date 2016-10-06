@@ -120,25 +120,22 @@
                                        RightLabel="Delete"
                                        RightReturnPosition="Away">
                 <FlyoutBase.AttachedFlyout>
-                    <MenuFlyout>
+                    <MenuFlyout Opening="NoteMenuFlyout_Opening">
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE7C1;"
                                         Command="{x:Bind Commands.ToggleFlagCommand}"
                                         CommandParameter="{x:Bind Mode=OneWay}"
                                         Text="Flag" />
-                        <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
+                        <!--<MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE8DE;"
                                         Command="{x:Bind Commands.MoveCommand}"
                                         CommandParameter="{x:Bind Mode=OneWay}"
-                                        Text="Move to folder" />
-                        <MenuFlyoutSubItem Style="{StaticResource MenuFlyoutSubItemWithIconStyle}"
+                                        Text="Move to folder" />-->
+                        <MenuFlyoutSubItem x:Name="FoldersRootMenuItem"
+                                           Style="{StaticResource MenuFlyoutSubItemWithIconStyle}"
                                            behaviors:FlyoutMenuItemBehavior.Glyph="&#xE8DE;"
-                                           Text="Move to folder">
-                            <MenuFlyoutItem Text="Inbox" />
-                            <MenuFlyoutItem Text="Shopping list" />
-                            <MenuFlyoutItem Text="Work" />
-                            <MenuFlyoutItem Text="Test" />
-                        </MenuFlyoutSubItem>
+                                           behaviors:FlyoutMenuItemBehavior.SubItemContext="{x:Bind Mode=OneWay}"
+                                           Text="Move to folder" />
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE74D;"
                                         Command="{x:Bind Commands.DeleteCommand}"
