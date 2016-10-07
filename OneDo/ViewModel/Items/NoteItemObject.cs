@@ -10,8 +10,6 @@ namespace OneDo.ViewModel.Items
 {
     public class NoteItemObject : ItemObject<Note>
     {
-        public bool IsCompleted => Entity.Completed != null;
-
         public bool IsFlagged => Entity.IsFlagged;
 
         public string Title => Entity.Title;

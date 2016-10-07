@@ -109,8 +109,6 @@ namespace OneDo.ViewModel.Modals
         public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Saved;
 
 
-        public ICommand CompleteCommand { get; }
-
         private readonly NoteBusiness business;
 
         private readonly Note original;
@@ -123,8 +121,6 @@ namespace OneDo.ViewModel.Modals
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
-
-            CompleteCommand = new AsyncRelayCommand(Complete);
 
             Load();
         }
@@ -162,12 +158,6 @@ namespace OneDo.ViewModel.Modals
                 OnDeleted();
                 ModalService.Close();
             }
-        }
-
-        private async Task Complete()
-        {
-            business.ToggleComplete(original);
-            await Save();
         }
 
         protected override async Task Save()

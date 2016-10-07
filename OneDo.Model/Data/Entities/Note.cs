@@ -33,8 +33,5 @@ namespace OneDo.Model.Data.Entities
 
         [Indexed]
         public int? FolderId { get; set; }
-
-
-        public DateTime? Completed { get; set; }
     }
 }

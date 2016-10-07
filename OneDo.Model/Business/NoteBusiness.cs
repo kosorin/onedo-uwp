@@ -19,17 +19,5 @@ namespace OneDo.Model.Business
         {
             return entity;
         }
-
-        public void ToggleComplete(Note note)
-        {
-            if (note.Completed == null)
-            {
-                note.Completed = DateTime.Now;
-            }
-            else
-            {
-                note.Completed = null;
-            }
-        }
     }
 }
