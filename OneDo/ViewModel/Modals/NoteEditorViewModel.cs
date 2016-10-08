@@ -164,8 +164,8 @@ namespace OneDo.ViewModel.Modals
         {
             original.FolderId = SelectedFolder.Entity.Id;
             original.IsFlagged = IsFlagged ?? false;
-            original.Title = Title;
-            original.Text = Text;
+            original.Title = Title ?? "";
+            original.Text = Text ?? "";
             original.Date = Date?.Date;
             original.Reminder = Reminder;
 

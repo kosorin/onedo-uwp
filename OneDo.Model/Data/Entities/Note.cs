@@ -27,7 +27,6 @@ namespace OneDo.Model.Data.Entities
         public TimeSpan? Reminder { get; set; }
 
 
-        [NotNull]
         public bool IsFlagged { get; set; }
 
 
