@@ -172,7 +172,7 @@
                     <ComboBox Grid.Column="1"
                               HorizontalAlignment="Stretch"
                               BorderThickness="0"
-                              ItemsSource="{x:Bind VM.Folders}"
+                              ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
                               SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="vmItems:FolderItemObject">
