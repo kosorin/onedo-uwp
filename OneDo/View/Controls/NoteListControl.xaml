@@ -184,7 +184,7 @@
                         </StackPanel>
                     </StackPanel>
                     <FontIcon Grid.Column="1"
-                              Margin="0,0,12,0"
+                              Margin="0,0,16,0"
                               Foreground="{ThemeResource FlagForegroundBrush}"
                               FontSize="16"
                               Glyph="&#xE129;"

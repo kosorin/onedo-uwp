@@ -46,6 +46,11 @@
                 </converters:ConditionConverter.Else>
             </converters:ConditionConverter>
 
+            <Style x:Key="HorizontalLineStyle" TargetType="Rectangle">
+                <Setter Property="Height" Value="1" />
+                <Setter Property="Fill" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="using:OneDo.View.Controls"
+             xmlns:converters="using:OneDo.View.Converters"
              xmlns:i="using:Microsoft.Xaml.Interactivity"
              xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
@@ -13,53 +14,205 @@
              d:DesignWidth="360"
              mc:Ignorable="d">
 
+    <v:ModalBase.Resources>
+
+        <converters:ConditionConverter x:Key="TitleBackgroundConverter">
+            <converters:ConditionConverter.If>
+                <x:Boolean>True</x:Boolean>
+            </converters:ConditionConverter.If>
+            <converters:ConditionConverter.Then>
+                <SolidColorBrush Color="{ThemeResource FlagBackgroundColor}" />
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Else>
+                <SolidColorBrush Color="Transparent" />
+            </converters:ConditionConverter.Else>
+        </converters:ConditionConverter>
+
+        <Style x:Key="PropertyFontIconStyle" TargetType="FontIcon">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+        </Style>
+
+        <Style x:Key="FlagButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ContentControlFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource FlagForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource FlagForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource FlagForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </v:ModalBase.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer>
-            <StackPanel Margin="16">
-                <ComboBox Margin="0,0,0,16"
-                          HorizontalAlignment="Stretch"
-                          Header="Folder"
-                          ItemsSource="{x:Bind VM.Folders}"
-                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="vmItems:FolderItemObject">
-                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <TextBox Margin="0,0,0,4"
-                         Style="{StaticResource SimpleTextBoxStyle}"
-                         PlaceholderText="Title"
-                         Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox Margin="0,0,0,16"
-                         Style="{StaticResource BorderlessTextBoxStyle}"
-                         AcceptsReturn="True"
-                         PlaceholderText="Note"
-                         Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <controls:CustomCalendarView Margin="0,0,0,16"
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.ColumnSpan="2"
+                               Margin="-24,0"
+                               Fill="{x:Bind VM.IsFlagged, Mode=OneWay, Converter={StaticResource TitleBackgroundConverter}}" />
+                    <TextBox Grid.Column="0"
+                             Margin="0,12,0,8"
+                             Style="{StaticResource BorderlessTextBoxStyle}"
+                             FontSize="18"
+                             FontWeight="Medium"
+                             PlaceholderText="Title"
+                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap" />
+                    <ToggleButton Grid.Column="1"
+                                  Margin="0,6,-8,0"
+                                  Style="{StaticResource FlagButtonStyle}"
+                                  IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}">
+                        <FontIcon FontSize="16" Glyph="&#xE7C1;" />
+                    </ToggleButton>
+                </Grid>
+                <Rectangle Margin="-24,0" Style="{StaticResource HorizontalLineStyle}" />
+                <Grid Margin="0,10,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon Grid.Column="0"
+                              VerticalAlignment="Center"
+                              Style="{StaticResource PropertyFontIconStyle}"
+                              Glyph="&#xE8B7;" />
+                    <ComboBox Grid.Column="1"
+                              HorizontalAlignment="Stretch"
+                              BorderThickness="0"
+                              ItemsSource="{x:Bind VM.Folders}"
+                              SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vmItems:FolderItemObject">
+                                <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <Grid Margin="0,10,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon Grid.Column="0"
+                              Margin="0,8,12,0"
+                              VerticalAlignment="Top"
+                              Style="{StaticResource PropertyFontIconStyle}"
+                              Glyph="&#xE70F;" />
+                    <TextBox Grid.Column="1"
+                             MinHeight="100"
+                             Style="{StaticResource BorderlessTextBoxStyle}"
+                             AcceptsReturn="True"
+                             PlaceholderText="Note"
+                             Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap" />
+                </Grid>
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <!--<controls:CustomCalendarView Margin="0,0,0,16"
                                              HorizontalAlignment="Stretch"
                                              SelectedDate="{x:Bind VM.Date, Mode=TwoWay}" />
                 <TimePicker Margin="0,0,0,16"
                             HorizontalAlignment="Stretch"
                             Header="Reminder"
-                            Time="{x:Bind VM.Reminder, Mode=TwoWay}" />
+                            Time="{x:Bind VM.Reminder, Mode=TwoWay}" />-->
             </StackPanel>
         </ScrollViewer>
 
         <CommandBar Grid.Row="1">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}"
-                                    Label="Flag"
-                                    Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon Glyph="&#xE7C1;" />
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
                 <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74E;" />
