@@ -18,7 +18,7 @@ namespace OneDo.ViewModel.Items
 
         public bool HasText => !string.IsNullOrWhiteSpace(Text);
 
-        public bool IsOverdue => DateWithReminder != null && DateWithReminder < DateTime.Now;
+        public bool IsOverdue => (DateWithReminder ?? DateTime.MaxValue) < DateTime.Now;
 
         public DateTime? DateWithReminder => Reminder != null ? Date + Reminder : Date;
 

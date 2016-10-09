@@ -29,6 +29,8 @@
         </converters:ConditionConverter>
 
         <Style x:Key="PropertyFontIconStyle" TargetType="FontIcon">
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
         </Style>
@@ -126,6 +128,66 @@
             </Setter>
         </Style>
 
+        <Style x:Key="PickerButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,4,8,4" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </v:ModalBase.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -160,16 +222,16 @@
                     </ToggleButton>
                 </Grid>
                 <Rectangle Margin="-24,0" Style="{StaticResource HorizontalLineStyle}" />
-                <Grid Margin="0,10,0,6">
+                <Grid MinHeight="32" Margin="0,8,0,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <FontIcon Grid.Column="0"
-                              VerticalAlignment="Center"
                               Style="{StaticResource PropertyFontIconStyle}"
                               Glyph="&#xE8B7;" />
                     <ComboBox Grid.Column="1"
+                              Padding="12,6,0,6"
                               HorizontalAlignment="Stretch"
                               BorderThickness="0"
                               ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
@@ -182,18 +244,30 @@
                     </ComboBox>
                 </Grid>
                 <Rectangle Style="{StaticResource HorizontalLineStyle}" />
-                <Grid Margin="0,10,0,6">
+                <Grid MinHeight="32" Margin="0,8,0,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <FontIcon Grid.Column="0"
-                              Margin="0,8,12,0"
-                              VerticalAlignment="Top"
+                              Style="{StaticResource PropertyFontIconStyle}"
+                              Glyph="&#xE787;" />
+                    <Button Grid.Column="1"
+                            Style="{StaticResource PickerButtonStyle}"
+                            Content="Set Date &amp; Reminder" />
+                </Grid>
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <Grid MinHeight="32" Margin="0,8,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon Grid.Column="0"
                               Style="{StaticResource PropertyFontIconStyle}"
                               Glyph="&#xE70F;" />
-                    <TextBox Grid.Column="1"
-                             MinHeight="100"
+                    <TextBox Grid.Column="1" MinHeight="100"
+                             Margin="12,0,0,0"
+                             Padding="0,6,0,4"
                              Style="{StaticResource BorderlessTextBoxStyle}"
                              AcceptsReturn="True"
                              PlaceholderText="Note"
