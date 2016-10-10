@@ -102,7 +102,7 @@
             <controls:SlidableListItem MinHeight="60"
                                        MaxHeight="100"
                                        Background="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"
-                                       BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                       BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
                                        BorderThickness="0,0,0,1"
                                        LeftBackground="Khaki"
                                        LeftCommand="{x:Bind Commands.ToggleFlagCommand}"
