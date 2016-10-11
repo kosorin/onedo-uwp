@@ -67,12 +67,11 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="24,16">
-            <TextBox
-                     Style="{StaticResource BorderlessTextBoxStyle}"
+            <TextBox Style="{StaticResource BorderlessTextBoxStyle}"
                      PlaceholderText="Folder"
                      Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Rectangle Style="{StaticResource HorizontalLineStyle}" Margin="0,0,0,16" />
-            <GridView Margin="0,0,-8,-8"
+            <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+            <GridView Margin="0,16,-8,-8"
                       ItemContainerStyle="{StaticResource ColorItemContainerStyle}"
                       ItemContainerTransitions="{x:Null}"
                       ItemTemplate="{StaticResource ColorItemTemplate}"

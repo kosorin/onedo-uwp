@@ -29,9 +29,8 @@
         </converters:ConditionConverter>
 
         <Style x:Key="PropertyFontIconStyle" TargetType="FontIcon">
-            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="Margin" Value="0,8,0,0" />
             <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="FontSize" Value="16" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
         </Style>
 
@@ -133,7 +132,7 @@
             <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
             <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="12,4,8,4" />
+            <Setter Property="Padding" Value="16,4,8,4" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -239,18 +238,16 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="24,0">
+            <StackPanel>
                 <!--  Title  -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.ColumnSpan="2"
-                               Margin="-24,0"
-                               Fill="{x:Bind VM.IsFlagged, Mode=OneWay, Converter={StaticResource TitleBackgroundConverter}}" />
+                    <Rectangle Grid.ColumnSpan="2" Fill="{x:Bind VM.IsFlagged, Mode=OneWay, Converter={StaticResource TitleBackgroundConverter}}" />
                     <TextBox Grid.Column="0"
-                             Margin="0,12,0,8"
+                             Margin="16,8,0,6"
                              Style="{StaticResource BorderlessTextBoxStyle}"
                              FontSize="18"
                              FontWeight="Medium"
@@ -258,25 +255,26 @@
                              Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                     <ToggleButton Grid.Column="1"
-                                  Margin="0,6,-8,0"
                                   Style="{StaticResource FlagButtonStyle}"
                                   IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}">
                         <FontIcon FontSize="16" Glyph="&#xE7C1;" />
                     </ToggleButton>
                 </Grid>
-                <Rectangle Margin="-24,0" Style="{StaticResource HorizontalLineStyle}" />
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Folder  -->
-                <Grid MinHeight="32" Margin="0,8,0,8">
+                <Grid MinHeight="32" Margin="16,8,8,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <FontIcon Grid.Column="0"
                               Style="{StaticResource PropertyFontIconStyle}"
+                              FontSize="16"
                               Glyph="&#xE8B7;" />
                     <ComboBox Grid.Column="1"
-                              Padding="12,6,0,6"
+                              Margin="8,0,0,0"
+                              Padding="8,6,0,6"
                               HorizontalAlignment="Stretch"
                               BorderThickness="0"
                               ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
@@ -288,16 +286,17 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </Grid>
-                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Date & Reminder  -->
-                <Grid MinHeight="32" Margin="0,8,0,8">
+                <Grid MinHeight="32" Margin="16,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <FontIcon Grid.Column="0"
                               Style="{StaticResource PropertyFontIconStyle}"
+                              FontSize="16"
                               Glyph="&#xE787;" />
                     <Button Grid.Column="1"
                             Style="{StaticResource PickerButtonStyle}"
@@ -309,28 +308,28 @@
                         </Button.Flyout>
                     </Button>
                 </Grid>
-                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Note  -->
-                <Grid MinHeight="32" Margin="0,8,0,8">
+                <Grid MinHeight="32" Margin="16,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <FontIcon Grid.Column="0"
                               Style="{StaticResource PropertyFontIconStyle}"
+                              FontSize="16"
                               Glyph="&#xE70F;" />
                     <TextBox Grid.Column="1"
                              MinHeight="100"
-                             Margin="12,0,0,0"
-                             Padding="0,6,0,4"
+                             Margin="16,0,0,0"
                              Style="{StaticResource BorderlessTextBoxStyle}"
                              AcceptsReturn="True"
                              PlaceholderText="Note"
                              Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                 </Grid>
-                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--
                 <TimePicker Margin="0,0,0,16"
