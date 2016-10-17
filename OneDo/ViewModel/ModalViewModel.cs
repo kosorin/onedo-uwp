@@ -11,11 +11,11 @@ namespace OneDo.ViewModel
 {
     public abstract class ModalViewModel : ExtendedViewModel
     {
+        public static ModalViewModel Null { get; } = new NullModalViewModel();
+
         public IModalService ModalService { get; }
 
         public DataService DataService { get; }
-
-        public event EventHandler Closed;
 
         protected ModalViewModel(IModalService modalService, DataService dataService)
         {
@@ -23,15 +23,12 @@ namespace OneDo.ViewModel
             DataService = dataService;
         }
 
-        public void Close()
+        private class NullModalViewModel : ModalViewModel
         {
-            ModalService.Close();
-            Closed?.Invoke(this, EventArgs.Empty);
-        }
+            public NullModalViewModel() : base(null, null)
+            {
 
-        protected virtual void OnClosed()
-        {
-
+            }
         }
     }
 }

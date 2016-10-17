@@ -515,7 +515,7 @@
                         Content="Set Date &amp; Reminder">
                     <Button.Flyout>
                         <Flyout FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
-                            <controls:CustomCalendarView SelectedDate="{x:Bind VM.Date, Mode=TwoWay}" />
+                            <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>

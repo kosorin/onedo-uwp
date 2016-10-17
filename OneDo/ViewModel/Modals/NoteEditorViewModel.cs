@@ -1,6 +1,6 @@
-﻿using GalaSoft.MvvmLight.Command;
-using OneDo.Common.Event;
+﻿using OneDo.Common.Event;
 using OneDo.Common.Logging;
+using OneDo.Common.UI;
 using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
@@ -77,18 +77,7 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
-        private DateTime? date;
-        public DateTime? Date
-        {
-            get { return date; }
-            set
-            {
-                if (Set(ref date, value?.Date))
-                {
-                    UpdateDirtyProperty(() => Date?.Date != original.Date?.Date);
-                }
-            }
-        }
+        public DatePickerViewModel DatePicker { get; }
 
         private TimeSpan reminder;
         public TimeSpan Reminder
@@ -121,6 +110,11 @@ namespace OneDo.ViewModel.Modals
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
+            DatePicker = new DatePickerViewModel(DataService);
+            DatePicker.DateChanged += (s, e) =>
+            {
+                UpdateDirtyProperty(() => e.Date?.Date != original.Date?.Date);
+            };
 
             Load();
         }
@@ -141,7 +135,7 @@ namespace OneDo.ViewModel.Modals
             IsFlagged = original.IsFlagged;
             Title = original.Title;
             Text = original.Text;
-            Date = original.Date?.Date;
+            DatePicker.Date = original.Date;
             Reminder = original.Reminder ?? TimeSpan.Zero;
         }
 
@@ -166,7 +160,7 @@ namespace OneDo.ViewModel.Modals
             original.IsFlagged = IsFlagged ?? false;
             original.Title = Title ?? "";
             original.Text = Text ?? "";
-            original.Date = Date?.Date;
+            original.Date = DatePicker?.Date;
             original.Reminder = Reminder;
 
             await ProgressService.RunAsync(async () =>

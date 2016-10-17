@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.ViewModel;
+using System;
 using System.ComponentModel;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
@@ -23,12 +24,26 @@ namespace OneDo.View
             {
                 DataContextChanged += (s, e) =>
                 {
+                    OnViewModelChanging();
+
                     ViewModel = e.NewValue as ExtendedViewModel;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
+
+                    OnViewModelChanged();
                 };
             }
 
             compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+        }
+
+        protected virtual void OnViewModelChanged()
+        {
+
+        }
+
+        protected virtual void OnViewModelChanging()
+        {
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

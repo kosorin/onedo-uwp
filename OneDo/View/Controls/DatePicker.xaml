@@ -1,0 +1,85 @@
+﻿<v:ExtendedUserControl x:Class="OneDo.View.Controls.DatePicker"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:controls="using:OneDo.View.Controls"
+                       xmlns:v="using:OneDo.View"
+                       d:DesignWidth="296"
+                       mc:Ignorable="d">
+
+    <v:ExtendedUserControl.Resources>
+
+        <Style x:Key="CalendarViewDayItemStyle" TargetType="CalendarViewDayItem">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CalendarViewDayItem" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CalendarViewStyle" TargetType="CalendarView">
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="CalendarViewDayItemStyle" Value="{StaticResource CalendarViewDayItemStyle}" />
+            <Setter Property="DayItemFontSize" Value="12" />
+
+            <Setter Property="FocusBorderBrush" Value="{ThemeResource CalendarViewFocusBorderBrush}" />
+            <Setter Property="SelectedHoverBorderBrush" Value="{ThemeResource CalendarViewSelectedHoverBorderBrush}" />
+            <Setter Property="SelectedPressedBorderBrush" Value="{ThemeResource CalendarViewSelectedPressedBorderBrush}" />
+            <Setter Property="SelectedBorderBrush" Value="{ThemeResource CalendarViewSelectedBorderBrush}" />
+            <Setter Property="HoverBorderBrush" Value="{ThemeResource CalendarViewHoverBorderBrush}" />
+            <Setter Property="PressedBorderBrush" Value="{ThemeResource CalendarViewPressedBorderBrush}" />
+            <Setter Property="TodayForeground" Value="{ThemeResource CalendarViewTodayForeground}" />
+            <Setter Property="BlackoutForeground" Value="{ThemeResource CalendarViewBlackoutForeground}" />
+            <Setter Property="SelectedForeground" Value="{ThemeResource CalendarViewSelectedForeground}" />
+            <Setter Property="PressedForeground" Value="{ThemeResource CalendarViewPressedForeground}" />
+            <Setter Property="OutOfScopeForeground" Value="{ThemeResource CalendarViewOutOfScopeForeground}" />
+            <Setter Property="CalendarItemForeground" Value="{ThemeResource CalendarViewCalendarItemForeground}" />
+            <Setter Property="OutOfScopeBackground" Value="{ThemeResource CalendarViewOutOfScopeBackground}" />
+            <Setter Property="CalendarItemBackground" Value="{ThemeResource CalendarViewCalendarItemBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource CalendarViewForeground}" />
+            <Setter Property="Background" Value="{ThemeResource CalendarViewBackground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CalendarViewBorderBrush}" />
+            <Setter Property="CalendarItemBorderThickness" Value="2" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+    </v:ExtendedUserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <CalendarView x:Name="CalendarView"
+                      Grid.Row="0"
+                      Grid.ColumnSpan="2"
+                      Style="{StaticResource CalendarViewStyle}"
+                      SelectedDatesChanged="CalendarView_SelectedDatesChanged" />
+
+        <Button Grid.Row="1"
+                Grid.Column="0"
+                Command="{x:Bind VM.TodayCommand}"
+                Content="Today" />
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Command="{x:Bind VM.TomorrowCommand}"
+                Content="Tomorrow" />
+        <Button Grid.Row="2"
+                Grid.Column="0"
+                Command="{x:Bind VM.ThisWeekCommand}"
+                Content="This week" />
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                Command="{x:Bind VM.NextWeekCommand}"
+                Content="Next week" />
+
+    </Grid>
+</v:ExtendedUserControl>

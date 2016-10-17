@@ -115,8 +115,10 @@
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
+    <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
+    <Compile Include="ViewModel\DatePickerViewModel.cs" />
     <Compile Include="ViewModel\IFolderCommands.cs" />
     <Compile Include="ViewModel\INoteCommands.cs" />
     <Compile Include="ViewModel\ItemObject.cs" />
@@ -132,7 +134,9 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
-    <Compile Include="View\Controls\CustomCalendarView.cs" />
+    <Compile Include="View\Controls\DatePicker.xaml.cs">
+      <DependentUpon>DatePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\ModalContainer.xaml.cs">
       <DependentUpon>ModalContainer.xaml</DependentUpon>
     </Compile>
@@ -228,6 +232,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="View\Controls\DatePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\FolderListControl.xaml">
       <SubType>Designer</SubType>

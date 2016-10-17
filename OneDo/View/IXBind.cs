@@ -2,7 +2,7 @@
 
 namespace OneDo.View
 {
-    public interface IXBind<TViewModel> where TViewModel : ExtendedViewModel
+    public interface IXBind<TViewModel>
     {
         TViewModel VM { get; }
     }

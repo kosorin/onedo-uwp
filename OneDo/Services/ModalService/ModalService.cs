@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using OneDo.ViewModel;
 using OneDo.View;
 using System;
@@ -15,6 +14,8 @@ using System.Collections.ObjectModel;
 using OneDo.Common.Data;
 using System.Collections.Specialized;
 using Windows.System;
+using OneDo.Common.UI;
+using OneDo.ViewModel.Commands;
 
 namespace OneDo.Services.ModalService
 {
@@ -49,7 +50,7 @@ namespace OneDo.Services.ModalService
 
         public event EventHandler CurrentChanged;
 
-        public ICommand CloseCommand { get; }
+        public IExtendedCommand CloseCommand { get; }
 
 
         private readonly SystemNavigationManager navigationManager;

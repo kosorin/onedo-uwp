@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
+using OneDo.Common.UI;
 
 namespace OneDo.Services.ModalService
 {
@@ -16,7 +17,7 @@ namespace OneDo.Services.ModalService
 
         event EventHandler CurrentChanged;
 
-        ICommand CloseCommand { get; }
+        IExtendedCommand CloseCommand { get; }
 
         bool TryClose();
 

@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using static OneDo.ViewModel.ModalViewModel;
 
 namespace OneDo.View.Controls
 {
@@ -85,8 +86,12 @@ namespace OneDo.View.Controls
                 backgroundVisual = ElementCompositionPreview.GetElementVisual(BackgroundControl);
                 contentVisual = ElementCompositionPreview.GetElementVisual(ContentControl);
 
-                defaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.165f, 0.84f), new Vector2(0.44f, 1f));
+                defaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
                 defaultDuration = 300;
+
+                RootGrid.Visibility = Modal != null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
 
                 InitializeBackgroundControl();
                 InitializeAnimations();
@@ -95,10 +100,6 @@ namespace OneDo.View.Controls
 
         private void InitializeBackgroundControl()
         {
-            RootGrid.Visibility = Modal != null
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-
             InitializeBackgroundBlur();
             InitializeBackgroundAnimations();
         }
@@ -158,22 +159,22 @@ namespace OneDo.View.Controls
             defaultFadeOutAnimationInfo = new AnimationInfo("Offset.Y", defaultFadeOutAnimation);
 
             var noteEditorFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 2);
             noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
             noteEditorFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
 
             var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 2);
             noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
             noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", defaultEasing);
 
             fadeInAnimationInfos = new Dictionary<Type, AnimationInfo>
             {
-                //[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation)
+                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation)
             };
             fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>
             {
-                //[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation)
+                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation)
             };
         }
 
@@ -191,7 +192,7 @@ namespace OneDo.View.Controls
 
         private void OnModalShowed(ModalViewModel modal)
         {
-            RootGrid.Visibility = Visibility.Visible;
+            RootGrid.Visibility = modal != null ? Visibility.Visible : Visibility.Collapsed;
             ActualModal = modal;
 
             backgroundVisual.StartAnimation("Opacity", opacityFadeInAnimation);
@@ -206,7 +207,7 @@ namespace OneDo.View.Controls
             batch.Completed += (s, e) =>
             {
                 RootGrid.Visibility = Visibility.Collapsed;
-                ActualModal = null;
+                ActualModal = Null;
             };
 
             backgroundVisual.StartAnimation("Opacity", opacityFadeOutAnimation);
