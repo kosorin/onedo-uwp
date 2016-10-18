@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
+using OneDo.Common.Metadata;
 using OneDo.Common.UI;
 using OneDo.Services.ModalService;
 using OneDo.ViewModel;
@@ -100,7 +101,10 @@ namespace OneDo.View.Controls
 
         private void InitializeBackgroundControl()
         {
-            InitializeBackgroundBlur();
+            if (DeviceTypeHelper.CheckDeviceFormFactorType(DeviceFormFactorType.Desktop, DeviceFormFactorType.Tablet, DeviceFormFactorType.SurfaceHub))
+            {
+                InitializeBackgroundBlur();
+            }
             InitializeBackgroundAnimations();
         }
 
@@ -131,7 +135,6 @@ namespace OneDo.View.Controls
 
         private void InitializeBackgroundAnimations()
         {
-
             opacityFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             opacityFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
             opacityFadeInAnimation.InsertKeyFrame(0, 0);
@@ -159,22 +162,34 @@ namespace OneDo.View.Controls
             defaultFadeOutAnimationInfo = new AnimationInfo("Offset.Y", defaultFadeOutAnimation);
 
             var noteEditorFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 2);
+            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 1.5);
             noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
             noteEditorFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
 
             var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 2);
+            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 1.5);
             noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
             noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", defaultEasing);
 
+            var settingsFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
+            settingsFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            settingsFadeInAnimation.InsertExpressionKeyFrame(0, "Width");
+            settingsFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
+
+            var settingsFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
+            settingsFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            settingsFadeOutAnimation.InsertKeyFrame(0, 0);
+            settingsFadeOutAnimation.InsertExpressionKeyFrame(1, "Width", defaultEasing);
+
             fadeInAnimationInfos = new Dictionary<Type, AnimationInfo>
             {
-                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation)
+                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation),
+                [typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeInAnimation),
             };
             fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>
             {
-                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation)
+                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation),
+                [typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeOutAnimation),
             };
         }
 
@@ -198,6 +213,7 @@ namespace OneDo.View.Controls
             backgroundVisual.StartAnimation("Opacity", opacityFadeInAnimation);
             contentVisual.StartAnimation("Opacity", opacityFadeInAnimation);
 
+            contentVisual.Offset = new Vector3();
             RunContentAnimation(fadeInAnimationInfos, modal.GetType(), defaultFadeInAnimationInfo);
         }
 
@@ -223,6 +239,7 @@ namespace OneDo.View.Controls
             var animationInfo = animations.ContainsKey(modalType)
                 ? animations[modalType]
                 : defaultAnimation;
+            animationInfo.Animation.SetScalarParameter("Width", (float)ActualWidth);
             animationInfo.Animation.SetScalarParameter("Height", (float)ActualHeight);
             animationInfo.Start(contentVisual);
         }

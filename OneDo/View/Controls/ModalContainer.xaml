@@ -19,11 +19,8 @@
     <Control.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="#20FFFFFF" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="#33000000" />
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="{ThemeResource SystemBaseLowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
