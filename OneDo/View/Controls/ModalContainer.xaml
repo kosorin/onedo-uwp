@@ -16,18 +16,8 @@
                        xmlns:vmModals="using:OneDo.ViewModel.Modals"
                        mc:Ignorable="d">
 
-    <Control.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
-                    <SolidColorBrush x:Key="BackgroundControlBrush" Color="{ThemeResource SystemBaseLowColor}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
-    </Control.Resources>
-
     <Grid x:Name="RootGrid">
-        <Border x:Name="BackgroundControl" Background="{ThemeResource BackgroundControlBrush}" />
+        <Border x:Name="BackgroundControl" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
         <ContentControl x:Name="ContentControl"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch"

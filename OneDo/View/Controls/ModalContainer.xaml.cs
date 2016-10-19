@@ -101,36 +101,7 @@ namespace OneDo.View.Controls
 
         private void InitializeBackgroundControl()
         {
-            if (DeviceTypeHelper.CheckDeviceFormFactorType(DeviceFormFactorType.Desktop, DeviceFormFactorType.Tablet, DeviceFormFactorType.SurfaceHub))
-            {
-                InitializeBackgroundBlur();
-            }
             InitializeBackgroundAnimations();
-        }
-
-        private void InitializeBackgroundBlur()
-        {
-            var blurEffect = new GaussianBlurEffect()
-            {
-                Name = "Blur",
-                BlurAmount = 12,
-                BorderMode = EffectBorderMode.Hard,
-                Optimization = EffectOptimization.Balanced,
-                Source = new CompositionEffectSourceParameter("Backdrop"),
-            };
-
-            var factory = compositor.CreateEffectFactory(blurEffect);
-            var brush = factory.CreateBrush();
-            brush.SetSourceParameter("Backdrop", compositor.CreateBackdropBrush());
-
-            var spriteVisual = compositor.CreateSpriteVisual();
-            spriteVisual.Brush = brush;
-            BackgroundControl.SizeChanged += (s, e) =>
-            {
-                spriteVisual.Size = e.NewSize.ToVector2();
-            };
-
-            ElementCompositionPreview.SetElementChildVisual(BackgroundControl, spriteVisual);
         }
 
         private void InitializeBackgroundAnimations()
@@ -154,43 +125,38 @@ namespace OneDo.View.Controls
             defaultFadeInAnimation.InsertKeyFrame(0, -50);
             defaultFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
             defaultFadeInAnimationInfo = new AnimationInfo("Offset.Y", defaultFadeInAnimation);
+            fadeInAnimationInfos = new Dictionary<Type, AnimationInfo>();
 
             var defaultFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
             defaultFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
             defaultFadeOutAnimation.InsertKeyFrame(0, 0);
             defaultFadeOutAnimation.InsertKeyFrame(1, -50, defaultEasing);
             defaultFadeOutAnimationInfo = new AnimationInfo("Offset.Y", defaultFadeOutAnimation);
+            fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>();
 
             var noteEditorFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 1.5);
             noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
             noteEditorFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
+            fadeInAnimationInfos[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation);
 
             var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
             noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 1.5);
             noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
             noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", defaultEasing);
+            fadeOutAnimationInfos[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation);
 
             var settingsFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             settingsFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
             settingsFadeInAnimation.InsertExpressionKeyFrame(0, "Width");
             settingsFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
+            fadeInAnimationInfos[typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeInAnimation);
 
             var settingsFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
             settingsFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
             settingsFadeOutAnimation.InsertKeyFrame(0, 0);
             settingsFadeOutAnimation.InsertExpressionKeyFrame(1, "Width", defaultEasing);
-
-            fadeInAnimationInfos = new Dictionary<Type, AnimationInfo>
-            {
-                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation),
-                [typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeInAnimation),
-            };
-            fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>
-            {
-                [typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation),
-                [typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeOutAnimation),
-            };
+            fadeOutAnimationInfos[typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeOutAnimation);
         }
 
         private void OnModalChanged(ModalViewModel newModal, ModalViewModel oldModal)
