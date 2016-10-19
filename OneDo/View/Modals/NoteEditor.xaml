@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:behaviors="using:OneDo.View.Behaviors"
              xmlns:controls="using:OneDo.View.Controls"
              xmlns:converters="using:OneDo.View.Converters"
              xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -485,6 +486,7 @@
                              Style="{StaticResource BorderlessTextBoxStyle}"
                              FontSize="18"
                              FontWeight="Medium"
+                             behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
                              PlaceholderText="Title"
                              Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />

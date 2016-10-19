@@ -68,6 +68,7 @@
 
         <StackPanel Margin="24,16">
             <TextBox Style="{StaticResource BorderlessTextBoxStyle}"
+                     behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
                      PlaceholderText="Folder"
                      Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Rectangle Style="{StaticResource HorizontalLineStyle}" />
