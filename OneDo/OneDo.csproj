@@ -163,7 +163,6 @@
     <Compile Include="ViewModel\Items\NoteItemObject.cs" />
     <Compile Include="ViewModel\Modals\NoteEditorViewModel.cs" />
     <Compile Include="ViewModel\ExtendedViewModel.cs" />
-    <Compile Include="ViewModel\SplashScreenMessage.cs" />
     <Compile Include="View\Controls\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
@@ -193,9 +192,6 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ExtendedPage.cs" />
     <Compile Include="View\IXBind.cs" />
-    <Compile Include="View\SplashScreenPage.xaml.cs">
-      <DependentUpon>SplashScreenPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -269,10 +265,6 @@
     <Page Include="View\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\SplashScreenPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

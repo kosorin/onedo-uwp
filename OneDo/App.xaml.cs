@@ -82,8 +82,6 @@ namespace OneDo
             Logger.Current.Info($"Tile ID: {args.TileId}");
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
-            ShowSplashScreen(args.SplashScreen);
-
             await InitializeData();
             await InitializeStatusBar();
             InitializeModalService();
@@ -155,8 +153,6 @@ namespace OneDo
 
         private async Task InitializeData()
         {
-            ShowSplashScreenText("Initializing data and settings...");
-
             var dataService = ViewModelLocator.Container.Resolve<DataService>();
             await dataService.LoadSettingsAsync();
             await dataService.InitializeAsync();
@@ -181,8 +177,6 @@ namespace OneDo
 
         private void InitializeModalService()
         {
-            ShowSplashScreenText(null);
-
             ViewModelLocator.Container.Resolve<IModalService>(
                 TypedParameter.From(Window.Current),
                 TypedParameter.From(SystemNavigationManager.GetForCurrentView()));
@@ -190,25 +184,11 @@ namespace OneDo
             Logger.Current.Info("Modal service initialized");
         }
 
-
-        private void ShowSplashScreen(SplashScreen splashScreen)
-        {
-            Window.Current.Content = new SplashScreenPage(splashScreen);
-            Window.Current.Activate();
-        }
-
         private void ShowContent()
         {
-            ShowSplashScreenText(null);
-
             var content = new MainPage();
             Window.Current.Content = content;
-        }
-
-
-        private void ShowSplashScreenText(string text)
-        {
-            Messenger.Default.Send(new SplashScreenMessage(text));
+            Window.Current.Activate();
         }
     }
 }
