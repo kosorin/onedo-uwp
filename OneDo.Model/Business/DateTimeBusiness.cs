@@ -36,7 +36,7 @@ namespace OneDo.Model.Business
             return ThisWeek().AddWeeks(1);
         }
 
-        public string DateToString(DateTime? date, string nullString = "")
+        public string DateToString(DateTime? date)
         {
             if (date != null)
             {
@@ -60,10 +60,10 @@ namespace OneDo.Model.Business
                 }
                 return dateValue.ToString("D");
             }
-            return nullString;
+            return null;
         }
 
-        public string TimeToString(TimeSpan? time, string nullString = "")
+        public string TimeToString(TimeSpan? time)
         {
             if (time != null)
             {
@@ -73,7 +73,7 @@ namespace OneDo.Model.Business
                     return (Today() + timeValue).ToString("t");
                 }
             }
-            return nullString;
+            return null;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace OneDo.ViewModel
             }
         }
 
-        public string DateText => dateTimeBusiness.DateToString(Date, "Set Date & Reminder");
+        public string DateText => dateTimeBusiness.DateToString(Date) ?? "Set Date & Reminder";
 
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
