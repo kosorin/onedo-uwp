@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using OneDo.Model.Data;
 using OneDo.Common;
 
-namespace OneDo.Model.Business.Validation
+namespace OneDo.Model.Business
 {
-    public class DateTimeBusiness : BusinessBase
+    public class DateTimeBusiness : DataBusinessBase
     {
         public DateTimeBusiness(DataService dataService) : base(dataService)
         {

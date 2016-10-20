@@ -1,14 +1,12 @@
-﻿using OneDo.Model.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace OneDo.Model.Business
 {
     public abstract class BusinessBase
     {
-        public DataService DataService { get; set; }
-
-        public BusinessBase(DataService dataService)
-        {
-            DataService = dataService;
-        }
     }
 }

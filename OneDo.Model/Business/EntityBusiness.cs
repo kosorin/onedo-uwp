@@ -8,7 +8,7 @@ using OneDo.Model.Data.Entities;
 
 namespace OneDo.Model.Business
 {
-    public abstract class EntityBusiness<TEntity> : BusinessBase where TEntity : class, IEntity, new()
+    public abstract class EntityBusiness<TEntity> : DataBusinessBase where TEntity : class, IEntity, new()
     {
         private readonly Repository<TEntity> repository;
 
