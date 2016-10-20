@@ -28,6 +28,8 @@ namespace OneDo.ViewModel
             }
         }
 
+        public string DateText => dateTimeBusiness.DateToString(Date, "Set Date & Reminder");
+
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
         public IExtendedCommand TodayCommand { get; }
@@ -54,6 +56,7 @@ namespace OneDo.ViewModel
 
         private void OnDateChanged()
         {
+            RaisePropertyChanged(nameof(DateText));
             DateChanged?.Invoke(this, new DatePickerEventArgs(Date));
         }
     }

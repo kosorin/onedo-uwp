@@ -29,6 +29,15 @@
             </converters:ConditionConverter.Else>
         </converters:ConditionConverter>
 
+        <converters:ConditionConverter x:Key="DateForegroundConverter" If="{x:Null}">
+            <converters:ConditionConverter.Then>
+                <SolidColorBrush Color="{ThemeResource SystemBaseMediumColor}" />
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Else>
+                <SolidColorBrush Color="{ThemeResource SystemBaseHighColor}" />
+            </converters:ConditionConverter.Else>
+        </converters:ConditionConverter>
+
         <Style x:Key="FlagButtonStyle" TargetType="ToggleButton">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
@@ -514,7 +523,8 @@
                 <!--  Date & Reminder  -->
                 <Button Margin="0,8"
                         Style="{StaticResource PickerButtonStyle}"
-                        Content="Set Date &amp; Reminder">
+                        Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource DateForegroundConverter}}"
+                        Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}">
                     <Button.Flyout>
                         <Flyout FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
                             <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />

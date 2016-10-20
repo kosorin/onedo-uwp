@@ -35,5 +35,45 @@ namespace OneDo.Model.Business
         {
             return ThisWeek().AddWeeks(1);
         }
+
+        public string DateToString(DateTime? date, string nullString = "")
+        {
+            if (date != null)
+            {
+                var dateValue = ((DateTime)date).Date;
+
+                if (dateValue == Today())
+                {
+                    return "Today";
+                }
+                else if (dateValue == Tomorrow())
+                {
+                    return "Tomorrow";
+                }
+                else if (dateValue == Yesterday())
+                {
+                    return "Yesterday";
+                }
+                else if (dateValue > Today().AddDays(1) && dateValue < Today().AddWeeks(1))
+                {
+                    return dateValue.ToString("dddd");
+                }
+                return dateValue.ToString("D");
+            }
+            return nullString;
+        }
+
+        public string TimeToString(TimeSpan? time, string nullString = "")
+        {
+            if (time != null)
+            {
+                var timeValue = time.Value;
+                if (timeValue > TimeSpan.Zero)
+                {
+                    return (Today() + timeValue).ToString("t");
+                }
+            }
+            return nullString;
+        }
     }
 }

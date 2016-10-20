@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.Model.Business;
 using OneDo.Model.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -24,17 +25,24 @@ namespace OneDo.ViewModel.Items
 
         public DateTime? Date => Entity.Date?.Date;
 
+        public string DateText => dateTimeBusiness.DateToString(Date);
+
         public bool HasDate => Date != null;
 
         public TimeSpan? Reminder => Entity.Reminder;
+
+        public string ReminderText => dateTimeBusiness.TimeToString(Reminder);
 
         public bool HasReminder => Reminder > TimeSpan.Zero;
 
         public INoteCommands Commands { get; }
 
-        public NoteItemObject(Note entity, INoteCommands commands) : base(entity)
+        private readonly DateTimeBusiness dateTimeBusiness;
+
+        public NoteItemObject(Note entity, DateTimeBusiness dateTimeBusiness, INoteCommands commands) : base(entity)
         {
             Commands = commands;
+            this.dateTimeBusiness = dateTimeBusiness;
         }
     }
 }

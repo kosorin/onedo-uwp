@@ -15,6 +15,7 @@ using OneDo.Services.ProgressService;
 using Windows.Foundation;
 using OneDo.Common.Event;
 using OneDo.Common.UI;
+using OneDo.Model.Business;
 
 namespace OneDo.ViewModel
 {
@@ -60,12 +61,15 @@ namespace OneDo.ViewModel
 
         public FolderListViewModel FolderList { get; }
 
+        private readonly DateTimeBusiness dateTimeBusiness;
+
         public NoteListViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList)
         {
             ModalService = modalService;
             DataService = dataService;
             ProgressService = progressService;
             FolderList = folderList;
+            dateTimeBusiness = new DateTimeBusiness(DataService);
 
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand<NoteItemObject>(Edit);
@@ -80,7 +84,7 @@ namespace OneDo.ViewModel
                 var notes = await DataService
                     .Notes
                     .GetAll(x => x.FolderId == folderId);
-                var noteItems = notes.Select(x => new NoteItemObject(x, this));
+                var noteItems = notes.Select(x => new NoteItemObject(x, dateTimeBusiness, this));
                 Items = new ObservableCollection<NoteItemObject>(noteItems);
             });
         }
@@ -97,7 +101,7 @@ namespace OneDo.ViewModel
             {
                 if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
                 {
-                    Items.Add(new NoteItemObject(e.Entity, this));
+                    Items.Add(new NoteItemObject(e.Entity, dateTimeBusiness, this));
                 }
             };
             ShowNoteEditor(editor);
