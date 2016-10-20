@@ -33,7 +33,6 @@ namespace OneDo.View.Controls
         {
             if (VM != null)
             {
-                OnDateChanged(VM.Date);
                 VM.DateChanged -= OnDateChanged;
             }
         }
@@ -56,7 +55,9 @@ namespace OneDo.View.Controls
                 CalendarView.SelectedDates.Clear();
                 if (date != null)
                 {
-                    CalendarView.SelectedDates.Add(new DateTimeOffset((DateTime)date));
+                    var dateTimeOffset = new DateTimeOffset((DateTime)date);
+                    CalendarView.SelectedDates.Add(dateTimeOffset);
+                    CalendarView.SetDisplayDate(dateTimeOffset);
                 }
 
                 isPicking = false;

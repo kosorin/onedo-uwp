@@ -32,6 +32,8 @@ namespace OneDo.ViewModel
 
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
+        public IExtendedCommand ClearCommand { get; }
+
         public IExtendedCommand TodayCommand { get; }
 
         public IExtendedCommand TomorrowCommand { get; }
@@ -48,6 +50,7 @@ namespace OneDo.ViewModel
         {
             dateTimeBusiness = new DateTimeBusiness(DataService);
 
+            ClearCommand = new RelayCommand(() => Date = null);
             TodayCommand = new RelayCommand(() => Date = dateTimeBusiness.Today());
             TomorrowCommand = new RelayCommand(() => Date = dateTimeBusiness.Tomorrow());
             ThisWeekCommand = new RelayCommand(() => Date = dateTimeBusiness.ThisWeek());

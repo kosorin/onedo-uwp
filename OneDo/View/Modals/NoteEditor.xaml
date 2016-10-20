@@ -79,7 +79,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
@@ -90,7 +89,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Checked">
@@ -98,7 +96,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource FlagForegroundBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="CheckedPointerOver">
@@ -109,7 +106,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="CheckedPressed">
@@ -120,7 +116,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -169,6 +164,55 @@
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ClearPickerButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Padding" Value="0,5,0,7" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                      FontSize="12"
+                                      Glyph="&#xE894;" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -433,8 +477,6 @@
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
             <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
-            <!--<Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}" />
-            <Setter Property="Padding" Value="{ThemeResource FlyoutContentThemePadding}" />-->
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
@@ -521,16 +563,26 @@
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Date & Reminder  -->
-                <Button Margin="0,8"
-                        Style="{StaticResource PickerButtonStyle}"
-                        Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource DateForegroundConverter}}"
-                        Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}">
-                    <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
-                            <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                <Grid Margin="0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="DateButton"
+                            Style="{StaticResource PickerButtonStyle}"
+                            Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource DateForegroundConverter}}"
+                            Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}">
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
+                                <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button Grid.Column="1"
+                            Style="{StaticResource ClearPickerButtonStyle}"
+                            Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
+                            Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                </Grid>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Note  -->

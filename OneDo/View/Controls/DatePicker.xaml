@@ -5,7 +5,7 @@
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:controls="using:OneDo.View.Controls"
                        xmlns:v="using:OneDo.View"
-                       d:DesignWidth="296"
+                       d:DesignWidth="282"
                        mc:Ignorable="d">
 
     <v:ExtendedUserControl.Resources>
@@ -45,9 +45,66 @@
             <Setter Property="BorderThickness" Value="0" />
         </Style>
 
+        <Style x:Key="QuickButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </v:ExtendedUserControl.Resources>
 
-    <Grid>
+    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+          BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+          BorderThickness="1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -66,18 +123,26 @@
 
         <Button Grid.Row="1"
                 Grid.Column="0"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,1,0"
                 Command="{x:Bind VM.TodayCommand}"
                 Content="Today" />
         <Button Grid.Row="1"
                 Grid.Column="1"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,0,0"
                 Command="{x:Bind VM.TomorrowCommand}"
                 Content="Tomorrow" />
         <Button Grid.Row="2"
                 Grid.Column="0"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,1,0"
                 Command="{x:Bind VM.ThisWeekCommand}"
                 Content="This week" />
         <Button Grid.Row="2"
                 Grid.Column="1"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,0,0"
                 Command="{x:Bind VM.NextWeekCommand}"
                 Content="Next week" />
 
