@@ -135,13 +135,13 @@ namespace OneDo.View.Controls
             fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>();
 
             var noteEditorFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 1.5);
+            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
             noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
             noteEditorFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
             fadeInAnimationInfos[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation);
 
             var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration * 1.5);
+            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
             noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
             noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", defaultEasing);
             fadeOutAnimationInfos[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation);
