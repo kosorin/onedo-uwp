@@ -33,7 +33,12 @@ namespace OneDo.View.Modals
 
         private void OnDateChanged(DatePickerViewModel sender, DatePickerEventArgs args)
         {
-            DateButton.Flyout.Hide();
+            DatePickerFlyout.Hide();
+        }
+
+        private void DateButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            DatePickerFlyout.ShowAt(DatePickerGrid);
         }
     }
 }

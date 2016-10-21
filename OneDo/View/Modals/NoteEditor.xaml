@@ -563,7 +563,7 @@
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Date & Reminder  -->
-                <Grid Margin="0,8">
+                <Grid x:Name="DatePickerGrid" Margin="0,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
@@ -571,12 +571,13 @@
                     <Button x:Name="DateButton"
                             Style="{StaticResource PickerButtonStyle}"
                             Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource DateForegroundConverter}}"
-                            Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}">
-                        <Button.Flyout>
-                            <Flyout FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
+                            Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}"
+                            Tapped="DateButton_Tapped">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout x:Name="DatePickerFlyout" FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
                                 <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
                             </Flyout>
-                        </Button.Flyout>
+                        </FlyoutBase.AttachedFlyout>
                     </Button>
                     <Button Grid.Column="1"
                             Style="{StaticResource ClearPickerButtonStyle}"
