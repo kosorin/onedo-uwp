@@ -21,10 +21,8 @@ namespace OneDo.ViewModel
             get { return date; }
             set
             {
-                if (Set(ref date, value?.Date))
-                {
-                    OnDateChanged();
-                }
+                Set(ref date, value?.Date);
+                OnDateChanged();
             }
         }
 
