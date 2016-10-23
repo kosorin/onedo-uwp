@@ -29,7 +29,7 @@
             </converters:ConditionConverter.Else>
         </converters:ConditionConverter>
 
-        <converters:ConditionConverter x:Key="DateForegroundConverter" If="{x:Null}">
+        <converters:ConditionConverter x:Key="PickerForegroundConverter" If="{x:Null}">
             <converters:ConditionConverter.Then>
                 <SolidColorBrush Color="{ThemeResource SystemBaseMediumColor}" />
             </converters:ConditionConverter.Then>
@@ -570,7 +570,7 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="DateButton"
                             Style="{StaticResource PickerButtonStyle}"
-                            Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource DateForegroundConverter}}"
+                            Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
                             Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}"
                             Tag="&#xE787;"
                             Tapped="DateButton_Tapped">
