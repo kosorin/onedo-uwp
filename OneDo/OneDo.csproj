@@ -116,6 +116,7 @@
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
+    <Compile Include="ViewModel\Args\TimePickerEventArgs.cs" />
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\DatePickerViewModel.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="ViewModel\Modals\DebugViewModel.cs" />
     <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
+    <Compile Include="ViewModel\TimePickerViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\TextBoxBehavior.cs" />
     <Compile Include="View\Behaviors\OpenFlyoutMenuBehavior.cs" />
@@ -144,7 +146,11 @@
     <Compile Include="View\Controls\NoteListControl.xaml.cs">
       <DependentUpon>NoteListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\RingSlice.cs" />
     <Compile Include="View\Controls\SlidableListItem.cs" />
+    <Compile Include="View\Controls\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\Converters\ChangeTypeConverter.cs" />
     <Compile Include="View\Converters\ColorToBrushConverter.cs" />
@@ -241,6 +247,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\NoteListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

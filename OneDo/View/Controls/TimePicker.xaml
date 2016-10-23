@@ -1,0 +1,139 @@
+﻿<v:ExtendedUserControl x:Class="OneDo.View.Controls.TimePicker"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:controls="using:OneDo.View.Controls"
+                       xmlns:v="using:OneDo.View"
+                       mc:Ignorable="d">
+
+    <v:ExtendedUserControl.Resources>
+
+        <Style x:Key="QuickButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </v:ExtendedUserControl.Resources>
+
+    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+          BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+          BorderThickness="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="RootGrid"
+              Grid.Row="0"
+              Grid.ColumnSpan="2"
+              Width="320"
+              Height="320"
+              Margin="16"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Background="Transparent"
+              ManipulationCompleted="RootGrid_ManipulationCompleted"
+              ManipulationDelta="RootGrid_ManipulationDelta"
+              ManipulationMode="TranslateX,TranslateY"
+              ManipulationStarted="RootGrid_ManipulationStarted"
+              Tapped="RootGrid_Tapped">
+
+            <controls:RingSlice x:Name="HoursBackgroundSlice"
+                                EndAngle="359.99"
+                                InnerRadius="80"
+                                IsHitTestVisible="False"
+                                Radius="122"
+                                StartAngle="0" />
+            <controls:RingSlice x:Name="HoursForegroundSlice"
+                                EndAngle="0"
+                                InnerRadius="80"
+                                IsHitTestVisible="False"
+                                Radius="122"
+                                StartAngle="0" />
+
+            <controls:RingSlice x:Name="MinutesBackgroundSlice"
+                                EndAngle="359.99"
+                                InnerRadius="120"
+                                IsHitTestVisible="False"
+                                Radius="160"
+                                StartAngle="0" />
+            <controls:RingSlice x:Name="MinutesForegroundSlice"
+                                EndAngle="0"
+                                InnerRadius="120"
+                                IsHitTestVisible="False"
+                                Radius="160"
+                                StartAngle="0" />
+        </Grid>
+
+        <Button Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,1,0"
+                Tapped="{x:Bind UpdateTime}">
+            <FontIcon FontSize="16" Glyph="&#xE8FB;" />
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,0,0"
+                Command="{x:Bind VM.ClearCommand}">
+            <FontIcon FontSize="16" Glyph="&#xE894;" />
+        </Button>
+    </Grid>
+
+</v:ExtendedUserControl>

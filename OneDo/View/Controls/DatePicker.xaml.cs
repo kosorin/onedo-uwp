@@ -46,6 +46,11 @@ namespace OneDo.View.Controls
             }
         }
 
+        private void OnDateChanged(DatePickerViewModel picker, DatePickerEventArgs args)
+        {
+            OnDateChanged(args.Date);
+        }
+
         private void OnDateChanged(DateTime? date)
         {
             if (!isPicking)
@@ -62,11 +67,6 @@ namespace OneDo.View.Controls
 
                 isPicking = false;
             }
-        }
-
-        private void OnDateChanged(DatePickerViewModel picker, DatePickerEventArgs args)
-        {
-            OnDateChanged(args.Date);
         }
 
         private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)

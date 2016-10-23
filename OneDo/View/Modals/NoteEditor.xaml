@@ -469,7 +469,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="DateFlyoutPresenterStyle" TargetType="FlyoutPresenter">
+        <Style x:Key="PickerFlyoutPresenterStyle" TargetType="FlyoutPresenter">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -563,28 +563,54 @@
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Date & Reminder  -->
-                <Grid x:Name="DatePickerGrid" Margin="0,8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="DateButton"
-                            Style="{StaticResource PickerButtonStyle}"
-                            Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
-                            Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}"
-                            Tag="&#xE787;"
-                            Tapped="DateButton_Tapped">
-                        <FlyoutBase.AttachedFlyout>
-                            <Flyout x:Name="DatePickerFlyout" FlyoutPresenterStyle="{StaticResource DateFlyoutPresenterStyle}">
-                                <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
-                            </Flyout>
-                        </FlyoutBase.AttachedFlyout>
-                    </Button>
-                    <Button Grid.Column="1"
-                            Style="{StaticResource ClearPickerButtonStyle}"
-                            Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
-                            Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
-                </Grid>
+                <StackPanel Margin="0,8">
+                    <Grid x:Name="DatePickerGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="DateButton"
+                                Style="{StaticResource PickerButtonStyle}"
+                                Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
+                                Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}"
+                                Tag="&#xE787;"
+                                Tapped="DateButton_Tapped">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout x:Name="DatePickerFlyout" FlyoutPresenterStyle="{StaticResource PickerFlyoutPresenterStyle}">
+                                    <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </Button>
+                        <Button Grid.Column="1"
+                                Style="{StaticResource ClearPickerButtonStyle}"
+                                Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
+                                Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </Grid>
+                    <Grid x:Name="ReminderPickerGrid"
+                          Margin="0,8,0,0"
+                          Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ReminderButton"
+                                Style="{StaticResource PickerButtonStyle}"
+                                Foreground="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
+                                Content="{x:Bind VM.ReminderPicker.TimeText, Mode=OneWay}"
+                                Tag="&#xEA8F;"
+                                Tapped="ReminderButton_Tapped">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout x:Name="ReminderPickerFlyout" FlyoutPresenterStyle="{StaticResource PickerFlyoutPresenterStyle}">
+                                    <controls:TimePicker DataContext="{x:Bind VM.ReminderPicker, Mode=OneWay}" />
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </Button>
+                        <Button Grid.Column="1"
+                                Style="{StaticResource ClearPickerButtonStyle}"
+                                Command="{x:Bind VM.ReminderPicker.ClearCommand, Mode=OneWay}"
+                                Visibility="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </Grid>
+                </StackPanel>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Note  -->
@@ -612,11 +638,6 @@
                 </Grid>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
-                <!--
-                <TimePicker Margin="0,0,0,16"
-                            HorizontalAlignment="Stretch"
-                            Header="Reminder"
-                            Time="{x:Bind VM.Reminder, Mode=TwoWay}" />-->
             </StackPanel>
         </ScrollViewer>
 

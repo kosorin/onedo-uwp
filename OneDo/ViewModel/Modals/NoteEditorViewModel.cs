@@ -79,18 +79,7 @@ namespace OneDo.ViewModel.Modals
 
         public DatePickerViewModel DatePicker { get; }
 
-        private TimeSpan reminder;
-        public TimeSpan Reminder
-        {
-            get { return reminder; }
-            set
-            {
-                if (Set(ref reminder, value))
-                {
-                    UpdateDirtyProperty(() => Reminder != original.Reminder);
-                }
-            }
-        }
+        public TimePickerViewModel ReminderPicker { get; }
 
 
         public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Deleted;
@@ -100,12 +89,15 @@ namespace OneDo.ViewModel.Modals
 
         private readonly NoteBusiness business;
 
+        private readonly DateTimeBusiness dateTimeBusiness;
+
         private readonly Note original;
 
         public NoteEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList, Note note)
             : base(modalService, dataService, progressService)
         {
             business = new NoteBusiness(DataService);
+            dateTimeBusiness = new DateTimeBusiness(DataService);
             original = note ?? business.Default();
 
             Folders = folderList.Items.ToList();
@@ -114,6 +106,11 @@ namespace OneDo.ViewModel.Modals
             DatePicker.DateChanged += (s, e) =>
             {
                 UpdateDirtyProperty(() => e.Date?.Date != original.Date?.Date);
+            };
+            ReminderPicker = new TimePickerViewModel(DataService);
+            ReminderPicker.TimeChanged += (s, e) =>
+            {
+                UpdateDirtyProperty(() => e.Time != original.Reminder);
             };
 
             Load();
@@ -136,7 +133,7 @@ namespace OneDo.ViewModel.Modals
             Title = original.Title;
             Text = original.Text;
             DatePicker.Date = original.Date;
-            Reminder = original.Reminder ?? TimeSpan.Zero;
+            ReminderPicker.Time = original.Reminder;
         }
 
         protected override async Task Delete()
@@ -161,7 +158,7 @@ namespace OneDo.ViewModel.Modals
             original.Title = Title ?? "";
             original.Text = Text ?? "";
             original.Date = DatePicker?.Date;
-            original.Reminder = Reminder;
+            original.Reminder = ReminderPicker?.Time;
 
             await ProgressService.RunAsync(async () =>
             {

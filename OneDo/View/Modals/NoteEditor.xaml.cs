@@ -20,6 +20,7 @@ namespace OneDo.View.Modals
             if (VM != null)
             {
                 VM.DatePicker.DateChanged -= OnDateChanged;
+                VM.ReminderPicker.TimeChanged -= OnReminderChanged;
             }
         }
 
@@ -28,6 +29,7 @@ namespace OneDo.View.Modals
             if (VM != null)
             {
                 VM.DatePicker.DateChanged += OnDateChanged;
+                VM.ReminderPicker.TimeChanged += OnReminderChanged;
             }
         }
 
@@ -36,9 +38,19 @@ namespace OneDo.View.Modals
             DatePickerFlyout.Hide();
         }
 
+        private void OnReminderChanged(TimePickerViewModel sender, TimePickerEventArgs args)
+        {
+            ReminderPickerFlyout.Hide();
+        }
+
         private void DateButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             DatePickerFlyout.ShowAt(DatePickerGrid);
+        }
+
+        private void ReminderButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            ReminderPickerFlyout.ShowAt(ReminderPickerGrid);
         }
     }
 }
