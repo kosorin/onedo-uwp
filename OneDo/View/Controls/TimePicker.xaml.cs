@@ -65,6 +65,7 @@ namespace OneDo.View.Controls
         private const float minutesRadius = 170;
         private const float minutesInnerRadius = 120;
 
+        private const float unitPartSize = 40;
         private const float hourAmHandLength = 40;
         private const float hourPmHandLength = 80;
         private const float minuteHandLength = 120;
@@ -98,16 +99,17 @@ namespace OneDo.View.Controls
 
         private void InitializeControls()
         {
+            var textBlockStyle = (Style)Resources["BodyTextBlockStyle"];
             for (int i = 0; i < 12; i++)
             {
                 RootCanvas.Children.Add(new TextBlock
                 {
                     Text = i.ToString(),
-                    Style = (Style)Resources["BaseTextBlockStyle"],
+                    Style = textBlockStyle,
                     Tag = new NumberItem
                     {
                         Unit = Unit.Minutes,
-                        Value = i * 8,
+                        Value = i,
                     },
                 });
             }
@@ -121,8 +123,16 @@ namespace OneDo.View.Controls
             foreach (var textBlock in RootCanvas.Children.OfType<TextBlock>().Where(x => x.Tag is NumberItem).OrderBy(x => ((NumberItem)x.Tag).Value))
             {
                 var item = (NumberItem)textBlock.Tag;
+
                 var visual = ElementCompositionPreview.GetElementVisual(textBlock);
-                visual.Offset = new Vector3(item.Value * 3, 10, 0);
+                var angle = (item.Value * 30d) - 90d;
+                var angleInRadians = (angle / 180d) * Math.PI;
+
+                var x = 0; // (minuteHandLength + unitPartSize) * (float)Math.Cos(angleInRadians);
+                var y = 0; // (minuteHandLength + unitPartSize) * (float)Math.Sin(angleInRadians);
+
+                visual.CenterPoint = new Vector3(-(float)textBlock.ActualWidth / 2, -(float)textBlock.ActualHeight / 2, 0);
+                visual.Offset = new Vector3(((float)RootCanvas.Width / 2) + x, ((float)RootCanvas.Height / 2) + y, 0);
             }
 
             var handRotationAnimation = compositor.CreateScalarKeyFrameAnimation();
