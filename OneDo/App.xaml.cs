@@ -24,6 +24,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI;
 using OneDo.Common.Metadata;
+using OneDo.View.Controls;
 
 namespace OneDo
 {
@@ -186,8 +187,8 @@ namespace OneDo
 
         private void ShowContent()
         {
-            var content = new MainPage();
-            //var content = new View.Controls.TimePicker();
+            //var content = new MainPage();
+            var content = new TimePicker();
             Window.Current.Content = content;
             Window.Current.Activate();
         }

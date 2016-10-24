@@ -78,47 +78,46 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="RootGrid"
-              Grid.Row="0"
-              Grid.ColumnSpan="2"
-              Width="320"
-              Height="320"
-              Margin="16"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center"
-              Background="Transparent"
-              ManipulationCompleted="RootGrid_ManipulationCompleted"
-              ManipulationDelta="RootGrid_ManipulationDelta"
-              ManipulationMode="TranslateX,TranslateY"
-              ManipulationStarted="RootGrid_ManipulationStarted"
-              Tapped="RootGrid_Tapped">
-
-            <controls:RingSlice x:Name="HoursBackgroundSlice"
-                                EndAngle="359.99"
-                                InnerRadius="80"
-                                IsHitTestVisible="False"
-                                Radius="122"
-                                StartAngle="0" />
-            <controls:RingSlice x:Name="HoursForegroundSlice"
-                                EndAngle="0"
-                                InnerRadius="80"
-                                IsHitTestVisible="False"
-                                Radius="122"
-                                StartAngle="0" />
-
-            <controls:RingSlice x:Name="MinutesBackgroundSlice"
-                                EndAngle="359.99"
-                                InnerRadius="120"
-                                IsHitTestVisible="False"
-                                Radius="160"
-                                StartAngle="0" />
-            <controls:RingSlice x:Name="MinutesForegroundSlice"
-                                EndAngle="0"
-                                InnerRadius="120"
-                                IsHitTestVisible="False"
-                                Radius="160"
-                                StartAngle="0" />
-        </Grid>
+        <Canvas x:Name="RootCanvas"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Width="320"
+                Height="320"
+                Margin="16"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                ManipulationCompleted="RootGrid_ManipulationCompleted"
+                ManipulationDelta="RootGrid_ManipulationDelta"
+                ManipulationMode="TranslateX,TranslateY"
+                ManipulationStarted="RootGrid_ManipulationStarted"
+                Tapped="RootGrid_Tapped">
+            <Ellipse Canvas.Left="0"
+                     Canvas.Top="0"
+                     Width="320"
+                     Height="320"
+                     Fill="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                     Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                     StrokeThickness="1" />
+            <Ellipse Canvas.Left="40"
+                     Canvas.Top="40"
+                     Width="240"
+                     Height="240"
+                     Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                     StrokeThickness="1" />
+            <Ellipse Canvas.Left="120"
+                     Canvas.Top="120"
+                     Width="80"
+                     Height="80"
+                     Fill="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                     Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                     StrokeThickness="1" />
+            <Ellipse Canvas.Left="156"
+                     Canvas.Top="156"
+                     Width="8"
+                     Height="8"
+                     Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        </Canvas>
 
         <Button Grid.Row="1"
                 Grid.Column="0"

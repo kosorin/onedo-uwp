@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,56 +46,111 @@ namespace OneDo.View.Controls
         }
 
 
-        public double HoursAngle
+        public float HoursAngle
         {
-            get { return HoursForegroundSlice.EndAngle; }
-            set { HoursForegroundSlice.EndAngle = value; }
+            get { return hourHandVisual.RotationAngleInDegrees; }
+            set { hourHandVisual.RotationAngleInDegrees = value; }
         }
 
-        public double MinutesAngle
+        public float MinutesAngle
         {
-            get { return MinutesForegroundSlice.EndAngle; }
-            set { MinutesForegroundSlice.EndAngle = value; }
+            get { return minuteHandVisual.RotationAngleInDegrees; }
+            set { minuteHandVisual.RotationAngleInDegrees = value; }
         }
 
 
-        private const double hoursRadius = 120;
-        private const double hoursInnerRadius = 80;
-        private const double minutesRadius = 160;
-        private const double minutesInnerRadius = 120;
+        private const float hoursRadius = 120;
+        private const float hoursAmInnerRadius = 30;
+        private const float hoursPmInnerRadius = 80;
+        private const float minutesRadius = 170;
+        private const float minutesInnerRadius = 120;
 
-        private Brush hoursBackgroundAmBrush;
-        private Brush hoursBackgroundPmBrush;
-        private Brush hoursForegroundAmBrush;
-        private Brush hoursForegroundPmBrush;
-        private Brush minutesBackgroundBrush;
-        private Brush minutesForegroundBrush;
+        private const float hourAmHandLength = 40;
+        private const float hourPmHandLength = 80;
+        private const float minuteHandLength = 120;
+
+        private Color accentColor;
+
+        private Visual rootVisual;
+        private ContainerVisual containerVisual;
+        private SpriteVisual hourHandVisual;
+        private SpriteVisual minuteHandVisual;
+        private ImplicitAnimationCollection handImplicitAnimations;
 
         private Unit? manipulationUnit;
-
-        private bool isAm;
 
         public TimePicker()
         {
             InitializeComponent();
-            InitializeUI();
+            InitializeColors();
+            InitializeControls();
+
+            RootCanvas.Loaded += (s, e) =>
+            {
+                InitializeComposition();
+            };
         }
 
-        private void InitializeUI()
+        private void InitializeColors()
         {
-            hoursBackgroundAmBrush = new SolidColorBrush((Color)Resources["SystemListMediumColor"]);
-            hoursForegroundAmBrush = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
-            hoursBackgroundPmBrush = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
-            hoursForegroundPmBrush = new SolidColorBrush((Color)Resources["SystemAccentColorDark1"]);
-            minutesBackgroundBrush = new SolidColorBrush((Color)Resources["SystemListLowColor"]);
-            minutesForegroundBrush = new SolidColorBrush((Color)Resources["SystemAccentColorLight1"]);
-
-            HoursBackgroundSlice.Fill = hoursBackgroundAmBrush;
-            HoursForegroundSlice.Fill = hoursForegroundAmBrush;
-            MinutesBackgroundSlice.Fill = minutesBackgroundBrush;
-            MinutesForegroundSlice.Fill = minutesForegroundBrush;
+            accentColor = (Color)Resources["SystemAccentColor"];
         }
 
+        private void InitializeControls()
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                RootCanvas.Children.Add(new TextBlock
+                {
+                    Text = i.ToString(),
+                    Style = (Style)Resources["BaseTextBlockStyle"],
+                    Tag = new NumberItem
+                    {
+                        Unit = Unit.Minutes,
+                        Value = i * 8,
+                    },
+                });
+            }
+        }
+
+        private void InitializeComposition()
+        {
+            rootVisual = ElementCompositionPreview.GetElementVisual(RootCanvas);
+            containerVisual = compositor.CreateContainerVisual();
+
+            foreach (var textBlock in RootCanvas.Children.OfType<TextBlock>().Where(x => x.Tag is NumberItem).OrderBy(x => ((NumberItem)x.Tag).Value))
+            {
+                var item = (NumberItem)textBlock.Tag;
+                var visual = ElementCompositionPreview.GetElementVisual(textBlock);
+                visual.Offset = new Vector3(item.Value * 3, 10, 0);
+            }
+
+            var handRotationAnimation = compositor.CreateScalarKeyFrameAnimation();
+            handRotationAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            handRotationAnimation.Target = "RotationAngleInDegrees";
+            handRotationAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+
+            handImplicitAnimations = compositor.CreateImplicitAnimationCollection();
+            handImplicitAnimations["RotationAngleInDegrees"] = handRotationAnimation;
+
+            hourHandVisual = compositor.CreateSpriteVisual();
+            hourHandVisual.Size = new Vector2(4, hourPmHandLength);
+            hourHandVisual.CenterPoint = new Vector3(hourHandVisual.Size.X / 2, hourHandVisual.Size.Y, 0);
+            hourHandVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - (hourHandVisual.Size.X / 2), ((float)RootCanvas.Height / 2) - hourHandVisual.Size.Y, 0);
+            hourHandVisual.Brush = compositor.CreateColorBrush(accentColor);
+            hourHandVisual.ImplicitAnimations = handImplicitAnimations;
+
+            minuteHandVisual = compositor.CreateSpriteVisual();
+            minuteHandVisual.Size = new Vector2(2, minuteHandLength);
+            minuteHandVisual.CenterPoint = new Vector3(minuteHandVisual.Size.X / 2, minuteHandVisual.Size.Y, 0);
+            minuteHandVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - (minuteHandVisual.Size.X / 2), ((float)RootCanvas.Height / 2) - minuteHandVisual.Size.Y, 0);
+            minuteHandVisual.Brush = compositor.CreateColorBrush(accentColor);
+            minuteHandVisual.ImplicitAnimations = handImplicitAnimations;
+
+            containerVisual.Children.InsertAtTop(minuteHandVisual);
+            containerVisual.Children.InsertAtTop(hourHandVisual);
+            ElementCompositionPreview.SetElementChildVisual(RootCanvas, containerVisual);
+        }
 
         protected override void OnViewModelChanging()
         {
@@ -112,6 +169,7 @@ namespace OneDo.View.Controls
             }
         }
 
+
         private void OnTimeChanged(TimePickerViewModel picker, TimePickerEventArgs args)
         {
             OnTimeChanged(args.Time);
@@ -125,7 +183,6 @@ namespace OneDo.View.Controls
 
         private void SetHours(int hours)
         {
-            isAm = hours < 12;
             HoursAngle = (hours % 12) * 30;
         }
 
@@ -142,19 +199,28 @@ namespace OneDo.View.Controls
 
         private void RootGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var distance = GetDistance(e.GetPosition(RootGrid), RootGrid.RenderSize);
+            var distance = GetDistance(e.GetPosition(RootCanvas), RootCanvas.RenderSize);
             var unit = GetUnit(distance);
             if (unit != null)
             {
-                var angle = GetAngle(e.GetPosition(RootGrid), RootGrid.RenderSize);
+                var angle = GetAngle(e.GetPosition(RootCanvas), RootCanvas.RenderSize);
                 CompleteManipulation((Unit)unit, angle);
             }
         }
 
         private void RootGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            var distance = GetDistance(e.Position, RootGrid.RenderSize);
+            var distance = GetDistance(e.Position, RootCanvas.RenderSize);
             manipulationUnit = GetUnit(distance);
+            if (manipulationUnit == null)
+            {
+                return;
+            }
+            switch (manipulationUnit)
+            {
+            case Unit.Hours: hourHandVisual.ImplicitAnimations = null; break;
+            case Unit.Minutes: minuteHandVisual.ImplicitAnimations = null; break;
+            }
         }
 
         private void RootGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -163,7 +229,8 @@ namespace OneDo.View.Controls
             {
                 return;
             }
-            CompleteManipulation((Unit)manipulationUnit, manipulationUnit == Unit.Hours ? HoursAngle : MinutesAngle);
+            var angle = GetAngle(e.Position, RootCanvas.RenderSize);
+            CompleteManipulation((Unit)manipulationUnit, angle);
         }
 
         private void RootGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -173,7 +240,7 @@ namespace OneDo.View.Controls
                 return;
             }
 
-            var angle = GetAngle(e.Position, RootGrid.RenderSize);
+            var angle = GetAngle(e.Position, RootCanvas.RenderSize);
             switch (manipulationUnit)
             {
             case Unit.Hours: HoursAngle = angle; break;
@@ -182,40 +249,50 @@ namespace OneDo.View.Controls
         }
 
 
-        private void CompleteManipulation(Unit unit, double angle)
+        private void CompleteManipulation(Unit unit, float angle)
         {
             if (unit == Unit.Hours)
             {
-                HoursAngle = HoursFromAngle(angle) * 30;
+                var targetAngle = HoursFromAngle(angle) * 30;
+                if (targetAngle != HoursAngle)
+                {
+                    hourHandVisual.ImplicitAnimations = handImplicitAnimations;
+                    HoursAngle = targetAngle;
+                }
             }
             else if (unit == Unit.Minutes)
             {
-                MinutesAngle = MinutesFromAngle(angle) * 6;
+                var targetAngle = MinutesFromAngle(angle) * 6;
+                if (targetAngle != MinutesAngle)
+                {
+                    minuteHandVisual.ImplicitAnimations = handImplicitAnimations;
+                    MinutesAngle = targetAngle;
+                }
             }
         }
 
 
-        private Unit? GetUnit(double distance)
+        private Unit? GetUnit(float distance)
         {
-            if (distance < hoursInnerRadius) return null;
+            if (distance < hoursAmInnerRadius) return null;
             if (distance < hoursRadius) return Unit.Hours;
             if (distance < minutesRadius) return Unit.Minutes;
             return null;
         }
 
-        private double GetDistance(Point point, Size size)
+        private float GetDistance(Point point, Size size)
         {
             var x = point.X - (size.Width / 2d);
             var y = size.Height - point.Y - (size.Height / 2d);
-            return Math.Sqrt(x * x + y * y);
+            return (float)Math.Sqrt(x * x + y * y);
         }
 
-        private double GetAngle(Point point, Size size)
+        private float GetAngle(Point point, Size size)
         {
             var x = point.X - (size.Width / 2d);
             var y = size.Height - point.Y - (size.Height / 2d);
             var hypot = Math.Sqrt(x * x + y * y);
-            var value = Math.Asin(y / hypot) * 180 / Math.PI;
+            var value = (float)(Math.Asin(y / hypot) * 180 / Math.PI);
             var quadrant = (x >= 0) ?
                 (y >= 0) ? Quadrant.NorthEast : Quadrant.SouthEast :
                 (y >= 0) ? Quadrant.NorthWest : Quadrant.SouthWest;
@@ -230,7 +307,7 @@ namespace OneDo.View.Controls
             return value;
         }
 
-        private Quadrant QuadrantFromAngle(double angle)
+        private Quadrant QuadrantFromAngle(float angle)
         {
             if (angle < 90) return Quadrant.NorthEast;
             if (angle < 180) return Quadrant.SouthEast;
@@ -239,12 +316,12 @@ namespace OneDo.View.Controls
             return Quadrant.NorthEast;
         }
 
-        private int HoursFromAngle(double angle)
+        private int HoursFromAngle(float angle)
         {
-            return (int)Math.Round(angle / 30d);
+            return ((int)Math.Round(angle / 30d)) % 12;
         }
 
-        private int MinutesFromAngle(double angle)
+        private int MinutesFromAngle(float angle)
         {
             return (int)Math.Round(angle / 6d);
         }
@@ -262,6 +339,13 @@ namespace OneDo.View.Controls
         {
             Hours,
             Minutes,
+        }
+
+        private class NumberItem
+        {
+            public Unit Unit { get; set; }
+
+            public int Value { get; set; }
         }
     }
 }
