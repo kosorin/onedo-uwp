@@ -187,8 +187,7 @@ namespace OneDo
 
         private void ShowContent()
         {
-            //var content = new MainPage();
-            var content = new TimePicker();
+            var content = new MainPage();
             Window.Current.Content = content;
             Window.Current.Activate();
         }
