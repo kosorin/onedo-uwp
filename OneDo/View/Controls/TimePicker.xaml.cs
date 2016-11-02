@@ -27,48 +27,56 @@ namespace OneDo.View.Controls
     {
         public TimePickerViewModel VM => ViewModel as TimePickerViewModel;
 
-        public float HoursAngle
-        {
-            get { return hourHandVisual.RotationAngleInDegrees; }
-            set
-            {
-                var angle = FixAngle(HoursAngle, value, Unit.Hours);
-                hourHandVisual.RotationAngleInDegrees = angle;
-                hourIndicatorVisual.RotationAngleInDegrees = angle;
-            }
-        }
-
         public float MinutesAngle
         {
-            get { return minuteHandVisual.RotationAngleInDegrees; }
+            get { return minuteIndicatorVisual.RotationAngleInDegrees; }
             set
             {
                 var angle = FixAngle(MinutesAngle, value, Unit.Minutes);
-                minuteHandVisual.RotationAngleInDegrees = angle;
                 minuteIndicatorVisual.RotationAngleInDegrees = angle;
+                UpdateVisualsOpacity(value, minuteVisuals);
             }
         }
 
+        public float HoursAngle
+        {
+            get { return hourIndicatorVisual.RotationAngleInDegrees; }
+            set
+            {
+                var angle = FixAngle(HoursAngle, value, Unit.Hours);
+                hourIndicatorVisual.RotationAngleInDegrees = angle;
+                UpdateVisualsOpacity(value, hourVisuals);
+            }
+        }
 
-        private const float hourRadius = 120;
-        private const float hourAmInnerRadius = 50;
-        private const float hourPmInnerRadius = 80;
-        private const float minuteRadius = 160;
+        private void UpdateVisualsOpacity(float value, Dictionary<float, SpriteVisual> collection)
+        {
+            foreach (var item in collection)
+            {
+                item.Value.Opacity = value >= item.Key ? 1f : 0.1f;
+            }
+        }
 
-        private const float hourAmHandOffsetDistance = 50;
-        private const float hourPmHandOffsetDistance = 80;
-        private const float minuteHandOffsetDistance = 120;
+        private const float size = 150;
+        private const float unitSize = 48;
 
-        private const float unitPartSize = 40;
+        private const float minuteRadius = size;
+        private const float hourRadius = size - unitSize;
+        private const float hourInnerRadius = hourRadius - unitSize;
 
-        private Color accentColor;
+        private const float minuteDistance = size - unitSize;
+        private const float hourDistance = minuteDistance - unitSize;
+
+        private Color tickColor;
+        private Color highlightedTickColor;
 
         private ContainerVisual containerVisual;
-        private SpriteVisual hourHandVisual;
-        private SpriteVisual minuteHandVisual;
-        private Visual hourIndicatorVisual;
         private Visual minuteIndicatorVisual;
-        private ImplicitAnimationCollection handImplicitAnimations;
+        private Visual hourIndicatorVisual;
+        private Dictionary<float, SpriteVisual> minuteVisuals = new Dictionary<float, SpriteVisual>();
+        private Dictionary<float, SpriteVisual> hourVisuals = new Dictionary<float, SpriteVisual>();
+        private ImplicitAnimationCollection implicitAnimations;
+        private ExpressionAnimation expressionAnimation;
 
         private bool isManipulating = false;
         private Unit? manipulationUnit = null;
@@ -78,82 +86,16 @@ namespace OneDo.View.Controls
             InitializeComponent();
             InitializeColors();
             InitializeCompositionAnimations();
-            InitializeNumberTextBlocks();
             InitializeComposition();
+
+            MinutesAngle = 0;
+            HoursAngle = 0;
         }
 
         private void InitializeColors()
         {
-            accentColor = (Color)Resources["SystemAccentColor"];
-        }
-
-        private void InitializeNumberTextBlocks()
-        {
-            for (int i = 0, a = 0; i < 12; i++, a += 30)
-            {
-                RootCanvas.Children.Add(CreateNumberTextBlock(i, a, hourAmHandOffsetDistance));
-            }
-            for (int i = 12, a = 0; i < 24; i++, a += 30)
-            {
-                RootCanvas.Children.Add(CreateNumberTextBlock(i, a, hourPmHandOffsetDistance));
-            }
-            for (int i = 0, a = 0; i < 60; i += 5, a += 30)
-            {
-                RootCanvas.Children.Add(CreateNumberTextBlock(i, a, minuteHandOffsetDistance));
-            }
-        }
-
-        private TextBlock CreateNumberTextBlock(int value, float angle, float distanceFromCenter)
-        {
-            var textBlock = new TextBlock
-            {
-                Text = value.ToString(),
-                Style = (Style)Resources["BodyTextBlockStyle"],
-            };
-            textBlock.Loaded += (s, e) =>
-            {
-                var angleInRadians = ((angle - 90) / 180d) * Math.PI;
-
-                var x = (distanceFromCenter + (unitPartSize / 2)) * (float)Math.Cos(angleInRadians);
-                var y = (distanceFromCenter + (unitPartSize / 2)) * (float)Math.Sin(angleInRadians);
-                x += ((float)RootCanvas.Width / 2) - ((float)textBlock.ActualWidth / 2);
-                y += ((float)RootCanvas.Height / 2) - ((float)textBlock.ActualHeight / 2);
-
-                var visual = ElementCompositionPreview.GetElementVisual(textBlock);
-                visual.Offset = new Vector3(x, y, 0);
-            };
-            return textBlock;
-        }
-
-        private void InitializeComposition()
-        {
-            hourHandVisual = compositor.CreateSpriteVisual();
-            hourHandVisual.Brush = compositor.CreateColorBrush(accentColor);
-            hourHandVisual.ImplicitAnimations = handImplicitAnimations;
-
-            hourIndicatorVisual = ElementCompositionPreview.GetElementVisual(HourIndicator);
-            hourIndicatorVisual.ImplicitAnimations = handImplicitAnimations;
-
-            UpdateHourVisual(false);
-
-
-            minuteHandVisual = compositor.CreateSpriteVisual();
-            minuteHandVisual.Size = new Vector2(2, minuteHandOffsetDistance);
-            minuteHandVisual.CenterPoint = new Vector3(minuteHandVisual.Size.X / 2, minuteHandVisual.Size.Y, 0);
-            minuteHandVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - (minuteHandVisual.Size.X / 2), ((float)RootCanvas.Height / 2) - minuteHandVisual.Size.Y, 0);
-            minuteHandVisual.Brush = compositor.CreateColorBrush(accentColor);
-            minuteHandVisual.ImplicitAnimations = handImplicitAnimations;
-
-            minuteIndicatorVisual = ElementCompositionPreview.GetElementVisual(MinuteIndicator);
-            minuteIndicatorVisual.CenterPoint = new Vector3((float)MinuteIndicator.Width / 2, (float)MinuteIndicator.Height + minuteHandOffsetDistance, 0);
-            minuteIndicatorVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - ((float)MinuteIndicator.Width / 2), ((float)RootCanvas.Height / 2) - (float)MinuteIndicator.Height - minuteHandOffsetDistance, 0);
-            minuteIndicatorVisual.ImplicitAnimations = handImplicitAnimations;
-
-
-            containerVisual = compositor.CreateContainerVisual();
-            containerVisual.Children.InsertAtTop(minuteHandVisual);
-            containerVisual.Children.InsertAtTop(hourHandVisual);
-            ElementCompositionPreview.SetElementChildVisual(RootCanvas, containerVisual);
+            tickColor = (Color)Resources["SystemListLowColor"];
+            highlightedTickColor = (Color)Resources["SystemAccentColor"];
         }
 
         private void InitializeCompositionAnimations()
@@ -178,11 +120,76 @@ namespace OneDo.View.Controls
             handOffsetAnimation.Target = "Offset";
             handOffsetAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
 
-            handImplicitAnimations = compositor.CreateImplicitAnimationCollection();
-            handImplicitAnimations["RotationAngleInDegrees"] = handRotationAnimation;
-            handImplicitAnimations["Size"] = handSizeAnimation;
-            handImplicitAnimations["CenterPoint"] = handCenterPointAnimation;
-            handImplicitAnimations["Offset"] = handOffsetAnimation;
+            implicitAnimations = compositor.CreateImplicitAnimationCollection();
+            implicitAnimations["RotationAngleInDegrees"] = handRotationAnimation;
+            implicitAnimations["Size"] = handSizeAnimation;
+            implicitAnimations["CenterPoint"] = handCenterPointAnimation;
+            implicitAnimations["Offset"] = handOffsetAnimation;
+
+            expressionAnimation = compositor.CreateExpressionAnimation();
+            expressionAnimation.Expression = $"((visual.RotationAngleInDegrees + 360) % 360) >= angle ? highlighted : normal";
+        }
+
+        private void InitializeComposition()
+        {
+            minuteIndicatorVisual = ElementCompositionPreview.GetElementVisual(MinuteIndicator);
+            minuteIndicatorVisual.CenterPoint = new Vector3((float)MinuteIndicator.Width / 2, (float)MinuteIndicator.Height + minuteDistance, 0);
+            minuteIndicatorVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - ((float)MinuteIndicator.Width / 2), ((float)RootCanvas.Height / 2) - (float)MinuteIndicator.Height - minuteDistance, 0);
+            minuteIndicatorVisual.Opacity = 0;
+            minuteIndicatorVisual.ImplicitAnimations = implicitAnimations;
+
+            hourIndicatorVisual = ElementCompositionPreview.GetElementVisual(HourIndicator);
+            hourIndicatorVisual.CenterPoint = new Vector3((float)HourIndicator.Width / 2, (float)HourIndicator.Height + hourDistance, 0);
+            hourIndicatorVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - ((float)HourIndicator.Width / 2), ((float)RootCanvas.Height / 2) - (float)HourIndicator.Height - hourDistance, 0);
+            hourIndicatorVisual.Opacity = 0;
+            hourIndicatorVisual.ImplicitAnimations = implicitAnimations;
+
+
+            containerVisual = compositor.CreateContainerVisual();
+            CreateTicks(minuteDistance, 5, minuteIndicatorVisual, minuteVisuals);
+            CreateTicks(hourDistance, 5, hourIndicatorVisual, hourVisuals);
+            ElementCompositionPreview.SetElementChildVisual(RootCanvas, containerVisual);
+        }
+
+        private void CreateTicks(float distance, float step, Visual indicatorVisual, Dictionary<float, SpriteVisual> visuals)
+        {
+            for (float i = 0; i < 60; i++)
+            {
+                var angle = i * (360 / 60);
+
+                var visual = compositor.CreateSpriteVisual();
+                visual.Brush = compositor.CreateColorBrush(highlightedTickColor);
+                visual.Size = new Vector2(unitSize / (i % step == 0 ? 3 : 4), 2);
+                visual.CenterPoint = new Vector3(0, visual.Size.Y / 2, 0);
+
+                var angleInRadians = DegreesToRadians(angle - 90);
+                visual.RotationAngle = angleInRadians;
+
+                var x = ((float)RootCanvas.Width / 2) + ((distance) * (float)Math.Cos(angleInRadians));
+                var y = ((float)RootCanvas.Height / 2) + ((distance) * (float)Math.Sin(angleInRadians));
+                visual.Offset = new Vector3(x, y, 0);
+
+
+                expressionAnimation.ClearAllParameters();
+                expressionAnimation.SetReferenceParameter("visual", indicatorVisual);
+                expressionAnimation.SetScalarParameter("angle", angle);
+                expressionAnimation.SetScalarParameter("normal", 0.1f);
+                expressionAnimation.SetScalarParameter("highlighted", 1.0f);
+
+
+                var opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
+                opacityAnimation.Duration = TimeSpan.FromMilliseconds(700);
+                opacityAnimation.Target = "Opacity";
+                opacityAnimation.InsertExpressionKeyFrame(0, "this.StartingValue");
+                opacityAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+
+                var opacityImplicitAnimations = compositor.CreateImplicitAnimationCollection();
+                opacityImplicitAnimations["Opacity"] = opacityAnimation;
+                visual.ImplicitAnimations = opacityImplicitAnimations;
+
+                containerVisual.Children.InsertAtTop(visual);
+                visuals[angle] = visual;
+            }
         }
 
         protected override void OnViewModelChanging()
@@ -217,7 +224,6 @@ namespace OneDo.View.Controls
         private void SetHours(int hours)
         {
             HoursAngle = (hours % 12) * 30;
-            UpdateHourVisual(hours < 12);
         }
 
         private void SetMinutes(int minutes)
@@ -229,8 +235,8 @@ namespace OneDo.View.Controls
         {
             if (VM != null)
             {
-                var isAm = hourHandVisual.Size.Y == hourAmHandOffsetDistance;
-                VM.Time = new TimeSpan(HoursFromAngle(HoursAngle) + (isAm ? 0 : 12), MinutesFromAngle(MinutesAngle), 0);
+                //var isAm = hourHandVisual.Size.Y == hourAmHandOffsetDistance;
+                //VM.Time = new TimeSpan(HoursFromAngle(HoursAngle) + (isAm ? 0 : 12), MinutesFromAngle(MinutesAngle), 0);
             }
         }
 
@@ -283,7 +289,6 @@ namespace OneDo.View.Controls
             if (manipulationUnit == Unit.Hours)
             {
                 HoursAngle = angle;
-                UpdateHourVisual(GetDistance(e.Position, RootCanvas.RenderSize) < hourPmInnerRadius);
             }
             else if (manipulationUnit == Unit.Minutes)
             {
@@ -299,7 +304,6 @@ namespace OneDo.View.Controls
             if (unit == Unit.Hours)
             {
                 HoursAngle = RoundHourAngle(angle);
-                UpdateHourVisual(distance < hourPmInnerRadius);
             }
             else if (unit == Unit.Minutes)
             {
@@ -307,42 +311,23 @@ namespace OneDo.View.Controls
             }
         }
 
-        private void UpdateHourVisual(bool isAm)
-        {
-            var length = isAm ? hourAmHandOffsetDistance : hourPmHandOffsetDistance;
-
-            hourHandVisual.Size = new Vector2(4, length);
-            hourHandVisual.CenterPoint = new Vector3(hourHandVisual.Size.X / 2, hourHandVisual.Size.Y, 0);
-            hourHandVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - (hourHandVisual.Size.X / 2), ((float)RootCanvas.Height / 2) - hourHandVisual.Size.Y, 0);
-
-            hourIndicatorVisual.CenterPoint = new Vector3((float)HourIndicator.Width / 2, (float)HourIndicator.Height + length, 0);
-            hourIndicatorVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - ((float)HourIndicator.Width / 2), ((float)RootCanvas.Height / 2) - (float)HourIndicator.Height - length, 0);
-        }
-
-
         private void DisableImplicitAnimations()
         {
-            hourHandVisual.ImplicitAnimations = null;
             hourIndicatorVisual.ImplicitAnimations = null;
-
-            minuteHandVisual.ImplicitAnimations = null;
             minuteIndicatorVisual.ImplicitAnimations = null;
         }
 
         private void EnableImplicitAnimations()
         {
-            hourHandVisual.ImplicitAnimations = handImplicitAnimations;
-            hourIndicatorVisual.ImplicitAnimations = handImplicitAnimations;
-
-            minuteHandVisual.ImplicitAnimations = handImplicitAnimations;
-            minuteIndicatorVisual.ImplicitAnimations = handImplicitAnimations;
+            hourIndicatorVisual.ImplicitAnimations = implicitAnimations;
+            minuteIndicatorVisual.ImplicitAnimations = implicitAnimations;
         }
 
 
 
         private Unit? GetUnit(float distance)
         {
-            if (distance < hourAmInnerRadius) return null;
+            if (distance < hourInnerRadius) return null;
             if (distance < hourRadius) return Unit.Hours;
             if (distance < minuteRadius) return Unit.Minutes;
             return null;
@@ -394,12 +379,7 @@ namespace OneDo.View.Controls
             }
             else
             {
-                switch (unit)
-                {
-                case Unit.Hours: return RoundHourAngle(targetAngle);
-                case Unit.Minutes: return RoundMinuteAngle(targetAngle);
-                default: return targetAngle;
-                }
+                return targetAngle;
             }
         }
 
@@ -431,6 +411,11 @@ namespace OneDo.View.Controls
                 angle += 360;
             }
             return angle;
+        }
+
+        private float DegreesToRadians(float angle)
+        {
+            return (angle / 180f) * (float)Math.PI;
         }
 
 

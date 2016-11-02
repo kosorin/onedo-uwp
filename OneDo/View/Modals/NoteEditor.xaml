@@ -562,6 +562,8 @@
                 </ComboBox>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
+
+
                 <!--  Date & Reminder  -->
                 <StackPanel Margin="0,8">
                     <Grid x:Name="DatePickerGrid">
@@ -585,6 +587,13 @@
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                        <!--<Border Grid.ColumnSpan="2"
+                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                BorderThickness="0,1" >
+                            <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
+                        </Border>-->
                     </Grid>
                     <Grid x:Name="ReminderPickerGrid"
                           Margin="0,8,0,0"
@@ -609,6 +618,13 @@
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.ReminderPicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                        <Border Grid.ColumnSpan="2"
+                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                BorderThickness="0,1" >
+                            <controls:TimePicker DataContext="{x:Bind VM.ReminderPicker, Mode=OneWay}" />
+                        </Border>
                     </Grid>
                 </StackPanel>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
