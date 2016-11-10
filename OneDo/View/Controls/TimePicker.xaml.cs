@@ -53,19 +53,24 @@ namespace OneDo.View.Controls
         {
             foreach (var item in collection)
             {
-                item.Value.Opacity = value >= item.Key ? 1f : 0.1f;
+                var isHighlighted = value >= item.Key;
+                item.Value.Opacity = isHighlighted ? 1f : 0.05f;
+                item.Value.Size = new Vector2(isHighlighted ? highlightedTickSize : tickSize, 4);
             }
         }
 
-        private const float size = 150;
-        private const float unitSize = 48;
+        private const float size = 170;
+        private const float unitSize = 54;
 
         private const float minuteRadius = size;
-        private const float hourRadius = size - unitSize;
+        private const float hourRadius = size - unitSize - highlightedTickSize;
         private const float hourInnerRadius = hourRadius - unitSize;
 
-        private const float minuteDistance = size - unitSize;
+        private const float minuteDistance = size - unitSize + 4;
         private const float hourDistance = minuteDistance - unitSize;
+
+        private const float tickSize = 16;
+        private const float highlightedTickSize = 24;
 
         private Color tickColor;
         private Color highlightedTickColor;
@@ -75,8 +80,8 @@ namespace OneDo.View.Controls
         private Visual hourIndicatorVisual;
         private Dictionary<float, SpriteVisual> minuteVisuals = new Dictionary<float, SpriteVisual>();
         private Dictionary<float, SpriteVisual> hourVisuals = new Dictionary<float, SpriteVisual>();
-        private ImplicitAnimationCollection implicitAnimations;
-        private ExpressionAnimation expressionAnimation;
+        private ImplicitAnimationCollection indicatorImplicitAnimations;
+        private ImplicitAnimationCollection tickImplicitAnimations;
 
         private bool isManipulating = false;
         private Unit? manipulationUnit = null;
@@ -100,34 +105,50 @@ namespace OneDo.View.Controls
 
         private void InitializeCompositionAnimations()
         {
-            var handRotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-            handRotationAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            handRotationAnimation.Target = "RotationAngleInDegrees";
-            handRotationAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+            // Indicator
 
-            var handSizeAnimation = compositor.CreateVector2KeyFrameAnimation();
-            handSizeAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            handSizeAnimation.Target = "Size";
-            handSizeAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+            var indicatorRotationAnimation = compositor.CreateScalarKeyFrameAnimation();
+            indicatorRotationAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            indicatorRotationAnimation.Target = "RotationAngleInDegrees";
+            indicatorRotationAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
 
-            var handCenterPointAnimation = compositor.CreateVector3KeyFrameAnimation();
-            handCenterPointAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            handCenterPointAnimation.Target = "CenterPoint";
-            handCenterPointAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+            var indicatorSizeAnimation = compositor.CreateVector2KeyFrameAnimation();
+            indicatorSizeAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            indicatorSizeAnimation.Target = "Size";
+            indicatorSizeAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
 
-            var handOffsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-            handOffsetAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            handOffsetAnimation.Target = "Offset";
-            handOffsetAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+            var indicatorCenterPointAnimation = compositor.CreateVector3KeyFrameAnimation();
+            indicatorCenterPointAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            indicatorCenterPointAnimation.Target = "CenterPoint";
+            indicatorCenterPointAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
 
-            implicitAnimations = compositor.CreateImplicitAnimationCollection();
-            implicitAnimations["RotationAngleInDegrees"] = handRotationAnimation;
-            implicitAnimations["Size"] = handSizeAnimation;
-            implicitAnimations["CenterPoint"] = handCenterPointAnimation;
-            implicitAnimations["Offset"] = handOffsetAnimation;
+            var indicatorOffsetAnimation = compositor.CreateVector3KeyFrameAnimation();
+            indicatorOffsetAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            indicatorOffsetAnimation.Target = "Offset";
+            indicatorOffsetAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
 
-            expressionAnimation = compositor.CreateExpressionAnimation();
-            expressionAnimation.Expression = $"((visual.RotationAngleInDegrees + 360) % 360) >= angle ? highlighted : normal";
+            indicatorImplicitAnimations = compositor.CreateImplicitAnimationCollection();
+            indicatorImplicitAnimations["RotationAngleInDegrees"] = indicatorRotationAnimation;
+            indicatorImplicitAnimations["Size"] = indicatorSizeAnimation;
+            indicatorImplicitAnimations["CenterPoint"] = indicatorCenterPointAnimation;
+            indicatorImplicitAnimations["Offset"] = indicatorOffsetAnimation;
+
+
+            // Tick
+
+            var tickOpacityAnimation = compositor.CreateScalarKeyFrameAnimation();
+            tickOpacityAnimation.Duration = TimeSpan.FromMilliseconds(700);
+            tickOpacityAnimation.Target = "Opacity";
+            tickOpacityAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+
+            var tickSizeAnimation = compositor.CreateVector2KeyFrameAnimation();
+            tickSizeAnimation.Duration = TimeSpan.FromMilliseconds(700);
+            tickSizeAnimation.Target = "Size";
+            tickSizeAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
+
+            tickImplicitAnimations = compositor.CreateImplicitAnimationCollection();
+            tickImplicitAnimations["Opacity"] = tickOpacityAnimation;
+            tickImplicitAnimations["Size"] = tickSizeAnimation;
         }
 
         private void InitializeComposition()
@@ -136,14 +157,13 @@ namespace OneDo.View.Controls
             minuteIndicatorVisual.CenterPoint = new Vector3((float)MinuteIndicator.Width / 2, (float)MinuteIndicator.Height + minuteDistance, 0);
             minuteIndicatorVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - ((float)MinuteIndicator.Width / 2), ((float)RootCanvas.Height / 2) - (float)MinuteIndicator.Height - minuteDistance, 0);
             minuteIndicatorVisual.Opacity = 0;
-            minuteIndicatorVisual.ImplicitAnimations = implicitAnimations;
+            minuteIndicatorVisual.ImplicitAnimations = indicatorImplicitAnimations;
 
             hourIndicatorVisual = ElementCompositionPreview.GetElementVisual(HourIndicator);
             hourIndicatorVisual.CenterPoint = new Vector3((float)HourIndicator.Width / 2, (float)HourIndicator.Height + hourDistance, 0);
             hourIndicatorVisual.Offset = new Vector3(((float)RootCanvas.Width / 2) - ((float)HourIndicator.Width / 2), ((float)RootCanvas.Height / 2) - (float)HourIndicator.Height - hourDistance, 0);
             hourIndicatorVisual.Opacity = 0;
-            hourIndicatorVisual.ImplicitAnimations = implicitAnimations;
-
+            hourIndicatorVisual.ImplicitAnimations = indicatorImplicitAnimations;
 
             containerVisual = compositor.CreateContainerVisual();
             CreateTicks(minuteDistance, 5, minuteIndicatorVisual, minuteVisuals);
@@ -158,8 +178,9 @@ namespace OneDo.View.Controls
                 var angle = i * (360 / 60);
 
                 var visual = compositor.CreateSpriteVisual();
+                visual.Opacity = 0;
                 visual.Brush = compositor.CreateColorBrush(highlightedTickColor);
-                visual.Size = new Vector2(unitSize / (i % step == 0 ? 3 : 4), 2);
+                visual.Size = new Vector2(tickSize, 4);
                 visual.CenterPoint = new Vector3(0, visual.Size.Y / 2, 0);
 
                 var angleInRadians = DegreesToRadians(angle - 90);
@@ -169,23 +190,7 @@ namespace OneDo.View.Controls
                 var y = ((float)RootCanvas.Height / 2) + ((distance) * (float)Math.Sin(angleInRadians));
                 visual.Offset = new Vector3(x, y, 0);
 
-
-                expressionAnimation.ClearAllParameters();
-                expressionAnimation.SetReferenceParameter("visual", indicatorVisual);
-                expressionAnimation.SetScalarParameter("angle", angle);
-                expressionAnimation.SetScalarParameter("normal", 0.1f);
-                expressionAnimation.SetScalarParameter("highlighted", 1.0f);
-
-
-                var opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
-                opacityAnimation.Duration = TimeSpan.FromMilliseconds(700);
-                opacityAnimation.Target = "Opacity";
-                opacityAnimation.InsertExpressionKeyFrame(0, "this.StartingValue");
-                opacityAnimation.InsertExpressionKeyFrame(1, "this.FinalValue");
-
-                var opacityImplicitAnimations = compositor.CreateImplicitAnimationCollection();
-                opacityImplicitAnimations["Opacity"] = opacityAnimation;
-                visual.ImplicitAnimations = opacityImplicitAnimations;
+                visual.ImplicitAnimations = tickImplicitAnimations;
 
                 containerVisual.Children.InsertAtTop(visual);
                 visuals[angle] = visual;
@@ -319,8 +324,8 @@ namespace OneDo.View.Controls
 
         private void EnableImplicitAnimations()
         {
-            hourIndicatorVisual.ImplicitAnimations = implicitAnimations;
-            minuteIndicatorVisual.ImplicitAnimations = implicitAnimations;
+            hourIndicatorVisual.ImplicitAnimations = indicatorImplicitAnimations;
+            minuteIndicatorVisual.ImplicitAnimations = indicatorImplicitAnimations;
         }
 
 
@@ -385,12 +390,12 @@ namespace OneDo.View.Controls
 
         private float RoundHourAngle(float angle)
         {
-            return HoursFromAngle(angle) * 30;
+            return (HoursFromAngle(angle) * 30) % 360;
         }
 
         private float RoundMinuteAngle(float angle)
         {
-            return MinutesFromAngle(angle) * 6;
+            return (MinutesFromAngle(angle) * 6) % 360;
         }
 
         private int HoursFromAngle(float angle)

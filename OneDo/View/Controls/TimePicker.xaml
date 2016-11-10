@@ -81,8 +81,8 @@
         <Canvas x:Name="RootCanvas"
                 Grid.Row="0"
                 Grid.ColumnSpan="2"
-                Width="300"
-                Height="300"
+                Width="340"
+                Height="340"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="Transparent"
@@ -91,25 +91,22 @@
                 ManipulationMode="TranslateX,TranslateY"
                 ManipulationStarted="RootGrid_ManipulationStarted"
                 Tapped="RootGrid_Tapped">
-            <!--<Ellipse Width="300"
-                     Height="300"
-                     Fill="{ThemeResource SystemControlBackgroundListLowBrush}"
-                     Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                     StrokeThickness="0" />
-            <Ellipse Width="204"
-                     Height="204"
-                     Canvas.Top="48"
-                     Canvas.Left="48"
-                     Fill="{ThemeResource SystemControlBackgroundListLowBrush}"
-                     Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                     StrokeThickness="0" />
-            <Ellipse Width="108"
-                     Height="108"
-                     Canvas.Top="96"
-                     Canvas.Left="96"
-                     Fill="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                     Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                     StrokeThickness="0" />-->
+
+            <Ellipse Width="232"
+                     Height="232"
+                     Canvas.Top="54"
+                     Canvas.Left="54"
+                     Stroke="{ThemeResource SystemControlForegroundBaseLowBrush}"
+                     StrokeDashArray="4,4"
+                     StrokeThickness="1" />
+
+            <Ellipse Width="124"
+                     Height="124"
+                     Canvas.Top="108"
+                     Canvas.Left="108"
+                     Stroke="{ThemeResource SystemControlForegroundBaseLowBrush}"
+                     StrokeDashArray="4,4"
+                     StrokeThickness="1" />
 
             <Ellipse x:Name="MinuteIndicator"
                      Width="48"
