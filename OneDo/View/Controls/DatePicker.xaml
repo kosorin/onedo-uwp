@@ -38,7 +38,7 @@
             <Setter Property="OutOfScopeBackground" Value="{ThemeResource CalendarViewOutOfScopeBackground}" />
             <Setter Property="CalendarItemBackground" Value="{ThemeResource CalendarViewCalendarItemBackground}" />
             <Setter Property="Foreground" Value="{ThemeResource CalendarViewForeground}" />
-            <Setter Property="Background" Value="{ThemeResource CalendarViewBackground}" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="{ThemeResource CalendarViewBorderBrush}" />
             <Setter Property="CalendarItemBorderThickness" Value="2" />
             <Setter Property="BorderThickness" Value="0" />

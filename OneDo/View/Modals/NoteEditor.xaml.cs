@@ -2,6 +2,7 @@
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Modals;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace OneDo.View.Modals
@@ -35,22 +36,28 @@ namespace OneDo.View.Modals
 
         private void OnDateChanged(DatePickerViewModel sender, DatePickerEventArgs args)
         {
-            DatePickerFlyout.Hide();
+            //DatePickerFlyout.Hide();
+            DatePickerBorder.Visibility = Visibility.Collapsed;
         }
 
         private void OnReminderChanged(TimePickerViewModel sender, TimePickerEventArgs args)
         {
-            ReminderPickerFlyout.Hide();
+            //ReminderPickerFlyout.Hide();
         }
 
         private void DateButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            DatePickerFlyout.ShowAt(DatePickerGrid);
+            //DatePickerFlyout.ShowAt(DatePickerGrid);
+            if (VM.DatePicker.Date == null)
+            {
+                VM.DatePicker.Date = DateTime.Today;
+            }
+            DatePickerBorder.Visibility = Visibility.Visible;
         }
 
         private void ReminderButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            ReminderPickerFlyout.ShowAt(ReminderPickerGrid);
+            //ReminderPickerFlyout.ShowAt(ReminderPickerGrid);
         }
     }
 }

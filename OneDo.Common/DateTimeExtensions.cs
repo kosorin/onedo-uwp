@@ -108,6 +108,12 @@ namespace OneDo.Common
         }
 
 
+        public static bool IsThisYear(this DateTime date)
+        {
+            return date.Year == DateTime.Today.Year;
+        }
+
+
         public static DateTime SetTime(this DateTime date, int hour)
         {
             return date.SetTime(hour, 0, 0, 0);

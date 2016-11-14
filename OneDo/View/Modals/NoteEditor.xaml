@@ -571,29 +571,30 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
                         <Button x:Name="DateButton"
                                 Style="{StaticResource PickerButtonStyle}"
                                 Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
                                 Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}"
                                 Tag="&#xE787;"
-                                Tapped="DateButton_Tapped">
-                            <FlyoutBase.AttachedFlyout>
-                                <Flyout x:Name="DatePickerFlyout" FlyoutPresenterStyle="{StaticResource PickerFlyoutPresenterStyle}">
-                                    <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>
-                        </Button>
+                                Tapped="DateButton_Tapped" />
                         <Button Grid.Column="1"
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
-                        <!--<Border Grid.ColumnSpan="2"
+                        <Border x:Name="DatePickerBorder"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
                                 Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                                 BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                                BorderThickness="0,1" >
+                                BorderThickness="0,1"
+                                Visibility="Collapsed">
                             <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
-                        </Border>-->
+                        </Border>
                     </Grid>
                     <Grid x:Name="ReminderPickerGrid"
                           Margin="0,8,0,0"
@@ -608,23 +609,23 @@
                                 Content="{x:Bind VM.ReminderPicker.TimeText, Mode=OneWay}"
                                 Tag="&#xEA8F;"
                                 Tapped="ReminderButton_Tapped">
-                            <FlyoutBase.AttachedFlyout>
+                            <!--<FlyoutBase.AttachedFlyout>
                                 <Flyout x:Name="ReminderPickerFlyout" FlyoutPresenterStyle="{StaticResource PickerFlyoutPresenterStyle}">
                                     <controls:TimePicker DataContext="{x:Bind VM.ReminderPicker, Mode=OneWay}" />
                                 </Flyout>
-                            </FlyoutBase.AttachedFlyout>
+                            </FlyoutBase.AttachedFlyout>-->
                         </Button>
                         <Button Grid.Column="1"
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.ReminderPicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
-                        <Border Grid.ColumnSpan="2"
+                        <!--<Border Grid.ColumnSpan="2"
                                 Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                                 BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
                                 BorderThickness="0,1" >
                             <controls:TimePicker DataContext="{x:Bind VM.ReminderPicker, Mode=OneWay}" />
-                        </Border>
+                        </Border>-->
                     </Grid>
                 </StackPanel>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />

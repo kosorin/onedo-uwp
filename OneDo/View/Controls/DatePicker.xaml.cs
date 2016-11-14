@@ -41,17 +41,35 @@ namespace OneDo.View.Controls
         {
             if (VM != null)
             {
-                OnDateChanged(VM.Date);
+                SetCalendarViewDate(VM.Date);
                 VM.DateChanged += OnDateChanged;
             }
         }
 
         private void OnDateChanged(DatePickerViewModel picker, DatePickerEventArgs args)
         {
-            OnDateChanged(args.Date);
+            SetCalendarViewDate(args.Date);
         }
 
-        private void OnDateChanged(DateTime? date)
+        private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            if (!isPicking && VM != null)
+            {
+                if (args.AddedDates.Any())
+                {
+                    isPicking = true;
+                    VM.Date = args.AddedDates.First().Date;
+                    isPicking = false;
+                }
+                else
+                {
+                    VM.Refresh();
+                    SetCalendarViewDate(VM.Date);
+                }
+            }
+        }
+
+        private void SetCalendarViewDate(DateTime? date)
         {
             if (!isPicking)
             {
@@ -63,25 +81,6 @@ namespace OneDo.View.Controls
                     var dateTimeOffset = new DateTimeOffset((DateTime)date);
                     CalendarView.SelectedDates.Add(dateTimeOffset);
                     CalendarView.SetDisplayDate(dateTimeOffset);
-                }
-
-                isPicking = false;
-            }
-        }
-
-        private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
-        {
-            if (!isPicking && VM != null)
-            {
-                isPicking = true;
-
-                if (args.AddedDates.Any())
-                {
-                    VM.Date = args.AddedDates.First().Date;
-                }
-                else
-                {
-                    VM.Date = null;
                 }
 
                 isPicking = false;

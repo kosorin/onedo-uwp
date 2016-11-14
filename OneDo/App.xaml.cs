@@ -25,6 +25,7 @@ using Windows.Foundation.Metadata;
 using Windows.UI;
 using OneDo.Common.Metadata;
 using OneDo.View.Controls;
+using Windows.Globalization;
 
 namespace OneDo
 {
@@ -37,8 +38,11 @@ namespace OneDo
 
         public App()
         {
-            InitializeComponent();
+#if DEBUG
+            ApplicationLanguages.PrimaryLanguageOverride = "cs-CZ"; 
+#endif
 
+            InitializeComponent();
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
             Suspending += async (s, e) =>
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
@@ -187,7 +191,7 @@ namespace OneDo
 
         private void ShowContent()
         {
-            var content = new TimePicker();
+            var content = new MainPage();
             Window.Current.Content = content;
             Window.Current.Activate();
         }

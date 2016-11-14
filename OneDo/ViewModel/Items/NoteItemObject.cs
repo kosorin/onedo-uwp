@@ -25,7 +25,7 @@ namespace OneDo.ViewModel.Items
 
         public DateTime? Date => Entity.Date?.Date;
 
-        public string DateText => dateTimeBusiness.DateToString(Date);
+        public string DateText => dateTimeBusiness.DateToShortString(Date);
 
         public bool HasDate => Date != null;
 

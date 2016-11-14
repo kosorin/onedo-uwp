@@ -22,11 +22,11 @@ namespace OneDo.ViewModel
             set
             {
                 Set(ref date, value?.Date);
-                OnDateChanged();
+                Refresh();
             }
         }
 
-        public string DateText => dateTimeBusiness.DateToString(Date) ?? "Set Date & Reminder";
+        public string DateText => dateTimeBusiness.DateToLongString(Date) ?? "Set Date & Reminder";
 
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
@@ -55,7 +55,7 @@ namespace OneDo.ViewModel
             NextWeekCommand = new RelayCommand(() => Date = dateTimeBusiness.NextWeek());
         }
 
-        private void OnDateChanged()
+        public void Refresh()
         {
             RaisePropertyChanged(nameof(DateText));
             DateChanged?.Invoke(this, new DatePickerEventArgs(Date));

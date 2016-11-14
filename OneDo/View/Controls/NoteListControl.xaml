@@ -162,11 +162,11 @@
                         <StackPanel Margin="0,2,0,0"
                                     Orientation="Horizontal"
                                     Visibility="{x:Bind DateWithReminder, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                            <FontIcon Margin="0,0,4,0"
+                            <!--<FontIcon Margin="0,0,4,0"
                                       Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
                                       FontSize="16"
                                       Glyph="&#xE787;"
-                                      Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                      Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />-->
                             <TextBlock Margin="0,0,4,0"
                                        Style="{ThemeResource CaptionTextBlockStyle}"
                                        Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
