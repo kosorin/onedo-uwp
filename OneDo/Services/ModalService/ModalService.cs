@@ -53,6 +53,8 @@ namespace OneDo.Services.ModalService
         public IExtendedCommand CloseCommand { get; }
 
 
+        private Action sub;
+
         private readonly SystemNavigationManager navigationManager;
 
         public ModalService()
@@ -75,7 +77,14 @@ namespace OneDo.Services.ModalService
         {
             if (CanClose)
             {
-                Close();
+                if (sub != null)
+                {
+                    sub();
+                }
+                else
+                {
+                    Close();
+                }
                 return true;
             }
             return false;
@@ -83,12 +92,24 @@ namespace OneDo.Services.ModalService
 
         public void Close()
         {
+            sub = null;
             Current = null;
+        }
+
+        public void CloseSub()
+        {
+            sub = null;
         }
 
         public void Show(ModalViewModel modal)
         {
+            sub = null;
             Current = modal;
+        }
+
+        public void ShowSub(Action sub)
+        {
+            this.sub = sub;
         }
 
 

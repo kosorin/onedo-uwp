@@ -24,7 +24,6 @@ namespace OneDo.Model.Business
             LongDateFormatter = new DateTimeFormatter("longdate");
             ShortDateFormatter = new DateTimeFormatter("shortdate");
             MonthDayFormatter = new DateTimeFormatter(YearFormat.None, MonthFormat.Numeric, DayFormat.Default, DayOfWeekFormat.Default);
-            MonthDayFormatter = new DateTimeFormatter("month.numeric");
         }
 
 

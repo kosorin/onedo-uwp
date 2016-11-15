@@ -24,5 +24,9 @@ namespace OneDo.Services.ModalService
         void Close();
 
         void Show(ModalViewModel modal);
+
+        void CloseSub();
+
+        void ShowSub(Action sub);
     }
 }
