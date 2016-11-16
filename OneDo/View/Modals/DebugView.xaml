@@ -38,12 +38,12 @@
             </AppBarButton>
             <AppBarButton Command="{x:Bind VM.ExportLogCommand}" Label="Export">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE74E;" />
+                    <FontIcon Glyph="&#xE896;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Command="{x:Bind VM.ClearLogCommand}" Label="Clear">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE107;" />
+                    <FontIcon Glyph="&#xEA99;" />
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
