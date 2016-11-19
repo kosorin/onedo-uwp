@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using Windows.System;
 using OneDo.Common.UI;
 using OneDo.ViewModel.Commands;
+using System.ComponentModel;
 
 namespace OneDo.Services.ModalService
 {
@@ -29,20 +30,9 @@ namespace OneDo.Services.ModalService
             {
                 if (Set(ref current, value))
                 {
-                    CanClose = Current != null;
+                    RaisePropertyChanged(nameof(CanClose));
                     CurrentChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        private bool canClose;
-        public bool CanClose
-        {
-            get { return canClose; }
-            set
-            {
-                if (Set(ref canClose, value))
-                {
+                    CanCloseChanged?.Invoke(this, EventArgs.Empty);
                     UpdateBackButtonVisibility();
                 }
             }
@@ -50,13 +40,30 @@ namespace OneDo.Services.ModalService
 
         public event EventHandler CurrentChanged;
 
+        public bool CanClose => Current != null;
+
+        public event EventHandler CanCloseChanged;
+
         public IExtendedCommand CloseCommand { get; }
 
+        private IModalService attached;
+        public IModalService Attached
+        {
+            get { return attached; }
+            set
+            {
+                if (Set(ref attached, value))
+                {
+                    RaisePropertyChanged(nameof(CanClose));
+                    UpdateBackButtonVisibility();
+                }
+            }
+        }
 
-        private Action sub;
 
-        private readonly SystemNavigationManager navigationManager;
+        private SystemNavigationManager navigationManager;
 
+        [Obsolete("Do not use this constructor")]
         public ModalService()
         {
             // Dummy constructor
@@ -64,22 +71,23 @@ namespace OneDo.Services.ModalService
 
         public ModalService(Window window, SystemNavigationManager navigationManager)
         {
-            this.navigationManager = navigationManager;
-
             window.CoreWindow.PointerPressed += OnPointerPressed;
             window.CoreWindow.KeyDown += OnKeyDown;
-            navigationManager.BackRequested += OnBackRequested;
+
+            this.navigationManager = navigationManager;
+            this.navigationManager.BackRequested += OnBackRequested;
 
             CloseCommand = new RelayCommand(Close, () => CanClose);
         }
+
 
         public bool TryClose()
         {
             if (CanClose)
             {
-                if (sub != null)
+                if (Attached?.CanClose ?? false)
                 {
-                    sub();
+                    Attached.Close();
                 }
                 else
                 {
@@ -92,24 +100,40 @@ namespace OneDo.Services.ModalService
 
         public void Close()
         {
-            sub = null;
+            Detach();
             Current = null;
-        }
-
-        public void CloseSub()
-        {
-            sub = null;
         }
 
         public void Show(ModalViewModel modal)
         {
-            sub = null;
+            Detach();
             Current = modal;
+            Attach(modal.SubModalService);
         }
 
-        public void ShowSub(Action sub)
+
+        private void Detach()
         {
-            this.sub = sub;
+            if (Attached != null)
+            {
+                Attached.CanCloseChanged -= Attached_CanCloseChanged;
+            }
+            Attached = null;
+        }
+
+        private void Attach(IModalService modalService)
+        {
+            Detach();
+            Attached = modalService;
+            if (Attached != null)
+            {
+                Attached.CanCloseChanged += Attached_CanCloseChanged;
+            }
+        }
+
+        private void Attached_CanCloseChanged(object sender, EventArgs e)
+        {
+            UpdateBackButtonVisibility();
         }
 
 
@@ -147,7 +171,7 @@ namespace OneDo.Services.ModalService
 
         private void UpdateBackButtonVisibility()
         {
-            navigationManager.AppViewBackButtonVisibility = CanClose
+            navigationManager.AppViewBackButtonVisibility = (CanClose || (Attached?.CanClose ?? false))
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }

@@ -113,6 +113,7 @@
     <Compile Include="Common\UI\IExtendedCommand.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
+    <Compile Include="Services\ModalService\SubModalService.cs" />
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />

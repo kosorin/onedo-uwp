@@ -10,6 +10,7 @@
              xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
              xmlns:v="using:OneDo.View"
+             xmlns:vm="using:OneDo.ViewModel"
              xmlns:vmItems="using:OneDo.ViewModel.Items"
              d:DesignHeight="640"
              d:DesignWidth="360"
@@ -571,10 +572,6 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
                         <Button x:Name="DateButton"
                                 Style="{StaticResource PickerButtonStyle}"
                                 Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
@@ -585,16 +582,6 @@
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
-
-                        <Border x:Name="DatePickerBorder"
-                                Grid.Row="1"
-                                Grid.ColumnSpan="2"
-                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                                BorderThickness="0,1"
-                                Visibility="Collapsed">
-                            <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
-                        </Border>
                     </Grid>
                     <Grid x:Name="ReminderPickerGrid"
                           Margin="0,8,0,0"
@@ -680,5 +667,26 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
+
+        <controls:ModalContainer x:Name="ModalContainer"
+                                 Grid.RowSpan="2"
+                                 CloseCommand="{Binding CloseCommand}"
+                                 DataContext="{x:Bind VM.SubModalService, Mode=OneWay}"
+                                 Modal="{Binding Current}">
+            <controls:ModalContainer.TemplateSelector>
+                <v:ModalTemplateSelector>
+                    <v:ModalTemplateSelector.DatePickerTemplate>
+                        <DataTemplate x:DataType="vm:DatePickerViewModel">
+                            <Border HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    BorderThickness="1">
+                                <controls:DatePicker />
+                            </Border>
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.DatePickerTemplate>
+                </v:ModalTemplateSelector>
+            </controls:ModalContainer.TemplateSelector>
+        </controls:ModalContainer>
     </Grid>
 </v:ModalBase>

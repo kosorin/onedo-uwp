@@ -2,6 +2,7 @@
 using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
+using OneDo.Services.ModalService;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Commands;
 using System;
@@ -13,7 +14,7 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public class DatePickerViewModel : ExtendedViewModel
+    public class DatePickerViewModel : ModalViewModel
     {
         private DateTime? date;
         public DateTime? Date
@@ -44,7 +45,7 @@ namespace OneDo.ViewModel
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
-        public DatePickerViewModel(DataService dataService)
+        public DatePickerViewModel(IModalService modalService, DataService dataService) : base(modalService, dataService)
         {
             dateTimeBusiness = new DateTimeBusiness(DataService);
 

@@ -19,6 +19,8 @@ namespace OneDo.View
 
         public DataTemplate DebugTemplate { get; set; }
 
+        public DataTemplate DatePickerTemplate { get; set; }
+
         protected override DataTemplate SelectTemplateCore(object item)
         {
             return SelectTemplate(item as ModalViewModel);
@@ -46,6 +48,10 @@ namespace OneDo.View
             else if (modal is DebugViewModel)
             {
                 return DebugTemplate;
+            }
+            else if (modal is DatePickerViewModel)
+            {
+                return DatePickerTemplate;
             }
             return null;
         }

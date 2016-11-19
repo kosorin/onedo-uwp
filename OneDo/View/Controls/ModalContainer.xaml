@@ -17,41 +17,18 @@
                        mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
-        <Border x:Name="BackgroundControl" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+        <Border x:Name="BackgroundControl" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="Tapped">
+                    <ic:InvokeCommandAction Command="{x:Bind CloseCommand, Mode=OneWay}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </Border>
         <ContentControl x:Name="ContentControl"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch"
-                        Content="{x:Bind ActualModal, Mode=OneWay}">
-            <ContentControl.ContentTemplateSelector>
-                <v:ModalTemplateSelector>
-                    <v:ModalTemplateSelector.FolderEditorTemplate>
-                        <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
-                            <Border HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                                    BorderThickness="1">
-                                <vModals:FolderEditor />
-                            </Border>
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.FolderEditorTemplate>
-                    <v:ModalTemplateSelector.NoteEditorTemplate>
-                        <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
-                            <vModals:NoteEditor />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.NoteEditorTemplate>
-                    <v:ModalTemplateSelector.SettingsTemplate>
-                        <DataTemplate x:DataType="vmModals:SettingsViewModel">
-                            <vModals:SettingsView />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.SettingsTemplate>
-                    <v:ModalTemplateSelector.DebugTemplate>
-                        <DataTemplate x:DataType="vmModals:DebugViewModel">
-                            <vModals:DebugView />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.DebugTemplate>
-                </v:ModalTemplateSelector>
-            </ContentControl.ContentTemplateSelector>
-        </ContentControl>
+                        Content="{x:Bind ActualModal, Mode=OneWay}"
+                        ContentTemplateSelector="{x:Bind TemplateSelector}" />
     </Grid>
 
 </v:ExtendedUserControl>

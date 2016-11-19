@@ -77,6 +77,8 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
+
+
         public DatePickerViewModel DatePicker { get; }
 
         public TimePickerViewModel ReminderPicker { get; }
@@ -102,7 +104,8 @@ namespace OneDo.ViewModel.Modals
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
-            DatePicker = new DatePickerViewModel(DataService);
+
+            DatePicker = new DatePickerViewModel(ModalService, DataService);
             DatePicker.DateChanged += (s, e) =>
             {
                 UpdateDirtyProperty(() => e.Date?.Date != original.Date?.Date);

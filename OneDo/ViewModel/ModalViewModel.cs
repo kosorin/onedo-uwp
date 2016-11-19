@@ -13,6 +13,8 @@ namespace OneDo.ViewModel
     {
         public static ModalViewModel Null { get; } = new NullModalViewModel();
 
+        public SubModalService SubModalService { get; } = new SubModalService();
+
         public IModalService ModalService { get; }
 
         public DataService DataService { get; }
