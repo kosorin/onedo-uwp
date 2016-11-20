@@ -14,7 +14,7 @@
                 DataContext="{Binding Main, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="Karel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -41,10 +41,10 @@
 
         <!--  Modals  -->
         <v:ModalContainer x:Name="ModalContainer"
-                                 Grid.RowSpan="3"
-                                 CloseCommand="{Binding CloseCommand}"
-                                 DataContext="{Binding ModalService, Source={StaticResource Locator}}"
-                                 Modal="{Binding Current}">
+                          Grid.RowSpan="3"
+                          CloseCommand="{Binding CloseCommand}"
+                          DataContext="{Binding ModalService, Source={StaticResource Locator}}"
+                          Modal="{Binding Current}">
             <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>
                     <v:ModalTemplateSelector.FolderEditorTemplate>

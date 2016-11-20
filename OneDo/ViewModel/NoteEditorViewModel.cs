@@ -151,15 +151,21 @@ namespace OneDo.ViewModel
         {
             if (!IsNew)
             {
-                SubModalService.Show(new ConfirmationViewModel());
-                //await ProgressService.RunAsync(async () =>
-                //{
-                //    await business.Delete(original);
-
-                //});
-
-                //OnDeleted();
-                //ModalService.Close();
+                var confirmation = new ConfirmationViewModel
+                {
+                    Text = "To-do will be deleted. Do you want to continue?",
+                    ButtonText = "Yes, delete to-do",
+                };
+                confirmation.ConfirmationRequested += async (s, e) =>
+                {
+                    await ProgressService.RunAsync(async () =>
+                    {
+                        await business.Delete(original);
+                    });
+                    SubModalService.Close();
+                    OnDeleted();
+                };
+                SubModalService.Show(confirmation);
             }
             return Task.CompletedTask;
         }

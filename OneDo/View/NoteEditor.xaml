@@ -11,6 +11,7 @@
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
              xmlns:v="using:OneDo.View"
              xmlns:vm="using:OneDo.ViewModel"
+             x:Name="Root"
              d:DesignHeight="640"
              d:DesignWidth="360"
              mc:Ignorable="d">
@@ -516,7 +517,7 @@
 
     </v:ModalBase.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -639,7 +640,7 @@
                              Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                 </Grid>
-                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
+                <Rectangle Margin="48,0,0,16" Style="{StaticResource HorizontalLineStyle}" />
 
             </StackPanel>
         </ScrollViewer>
@@ -670,10 +671,10 @@
         </CommandBar>
 
         <v:ModalContainer x:Name="ModalContainer"
-                                 Grid.RowSpan="2"
-                                 CloseCommand="{Binding CloseCommand}"
-                                 DataContext="{x:Bind VM.SubModalService, Mode=OneWay}"
-                                 Modal="{Binding Current}">
+                          Grid.RowSpan="2"
+                          CloseCommand="{Binding CloseCommand}"
+                          DataContext="{x:Bind VM.SubModalService, Mode=OneWay}"
+                          Modal="{Binding Current}">
             <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>
                     <v:ModalTemplateSelector.DatePickerTemplate>
@@ -698,5 +699,31 @@
                 </v:ModalTemplateSelector>
             </v:ModalContainer.TemplateSelector>
         </v:ModalContainer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.HorizontalAlignment" Value="Right" />
+                        <Setter Target="Root.VerticalAlignment" Value="Bottom" />
+                        <Setter Target="Root.Width" Value="400" />
+                        <Setter Target="Root.MinHeight" Value="480" />
+                        <Setter Target="Root.MaxHeight" Value="800" />
+                        <Setter Target="Root.MaxHeight" Value="800" />
+                        <Setter Target="Root.Margin" Value="16,16,16,0" />
+                        <Setter Target="RootGrid.BorderThickness" Value="1,1,1,0" />
+                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </v:ModalBase>

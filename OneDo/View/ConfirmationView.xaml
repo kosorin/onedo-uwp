@@ -7,8 +7,10 @@
              mc:Ignorable="d">
     <Grid Padding="16" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
         <StackPanel>
-            <TextBlock Margin="0,0,0,10" Text="To-do will be deleted. Do you want to continue?" />
-            <Button Content="Yes, delete to-do" />
+            <TextBlock Margin="0,0,0,10"
+                       Text="{x:Bind VM.Text, Mode=OneWay}"
+                       TextWrapping="WrapWholeWords" />
+            <Button Content="{x:Bind VM.ButtonText, Mode=OneWay}" Command="{x:Bind VM.ConfirmCommand}" />
         </StackPanel>
     </Grid>
 </v:ModalBase>

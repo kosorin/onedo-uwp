@@ -17,12 +17,26 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand ConfirmCommand { get; }
 
-        public ConfirmationViewModel()
+        private string text;
+        public string Text
         {
-            ConfirmCommand = new RelayCommand(OnConfirm);
+            get { return text; }
+            set { Set(ref text, value); }
         }
 
-        private void OnConfirm()
+        private string buttonText;
+        public string ButtonText
+        {
+            get { return buttonText; }
+            set { Set(ref buttonText, value); }
+        }
+
+        public ConfirmationViewModel()
+        {
+            ConfirmCommand = new RelayCommand(Confirm);
+        }
+
+        public void Confirm()
         {
             ConfirmationRequested?.Invoke(this, EventArgs.Empty);
         }

@@ -47,7 +47,7 @@ namespace OneDo.Services.ModalService
 
         public SubModalService()
         {
-            CloseCommand = new RelayCommand(Close, () => CanClose);
+            CloseCommand = new RelayCommand(() => TryClose());
         }
 
 

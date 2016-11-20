@@ -77,7 +77,7 @@ namespace OneDo.Services.ModalService
             this.navigationManager = navigationManager;
             this.navigationManager.BackRequested += OnBackRequested;
 
-            CloseCommand = new RelayCommand(Close, () => CanClose);
+            CloseCommand = new RelayCommand(() => TryClose());
         }
 
 
