@@ -1,4 +1,4 @@
-﻿<v:ModalBase x:Class="OneDo.View.Modals.NoteEditor"
+﻿<v:ModalBase x:Class="OneDo.View.NoteEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,7 +11,6 @@
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
              xmlns:v="using:OneDo.View"
              xmlns:vm="using:OneDo.ViewModel"
-             xmlns:vmItems="using:OneDo.ViewModel.Items"
              d:DesignHeight="640"
              d:DesignWidth="360"
              mc:Ignorable="d">
@@ -556,7 +555,7 @@
                           ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
                           SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="vmItems:FolderItemObject">
+                        <DataTemplate x:DataType="vm:FolderItemObject">
                             <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -652,15 +651,17 @@
                         <FontIcon Glyph="&#xE74E;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Label="Delete" Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
-                    <AppBarButton.Flyout>
+                <AppBarButton Command="{x:Bind VM.DeleteCommand, Mode=OneWay}"
+                              Label="Delete"
+                              Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
+                    <!--<AppBarButton.Flyout>
                         <Flyout PickerFlyoutBase.Title="Test">
                             <StackPanel>
                                 <TextBlock Margin="0,0,0,10" Text="To-do will be deleted. Do you want to continue?" />
                                 <Button Command="{x:Bind VM.DeleteCommand, Mode=OneWay}" Content="Yes, delete to-do" />
                             </StackPanel>
                         </Flyout>
-                    </AppBarButton.Flyout>
+                    </AppBarButton.Flyout>-->
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74D;" />
                     </AppBarButton.Icon>
@@ -668,12 +669,12 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <controls:ModalContainer x:Name="ModalContainer"
+        <v:ModalContainer x:Name="ModalContainer"
                                  Grid.RowSpan="2"
                                  CloseCommand="{Binding CloseCommand}"
                                  DataContext="{x:Bind VM.SubModalService, Mode=OneWay}"
                                  Modal="{Binding Current}">
-            <controls:ModalContainer.TemplateSelector>
+            <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>
                     <v:ModalTemplateSelector.DatePickerTemplate>
                         <DataTemplate x:DataType="vm:DatePickerViewModel">
@@ -681,12 +682,21 @@
                                     VerticalAlignment="Center"
                                     BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                                     BorderThickness="1">
-                                <controls:DatePicker />
+                                <v:DatePicker />
                             </Border>
                         </DataTemplate>
                     </v:ModalTemplateSelector.DatePickerTemplate>
+                    <v:ModalTemplateSelector.ConfirmationTemplate>
+                        <DataTemplate x:DataType="vm:ConfirmationViewModel">
+                            <Border VerticalAlignment="Bottom"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    BorderThickness="0,1,0,0">
+                                <v:ConfirmationView />
+                            </Border>
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.ConfirmationTemplate>
                 </v:ModalTemplateSelector>
-            </controls:ModalContainer.TemplateSelector>
-        </controls:ModalContainer>
+            </v:ModalContainer.TemplateSelector>
+        </v:ModalContainer>
     </Grid>
 </v:ModalBase>

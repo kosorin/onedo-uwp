@@ -8,7 +8,6 @@ using OneDo.Model.Data.Entities;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Commands;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,7 +17,7 @@ using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModel.Modals
+namespace OneDo.ViewModel
 {
     public class NoteEditorViewModel : EditorViewModel<Note>
     {
@@ -89,15 +88,24 @@ namespace OneDo.ViewModel.Modals
         public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Saved;
 
 
+        public DataService DataService { get; }
+
         private readonly NoteBusiness business;
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
         private readonly Note original;
 
-        public NoteEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList, Note note)
-            : base(modalService, dataService, progressService)
+        public NoteEditorViewModel(DataService dataService, IProgressService progressService, FolderListViewModel folderList)
+            : this(dataService, progressService, folderList, null)
         {
+
+        }
+
+        public NoteEditorViewModel(DataService dataService, IProgressService progressService, FolderListViewModel folderList, Note note)
+            : base(progressService)
+        {
+            DataService = dataService;
             business = new NoteBusiness(DataService);
             dateTimeBusiness = new DateTimeBusiness(DataService);
             original = note ?? business.Default();
@@ -105,7 +113,7 @@ namespace OneDo.ViewModel.Modals
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
-            DatePicker = new DatePickerViewModel(ModalService, DataService);
+            DatePicker = new DatePickerViewModel(DataService);
             DatePicker.DateChanged += (s, e) =>
             {
                 UpdateDirtyProperty(() => e.Date?.Date != original.Date?.Date);
@@ -139,19 +147,21 @@ namespace OneDo.ViewModel.Modals
             ReminderPicker.Time = original.Reminder;
         }
 
-        protected override async Task Delete()
+        protected override Task Delete()
         {
             if (!IsNew)
             {
-                await ProgressService.RunAsync(async () =>
-                {
-                    await business.Delete(original);
+                SubModalService.Show(new ConfirmationViewModel());
+                //await ProgressService.RunAsync(async () =>
+                //{
+                //    await business.Delete(original);
 
-                });
+                //});
 
-                OnDeleted();
-                ModalService.Close();
+                //OnDeleted();
+                //ModalService.Close();
             }
+            return Task.CompletedTask;
         }
 
         protected override async Task Save()
@@ -169,7 +179,6 @@ namespace OneDo.ViewModel.Modals
             });
 
             OnSaved();
-            ModalService.Close();
         }
 
         protected override void OnSaved()

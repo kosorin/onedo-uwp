@@ -2,11 +2,11 @@
 using OneDo.Services.ModalService;
 using Windows.ApplicationModel;
 
-namespace OneDo.ViewModel.Modals
+namespace OneDo.ViewModel
 {
     public class SettingsViewModel : ModalViewModel
     {
-        public SettingsViewModel(IModalService modalService, DataService dataService) : base(modalService, dataService)
+        public SettingsViewModel(DataService dataService)
         {
 
         }

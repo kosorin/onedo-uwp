@@ -5,8 +5,6 @@ using OneDo.Common.Metadata;
 using OneDo.Common.UI;
 using OneDo.Services.ModalService;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Items;
-using OneDo.ViewModel.Modals;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +28,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.View.Controls
+namespace OneDo.View
 {
     public sealed partial class ModalContainer : ExtendedUserControl
     {

@@ -1,4 +1,4 @@
-﻿<v:ExtendedUserControl x:Class="OneDo.View.Controls.ModalContainer"
+﻿<v:ExtendedUserControl x:Class="OneDo.View.ModalContainer"
                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,9 +11,7 @@
                        xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                        xmlns:im="using:Microsoft.Xaml.Interactions.Media"
                        xmlns:v="using:OneDo.View"
-                       xmlns:vModals="using:OneDo.View.Modals"
-                       xmlns:vmItems="using:OneDo.ViewModel.Items"
-                       xmlns:vmModals="using:OneDo.ViewModel.Modals"
+                       xmlns:vm="using:OneDo.ViewModel"
                        mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">

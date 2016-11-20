@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.View.Controls
+namespace OneDo.View
 {
     public sealed partial class DatePicker : ExtendedUserControl, IXBind<DatePickerViewModel>
     {

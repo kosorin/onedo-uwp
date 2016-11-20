@@ -15,19 +15,9 @@ namespace OneDo.ViewModel
 
         public SubModalService SubModalService { get; } = new SubModalService();
 
-        public IModalService ModalService { get; }
-
-        public DataService DataService { get; }
-
-        protected ModalViewModel(IModalService modalService, DataService dataService)
-        {
-            ModalService = modalService;
-            DataService = dataService;
-        }
-
         private class NullModalViewModel : ModalViewModel
         {
-            public NullModalViewModel() : base(null, null)
+            public NullModalViewModel()
             {
 
             }

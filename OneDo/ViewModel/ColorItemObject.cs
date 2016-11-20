@@ -2,7 +2,7 @@
 using OneDo.Common.Media;
 using Windows.UI;
 
-namespace OneDo.ViewModel.Items
+namespace OneDo.ViewModel
 {
     public class ColorItemObject : ObservableObject
     {

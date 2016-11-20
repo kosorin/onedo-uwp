@@ -1,6 +1,5 @@
 ﻿using System;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -54,7 +53,7 @@ namespace OneDo.View
             {
                 Label = "Debug",
             };
-            debugButton.Tapped += (s, e) => VM.ModalService.Show(new DebugViewModel(VM.ModalService, VM.DataService, VM.ProgressService));
+            debugButton.Tapped += (s, e) => VM.ModalService.Show(new DebugViewModel(VM.ProgressService));
 
             var switchRequestedThemeButton = new AppBarButton
             {

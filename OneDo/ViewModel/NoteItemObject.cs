@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModel.Items
+namespace OneDo.ViewModel
 {
     public class NoteItemObject : ItemObject<Note>
     {

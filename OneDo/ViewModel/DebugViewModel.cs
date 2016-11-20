@@ -13,7 +13,7 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
-namespace OneDo.ViewModel.Modals
+namespace OneDo.ViewModel
 {
     public class DebugViewModel : ModalViewModel
     {
@@ -32,7 +32,7 @@ namespace OneDo.ViewModel.Modals
 
         public IProgressService ProgressService { get; }
 
-        public DebugViewModel(IModalService modalService, DataService dataService, IProgressService progressService) : base(modalService, dataService)
+        public DebugViewModel(IProgressService progressService)
         {
             ProgressService = progressService;
             LoadLogCommand = new AsyncRelayCommand(LoadLog);

@@ -1,7 +1,6 @@
 ﻿using System;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
-using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -9,7 +8,7 @@ using System.Numerics;
 using Windows.UI.Composition;
 using OneDo.Services.ModalService;
 
-namespace OneDo.View.Modals
+namespace OneDo.View
 {
     public sealed partial class NoteEditor : ModalBase, IXBind<NoteEditorViewModel>
     {
@@ -19,7 +18,24 @@ namespace OneDo.View.Modals
         public NoteEditor()
         {
             InitializeComponent();
+            InitializeAnimations();
         }
+
+        private void InitializeAnimations()
+        {
+            var confirmationFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
+            confirmationFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
+            confirmationFadeInAnimation.InsertKeyFrame(0, 50);
+            confirmationFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
+            ModalContainer.AddFadeInAnimation<ConfirmationViewModel>("Offset.Y", confirmationFadeInAnimation);
+
+            var confirmationFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
+            confirmationFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
+            confirmationFadeOutAnimation.InsertKeyFrame(0, 0);
+            confirmationFadeOutAnimation.InsertKeyFrame(1, 50, ModalContainer.DefaultEasing);
+            ModalContainer.AddFadeOutAnimation<ConfirmationViewModel>("Offset.Y", confirmationFadeOutAnimation);
+        }
+
 
         protected override void OnViewModelChanging()
         {

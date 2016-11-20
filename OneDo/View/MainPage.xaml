@@ -10,9 +10,7 @@
                 xmlns:i="using:Microsoft.Xaml.Interactivity"
                 xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:v="using:OneDo.View"
-                xmlns:vModals="using:OneDo.View.Modals"
-                xmlns:vmItems="using:OneDo.ViewModel.Items"
-                xmlns:vmModals="using:OneDo.ViewModel.Modals"
+                xmlns:vm="using:OneDo.ViewModel"
                 DataContext="{Binding Main, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
@@ -24,10 +22,10 @@
         </Grid.RowDefinitions>
 
         <!--  Folders  -->
-        <controls:FolderListControl Grid.Row="0" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
+        <v:FolderListControl Grid.Row="0" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
 
         <!--  Notes  -->
-        <controls:NoteListControl Grid.Row="1" DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
+        <v:NoteListControl Grid.Row="1" DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
 
         <!--  AppBar  -->
         <CommandBar x:Name="MainCommandBar" Grid.Row="2">
@@ -42,41 +40,41 @@
         </CommandBar>
 
         <!--  Modals  -->
-        <controls:ModalContainer x:Name="ModalContainer"
+        <v:ModalContainer x:Name="ModalContainer"
                                  Grid.RowSpan="3"
                                  CloseCommand="{Binding CloseCommand}"
                                  DataContext="{Binding ModalService, Source={StaticResource Locator}}"
                                  Modal="{Binding Current}">
-            <controls:ModalContainer.TemplateSelector>
+            <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>
                     <v:ModalTemplateSelector.FolderEditorTemplate>
-                        <DataTemplate x:DataType="vmModals:FolderEditorViewModel">
+                        <DataTemplate x:DataType="vm:FolderEditorViewModel">
                             <Border HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                                     BorderThickness="1">
-                                <vModals:FolderEditor />
+                                <v:FolderEditor />
                             </Border>
                         </DataTemplate>
                     </v:ModalTemplateSelector.FolderEditorTemplate>
                     <v:ModalTemplateSelector.NoteEditorTemplate>
-                        <DataTemplate x:DataType="vmModals:NoteEditorViewModel">
-                            <vModals:NoteEditor />
+                        <DataTemplate x:DataType="vm:NoteEditorViewModel">
+                            <v:NoteEditor />
                         </DataTemplate>
                     </v:ModalTemplateSelector.NoteEditorTemplate>
                     <v:ModalTemplateSelector.SettingsTemplate>
-                        <DataTemplate x:DataType="vmModals:SettingsViewModel">
-                            <vModals:SettingsView />
+                        <DataTemplate x:DataType="vm:SettingsViewModel">
+                            <v:SettingsView />
                         </DataTemplate>
                     </v:ModalTemplateSelector.SettingsTemplate>
                     <v:ModalTemplateSelector.DebugTemplate>
-                        <DataTemplate x:DataType="vmModals:DebugViewModel">
-                            <vModals:DebugView />
+                        <DataTemplate x:DataType="vm:DebugViewModel">
+                            <v:DebugView />
                         </DataTemplate>
                     </v:ModalTemplateSelector.DebugTemplate>
                 </v:ModalTemplateSelector>
-            </controls:ModalContainer.TemplateSelector>
-        </controls:ModalContainer>
+            </v:ModalContainer.TemplateSelector>
+        </v:ModalContainer>
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="3">

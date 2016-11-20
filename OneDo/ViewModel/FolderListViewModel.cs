@@ -1,6 +1,5 @@
 ﻿using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using OneDo.ViewModel.Commands;
 using OneDo.Services.ModalService;
-using OneDo.ViewModel.Modals;
 using OneDo.Services.ProgressService;
 using Windows.Foundation;
 using OneDo.Common.Event;
@@ -146,7 +144,7 @@ namespace OneDo.ViewModel
 
         private void Add()
         {
-            var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService);
+            var editor = new FolderEditorViewModel(DataService, ProgressService);
             editor.Saved += (s, e) =>
             {
                 Items.Add(new FolderItemObject(e.Entity, this));
@@ -158,7 +156,7 @@ namespace OneDo.ViewModel
 
         private void Edit(FolderItemObject item)
         {
-            var editor = new FolderEditorViewModel(ModalService, DataService, ProgressService, item.Entity);
+            var editor = new FolderEditorViewModel(DataService, ProgressService, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
             editor.Saved += (s, e) => item.Refresh();
 
@@ -182,6 +180,8 @@ namespace OneDo.ViewModel
 
         private void ShowEditor(FolderEditorViewModel editor)
         {
+            editor.Saved += (s, e) => ModalService.Close();
+            editor.Deleted += (s, e) => ModalService.Close();
             ModalService.Show(editor);
         }
     }

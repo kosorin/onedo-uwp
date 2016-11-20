@@ -1,5 +1,4 @@
-﻿using OneDo.Common.UI;
-using OneDo.ViewModel.Modals;
+﻿using OneDo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,13 +14,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.View.Modals
+namespace OneDo.View
 {
-    public sealed partial class DebugView : ModalBase, IXBind<DebugViewModel>
+    public sealed partial class ConfirmationView : ModalBase, IXBind<ConfirmationViewModel>
     {
-        public DebugViewModel VM => (DebugViewModel)ViewModel;
+        public ConfirmationViewModel VM => ViewModel as ConfirmationViewModel;
 
-        public DebugView()
+        public ConfirmationView()
         {
             InitializeComponent();
         }

@@ -41,13 +41,11 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand NextWeekCommand { get; }
 
-        public DataService DataService { get; }
-
         private readonly DateTimeBusiness dateTimeBusiness;
 
-        public DatePickerViewModel(IModalService modalService, DataService dataService) : base(modalService, dataService)
+        public DatePickerViewModel(DataService dataService)
         {
-            dateTimeBusiness = new DateTimeBusiness(DataService);
+            dateTimeBusiness = new DateTimeBusiness(dataService);
 
             ClearCommand = new RelayCommand(() => Date = null);
             TodayCommand = new RelayCommand(() => Date = dateTimeBusiness.Today());
