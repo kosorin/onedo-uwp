@@ -3,8 +3,6 @@ using System.Windows.Input;
 using OneDo.Model.Data;
 using System.Collections.Generic;
 using System.Linq;
-using OneDo.ViewModel.Items;
-using OneDo.ViewModel.Modals;
 using Windows.UI.Core;
 using OneDo.Model.Data.Entities;
 using System.Collections.ObjectModel;
@@ -98,7 +96,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            ModalService.Show(new SettingsViewModel(ModalService, DataService));
+            ModalService.Show(new SettingsViewModel(DataService));
         }
 
         private readonly Guid tileGuid = new Guid("7610751c-f243-4a33-b5b6-7d7934152f47");

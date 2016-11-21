@@ -9,7 +9,6 @@ using OneDo.Model.Data.Entities;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Commands;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,7 +18,7 @@ using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModel.Modals
+namespace OneDo.ViewModel
 {
     public class FolderEditorViewModel : EditorViewModel<Folder>
     {
@@ -88,16 +87,16 @@ namespace OneDo.ViewModel.Modals
             };
         }
 
-        public FolderEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
-            : this(modalService, dataService, progressService, null)
+        public FolderEditorViewModel(DataService dataService, IProgressService progressService)
+            : this(dataService, progressService, null)
         {
 
         }
 
-        public FolderEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService, Folder folder)
-            : base(modalService, dataService, progressService)
+        public FolderEditorViewModel(DataService dataService, IProgressService progressService, Folder folder)
+            : base(progressService)
         {
-            business = new FolderBusiness(DataService);
+            business = new FolderBusiness(dataService);
             original = folder ?? business.Default();
 
             Load();
@@ -125,7 +124,6 @@ namespace OneDo.ViewModel.Modals
             });
 
             OnSaved();
-            ModalService.Close();
         }
 
         protected override async Task Delete()
@@ -138,7 +136,6 @@ namespace OneDo.ViewModel.Modals
                 });
 
                 OnDeleted();
-                ModalService.Close();
             }
         }
 

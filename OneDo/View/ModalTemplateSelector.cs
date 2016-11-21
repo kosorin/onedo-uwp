@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -18,6 +17,10 @@ namespace OneDo.View
         public DataTemplate SettingsTemplate { get; set; }
 
         public DataTemplate DebugTemplate { get; set; }
+
+        public DataTemplate DatePickerTemplate { get; set; }
+
+        public DataTemplate ConfirmationTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
@@ -46,6 +49,14 @@ namespace OneDo.View
             else if (modal is DebugViewModel)
             {
                 return DebugTemplate;
+            }
+            else if (modal is DatePickerViewModel)
+            {
+                return DatePickerTemplate;
+            }
+            else if (modal is ConfirmationViewModel)
+            {
+                return ConfirmationTemplate;
             }
             return null;
         }

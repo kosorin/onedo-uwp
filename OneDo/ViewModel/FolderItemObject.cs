@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
-namespace OneDo.ViewModel.Items
+namespace OneDo.ViewModel
 {
     public class FolderItemObject : ItemObject<Folder>
     {

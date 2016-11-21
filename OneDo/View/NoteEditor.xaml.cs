@@ -1,31 +1,41 @@
 ﻿using System;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
-using OneDo.ViewModel.Modals;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using System.Numerics;
 using Windows.UI.Composition;
+using OneDo.Services.ModalService;
 
-namespace OneDo.View.Modals
+namespace OneDo.View
 {
     public sealed partial class NoteEditor : ModalBase, IXBind<NoteEditorViewModel>
     {
         public NoteEditorViewModel VM => ViewModel as NoteEditorViewModel;
 
-        private ScalarKeyFrameAnimation toVisibleOpacityAnimation;
-
-        private ScalarKeyFrameAnimation toCollapsedOpacityAnimation;
-
-        private Visual datePickerVisual;
 
         public NoteEditor()
         {
             InitializeComponent();
             InitializeAnimations();
-            InitializeDatePicker();
         }
+
+        private void InitializeAnimations()
+        {
+            var confirmationFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
+            confirmationFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
+            confirmationFadeInAnimation.InsertKeyFrame(0, 50);
+            confirmationFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
+            ModalContainer.AddFadeInAnimation<ConfirmationViewModel>("Offset.Y", confirmationFadeInAnimation);
+
+            var confirmationFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
+            confirmationFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
+            confirmationFadeOutAnimation.InsertKeyFrame(0, 0);
+            confirmationFadeOutAnimation.InsertKeyFrame(1, 50, ModalContainer.DefaultEasing);
+            ModalContainer.AddFadeOutAnimation<ConfirmationViewModel>("Offset.Y", confirmationFadeOutAnimation);
+        }
+
 
         protected override void OnViewModelChanging()
         {
@@ -46,27 +56,6 @@ namespace OneDo.View.Modals
         }
 
 
-        private void InitializeAnimations()
-        {
-            toVisibleOpacityAnimation = compositor.CreateScalarKeyFrameAnimation();
-            toVisibleOpacityAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            toVisibleOpacityAnimation.InsertKeyFrame(0, 0);
-            toVisibleOpacityAnimation.InsertKeyFrame(1, 1);
-
-            toCollapsedOpacityAnimation = compositor.CreateScalarKeyFrameAnimation();
-            toCollapsedOpacityAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            toCollapsedOpacityAnimation.InsertKeyFrame(0, 1);
-            toCollapsedOpacityAnimation.InsertKeyFrame(1, 0);
-        }
-
-
-        private void InitializeDatePicker()
-        {
-            datePickerVisual = ElementCompositionPreview.GetElementVisual(DatePickerBorder);
-            datePickerVisual.Opacity = 0;
-
-        }
-
         private void OnDateChanged(DatePickerViewModel sender, DatePickerEventArgs args)
         {
             CloseDatePicker();
@@ -79,35 +68,18 @@ namespace OneDo.View.Modals
 
         private void CloseDatePicker()
         {
-            datePickerVisual.StopAnimation("Opacity");
-
-            var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            datePickerVisual.StartAnimation("Opacity", toCollapsedOpacityAnimation);
-            batch.Completed += (s, e) =>
-            {
-                DatePickerBorder.Visibility = Visibility.Collapsed;
-                VM.ModalService.CloseSub();
-            };
-            batch.End();
+            VM.SubModalService.TryClose();
         }
 
         private void ShowDatePicker()
         {
-            datePickerVisual.StopAnimation("Opacity");
-
-            DatePickerBorder.Visibility = Visibility.Visible;
-            datePickerVisual.StartAnimation("Opacity", toVisibleOpacityAnimation);
-
             if (VM.DatePicker.Date == null)
             {
                 VM.DatePicker.DateChanged -= OnDateChanged;
                 VM.DatePicker.Date = DateTime.Today;
                 VM.DatePicker.DateChanged += OnDateChanged;
             }
-            VM.ModalService.ShowSub(() =>
-            {
-                CloseDatePicker();
-            });
+            VM.SubModalService.Show(VM.DatePicker);
         }
 
 

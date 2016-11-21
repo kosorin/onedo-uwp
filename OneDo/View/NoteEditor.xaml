@@ -1,4 +1,4 @@
-﻿<v:ModalBase x:Class="OneDo.View.Modals.NoteEditor"
+﻿<v:ModalBase x:Class="OneDo.View.NoteEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,7 +10,8 @@
              xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
              xmlns:v="using:OneDo.View"
-             xmlns:vmItems="using:OneDo.ViewModel.Items"
+             xmlns:vm="using:OneDo.ViewModel"
+             x:Name="Root"
              d:DesignHeight="640"
              d:DesignWidth="360"
              mc:Ignorable="d">
@@ -516,7 +517,7 @@
 
     </v:ModalBase.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -555,7 +556,7 @@
                           ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
                           SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="vmItems:FolderItemObject">
+                        <DataTemplate x:DataType="vm:FolderItemObject">
                             <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -571,10 +572,6 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
                         <Button x:Name="DateButton"
                                 Style="{StaticResource PickerButtonStyle}"
                                 Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
@@ -585,16 +582,6 @@
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
-
-                        <Border x:Name="DatePickerBorder"
-                                Grid.Row="1"
-                                Grid.ColumnSpan="2"
-                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                                BorderThickness="0,1"
-                                Visibility="Collapsed">
-                            <controls:DatePicker DataContext="{x:Bind VM.DatePicker, Mode=OneWay}" />
-                        </Border>
                     </Grid>
                     <Grid x:Name="ReminderPickerGrid"
                           Margin="0,8,0,0"
@@ -653,7 +640,7 @@
                              Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                 </Grid>
-                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
+                <Rectangle Margin="48,0,0,16" Style="{StaticResource HorizontalLineStyle}" />
 
             </StackPanel>
         </ScrollViewer>
@@ -665,20 +652,78 @@
                         <FontIcon Glyph="&#xE74E;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Label="Delete" Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
-                    <AppBarButton.Flyout>
+                <AppBarButton Command="{x:Bind VM.DeleteCommand, Mode=OneWay}"
+                              Label="Delete"
+                              Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
+                    <!--<AppBarButton.Flyout>
                         <Flyout PickerFlyoutBase.Title="Test">
                             <StackPanel>
                                 <TextBlock Margin="0,0,0,10" Text="To-do will be deleted. Do you want to continue?" />
                                 <Button Command="{x:Bind VM.DeleteCommand, Mode=OneWay}" Content="Yes, delete to-do" />
                             </StackPanel>
                         </Flyout>
-                    </AppBarButton.Flyout>
+                    </AppBarButton.Flyout>-->
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
+
+        <v:ModalContainer x:Name="ModalContainer"
+                          Grid.RowSpan="2"
+                          CloseCommand="{Binding CloseCommand}"
+                          DataContext="{x:Bind VM.SubModalService, Mode=OneWay}"
+                          Modal="{Binding Current}">
+            <v:ModalContainer.TemplateSelector>
+                <v:ModalTemplateSelector>
+                    <v:ModalTemplateSelector.DatePickerTemplate>
+                        <DataTemplate x:DataType="vm:DatePickerViewModel">
+                            <Border HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    BorderThickness="1">
+                                <v:DatePicker />
+                            </Border>
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.DatePickerTemplate>
+                    <v:ModalTemplateSelector.ConfirmationTemplate>
+                        <DataTemplate x:DataType="vm:ConfirmationViewModel">
+                            <Border VerticalAlignment="Bottom"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    BorderThickness="0,1,0,0">
+                                <v:ConfirmationView />
+                            </Border>
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.ConfirmationTemplate>
+                </v:ModalTemplateSelector>
+            </v:ModalContainer.TemplateSelector>
+        </v:ModalContainer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.HorizontalAlignment" Value="Right" />
+                        <Setter Target="Root.VerticalAlignment" Value="Bottom" />
+                        <Setter Target="Root.Width" Value="400" />
+                        <Setter Target="Root.MinHeight" Value="480" />
+                        <Setter Target="Root.MaxHeight" Value="800" />
+                        <Setter Target="Root.MaxHeight" Value="800" />
+                        <Setter Target="Root.Margin" Value="16,16,16,0" />
+                        <Setter Target="RootGrid.BorderThickness" Value="1,1,1,0" />
+                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </v:ModalBase>

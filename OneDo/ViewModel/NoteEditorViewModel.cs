@@ -8,7 +8,6 @@ using OneDo.Model.Data.Entities;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Commands;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,7 +17,7 @@ using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.ViewModel.Modals
+namespace OneDo.ViewModel
 {
     public class NoteEditorViewModel : EditorViewModel<Note>
     {
@@ -77,6 +76,8 @@ namespace OneDo.ViewModel.Modals
             }
         }
 
+
+
         public DatePickerViewModel DatePicker { get; }
 
         public TimePickerViewModel ReminderPicker { get; }
@@ -87,21 +88,31 @@ namespace OneDo.ViewModel.Modals
         public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Saved;
 
 
+        public DataService DataService { get; }
+
         private readonly NoteBusiness business;
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
         private readonly Note original;
 
-        public NoteEditorViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList, Note note)
-            : base(modalService, dataService, progressService)
+        public NoteEditorViewModel(DataService dataService, IProgressService progressService, FolderListViewModel folderList)
+            : this(dataService, progressService, folderList, null)
         {
+
+        }
+
+        public NoteEditorViewModel(DataService dataService, IProgressService progressService, FolderListViewModel folderList, Note note)
+            : base(progressService)
+        {
+            DataService = dataService;
             business = new NoteBusiness(DataService);
             dateTimeBusiness = new DateTimeBusiness(DataService);
             original = note ?? business.Default();
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
+
             DatePicker = new DatePickerViewModel(DataService);
             DatePicker.DateChanged += (s, e) =>
             {
@@ -136,19 +147,27 @@ namespace OneDo.ViewModel.Modals
             ReminderPicker.Time = original.Reminder;
         }
 
-        protected override async Task Delete()
+        protected override Task Delete()
         {
             if (!IsNew)
             {
-                await ProgressService.RunAsync(async () =>
+                var confirmation = new ConfirmationViewModel
                 {
-                    await business.Delete(original);
-
-                });
-
-                OnDeleted();
-                ModalService.Close();
+                    Text = "To-do will be deleted. Do you want to continue?",
+                    ButtonText = "Yes, delete to-do",
+                };
+                confirmation.ConfirmationRequested += async (s, e) =>
+                {
+                    await ProgressService.RunAsync(async () =>
+                    {
+                        await business.Delete(original);
+                    });
+                    SubModalService.Close();
+                    OnDeleted();
+                };
+                SubModalService.Show(confirmation);
             }
+            return Task.CompletedTask;
         }
 
         protected override async Task Save()
@@ -166,7 +185,6 @@ namespace OneDo.ViewModel.Modals
             });
 
             OnSaved();
-            ModalService.Close();
         }
 
         protected override void OnSaved()

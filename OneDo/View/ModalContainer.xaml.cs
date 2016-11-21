@@ -5,14 +5,13 @@ using OneDo.Common.Metadata;
 using OneDo.Common.UI;
 using OneDo.Services.ModalService;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Items;
-using OneDo.ViewModel.Modals;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -28,9 +27,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using static OneDo.ViewModel.ModalViewModel;
 
-namespace OneDo.View.Controls
+namespace OneDo.View
 {
     public sealed partial class ModalContainer : ExtendedUserControl
     {
@@ -59,13 +57,34 @@ namespace OneDo.View.Controls
             DependencyProperty.Register(nameof(ActualModal), typeof(ModalViewModel), typeof(ModalContainer), new PropertyMetadata(null));
 
 
+        public DataTemplateSelector TemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(TemplateSelectorProperty); }
+            set { SetValue(TemplateSelectorProperty, value); }
+        }
+
+        public static readonly DependencyProperty TemplateSelectorProperty =
+            DependencyProperty.Register(nameof(TemplateSelector), typeof(DataTemplateSelector), typeof(ModalContainer), new PropertyMetadata(null));
+
+
+        public ICommand CloseCommand
+        {
+            get { return (ICommand)GetValue(CloseCommandProperty); }
+            set { SetValue(CloseCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty CloseCommandProperty =
+            DependencyProperty.Register(nameof(CloseCommand), typeof(ICommand), typeof(ModalContainer), new PropertyMetadata(null));
+
+
+        public CubicBezierEasingFunction DefaultEasing { get; }
+
+        public int DefaultDuration { get; }
+
+
         private Visual backgroundVisual;
 
         private Visual contentVisual;
-
-        private CubicBezierEasingFunction defaultEasing;
-
-        private int defaultDuration;
 
         private ScalarKeyFrameAnimation opacityFadeInAnimation;
 
@@ -87,8 +106,8 @@ namespace OneDo.View.Controls
                 backgroundVisual = ElementCompositionPreview.GetElementVisual(BackgroundControl);
                 contentVisual = ElementCompositionPreview.GetElementVisual(ContentControl);
 
-                defaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
-                defaultDuration = 300;
+                DefaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
+                DefaultDuration = 300;
 
                 RootGrid.Visibility = Modal != null
                     ? Visibility.Visible
@@ -107,13 +126,13 @@ namespace OneDo.View.Controls
         private void InitializeBackgroundAnimations()
         {
             opacityFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            opacityFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            opacityFadeInAnimation.Duration = TimeSpan.FromMilliseconds(DefaultDuration);
             opacityFadeInAnimation.InsertKeyFrame(0, 0);
             opacityFadeInAnimation.InsertKeyFrame(1, 1);
 
             opacityFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            opacityFadeOutAnimation.DelayTime = TimeSpan.FromMilliseconds(defaultDuration);
-            opacityFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            opacityFadeOutAnimation.DelayTime = TimeSpan.FromMilliseconds(DefaultDuration);
+            opacityFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(DefaultDuration);
             opacityFadeOutAnimation.InsertKeyFrame(0, 1);
             opacityFadeOutAnimation.InsertKeyFrame(1, 0);
         }
@@ -121,42 +140,28 @@ namespace OneDo.View.Controls
         private void InitializeAnimations()
         {
             var defaultFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            defaultFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            defaultFadeInAnimation.Duration = TimeSpan.FromMilliseconds(DefaultDuration);
             defaultFadeInAnimation.InsertKeyFrame(0, -50);
-            defaultFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
+            defaultFadeInAnimation.InsertKeyFrame(1, 0, DefaultEasing);
             defaultFadeInAnimationInfo = new AnimationInfo("Offset.Y", defaultFadeInAnimation);
             fadeInAnimationInfos = new Dictionary<Type, AnimationInfo>();
 
             var defaultFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            defaultFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
+            defaultFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(DefaultDuration);
             defaultFadeOutAnimation.InsertKeyFrame(0, 0);
-            defaultFadeOutAnimation.InsertKeyFrame(1, -50, defaultEasing);
+            defaultFadeOutAnimation.InsertKeyFrame(1, -50, DefaultEasing);
             defaultFadeOutAnimationInfo = new AnimationInfo("Offset.Y", defaultFadeOutAnimation);
             fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>();
+        }
 
-            var noteEditorFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
-            noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
-            noteEditorFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
-            fadeInAnimationInfos[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeInAnimation);
+        public void AddFadeInAnimation<TViewModel>(string propertyName, CompositionAnimation animation)
+        {
+            fadeInAnimationInfos[typeof(TViewModel)] = new AnimationInfo(propertyName, animation);
+        }
 
-            var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
-            noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
-            noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", defaultEasing);
-            fadeOutAnimationInfos[typeof(NoteEditorViewModel)] = new AnimationInfo("Offset.Y", noteEditorFadeOutAnimation);
-
-            var settingsFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            settingsFadeInAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
-            settingsFadeInAnimation.InsertExpressionKeyFrame(0, "Width");
-            settingsFadeInAnimation.InsertKeyFrame(1, 0, defaultEasing);
-            fadeInAnimationInfos[typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeInAnimation);
-
-            var settingsFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            settingsFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(defaultDuration);
-            settingsFadeOutAnimation.InsertKeyFrame(0, 0);
-            settingsFadeOutAnimation.InsertExpressionKeyFrame(1, "Width", defaultEasing);
-            fadeOutAnimationInfos[typeof(SettingsViewModel)] = new AnimationInfo("Offset.X", settingsFadeOutAnimation);
+        public void AddFadeOutAnimation<TViewModel>(string propertyName, CompositionAnimation animation)
+        {
+            fadeOutAnimationInfos[typeof(TViewModel)] = new AnimationInfo(propertyName, animation);
         }
 
         private void OnModalChanged(ModalViewModel newModal, ModalViewModel oldModal)
@@ -189,7 +194,7 @@ namespace OneDo.View.Controls
             batch.Completed += (s, e) =>
             {
                 RootGrid.Visibility = Visibility.Collapsed;
-                ActualModal = Null;
+                ActualModal = ModalViewModel.Null;
             };
 
             backgroundVisual.StartAnimation("Opacity", opacityFadeOutAnimation);

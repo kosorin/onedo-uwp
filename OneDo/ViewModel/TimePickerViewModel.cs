@@ -32,13 +32,12 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand ClearCommand { get; }
 
-        public DataService DataService { get; }
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
         public TimePickerViewModel(DataService dataService)
         {
-            dateTimeBusiness = new DateTimeBusiness(DataService);
+            dateTimeBusiness = new DateTimeBusiness(dataService);
 
             ClearCommand = new RelayCommand(() => Time = null);
         }

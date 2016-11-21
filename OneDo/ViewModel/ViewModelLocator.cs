@@ -5,7 +5,6 @@ using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
-using OneDo.ViewModel.Modals;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 

@@ -3,7 +3,6 @@ using OneDo.View.Behaviors;
 using OneDo.View.Converters;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Commands;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.View.Controls
+namespace OneDo.View
 {
     public sealed partial class NoteListControl : ExtendedUserControl, IXBind<NoteListViewModel>
     {

@@ -1,7 +1,6 @@
 ﻿using OneDo.ViewModel;
-using OneDo.ViewModel.Modals;
 
-namespace OneDo.View.Modals
+namespace OneDo.View
 {
     public sealed partial class SettingsView : ModalBase, IXBind<SettingsViewModel>
     {

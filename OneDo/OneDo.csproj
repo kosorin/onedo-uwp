@@ -113,19 +113,21 @@
     <Compile Include="Common\UI\IExtendedCommand.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
+    <Compile Include="Services\ModalService\SubModalService.cs" />
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
     <Compile Include="ViewModel\Args\TimePickerEventArgs.cs" />
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
+    <Compile Include="ViewModel\ConfirmationViewModel.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\DatePickerViewModel.cs" />
     <Compile Include="ViewModel\IFolderCommands.cs" />
     <Compile Include="ViewModel\INoteCommands.cs" />
     <Compile Include="ViewModel\ItemObject.cs" />
-    <Compile Include="ViewModel\Items\ColorItemObject.cs" />
-    <Compile Include="ViewModel\Modals\DebugViewModel.cs" />
-    <Compile Include="ViewModel\Modals\FolderEditorViewModel.cs" />
+    <Compile Include="ViewModel\ColorItemObject.cs" />
+    <Compile Include="ViewModel\DebugViewModel.cs" />
+    <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="ViewModel\TimePickerViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
@@ -137,18 +139,18 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
-    <Compile Include="View\Controls\DatePicker.xaml.cs">
+    <Compile Include="View\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\ModalContainer.xaml.cs">
+    <Compile Include="View\ModalContainer.xaml.cs">
       <DependentUpon>ModalContainer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\NoteListControl.xaml.cs">
+    <Compile Include="View\NoteListControl.xaml.cs">
       <DependentUpon>NoteListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\RingSlice.cs" />
     <Compile Include="View\Controls\SlidableListItem.cs" />
-    <Compile Include="View\Controls\TimePicker.xaml.cs">
+    <Compile Include="View\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
@@ -163,29 +165,31 @@
     <Compile Include="ViewModel\Commands\AsyncRelayCommand.cs" />
     <Compile Include="ViewModel\FolderListViewModel.cs" />
     <Compile Include="ViewModel\ModalViewModel.cs" />
-    <Compile Include="ViewModel\Modals\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\Items\FolderItemObject.cs" />
-    <Compile Include="ViewModel\Items\NoteItemObject.cs" />
-    <Compile Include="ViewModel\Modals\NoteEditorViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\FolderItemObject.cs" />
+    <Compile Include="ViewModel\NoteItemObject.cs" />
+    <Compile Include="ViewModel\NoteEditorViewModel.cs" />
     <Compile Include="ViewModel\ExtendedViewModel.cs" />
-    <Compile Include="View\Controls\FolderListControl.xaml.cs">
+    <Compile Include="View\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModalBase.cs" />
-    <Compile Include="View\Modals\DebugView.xaml.cs">
+    <Compile Include="View\ConfirmationView.xaml.cs">
+      <DependentUpon>ConfirmationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Modals\FolderEditor.xaml.cs">
+    <Compile Include="View\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModalTemplateSelector.cs" />
-    <Compile Include="View\Items\FolderTemplateSelector.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="View\ExtendedUserControl.cs" />
-    <Compile Include="View\Modals\NoteEditor.xaml.cs">
+    <Compile Include="View\NoteEditor.xaml.cs">
       <DependentUpon>NoteEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Modals\SettingsView.xaml.cs">
+    <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainPage.xaml.cs">
@@ -234,39 +238,43 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="View\Controls\DatePicker.xaml">
+    <Page Include="View\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\FolderListControl.xaml">
+    <Page Include="View\FolderListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\ModalContainer.xaml">
+    <Page Include="View\ModalContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\NoteListControl.xaml">
+    <Page Include="View\NoteListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TimePicker.xaml">
+    <Page Include="View\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Modals\DebugView.xaml">
+    <Page Include="View\ConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Modals\FolderEditor.xaml">
+    <Page Include="View\DebugView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Modals\NoteEditor.xaml">
+    <Page Include="View\FolderEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Modals\SettingsView.xaml">
+    <Page Include="View\NoteEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

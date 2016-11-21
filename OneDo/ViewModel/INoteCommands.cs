@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using OneDo.Common.UI;
 using OneDo.ViewModel.Commands;
-using OneDo.ViewModel.Items;
 using System.ComponentModel;
 using System.Windows.Input;
 

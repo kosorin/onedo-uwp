@@ -39,7 +39,7 @@ namespace OneDo
         public App()
         {
 #if DEBUG
-            ApplicationLanguages.PrimaryLanguageOverride = "cs-CZ"; 
+            ApplicationLanguages.PrimaryLanguageOverride = "cs-CZ";
 #endif
 
             InitializeComponent();
@@ -100,7 +100,6 @@ namespace OneDo
         private async Task OnSuspendingAsync(DateTimeOffset deadline)
         {
             Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
-            // TODO: Save application state and stop any background activity
 
             var dataService = ViewModelLocator.Container.Resolve<DataService>();
             await dataService.SaveSettingsAsync();
@@ -125,9 +124,7 @@ namespace OneDo
 
         protected override void OnWindowCreated(WindowCreatedEventArgs args)
         {
-#if DEBUG
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(200, 200));
-#endif
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(480, 500));
         }
 
 

@@ -2,6 +2,7 @@
 using OneDo.Model.Business;
 using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
+using OneDo.Services.ModalService;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Commands;
 using System;
@@ -13,7 +14,7 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public class DatePickerViewModel : ExtendedViewModel
+    public class DatePickerViewModel : ModalViewModel
     {
         private DateTime? date;
         public DateTime? Date
@@ -40,13 +41,11 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand NextWeekCommand { get; }
 
-        public DataService DataService { get; }
-
         private readonly DateTimeBusiness dateTimeBusiness;
 
         public DatePickerViewModel(DataService dataService)
         {
-            dateTimeBusiness = new DateTimeBusiness(DataService);
+            dateTimeBusiness = new DateTimeBusiness(dataService);
 
             ClearCommand = new RelayCommand(() => Date = null);
             TodayCommand = new RelayCommand(() => Date = dateTimeBusiness.Today());

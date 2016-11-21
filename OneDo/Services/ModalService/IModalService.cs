@@ -13,9 +13,11 @@ namespace OneDo.Services.ModalService
     {
         ModalViewModel Current { get; }
 
+        event EventHandler CurrentChanged;
+
         bool CanClose { get; }
 
-        event EventHandler CurrentChanged;
+        event EventHandler CanCloseChanged;
 
         IExtendedCommand CloseCommand { get; }
 
@@ -24,9 +26,5 @@ namespace OneDo.Services.ModalService
         void Close();
 
         void Show(ModalViewModel modal);
-
-        void CloseSub();
-
-        void ShowSub(Action sub);
     }
 }

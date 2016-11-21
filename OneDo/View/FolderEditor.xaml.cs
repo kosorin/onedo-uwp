@@ -1,5 +1,4 @@
-﻿using OneDo.ViewModel.Items;
-using OneDo.ViewModel.Modals;
+﻿using OneDo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace OneDo.View.Modals
+namespace OneDo.View
 {
     public sealed partial class FolderEditor : ModalBase, IXBind<FolderEditorViewModel>
     {
