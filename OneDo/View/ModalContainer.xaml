@@ -15,7 +15,7 @@
                        mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
-        <Border x:Name="BackgroundControl" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+        <Border x:Name="BackgroundControl" Background="{ThemeResource ModalContainerBackgroundBrush}">
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="Tapped">
                     <ic:InvokeCommandAction Command="{x:Bind CloseCommand, Mode=OneWay}" />

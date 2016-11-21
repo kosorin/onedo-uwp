@@ -3,16 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:OneDo.View.Converters"
              xmlns:vm="using:OneDo.ViewModel"
-             RequestedTheme="Light">
+             RequestedTheme="Dark">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
+                <ResourceDictionary x:Key="Light">
                     <Color x:Key="FlagForegroundColor">#E32A34</Color>
                     <Color x:Key="FlagBackgroundColor">#FFFFCC</Color>
                     <SolidColorBrush x:Key="FlagForegroundBrush" Color="{ThemeResource FlagForegroundColor}" />
                     <SolidColorBrush x:Key="FlagBackgroundBrush" Color="{ThemeResource FlagBackgroundColor}" />
+                    <SolidColorBrush x:Key="ModalContainerBackgroundBrush" Color="{ThemeResource SystemBaseMediumLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="FlagForegroundColor">#1cd5cb</Color>
+                    <Color x:Key="FlagBackgroundColor">#000033</Color>
+                    <SolidColorBrush x:Key="FlagForegroundBrush" Color="{ThemeResource FlagForegroundColor}" />
+                    <SolidColorBrush x:Key="FlagBackgroundBrush" Color="{ThemeResource FlagBackgroundColor}" />
+                    <SolidColorBrush x:Key="ModalContainerBackgroundBrush" Color="{ThemeResource SystemAltMediumColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
