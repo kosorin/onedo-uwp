@@ -1,4 +1,5 @@
-﻿using OneDo.Common.Logging;
+﻿using OneDo.Common;
+using OneDo.Common.Logging;
 using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
@@ -82,7 +83,7 @@ namespace OneDo.ViewModel.Modals
                 {
                     var picker = new FileSavePicker();
                     picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-                    picker.SuggestedFileName = $"Log_{DateTime.Now.ToString("yyyy-MM-dd_HH-dd-ss")}.txt";
+                    picker.SuggestedFileName = $"Log_{DateTime.Now.ToFileName()}.txt";
                     picker.FileTypeChoices.Add("Text", new List<string>() { ".txt" });
 
                     var file = await picker.PickSaveFileAsync();

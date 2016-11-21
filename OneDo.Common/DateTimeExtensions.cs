@@ -168,5 +168,11 @@ namespace OneDo.Common
             var halfIntervalTicks = ((interval.Ticks + 1) >> 1);
             return dt.AddTicks(halfIntervalTicks - ((dt.Ticks + halfIntervalTicks) % interval.Ticks));
         }
+
+
+        public static string ToFileName(this DateTime date)
+        {
+            return date.ToString("yyyy-MM-dd_HH-dd-ss");
+        }
     }
 }
