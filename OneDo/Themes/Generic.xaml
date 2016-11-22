@@ -54,14 +54,16 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:UndoBar">
+    <Style TargetType="controls:InfoBar">
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="ButtonGlyph" Value="&#xE10E;" />
+        <Setter Property="ActionText" Value="Undo" />
+        <Setter Property="ActionGlyph" Value="&#xE10E;" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
         <Setter Property="Height" Value="48" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:UndoBar">
+                <ControlTemplate TargetType="controls:InfoBar">
                     <Grid Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -71,14 +73,15 @@
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                   Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                   Foreground="{TemplateBinding Foreground}"
                                    Text="{TemplateBinding Message}" />
                         <Button Grid.Column="1"
                                 Height="{TemplateBinding Height}"
                                 Background="Transparent"
-                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                                Command="{TemplateBinding Command}"
-                                CommandParameter="{TemplateBinding CommandParameter}">
+                                Foreground="{TemplateBinding Foreground}"
+                                Command="{TemplateBinding ActionCommand}"
+                                CommandParameter="{TemplateBinding ActionCommandParameter}"
+                                Visibility="{TemplateBinding ActionVisibility}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
@@ -118,12 +121,12 @@
                                 <FontIcon Margin="0,0,8,0"
                                           HorizontalAlignment="Center"
                                           FontSize="16"
-                                          Glyph="{TemplateBinding ButtonGlyph}" />
+                                          Glyph="{TemplateBinding ActionGlyph}" />
                                 <TextBlock HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            Style="{ThemeResource BodyTextBlockStyle}"
-                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                                           Text="{TemplateBinding ButtonText}" />
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="{TemplateBinding ActionText}" />
                             </StackPanel>
                         </Button>
                     </Grid>
