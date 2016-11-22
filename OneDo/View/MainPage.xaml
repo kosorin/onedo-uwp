@@ -14,21 +14,27 @@
                 DataContext="{Binding Main, Source={StaticResource Locator}}"
                 mc:Ignorable="d">
 
-    <Grid x:Name="Karel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--  Folders  -->
-        <v:FolderListControl Grid.Row="0" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
+        <Border Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+            <v:FolderListControl x:Name="FolderList" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
+        </Border>
+        <Border Grid.Row="1" Background="{x:Bind VM.FolderList.SelectedItem.Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />
 
         <!--  Notes  -->
-        <v:NoteListControl Grid.Row="1" DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
+        <v:NoteListControl x:Name="NoteList"
+                           Grid.Row="2"
+                           DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
 
         <!--  AppBar  -->
-        <CommandBar x:Name="MainCommandBar" Grid.Row="2">
+        <CommandBar x:Name="MainCommandBar" Grid.Row="3">
             <AppBarButton Command="{x:Bind VM.NoteList.AddCommand}" Label="Add note">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
@@ -40,15 +46,15 @@
         </CommandBar>
 
         <!--  Undo  -->
-        <controls:UndoBar x:Name="UndoBar"
+        <!--<controls:UndoBar x:Name="UndoBar"
                           Message="Odstraněno"
                           ButtonText="Zpět"
-                          Grid.Row="1"
-                          VerticalAlignment="Bottom" />
+                          Grid.Row="2"
+                          VerticalAlignment="Bottom" />-->
 
         <!--  Modals  -->
         <v:ModalContainer x:Name="ModalContainer"
-                          Grid.RowSpan="3"
+                          Grid.RowSpan="4"
                           CloseCommand="{Binding CloseCommand}"
                           DataContext="{Binding ModalService, Source={StaticResource Locator}}"
                           Modal="{Binding Current}">
@@ -84,12 +90,35 @@
         </v:ModalContainer>
 
         <!--  Progress  -->
-        <Grid Grid.RowSpan="3">
+        <Grid Grid.RowSpan="4">
             <ProgressBar VerticalAlignment="Top"
                          Background="Transparent"
                          DataContext="{Binding ProgressService, Source={StaticResource Locator}}"
                          IsIndeterminate="{Binding IsBusy}" />
         </Grid>
 
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NoteList.HorizontalAlignment" Value="Center" />
+                        <Setter Target="NoteList.Width" Value="720" />
+                        <Setter Target="NoteList.BorderThickness" Value="1,0" />
+                        <Setter Target="NoteList.BorderBrush" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                        <Setter Target="FolderList.HorizontalAlignment" Value="Center" />
+                        <Setter Target="FolderList.MinWidth" Value="720" />
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource SmallWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </v:ExtendedPage>

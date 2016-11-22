@@ -233,56 +233,50 @@
         </Style>
 
         <ControlTemplate x:Key="FolderListTemplate" TargetType="ListView">
-            <Border Background="{TemplateBinding Background}"
+            <Border Height="52"
+                    Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="52" />
-                        <RowDefinition Height="4" />
-                    </Grid.RowDefinitions>
-                    <ScrollViewer x:Name="ScrollViewer"
-                                  Grid.Row="0"
-                                  Padding="0,12,0,0"
-                                  Style="{StaticResource FolderListViewScrollViewerStyle}"
-                                  AutomationProperties.AccessibilityView="Raw"
-                                  BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                  HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                  IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                  IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                  IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                  IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                  IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                  TabNavigation="{TemplateBinding TabNavigation}"
-                                  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                  VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                  ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <ItemsPresenter Grid.Column="0"
-                                            Padding="{TemplateBinding Padding}"
-                                            Footer="{TemplateBinding Footer}"
-                                            FooterTemplate="{TemplateBinding FooterTemplate}"
-                                            FooterTransitions="{TemplateBinding FooterTransitions}"
-                                            Header="{TemplateBinding Header}"
-                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                            HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-                            <Button Grid.Column="1"
-                                    Style="{StaticResource FolderListButtonStyle}"
-                                    Command="{Binding AddCommand}">
-                                <FontIcon FontSize="16"
-                                          FontWeight="Light"
-                                          Glyph="&#xE710;" />
-                            </Button>
-                        </Grid>
-                    </ScrollViewer>
-                    <Border Grid.Row="1" Background="{Binding SelectedItem.Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorToBrushConverter}}" />
-                </Grid>
+                <ScrollViewer x:Name="ScrollViewer"
+                              Grid.Row="0"
+                              Padding="0,12,0,0"
+                              Style="{StaticResource FolderListViewScrollViewerStyle}"
+                              AutomationProperties.AccessibilityView="Raw"
+                              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                              IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                              IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                              IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                              IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                              IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                              TabNavigation="{TemplateBinding TabNavigation}"
+                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                              ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <ItemsPresenter Grid.Column="0"
+                                        Padding="{TemplateBinding Padding}"
+                                        Footer="{TemplateBinding Footer}"
+                                        FooterTemplate="{TemplateBinding FooterTemplate}"
+                                        FooterTransitions="{TemplateBinding FooterTransitions}"
+                                        Header="{TemplateBinding Header}"
+                                        HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                        HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                        <Button Grid.Column="1"
+                                Style="{StaticResource FolderListButtonStyle}"
+                                Command="{Binding AddCommand}">
+                            <FontIcon FontSize="16"
+                                      FontWeight="Light"
+                                      Glyph="&#xE710;" />
+                        </Button>
+                    </Grid>
+                </ScrollViewer>
             </Border>
         </ControlTemplate>
 
@@ -330,8 +324,7 @@
         </Style>
 
         <DataTemplate x:Key="FolderItemTemplate" x:DataType="vm:FolderItemObject">
-            <Border Background="Transparent"
-                    BorderThickness="0">
+            <Border Background="Transparent" BorderThickness="0">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"

@@ -704,7 +704,7 @@
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWidthBreakpoint}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Root.HorizontalAlignment" Value="Right" />

@@ -28,6 +28,10 @@
                 <ResourceDictionary Source="Themes/FlyoutMenuStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <x:Double x:Key="SmallWidthBreakpoint">0</x:Double>
+            <x:Double x:Key="MediumWidthBreakpoint">600</x:Double>
+            <x:Double x:Key="LargeWidthBreakpoint">800</x:Double>
+
             <vm:ViewModelLocator x:Key="Locator" />
 
             <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
