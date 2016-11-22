@@ -54,4 +54,82 @@
         </Setter>
     </Style>
 
+    <Style TargetType="controls:UndoBar">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="ButtonGlyph" Value="&#xE10E;" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:UndoBar">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="16,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                   Text="{TemplateBinding Message}" />
+                        <Button Grid.Column="1"
+                                Height="{TemplateBinding Height}"
+                                Background="Transparent"
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                Command="{TemplateBinding Command}"
+                                CommandParameter="{TemplateBinding CommandParameter}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                        <ContentPresenter x:Name="ContentPresenter"
+                                                          Padding="16,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                                          AutomationProperties.AccessibilityView="Raw"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          ContentTransitions="{TemplateBinding ContentTransitions}" />
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Margin="0,0,8,0"
+                                          HorizontalAlignment="Center"
+                                          FontSize="16"
+                                          Glyph="{TemplateBinding ButtonGlyph}" />
+                                <TextBlock HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                           Text="{TemplateBinding ButtonText}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

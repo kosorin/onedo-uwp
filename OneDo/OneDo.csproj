@@ -139,6 +139,7 @@
     <Compile Include="Common\Event\CancelEventArgs.cs" />
     <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
+    <Compile Include="View\Controls\UndoBar.cs" />
     <Compile Include="View\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
