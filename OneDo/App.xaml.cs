@@ -157,7 +157,7 @@ namespace OneDo
         {
             var dataService = ViewModelLocator.Container.Resolve<DataService>();
             await dataService.LoadSettingsAsync();
-            await dataService.InitializeAsync();
+            await dataService.InitializeDataAsync();
 
             Logger.Current.Info("Data initialized");
         }

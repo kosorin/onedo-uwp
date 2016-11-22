@@ -29,23 +29,22 @@ namespace OneDo.Model.Data
         private SQLiteAsyncConnection connection;
 
 
-        public async Task InitializeAsync()
+        public Task InitializeDataAsync()
         {
-            await Task.Run(() =>
+            if (baseConnection == null)
             {
-                if (baseConnection == null)
-                {
-                    var connectionString = new SQLiteConnectionString(GetPath(), true);
-                    baseConnection = new SQLiteConnectionWithLock(new SQLitePlatformWinRT(), connectionString);
-                    connection = new SQLiteAsyncConnection(() => baseConnection);
+                var connectionString = new SQLiteConnectionString(GetPath(), true);
+                baseConnection = new SQLiteConnectionWithLock(new SQLitePlatformWinRT(), connectionString);
+                connection = new SQLiteAsyncConnection(() => baseConnection);
 
-                    EnsureTableExists<Folder>();
-                    EnsureTableExists<Note>();
-                }
+                EnsureTableExists<Folder>();
+                EnsureTableExists<Note>();
+            }
 
-                Folders = new Repository<Folder>(connection);
-                Notes = new Repository<Note>(connection);
-            });
+            Folders = new Repository<Folder>(connection);
+            Notes = new Repository<Note>(connection);
+
+            return Task.CompletedTask;
         }
 
         public Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
