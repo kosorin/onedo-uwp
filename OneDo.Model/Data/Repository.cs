@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Model.Data
 {
-    public class Repository<TEntity> where TEntity : class, IEntity
+    public class Repository<TEntity> : IRepository where TEntity : class, IEntity
     {
         protected readonly SQLiteAsyncConnection connection;
 

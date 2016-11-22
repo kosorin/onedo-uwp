@@ -19,15 +19,16 @@ namespace OneDo.Model.Data
         private const string FileName = "Data.db";
 
 
-        public Repository<Folder> Folders { get; private set; }
+        public Repository<Folder> Folders => GetRepository<Folder>();
 
-        public Repository<Note> Notes { get; private set; }
+        public Repository<Note> Notes => GetRepository<Note>();
 
 
         private SQLiteConnectionWithLock baseConnection;
 
         private SQLiteAsyncConnection connection;
 
+        private Dictionary<Type, IRepository> repositories = new Dictionary<Type, IRepository>();
 
         public Task InitializeDataAsync()
         {
@@ -41,15 +42,22 @@ namespace OneDo.Model.Data
                 EnsureTableExists<Note>();
             }
 
-            Folders = new Repository<Folder>(connection);
-            Notes = new Repository<Note>(connection);
-
             return Task.CompletedTask;
         }
 
         public Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
         {
-            return new Repository<TEntity>(connection);
+            var type = typeof(TEntity);
+            if (repositories.ContainsKey(type))
+            {
+                return (Repository<TEntity>)repositories[type];
+            }
+            else
+            {
+                var repository = new Repository<TEntity>(connection);
+                repositories[type] = repository;
+                return repository;
+            }
         }
 
 
