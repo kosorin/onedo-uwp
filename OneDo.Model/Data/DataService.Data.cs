@@ -19,9 +19,9 @@ namespace OneDo.Model.Data
         private const string FileName = "Data.db";
 
 
-        public Repository<Folder> Folders { get; set; }
+        public Repository<Folder> Folders { get; private set; }
 
-        public Repository<Note> Notes { get; set; }
+        public Repository<Note> Notes { get; private set; }
 
 
         private SQLiteConnectionWithLock baseConnection;
