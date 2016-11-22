@@ -39,6 +39,13 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
+        <!--  Undo  -->
+        <controls:UndoBar x:Name="UndoBar"
+                          Message="Odstraněno"
+                          ButtonText="Zpět"
+                          Grid.Row="1"
+                          VerticalAlignment="Bottom" />
+
         <!--  Modals  -->
         <v:ModalContainer x:Name="ModalContainer"
                           Grid.RowSpan="3"
