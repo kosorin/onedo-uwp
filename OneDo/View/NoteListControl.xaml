@@ -15,8 +15,6 @@
 
     <UserControl.Resources>
 
-        <CollectionViewSource x:Name="NotesViewSource" Source="{x:Bind VM.Items, Mode=OneWay}" />
-
         <converters:ConditionConverter x:Key="NoteBackgroundConverter">
             <converters:ConditionConverter.If>
                 <x:Boolean>True</x:Boolean>
@@ -202,7 +200,7 @@
               BorderThickness="{Binding BorderThickness, ElementName=Root}"
               ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
               ItemTemplate="{StaticResource NoteItemTemplate}"
-              ItemsSource="{x:Bind NotesViewSource.View, Mode=OneWay}"
+              ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
               SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
 
 </v:ExtendedUserControl>
