@@ -112,7 +112,16 @@ namespace OneDo.ViewModel
         private void Edit(NoteItemObject item)
         {
             var editor = new NoteEditorViewModel(DataService, ProgressService, FolderList, item.Entity);
-            editor.Deleted += (s, e) => Items.Remove(item);
+            editor.Deleted += (s, e) =>
+            {
+                Items.Remove(item);
+
+                InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
+                {
+                    await DataService.Notes.SaveAsNew(item.Entity);
+                    Items.Add(item);
+                });
+            };
             editor.Saved += (s, e) =>
             {
                 if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
@@ -139,9 +148,10 @@ namespace OneDo.ViewModel
                 }
                 await DataService.Notes.Delete(item.Entity);
 
-                InfoService.Show($"Deleted", "\xE7A7", "Undo", async () =>
+                InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
                 {
-                    await DataService.Notes.Add(item.Entity);
+                    await DataService.Notes.SaveAsNew(item.Entity);
+                    Items.Add(item);
                 });
             });
         }
@@ -159,7 +169,7 @@ namespace OneDo.ViewModel
             {
                 item.Entity.IsFlagged = !item.Entity.IsFlagged;
                 item.Refresh();
-                await DataService.Notes.Update(item.Entity);
+                await DataService.Notes.Save(item.Entity);
             });
         }
     }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using SQLite.Net.Async;
+using OneDo.Model.Business;
 
 namespace OneDo.Model.Data
 {
@@ -19,9 +20,9 @@ namespace OneDo.Model.Data
         private const string FileName = "Data.db";
 
 
-        public Repository<Folder> Folders { get; private set; }
+        public FolderBusiness Folders { get; private set; }
 
-        public Repository<Note> Notes { get; private set; }
+        public NoteBusiness Notes { get; private set; }
 
 
         private SQLiteConnectionWithLock baseConnection;
@@ -41,13 +42,14 @@ namespace OneDo.Model.Data
                 EnsureTableExists<Folder>();
                 EnsureTableExists<Note>();
 
-                Folders = GetRepository<Folder>();
-                Notes = GetRepository<Note>();
+                Folders = new FolderBusiness(this);
+                Notes = new NoteBusiness(this);
             }
             return Task.CompletedTask;
         }
 
-        public Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
+
+        internal Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
         {
             var type = typeof(TEntity);
             if (repositories.ContainsKey(type))

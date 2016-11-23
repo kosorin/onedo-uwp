@@ -31,11 +31,13 @@ namespace OneDo.View
 
         private Brush defaultInfoBarBackground;
 
+        private int infoBarCounter = 0;
+
         public MainPage()
         {
             InitializeComponent();
             InitializeModalAnimations();
-            InitializeInfoBar();
+            InfoBarContainer.Loaded += (_, __) => InitializeInfoBar();
 
 #if DEBUG
             InitializeDebug();
@@ -217,7 +219,11 @@ namespace OneDo.View
             var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             batch.Completed += (s, e) =>
             {
-                InfoBar.Visibility = Visibility.Collapsed;
+                Interlocked.Decrement(ref infoBarCounter);
+                if (infoBarCounter == 0)
+                {
+                    InfoBar.Visibility = Visibility.Collapsed;
+                }
             };
             foreach (var animationInfo in infoBarContainerOutAnimationInfos)
             {
@@ -231,18 +237,12 @@ namespace OneDo.View
 
         private void ShowInfoBar()
         {
+            Interlocked.Increment(ref infoBarCounter);
             InfoBar.Visibility = Visibility.Visible;
-
-            var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            batch.Completed += (s, e) =>
-            {
-                InfoBar.Visibility = Visibility.Visible;
-            };
             foreach (var animationInfo in infoBarContainerInAnimationInfos)
             {
                 infoBarContainerVisual.StartAnimation(animationInfo.PropertyName, animationInfo.Animation);
             }
-            batch.End();
         }
     }
 }

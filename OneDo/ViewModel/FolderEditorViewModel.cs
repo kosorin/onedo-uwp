@@ -31,7 +31,7 @@ namespace OneDo.ViewModel
             get { return name; }
             set
             {
-                if (Set(ref name, business.NormalizeName(value)))
+                if (Set(ref name, DataService.Folders.NormalizeName(value)))
                 {
                     UpdateDirtyProperty(() => Name != original.Name);
                     ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
@@ -58,7 +58,7 @@ namespace OneDo.ViewModel
         public event TypedEventHandler<FolderEditorViewModel, EntityEventArgs<Folder>> Deleted;
 
 
-        private readonly FolderBusiness business;
+        public DataService DataService { get; }
 
         private readonly Folder original;
 
@@ -96,15 +96,15 @@ namespace OneDo.ViewModel
         public FolderEditorViewModel(DataService dataService, IProgressService progressService, Folder folder)
             : base(progressService)
         {
-            business = new FolderBusiness(dataService);
-            original = folder ?? business.Default();
+            DataService = dataService;
+            original = folder ?? DataService.Folders.CreateDefault();
 
             Load();
         }
 
         private void Load()
         {
-            IsNew = business.IsNew(original);
+            IsNew = DataService.Folders.IsNew(original);
 
             Name = original.Name;
             SelectedColor = Colors
@@ -115,12 +115,12 @@ namespace OneDo.ViewModel
 
         protected override async Task Save()
         {
-            original.Name = business.NormalizeName(Name);
+            original.Name = DataService.Folders.NormalizeName(Name);
             original.Color = SelectedColor.Color.ToHex();
 
             await ProgressService.RunAsync(async () =>
             {
-                await business.Save(original);
+                await DataService.Folders.Save(original);
             });
 
             OnSaved();
@@ -132,7 +132,7 @@ namespace OneDo.ViewModel
             {
                 await ProgressService.RunAsync(async () =>
                 {
-                    await business.Delete(original);
+                    await DataService.Folders.Delete(original);
                 });
 
                 OnDeleted();

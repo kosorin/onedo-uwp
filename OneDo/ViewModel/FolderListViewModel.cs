@@ -74,10 +74,10 @@ namespace OneDo.ViewModel
 #if DEBUG
                 if (!folders.Any())
                 {
-                    await DataService.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
-                    await DataService.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
-                    await DataService.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
-                    await DataService.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
+                    await DataService.Folders.Save(new Folder { Name = "Inbox", Color = "#0063AF", });
+                    await DataService.Folders.Save(new Folder { Name = "Work", Color = "#0F893E", });
+                    await DataService.Folders.Save(new Folder { Name = "Shopping list", Color = "#AC008C", });
+                    await DataService.Folders.Save(new Folder { Name = "Vacation", Color = "#F7630D", });
                     folders = await DataService.Folders.GetAll();
                 }
 
@@ -85,13 +85,13 @@ namespace OneDo.ViewModel
                 {
                     var folder = folders.FirstOrDefault();
                     var folder2 = folders.Skip(1).FirstOrDefault();
-                    await DataService.Notes.Add(new Note
+                    await DataService.Notes.Save(new Note
                     {
                         Title = "Buy milk",
                         Text = "",
                         FolderId = folder.Id,
                     });
-                    await DataService.Notes.Add(new Note
+                    await DataService.Notes.Save(new Note
                     {
                         Title = "Walk Max with bike",
                         Text = "",
@@ -99,7 +99,7 @@ namespace OneDo.ViewModel
                         Reminder = TimeSpan.FromHours(7.25),
                         FolderId = folder.Id,
                     });
-                    await DataService.Notes.Add(new Note
+                    await DataService.Notes.Save(new Note
                     {
                         Title = "Call mom",
                         Text = "",
@@ -107,13 +107,13 @@ namespace OneDo.ViewModel
                         IsFlagged = true,
                         FolderId = folder.Id,
                     });
-                    await DataService.Notes.Add(new Note
+                    await DataService.Notes.Save(new Note
                     {
                         Title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                         Text = "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
                         FolderId = folder.Id,
                     });
-                    await DataService.Notes.Add(new Note
+                    await DataService.Notes.Save(new Note
                     {
                         Title = "Test note",
                         Text = "",
@@ -137,7 +137,7 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 note.Entity.FolderId = folder.Entity.Id;
-                await DataService.Notes.Update(note.Entity);
+                await DataService.Notes.Save(note.Entity);
             });
             SelectedItem = folder;
         }

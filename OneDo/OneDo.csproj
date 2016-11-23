@@ -112,6 +112,9 @@
     <Compile Include="Common\UI\FlyoutExtensions.cs" />
     <Compile Include="Common\UI\IExtendedCommand.cs" />
     <Compile Include="Services\InfoService\IInfoService.cs" />
+    <Compile Include="Services\InfoService\InfoActionGlyphs.cs" />
+    <Compile Include="Services\InfoService\InfoMessageColors.cs" />
+    <Compile Include="Services\InfoService\InfoMessageDurations.cs" />
     <Compile Include="Services\InfoService\InfoService.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />

@@ -90,8 +90,6 @@ namespace OneDo.ViewModel
 
         public DataService DataService { get; }
 
-        private readonly NoteBusiness business;
-
         private readonly DateTimeBusiness dateTimeBusiness;
 
         private readonly Note original;
@@ -106,9 +104,8 @@ namespace OneDo.ViewModel
             : base(progressService)
         {
             DataService = dataService;
-            business = new NoteBusiness(DataService);
             dateTimeBusiness = new DateTimeBusiness(DataService);
-            original = note ?? business.Default();
+            original = note ?? DataService.Notes.CreateDefault();
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
@@ -130,7 +127,7 @@ namespace OneDo.ViewModel
 
         private void Load()
         {
-            IsNew = business.IsNew(original);
+            IsNew = DataService.Notes.IsNew(original);
 
             if (!IsNew)
             {
@@ -160,7 +157,7 @@ namespace OneDo.ViewModel
                 {
                     await ProgressService.RunAsync(async () =>
                     {
-                        await business.Delete(original);
+                        await DataService.Notes.Delete(original);
                     });
                     SubModalService.Close();
                     OnDeleted();
@@ -181,7 +178,7 @@ namespace OneDo.ViewModel
 
             await ProgressService.RunAsync(async () =>
             {
-                await business.Save(original);
+                await DataService.Notes.Save(original);
             });
 
             OnSaved();

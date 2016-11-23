@@ -10,10 +10,6 @@ namespace OneDo.Services.InfoService
 {
     public class InfoMessage
     {
-        public static TimeSpan DefaultDuration => TimeSpan.FromSeconds(8);
-
-        public static TimeSpan DeleteDuration => TimeSpan.FromSeconds(20);
-
         public string Text { get; set; }
 
         public TimeSpan Duration { get; set; }

@@ -19,7 +19,7 @@ namespace OneDo.Services.InfoService
 
         public void Show(string text)
         {
-            Show(text, InfoMessage.DefaultDuration, null);
+            Show(text, InfoMessageDurations.Default, null);
         }
 
         public void Show(string text, TimeSpan duration, string color)
@@ -34,7 +34,7 @@ namespace OneDo.Services.InfoService
 
         public void Show(string text, string actionGlyph, string actionText, Func<Task> action)
         {
-            Show(text, InfoMessage.DefaultDuration, null, actionGlyph, actionText, action);
+            Show(text, InfoMessageDurations.Default, null, actionGlyph, actionText, action);
         }
 
         public void Show(string text, TimeSpan duration, string color, string actionGlyph, string actionText, Func<Task> action)

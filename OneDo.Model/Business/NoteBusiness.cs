@@ -14,10 +14,5 @@ namespace OneDo.Model.Business
         {
 
         }
-
-        public override Note Clone(Note entity)
-        {
-            return entity;
-        }
     }
 }
