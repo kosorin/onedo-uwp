@@ -2,6 +2,7 @@ using Autofac;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using OneDo.Model.Data;
+using OneDo.Services.InfoService;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
@@ -24,6 +25,7 @@ namespace OneDo.ViewModel
                 builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
                 builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
+                builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
 
                 builder.RegisterType<MainViewModel>().SingleInstance();
 

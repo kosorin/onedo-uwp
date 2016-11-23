@@ -55,7 +55,6 @@
     </Style>
 
     <Style TargetType="controls:InfoBar">
-        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="ActionText" Value="Undo" />
         <Setter Property="ActionGlyph" Value="&#xE10E;" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
@@ -74,14 +73,14 @@
                                    VerticalAlignment="Center"
                                    Style="{ThemeResource BodyTextBlockStyle}"
                                    Foreground="{TemplateBinding Foreground}"
-                                   Text="{TemplateBinding Message}" />
+                                   Text="{TemplateBinding Text}" />
                         <Button Grid.Column="1"
                                 Height="{TemplateBinding Height}"
                                 Background="Transparent"
                                 Foreground="{TemplateBinding Foreground}"
                                 Command="{TemplateBinding ActionCommand}"
                                 CommandParameter="{TemplateBinding ActionCommandParameter}"
-                                Visibility="{TemplateBinding ActionVisibility}">
+                                Visibility="{Binding IsActionVisible, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">

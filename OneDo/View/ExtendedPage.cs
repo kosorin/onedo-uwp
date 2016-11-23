@@ -1,13 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using OneDo.ViewModel;
+﻿using OneDo.ViewModel;
 using System.ComponentModel;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace OneDo.View
 {
@@ -23,12 +19,26 @@ namespace OneDo.View
             {
                 DataContextChanged += (s, e) =>
                 {
+                    OnViewModelChanging();
+
                     ViewModel = e.NewValue as ExtendedViewModel;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
+
+                    OnViewModelChanged();
                 };
             }
 
             compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+        }
+
+        protected virtual void OnViewModelChanged()
+        {
+
+        }
+
+        protected virtual void OnViewModelChanging()
+        {
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

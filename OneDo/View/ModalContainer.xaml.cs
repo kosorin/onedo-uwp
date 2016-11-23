@@ -214,28 +214,5 @@ namespace OneDo.View
             animationInfo.Animation.SetScalarParameter("Height", (float)ActualHeight);
             animationInfo.Start(contentVisual);
         }
-
-        private class AnimationInfo
-        {
-            public AnimationInfo(string propertyName, CompositionAnimation animation)
-            {
-                PropertyName = propertyName;
-                Animation = animation;
-            }
-
-            public string PropertyName { get; set; }
-
-            public CompositionAnimation Animation { get; set; }
-
-            public void Start(Visual visual)
-            {
-                visual.StartAnimation(PropertyName, Animation);
-            }
-
-            public void Stop(Visual visual)
-            {
-                visual.StopAnimation(PropertyName);
-            }
-        }
     }
 }

@@ -14,6 +14,7 @@ using Windows.Foundation;
 using OneDo.Common.Event;
 using OneDo.Common.UI;
 using OneDo.Model.Business;
+using OneDo.Services.InfoService;
 
 namespace OneDo.ViewModel
 {
@@ -57,15 +58,18 @@ namespace OneDo.ViewModel
 
         public IProgressService ProgressService { get; }
 
+        public IInfoService InfoService { get; }
+
         public FolderListViewModel FolderList { get; }
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
-        public NoteListViewModel(IModalService modalService, DataService dataService, IProgressService progressService, FolderListViewModel folderList)
+        public NoteListViewModel(IModalService modalService, DataService dataService, IProgressService progressService, IInfoService infoService, FolderListViewModel folderList)
         {
             ModalService = modalService;
             DataService = dataService;
             ProgressService = progressService;
+            InfoService = infoService;
             FolderList = folderList;
             dateTimeBusiness = new DateTimeBusiness(DataService);
 
@@ -134,6 +138,11 @@ namespace OneDo.ViewModel
                     SelectedItem = Items.FirstOrDefault();
                 }
                 await DataService.Notes.Delete(item.Entity);
+
+                InfoService.Show($"Deleted", "\xE7A7", "Undo", async () =>
+                {
+                    await DataService.Notes.Add(item.Entity);
+                });
             });
         }
 

@@ -19,9 +19,9 @@ namespace OneDo.Model.Data
         private const string FileName = "Data.db";
 
 
-        public Repository<Folder> Folders => GetRepository<Folder>();
+        public Repository<Folder> Folders { get; private set; }
 
-        public Repository<Note> Notes => GetRepository<Note>();
+        public Repository<Note> Notes { get; private set; }
 
 
         private SQLiteConnectionWithLock baseConnection;
@@ -40,8 +40,10 @@ namespace OneDo.Model.Data
 
                 EnsureTableExists<Folder>();
                 EnsureTableExists<Note>();
-            }
 
+                Folders = GetRepository<Folder>();
+                Notes = GetRepository<Note>();
+            }
             return Task.CompletedTask;
         }
 

@@ -111,12 +111,15 @@
     <Compile Include="Common\Event\EntityEventArgs.cs" />
     <Compile Include="Common\UI\FlyoutExtensions.cs" />
     <Compile Include="Common\UI\IExtendedCommand.cs" />
+    <Compile Include="Services\InfoService\IInfoService.cs" />
+    <Compile Include="Services\InfoService\InfoService.cs" />
     <Compile Include="Services\ModalService\IModalService.cs" />
     <Compile Include="Services\ModalService\ModalService.cs" />
     <Compile Include="Services\ModalService\SubModalService.cs" />
     <Compile Include="Services\StringService\IStringService.cs" />
     <Compile Include="Services\StringService\StringService.cs" />
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
+    <Compile Include="Services\InfoService\InfoMessage.cs" />
     <Compile Include="ViewModel\Args\TimePickerEventArgs.cs" />
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\ConfirmationViewModel.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="ViewModel\TimePickerViewModel.cs" />
+    <Compile Include="View\AnimationInfo.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\TextBoxBehavior.cs" />
     <Compile Include="View\Behaviors\OpenFlyoutMenuBehavior.cs" />
@@ -302,7 +306,6 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

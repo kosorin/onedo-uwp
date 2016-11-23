@@ -16,6 +16,7 @@ using Microsoft.Band.Tiles;
 using OneDo.Band;
 using Microsoft.Band.Tiles.Pages;
 using OneDo.Common.Logging;
+using OneDo.Services.InfoService;
 
 namespace OneDo.ViewModel
 {
@@ -44,14 +45,14 @@ namespace OneDo.ViewModel
 
         public IProgressService ProgressService { get; }
 
-        public MainViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
+        public MainViewModel(IModalService modalService, DataService dataService, IProgressService progressService, IInfoService infoService)
         {
             ModalService = modalService;
             DataService = dataService;
             ProgressService = progressService;
 
             FolderList = new FolderListViewModel(ModalService, DataService, ProgressService);
-            NoteList = new NoteListViewModel(ModalService, DataService, ProgressService, FolderList);
+            NoteList = new NoteListViewModel(ModalService, DataService, ProgressService, infoService, FolderList);
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 

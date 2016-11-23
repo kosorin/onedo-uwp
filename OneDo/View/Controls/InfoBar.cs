@@ -11,23 +11,23 @@ namespace OneDo.View.Controls
 {
     public class InfoBar : Control
     {
-        public string Message
+        public string Text
         {
-            get { return (string)GetValue(MessageProperty); }
-            set { SetValue(MessageProperty, value); }
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty MessageProperty =
-            DependencyProperty.Register(nameof(Message), typeof(string), typeof(InfoBar), new PropertyMetadata(""));
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(InfoBar), new PropertyMetadata(""));
 
-        public Visibility ActionVisibility
+        public bool IsActionVisible
         {
-            get { return (Visibility)GetValue(ActionVisibilityProperty); }
-            set { SetValue(ActionVisibilityProperty, value); }
+            get { return (bool)GetValue(IsActionVisibleProperty); }
+            set { SetValue(IsActionVisibleProperty, value); }
         }
 
-        public static readonly DependencyProperty ActionVisibilityProperty =
-            DependencyProperty.Register(nameof(ActionVisibility), typeof(Visibility), typeof(InfoBar), new PropertyMetadata(Visibility.Visible));
+        public static readonly DependencyProperty IsActionVisibleProperty =
+            DependencyProperty.Register(nameof(IsActionVisible), typeof(bool), typeof(InfoBar), new PropertyMetadata(true));
 
         public string ActionGlyph
         {
@@ -45,7 +45,7 @@ namespace OneDo.View.Controls
         }
 
         public static readonly DependencyProperty ActionTextProperty =
-            DependencyProperty.Register(nameof(ActionText), typeof(string), typeof(InfoBar), new PropertyMetadata("Undo"));
+            DependencyProperty.Register(nameof(ActionText), typeof(string), typeof(InfoBar), new PropertyMetadata(null));
 
         public ICommand ActionCommand
         {

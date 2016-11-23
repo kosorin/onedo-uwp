@@ -18,10 +18,10 @@ namespace OneDo.View
         public NoteEditor()
         {
             InitializeComponent();
-            InitializeAnimations();
+            InitializeModalAnimations();
         }
 
-        private void InitializeAnimations()
+        private void InitializeModalAnimations()
         {
             var confirmationFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             confirmationFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);

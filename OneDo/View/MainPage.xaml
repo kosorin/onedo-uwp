@@ -29,9 +29,14 @@
         <Border Grid.Row="1" Background="{x:Bind VM.FolderList.SelectedItem.Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />
 
         <!--  Notes  -->
-        <v:NoteListControl x:Name="NoteList"
-                           Grid.Row="2"
-                           DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
+        <Grid x:Name="NoteList" Grid.Row="2">
+            <v:NoteListControl DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
+            <Grid x:Name="InfoBarContainer">
+                <controls:InfoBar x:Name="InfoBar"
+                                  VerticalAlignment="Bottom"
+                                  Visibility="Collapsed" />
+            </Grid>
+        </Grid>
 
         <!--  AppBar  -->
         <CommandBar x:Name="MainCommandBar" Grid.Row="3">
@@ -44,13 +49,6 @@
                 <AppBarButton Command="{x:Bind VM.ShowSettingsCommand}" Label="Settings" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
-
-        <!--  Undo  -->
-        <!--<controls:UndoBar x:Name="UndoBar"
-                          Message="Odstraněno"
-                          ButtonText="Zpět"
-                          Grid.Row="2"
-                          VerticalAlignment="Bottom" />-->
 
         <!--  Modals  -->
         <v:ModalContainer x:Name="ModalContainer"
