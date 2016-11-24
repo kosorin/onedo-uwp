@@ -1,6 +1,5 @@
 ﻿using OneDo.Common.UI;
 using OneDo.Model.Business;
-using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.ViewModel.Args;

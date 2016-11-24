@@ -3,7 +3,6 @@ using OneDo.Common.Event;
 using OneDo.Common.Logging;
 using OneDo.Common.Media;
 using OneDo.Model.Business;
-using OneDo.Model.Business.Validation;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
 using OneDo.Services.ModalService;

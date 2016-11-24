@@ -115,9 +115,6 @@
     <Compile Include="Business\EntityBusiness.cs" />
     <Compile Include="Business\FolderBusiness.cs" />
     <Compile Include="Business\NoteBusiness.cs" />
-    <Compile Include="Business\Validation\Rule.cs" />
-    <Compile Include="Business\Validation\NoteValidator.cs" />
-    <Compile Include="Business\Validation\Validator.cs" />
     <Compile Include="Data\DataService.Settings.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\Repository.cs" />
