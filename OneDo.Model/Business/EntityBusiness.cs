@@ -13,6 +13,10 @@ namespace OneDo.Model.Business
     {
         private readonly Repository<TEntity> repository;
 
+        public event EventHandler<EntityEventArgs<TEntity>> Saved;
+
+        public event EventHandler<EntityEventArgs<TEntity>> Deleted;
+
         public EntityBusiness(DataService dataService) : base(dataService)
         {
             repository = dataService.GetRepository<TEntity>();
@@ -44,11 +48,13 @@ namespace OneDo.Model.Business
         {
             entity.Id = default(int);
             await repository.Add(entity);
+            OnSaved(entity);
         }
 
         public async Task Delete(TEntity entity)
         {
             await repository.Delete(entity);
+            OnDeleted(entity);
         }
 
         public async Task DeleteAll()
@@ -100,6 +106,16 @@ namespace OneDo.Model.Business
                 .GetTable()
                 .Where(predicate)
                 .CountAsync()) != 0;
+        }
+
+        private void OnSaved(TEntity entity)
+        {
+            Saved?.Invoke(this, new EntityEventArgs<TEntity>(entity));
+        }
+
+        private void OnDeleted(TEntity entity)
+        {
+            Deleted?.Invoke(this, new EntityEventArgs<TEntity>(entity));
         }
     }
 }

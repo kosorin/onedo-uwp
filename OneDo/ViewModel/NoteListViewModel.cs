@@ -77,6 +77,28 @@ namespace OneDo.ViewModel
             EditCommand = new RelayCommand<NoteItemObject>(Edit);
             DeleteCommand = new AsyncRelayCommand<NoteItemObject>(Delete);
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemObject>(ToggleFlag);
+
+            DataService.Notes.Deleted += OnDeleted;
+        }
+
+        private void OnDeleted(object sender, EntityEventArgs<Note> e)
+        {
+            if (Items != null)
+            {
+                var entity = e.Entity;
+                var item = Items.FirstOrDefault(x => x.Entity.Id == entity.Id);
+                Items.Remove(item);
+                if (SelectedItem == null)
+                {
+                    SelectedItem = Items.FirstOrDefault();
+                }
+
+                InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
+                {
+                    await DataService.Notes.SaveAsNew(entity);
+                    Items.Add(new NoteItemObject(entity, dateTimeBusiness, this));
+                });
+            }
         }
 
         public async Task Load(int folderId)
@@ -112,16 +134,6 @@ namespace OneDo.ViewModel
         private void Edit(NoteItemObject item)
         {
             var editor = new NoteEditorViewModel(DataService, ProgressService, FolderList, item.Entity);
-            editor.Deleted += (s, e) =>
-            {
-                Items.Remove(item);
-
-                InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
-                {
-                    await DataService.Notes.SaveAsNew(item.Entity);
-                    Items.Add(item);
-                });
-            };
             editor.Saved += (s, e) =>
             {
                 if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
@@ -141,18 +153,7 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                Items.Remove(item);
-                if (SelectedItem == null)
-                {
-                    SelectedItem = Items.FirstOrDefault();
-                }
                 await DataService.Notes.Delete(item.Entity);
-
-                InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
-                {
-                    await DataService.Notes.SaveAsNew(item.Entity);
-                    Items.Add(item);
-                });
             });
         }
 

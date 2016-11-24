@@ -106,6 +106,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Compile Include="Business\BusinessBase.cs" />
     <Compile Include="Business\DateTimeBusiness.cs" />
+    <Compile Include="Business\EntityEventArgs.cs" />
     <Compile Include="Data\DataService.Data.cs" />
     <None Include="project.json" />
   </ItemGroup>
