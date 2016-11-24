@@ -135,6 +135,7 @@
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="ViewModel\TimePickerViewModel.cs" />
+    <Compile Include="ViewModel\UIHost.cs" />
     <Compile Include="View\AnimationInfo.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\TextBoxBehavior.cs" />

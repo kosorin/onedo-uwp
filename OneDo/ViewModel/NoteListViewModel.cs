@@ -52,58 +52,33 @@ namespace OneDo.ViewModel
         public IExtendedCommand ToggleFlagCommand { get; }
 
 
-        public IModalService ModalService { get; }
-
         public DataService DataService { get; }
 
-        public IProgressService ProgressService { get; }
-
-        public IInfoService InfoService { get; }
+        public UIHost UIHost { get; }
 
         public FolderListViewModel FolderList { get; }
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
-        public NoteListViewModel(IModalService modalService, DataService dataService, IProgressService progressService, IInfoService infoService, FolderListViewModel folderList)
+        public NoteListViewModel(DataService dataService, UIHost uiHost, FolderListViewModel folderList)
         {
-            ModalService = modalService;
             DataService = dataService;
-            ProgressService = progressService;
-            InfoService = infoService;
+            UIHost = uiHost;
             FolderList = folderList;
             dateTimeBusiness = new DateTimeBusiness(DataService);
 
-            AddCommand = new RelayCommand(Add);
-            EditCommand = new RelayCommand<NoteItemObject>(Edit);
+            AddCommand = new RelayCommand(ShowNoteEditor);
+            EditCommand = new RelayCommand<NoteItemObject>(ShowNoteEditor);
             DeleteCommand = new AsyncRelayCommand<NoteItemObject>(Delete);
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemObject>(ToggleFlag);
 
-            DataService.Notes.Deleted += OnDeleted;
-        }
-
-        private void OnDeleted(object sender, EntityEventArgs<Note> e)
-        {
-            if (Items != null)
-            {
-                var entity = e.Entity;
-                var item = Items.FirstOrDefault(x => x.Entity.Id == entity.Id);
-                Items.Remove(item);
-                if (SelectedItem == null)
-                {
-                    SelectedItem = Items.FirstOrDefault();
-                }
-
-                InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
-                {
-                    await DataService.Notes.SaveAsNew(entity);
-                    Items.Add(new NoteItemObject(entity, dateTimeBusiness, this));
-                });
-            }
+            DataService.Notes.Saved += OnNoteSaved;
+            DataService.Notes.Deleted += OnNoteDeleted;
         }
 
         public async Task Load(int folderId)
         {
-            await ProgressService.RunAsync(async () =>
+            await UIHost.ProgressService.RunAsync(async () =>
             {
                 var notes = await DataService
                     .Notes
@@ -118,22 +93,56 @@ namespace OneDo.ViewModel
             Items?.Clear();
         }
 
-        private void Add()
+        public void Add(Note entity)
         {
-            var editor = new NoteEditorViewModel(DataService, ProgressService, FolderList);
+            if (Items == null)
+            {
+                return;
+            }
+
+            if (CanContain(entity))
+            {
+                var item = GetItem(entity);
+                if (item != null)
+                {
+                    item.Refresh();
+                }
+                else
+                {
+                    item = new NoteItemObject(entity, dateTimeBusiness, this);
+                    Items.Add(item);
+                }
+            }
+        }
+
+        public void Remove(Note entity)
+        {
+            if (Items == null)
+            {
+                return;
+            }
+
+            var item = GetItem(entity);
+            if (item != null)
+            {
+                Items.Remove(item);
+            }
+        }
+
+
+        private void ShowNoteEditor()
+        {
+            var editor = new NoteEditorViewModel(DataService, UIHost.ProgressService, FolderList);
             editor.Saved += (s, e) =>
             {
-                if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
-                {
-                    Items.Add(new NoteItemObject(e.Entity, dateTimeBusiness, this));
-                }
+                Add(e.Entity);
             };
             ShowNoteEditor(editor);
         }
 
-        private void Edit(NoteItemObject item)
+        private void ShowNoteEditor(NoteItemObject item)
         {
-            var editor = new NoteEditorViewModel(DataService, ProgressService, FolderList, item.Entity);
+            var editor = new NoteEditorViewModel(DataService, UIHost.ProgressService, FolderList, item.Entity);
             editor.Saved += (s, e) =>
             {
                 if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
@@ -145,33 +154,55 @@ namespace OneDo.ViewModel
                     FolderList.SelectedItem = FolderList.Items.FirstOrDefault(x => x.Entity.Id == item.Entity.FolderId);
                 }
             };
-
             ShowNoteEditor(editor);
         }
 
+        private void ShowNoteEditor(NoteEditorViewModel editor)
+        {
+            editor.Saved += (s, e) => UIHost.ModalService.Close();
+            editor.Deleted += (s, e) => UIHost.ModalService.Close();
+            UIHost.ModalService.Show(editor);
+        }
+
+
         private async Task Delete(NoteItemObject item)
         {
-            await ProgressService.RunAsync(async () =>
+            await UIHost.ProgressService.RunAsync(async () =>
             {
                 await DataService.Notes.Delete(item.Entity);
             });
         }
 
-        private void ShowNoteEditor(NoteEditorViewModel editor)
-        {
-            editor.Saved += (s, e) => ModalService.Close();
-            editor.Deleted += (s, e) => ModalService.Close();
-            ModalService.Show(editor);
-        }
-
         private async Task ToggleFlag(NoteItemObject item)
         {
-            await ProgressService.RunAsync(async () =>
+            await UIHost.ProgressService.RunAsync(async () =>
             {
                 item.Entity.IsFlagged = !item.Entity.IsFlagged;
                 item.Refresh();
                 await DataService.Notes.Save(item.Entity);
             });
+        }
+
+
+        private void OnNoteSaved(object sender, EntityEventArgs<Note> e)
+        {
+            Add(e.Entity);
+        }
+
+        private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)
+        {
+            Remove(e.Entity);
+        }
+
+
+        private bool CanContain(Note entity)
+        {
+            return entity.FolderId == FolderList.SelectedItem.Entity.Id;
+        }
+
+        private NoteItemObject GetItem(Note entity)
+        {
+            return Items.FirstOrDefault(x => x.Entity.Id == entity.Id);
         }
     }
 }

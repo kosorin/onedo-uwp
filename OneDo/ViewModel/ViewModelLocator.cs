@@ -1,6 +1,7 @@
 using Autofac;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using OneDo.Model.Business;
 using OneDo.Model.Data;
 using OneDo.Services.InfoService;
 using OneDo.Services.ModalService;
@@ -22,10 +23,15 @@ namespace OneDo.ViewModel
                 var builder = new ContainerBuilder();
 
                 builder.RegisterType<DataService>().SingleInstance();
-                builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
-                builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
+
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
+
+                builder.RegisterType<UIHost>().SingleInstance();
+                builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
+                builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
+
+                builder.RegisterType<DateTimeBusiness>().SingleInstance();
 
                 builder.RegisterType<MainViewModel>().SingleInstance();
 

@@ -13,6 +13,7 @@ using OneDo.Services.ProgressService;
 using Windows.Foundation;
 using OneDo.Common.Event;
 using OneDo.Common.UI;
+using OneDo.Model.Business;
 
 namespace OneDo.ViewModel
 {
@@ -48,17 +49,14 @@ namespace OneDo.ViewModel
         public IExtendedCommand DeleteCommand { get; }
 
 
-        public IModalService ModalService { get; }
-
         public DataService DataService { get; }
 
-        public IProgressService ProgressService { get; }
+        public UIHost UIHost { get; }
 
-        public FolderListViewModel(IModalService modalService, DataService dataService, IProgressService progressService)
+        public FolderListViewModel(DataService dataService, UIHost uiHost)
         {
-            ModalService = modalService;
             DataService = dataService;
-            ProgressService = progressService;
+            UIHost = uiHost;
 
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand<FolderItemObject>(Edit);
@@ -67,7 +65,7 @@ namespace OneDo.ViewModel
 
         public async Task Load()
         {
-            await ProgressService.RunAsync(async () =>
+            await UIHost.ProgressService.RunAsync(async () =>
             {
                 var folders = await DataService.Folders.GetAll();
 
@@ -134,7 +132,7 @@ namespace OneDo.ViewModel
 
         public async Task MoveItem(FolderItemObject folder, NoteItemObject note)
         {
-            await ProgressService.RunAsync(async () =>
+            await UIHost.ProgressService.RunAsync(async () =>
             {
                 note.Entity.FolderId = folder.Entity.Id;
                 await DataService.Notes.Save(note.Entity);
@@ -144,7 +142,7 @@ namespace OneDo.ViewModel
 
         private void Add()
         {
-            var editor = new FolderEditorViewModel(DataService, ProgressService);
+            var editor = new FolderEditorViewModel(DataService, UIHost.ProgressService);
             editor.Saved += (s, e) =>
             {
                 Items.Add(new FolderItemObject(e.Entity, this));
@@ -156,7 +154,7 @@ namespace OneDo.ViewModel
 
         private void Edit(FolderItemObject item)
         {
-            var editor = new FolderEditorViewModel(DataService, ProgressService, item.Entity);
+            var editor = new FolderEditorViewModel(DataService, UIHost.ProgressService, item.Entity);
             editor.Deleted += (s, e) => Items.Remove(item);
             editor.Saved += (s, e) => item.Refresh();
 
@@ -180,9 +178,9 @@ namespace OneDo.ViewModel
 
         private void ShowEditor(FolderEditorViewModel editor)
         {
-            editor.Saved += (s, e) => ModalService.Close();
-            editor.Deleted += (s, e) => ModalService.Close();
-            ModalService.Show(editor);
+            editor.Saved += (s, e) => UIHost.ModalService.Close();
+            editor.Deleted += (s, e) => UIHost.ModalService.Close();
+            UIHost.ModalService.Show(editor);
         }
     }
 }

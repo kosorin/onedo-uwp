@@ -119,7 +119,7 @@ namespace OneDo.View
             {
                 Label = "Debug",
             };
-            debugButton.Tapped += (s, e) => VM.ModalService.Show(new DebugViewModel(VM.ProgressService));
+            debugButton.Tapped += (s, e) => VM.UIHost.ModalService.Show(new DebugViewModel(VM.UIHost.ProgressService));
 
             var switchRequestedThemeButton = new AppBarButton
             {
@@ -133,16 +133,9 @@ namespace OneDo.View
             };
             resetDataButton.Tapped += async (s, e) => await VM.ResetData();
 
-            var bandButton = new AppBarButton
-            {
-                Label = "Band",
-            };
-            bandButton.Tapped += async (s, e) => await VM.Band();
-
             MainCommandBar.SecondaryCommands.Insert(0, new AppBarSeparator());
-            //MainCommandBar.SecondaryCommands.Insert(0, bandButton);
             MainCommandBar.SecondaryCommands.Insert(0, resetDataButton);
-            //MainCommandBar.SecondaryCommands.Insert(0, switchRequestedThemeButton);
+            MainCommandBar.SecondaryCommands.Insert(0, switchRequestedThemeButton);
             MainCommandBar.SecondaryCommands.Insert(0, debugButton);
         }
 
