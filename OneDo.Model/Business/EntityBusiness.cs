@@ -19,7 +19,7 @@ namespace OneDo.Model.Business
 
         public EntityBusiness(DataService dataService) : base(dataService)
         {
-            repository = dataService.GetRepository<TEntity>();
+            repository = DataService.GetRepository<TEntity>();
         }
 
         public bool IsNew(TEntity entity)
