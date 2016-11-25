@@ -73,6 +73,10 @@ namespace OneDo.Model.Data
             {
                 baseConnection.CreateTable<TEntity>();
             }
+            else
+            {
+                baseConnection.MigrateTable<TEntity>();
+            }
         }
 
         private string GetTableName<TEntity>() where TEntity : IEntity
