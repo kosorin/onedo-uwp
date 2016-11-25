@@ -1,16 +1,27 @@
-﻿using System;
+﻿using OneDo.Common.Media;
+using OneDo.Services.InfoService;
+using OneDo.ViewModel.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 
 namespace OneDo.View.Controls
 {
+    [TemplatePart(Name = RootGridPartName, Type = typeof(Grid))]
     public class InfoBar : Control
     {
+        private const string RootGridPartName = "PART_RootGrid";
+
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
@@ -65,9 +76,167 @@ namespace OneDo.View.Controls
         public static readonly DependencyProperty ActionCommandParameterProperty =
             DependencyProperty.Register(nameof(ActionCommandParameter), typeof(object), typeof(InfoBar), new PropertyMetadata(null));
 
+        private Grid rootGrid;
+
+        private Compositor compositor;
+
+        private Visual visual;
+
+        private List<AnimationInfo> showAnimationInfos;
+
+        private List<AnimationInfo> hideAnimationInfos;
+
+        private Timer timer;
+
+        private Brush defaultBackground;
+
+        private int counter = 0;
+
         public InfoBar()
         {
             DefaultStyleKey = typeof(InfoBar);
+        }
+
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            rootGrid = GetTemplateChild(RootGridPartName) as Grid;
+            InitializeComposition();
+            Visibility = Visibility.Collapsed;
+        }
+
+        private void InitializeComposition()
+        {
+            visual = ElementCompositionPreview.GetElementVisual(rootGrid);
+            visual.Opacity = 0f;
+            visual.Offset = new Vector3(0, 48, 0);
+
+            compositor = visual.Compositor;
+
+            defaultBackground = (Brush)Resources["SystemControlBackgroundAccentBrush"];
+
+            var opacityShowAnimation = compositor.CreateScalarKeyFrameAnimation();
+            opacityShowAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            opacityShowAnimation.InsertKeyFrame(0.3f, 0);
+            opacityShowAnimation.InsertKeyFrame(1, 1);
+
+            var offsetShowAnimation = compositor.CreateScalarKeyFrameAnimation();
+            offsetShowAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            offsetShowAnimation.InsertKeyFrame(0.3f, 48);
+            offsetShowAnimation.InsertKeyFrame(1, 0);
+
+            showAnimationInfos = new List<AnimationInfo>
+            {
+                new AnimationInfo("Opacity", opacityShowAnimation),
+                new AnimationInfo("Offset.Y", offsetShowAnimation),
+            };
+
+            var opacityHideAnimation = compositor.CreateScalarKeyFrameAnimation();
+            opacityHideAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            opacityHideAnimation.InsertKeyFrame(0, 1);
+            opacityHideAnimation.InsertKeyFrame(1, 0);
+
+            var offsetHideAnimation = compositor.CreateScalarKeyFrameAnimation();
+            offsetHideAnimation.Duration = TimeSpan.FromMilliseconds(450);
+            offsetHideAnimation.InsertKeyFrame(0, 0);
+            offsetHideAnimation.InsertKeyFrame(1, 48);
+
+            hideAnimationInfos = new List<AnimationInfo>
+            {
+                new AnimationInfo("Opacity", opacityHideAnimation),
+                new AnimationInfo("Offset.Y", offsetHideAnimation),
+            };
+        }
+
+        public void Show(InfoMessage message)
+        {
+            if (message == null)
+            {
+                Hide();
+                return;
+            }
+
+            ApplyMessage(message);
+
+            if (counter == 0)
+            {
+                Interlocked.Increment(ref counter);
+            }
+            Visibility = Visibility.Visible;
+            foreach (var animationInfo in showAnimationInfos)
+            {
+                visual.StartAnimation(animationInfo.PropertyName, animationInfo.Animation);
+            }
+
+            StartTimer((int)message.Duration.TotalMilliseconds);
+        }
+
+        public void Hide()
+        {
+            StopTimer();
+
+            var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            batch.Completed += (s, e) =>
+            {
+                if (counter > 0)
+                {
+                    Interlocked.Decrement(ref counter);
+                }
+                if (counter == 0)
+                {
+                    Visibility = Visibility.Collapsed;
+                }
+            };
+            foreach (var animationInfo in hideAnimationInfos)
+            {
+                visual.StartAnimation(animationInfo.PropertyName, animationInfo.Animation);
+            }
+            batch.End();
+        }
+
+        private void ApplyMessage(InfoMessage message)
+        {
+            Text = message.Text;
+            IsActionVisible = message.Action != null;
+            Background = message.Color != null
+                ? new SolidColorBrush(ColorHelper.FromHex(message.Color))
+                : defaultBackground;
+            if (IsActionVisible)
+            {
+                ActionGlyph = message.Action.Glyph;
+                ActionText = message.Action.Text;
+                ActionCommand = new AsyncRelayCommand(async () =>
+                {
+                    await message.Action.Action();
+                    Hide();
+                });
+                ActionCommandParameter = null;
+            }
+        }
+
+
+        private void StartTimer(int dueTime)
+        {
+            if (timer == null)
+            {
+                timer = new Timer(TimerCallback, null, dueTime, Timeout.Infinite);
+            }
+            else
+            {
+                timer.Change(dueTime, Timeout.Infinite);
+            }
+        }
+
+        private void StopTimer()
+        {
+            timer?.Dispose();
+            timer = null;
+        }
+
+        private void TimerCallback(object state)
+        {
+            Hide();
         }
     }
 }

@@ -24,20 +24,21 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref isNew, value))
                 {
-                    UpdateDirtyProperty(() => value);
+                    UpdateDirtyProperty(() => IsNew);
+                    DeleteCommand.RaiseCanExecuteChanged();
                 }
             }
         }
 
-
         public bool CanSave => dirtyProperties.Any(x => x.Value) && validProperties.All(x => x.Value);
-
 
         public IProgressService ProgressService { get; }
 
+
         public AsyncRelayCommand SaveCommand { get; }
 
-        public ICommand DeleteCommand { get; }
+        public AsyncRelayCommand DeleteCommand { get; }
+
 
         private Dictionary<string, bool> dirtyProperties = new Dictionary<string, bool>();
 

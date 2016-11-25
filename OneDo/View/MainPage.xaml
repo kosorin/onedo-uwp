@@ -31,11 +31,8 @@
         <!--  Notes  -->
         <Grid x:Name="NoteList" Grid.Row="2">
             <v:NoteListControl DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
-            <Grid x:Name="InfoBarContainer">
-                <controls:InfoBar x:Name="InfoBar"
-                                  VerticalAlignment="Bottom"
-                                  Visibility="Collapsed" />
-            </Grid>
+            <controls:InfoBar x:Name="InfoBar"
+                              VerticalAlignment="Bottom" />
         </Grid>
 
         <!--  AppBar  -->
@@ -62,7 +59,7 @@
                         <DataTemplate x:DataType="vm:FolderEditorViewModel">
                             <Border HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
                                     BorderThickness="1">
                                 <v:FolderEditor />
                             </Border>

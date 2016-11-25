@@ -32,5 +32,10 @@ namespace OneDo.Model.Data.Entities
 
         [Indexed]
         public int? FolderId { get; set; }
+
+
+        public DateTime Created { get; set; }
+
+        public DateTime Modified { get; set; }
     }
 }

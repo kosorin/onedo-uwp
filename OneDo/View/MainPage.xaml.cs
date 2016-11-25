@@ -21,23 +21,11 @@ namespace OneDo.View
     {
         public MainViewModel VM => (MainViewModel)ViewModel;
 
-        private Visual infoBarContainerVisual;
-
-        private List<AnimationInfo> infoBarContainerInAnimationInfos;
-
-        private List<AnimationInfo> infoBarContainerOutAnimationInfos;
-
-        private Timer infoBarTimer;
-
-        private Brush defaultInfoBarBackground;
-
-        private int infoBarCounter = 0;
-
         public MainPage()
         {
             InitializeComponent();
             InitializeModalAnimations();
-            InfoBarContainer.Loaded += (_, __) => InitializeInfoBar();
+            InitializeInfoBar();
 
 #if DEBUG
             InitializeDebug();
@@ -73,43 +61,7 @@ namespace OneDo.View
 
         private void InitializeInfoBar()
         {
-            defaultInfoBarBackground = (Brush)Resources["SystemControlBackgroundAccentBrush"];
-
-            var opacityInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            opacityInAnimation.Duration = TimeSpan.FromMilliseconds(750);
-            opacityInAnimation.InsertKeyFrame(0, 0);
-            opacityInAnimation.InsertKeyFrame(1, 1);
-
-            var offsetInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            offsetInAnimation.Duration = TimeSpan.FromMilliseconds(750);
-            offsetInAnimation.InsertKeyFrame(0, 48);
-            offsetInAnimation.InsertKeyFrame(1, 0);
-
-            infoBarContainerInAnimationInfos = new List<AnimationInfo>
-            {
-                new AnimationInfo("Opacity", opacityInAnimation),
-                new AnimationInfo("Offset.Y", offsetInAnimation),
-            };
-
-            var opacityOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            opacityOutAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            opacityOutAnimation.InsertKeyFrame(0, 1);
-            opacityOutAnimation.InsertKeyFrame(1, 0);
-
-            var offsetOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            offsetOutAnimation.Duration = TimeSpan.FromMilliseconds(450);
-            offsetOutAnimation.InsertKeyFrame(0, 0);
-            offsetOutAnimation.InsertKeyFrame(1, 48);
-
-            infoBarContainerOutAnimationInfos = new List<AnimationInfo>
-            {
-                new AnimationInfo("Opacity", opacityOutAnimation),
-                new AnimationInfo("Offset.Y", offsetOutAnimation),
-            };
-
-            infoBarContainerVisual = ElementCompositionPreview.GetElementVisual(InfoBarContainer);
-
-            Messenger.Default.Register<InfoMessage>(this, OnInfoMessage);
+            Messenger.Default.Register<InfoMessage>(this, InfoBar.Show);
         }
 
 #if DEBUG
@@ -158,84 +110,5 @@ namespace OneDo.View
             RequestedTheme = targetTheme;
         }
 #endif
-
-        private void OnInfoMessage(InfoMessage message)
-        {
-            if (message != null)
-            {
-                SetInfoBar(message);
-
-                var timerDueTime = (int)message.Duration.TotalMilliseconds;
-                if (infoBarTimer == null)
-                {
-                    ShowInfoBar();
-                    infoBarTimer = new Timer(InfoBarTimerCallback, null, timerDueTime, Timeout.Infinite);
-                }
-                else
-                {
-                    infoBarTimer.Change(timerDueTime, Timeout.Infinite);
-                }
-            }
-            else
-            {
-                HideInfoBar();
-            }
-        }
-
-        private void InfoBarTimerCallback(object state)
-        {
-            HideInfoBar();
-        }
-
-        private void SetInfoBar(InfoMessage message)
-        {
-            InfoBar.Text = message.Text;
-            InfoBar.IsActionVisible = message.Action != null;
-            InfoBar.Background = message.Color != null
-                ? new SolidColorBrush(ColorHelper.FromHex(message.Color))
-                : defaultInfoBarBackground;
-            if (InfoBar.IsActionVisible)
-            {
-                InfoBar.ActionGlyph = message.Action.Glyph;
-                InfoBar.ActionText = message.Action.Text;
-                InfoBar.ActionCommand = new AsyncRelayCommand(async () =>
-                {
-                    await message.Action.Action();
-                    HideInfoBar();
-                });
-                InfoBar.ActionCommandParameter = null;
-            }
-        }
-
-        private void HideInfoBar()
-        {
-            var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            batch.Completed += (s, e) =>
-            {
-                Interlocked.Decrement(ref infoBarCounter);
-                if (infoBarCounter == 0)
-                {
-                    InfoBar.Visibility = Visibility.Collapsed;
-                }
-            };
-            foreach (var animationInfo in infoBarContainerOutAnimationInfos)
-            {
-                infoBarContainerVisual.StartAnimation(animationInfo.PropertyName, animationInfo.Animation);
-            }
-            batch.End();
-
-            infoBarTimer?.Dispose();
-            infoBarTimer = null;
-        }
-
-        private void ShowInfoBar()
-        {
-            Interlocked.Increment(ref infoBarCounter);
-            InfoBar.Visibility = Visibility.Visible;
-            foreach (var animationInfo in infoBarContainerInAnimationInfos)
-            {
-                infoBarContainerVisual.StartAnimation(animationInfo.PropertyName, animationInfo.Animation);
-            }
-        }
     }
 }

@@ -53,6 +53,8 @@ namespace OneDo.ViewModel
             NoteList = new NoteListViewModel(DataService, UIHost, FolderList);
 
             FolderList.SelectionChanged += OnFolderSelectionChanged;
+
+            DataService.Folders.Deleted += OnFolderDeleted;
             DataService.Notes.Deleted += OnNoteDeleted;
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
@@ -103,12 +105,17 @@ namespace OneDo.ViewModel
             }
         }
 
+        private void OnFolderDeleted(object sender, EntityEventArgs<Folder> e)
+        {
+            UIHost.InfoService.Hide();
+        }
+
         private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)
         {
             UIHost.InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
             {
                 await DataService.Notes.SaveAsNew(e.Entity);
-                NoteList.Add(e.Entity);
+                NoteList.AddOrRefresh(e.Entity);
             });
         }
     }

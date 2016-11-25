@@ -58,17 +58,17 @@ namespace OneDo.ViewModel
 
         public FolderListViewModel FolderList { get; }
 
-        private readonly DateTimeBusiness dateTimeBusiness;
+        public DateTimeBusiness DateTimeBusiness { get; }
 
         public NoteListViewModel(DataService dataService, UIHost uiHost, FolderListViewModel folderList)
         {
             DataService = dataService;
             UIHost = uiHost;
             FolderList = folderList;
-            dateTimeBusiness = new DateTimeBusiness(DataService);
+            DateTimeBusiness = new DateTimeBusiness(DataService);
 
             AddCommand = new RelayCommand(ShowNoteEditor);
-            EditCommand = new RelayCommand<NoteItemObject>(ShowNoteEditor);
+            EditCommand = new RelayCommand<NoteItemObject>(x => ShowNoteEditor(x.Entity));
             DeleteCommand = new AsyncRelayCommand<NoteItemObject>(Delete);
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemObject>(ToggleFlag);
 
@@ -83,7 +83,7 @@ namespace OneDo.ViewModel
                 var notes = await DataService
                     .Notes
                     .GetAll(x => x.FolderId == folderId);
-                var noteItems = notes.Select(x => new NoteItemObject(x, dateTimeBusiness, this));
+                var noteItems = notes.Select(x => new NoteItemObject(x, DateTimeBusiness, this));
                 Items = new ObservableCollection<NoteItemObject>(noteItems);
             });
         }
@@ -93,7 +93,7 @@ namespace OneDo.ViewModel
             Items?.Clear();
         }
 
-        public void Add(Note entity)
+        public void AddOrRefresh(Note entity)
         {
             if (Items == null)
             {
@@ -109,7 +109,7 @@ namespace OneDo.ViewModel
                 }
                 else
                 {
-                    item = new NoteItemObject(entity, dateTimeBusiness, this);
+                    item = new NoteItemObject(entity, DateTimeBusiness, this);
                     Items.Add(item);
                 }
             }
@@ -129,36 +129,29 @@ namespace OneDo.ViewModel
             }
         }
 
+        public void Refresh(Note entity)
+        {
+            if (Items == null)
+            {
+                return;
+            }
+
+            var item = GetItem(entity);
+            if (item != null)
+            {
+                item.Refresh();
+            }
+        }
+
 
         private void ShowNoteEditor()
         {
-            var editor = new NoteEditorViewModel(DataService, UIHost.ProgressService, FolderList);
-            editor.Saved += (s, e) =>
-            {
-                Add(e.Entity);
-            };
-            ShowNoteEditor(editor);
+            ShowNoteEditor(null);
         }
 
-        private void ShowNoteEditor(NoteItemObject item)
+        private void ShowNoteEditor(Note entity)
         {
-            var editor = new NoteEditorViewModel(DataService, UIHost.ProgressService, FolderList, item.Entity);
-            editor.Saved += (s, e) =>
-            {
-                if (e.Entity.FolderId == FolderList.SelectedItem?.Entity.Id)
-                {
-                    item.Refresh();
-                }
-                else
-                {
-                    FolderList.SelectedItem = FolderList.Items.FirstOrDefault(x => x.Entity.Id == item.Entity.FolderId);
-                }
-            };
-            ShowNoteEditor(editor);
-        }
-
-        private void ShowNoteEditor(NoteEditorViewModel editor)
-        {
+            var editor = new NoteEditorViewModel(DataService, UIHost.ProgressService, FolderList, entity);
             editor.Saved += (s, e) => UIHost.ModalService.Close();
             editor.Deleted += (s, e) => UIHost.ModalService.Close();
             UIHost.ModalService.Show(editor);
@@ -186,7 +179,7 @@ namespace OneDo.ViewModel
 
         private void OnNoteSaved(object sender, EntityEventArgs<Note> e)
         {
-            Add(e.Entity);
+            AddOrRefresh(e.Entity);
         }
 
         private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)

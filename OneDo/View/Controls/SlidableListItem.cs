@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Devices.Input;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -19,16 +20,16 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace OneDo.View.Controls
 {
-    [TemplatePart(Name = PART_CONTENT_PANEL, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = PART_COMMAND_CONTAINER, Type = typeof(Grid))]
-    [TemplatePart(Name = PART_LEFT_COMMAND_PANEL, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = PART_RIGHT_COMMAND_PANEL, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = PART_ContentPanel, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = PART_CommandContainer, Type = typeof(Grid))]
+    [TemplatePart(Name = PART_LeftCommandPanel, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = PART_RightCommandPanel, Type = typeof(FrameworkElement))]
     public class SlidableListItem : ContentControl
     {
-        const string PART_CONTENT_PANEL = "ContentPanel";
-        const string PART_COMMAND_CONTAINER = "CommandContainer";
-        const string PART_LEFT_COMMAND_PANEL = "LeftCommandPanel";
-        const string PART_RIGHT_COMMAND_PANEL = "RightCommandPanel";
+        const string PART_ContentPanel = "ContentPanel";
+        const string PART_CommandContainer = "CommandContainer";
+        const string PART_LeftCommandPanel = "LeftCommandPanel";
+        const string PART_RightCommandPanel = "RightCommandPanel";
 
 
         public event EventHandler RightCommandRequested;
@@ -63,15 +64,22 @@ namespace OneDo.View.Controls
             resetOpacityAnimation = CreateAnimation(200);
             offsetAnimation = CreateAnimation(350);
             opacityAnimation = CreateAnimation(350);
+
+            Loaded += OnLoaded;
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var contentVisual = ElementCompositionPreview.GetElementVisual(contentPanel);
+            contentVisual.Offset = new Vector3();
+        }
 
         protected override void OnApplyTemplate()
         {
-            contentPanel = GetTemplateChild(PART_CONTENT_PANEL) as FrameworkElement;
-            commandContainer = GetTemplateChild(PART_COMMAND_CONTAINER) as Grid;
-            leftCommandPanel = GetTemplateChild(PART_LEFT_COMMAND_PANEL) as FrameworkElement;
-            rightCommandPanel = GetTemplateChild(PART_RIGHT_COMMAND_PANEL) as FrameworkElement;
+            contentPanel = GetTemplateChild(PART_ContentPanel) as FrameworkElement;
+            commandContainer = GetTemplateChild(PART_CommandContainer) as Grid;
+            leftCommandPanel = GetTemplateChild(PART_LeftCommandPanel) as FrameworkElement;
+            rightCommandPanel = GetTemplateChild(PART_RightCommandPanel) as FrameworkElement;
 
             contentPanel.ManipulationDelta += ContentGrid_ManipulationDelta;
             contentPanel.ManipulationCompleted += ContentGrid_ManipulationCompleted;
@@ -81,7 +89,7 @@ namespace OneDo.View.Controls
 
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (!MouseSlidingEnabled && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse)
             {
                 return;
             }
@@ -249,7 +257,7 @@ namespace OneDo.View.Controls
         }
 
         public static readonly DependencyProperty LeftReturnPositionProperty =
-            DependencyProperty.Register("LeftReturnPosition", typeof(ReturnPosition), typeof(SlidableListItem), new PropertyMetadata(ReturnPosition.Back));
+            DependencyProperty.Register(nameof(LeftReturnPosition), typeof(ReturnPosition), typeof(SlidableListItem), new PropertyMetadata(ReturnPosition.Back));
 
         public ReturnPosition RightReturnPosition
         {
@@ -258,7 +266,7 @@ namespace OneDo.View.Controls
         }
 
         public static readonly DependencyProperty RightReturnPositionProperty =
-            DependencyProperty.Register("RightReturnPosition", typeof(ReturnPosition), typeof(SlidableListItem), new PropertyMetadata(ReturnPosition.Back));
+            DependencyProperty.Register(nameof(RightReturnPosition), typeof(ReturnPosition), typeof(SlidableListItem), new PropertyMetadata(ReturnPosition.Back));
 
         public string LeftGlyph
         {
@@ -357,7 +365,7 @@ namespace OneDo.View.Controls
         }
 
         public static readonly DependencyProperty LeftCommandParameterProperty =
-            DependencyProperty.Register("LeftCommandParameter", typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(LeftCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
 
         public ICommand RightCommand
         {
@@ -375,7 +383,7 @@ namespace OneDo.View.Controls
         }
 
         public static readonly DependencyProperty RightCommandParameterProperty =
-            DependencyProperty.Register("RightCommandParameter", typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(RightCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
 
 
         public enum ReturnPosition

@@ -18,22 +18,6 @@ namespace OneDo.View
         public NoteEditor()
         {
             InitializeComponent();
-            InitializeModalAnimations();
-        }
-
-        private void InitializeModalAnimations()
-        {
-            var confirmationFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            confirmationFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
-            confirmationFadeInAnimation.InsertKeyFrame(0, 50);
-            confirmationFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeInAnimation<ConfirmationViewModel>("Offset.Y", confirmationFadeInAnimation);
-
-            var confirmationFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            confirmationFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
-            confirmationFadeOutAnimation.InsertKeyFrame(0, 0);
-            confirmationFadeOutAnimation.InsertKeyFrame(1, 50, ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeOutAnimation<ConfirmationViewModel>("Offset.Y", confirmationFadeOutAnimation);
         }
 
 
@@ -61,7 +45,7 @@ namespace OneDo.View
             CloseDatePicker();
         }
 
-        private void DateButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void OnDateButtonTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ShowDatePicker();
         }

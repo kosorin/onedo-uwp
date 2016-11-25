@@ -30,7 +30,7 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedFolder, value))
                 {
-                    UpdateDirtyProperty(() => SelectedFolder?.Entity.Id != original.FolderId);
+                    UpdateDirtyProperty(() => SelectedFolder?.Entity.Id != Original.FolderId);
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref isFlagged, value))
                 {
-                    UpdateDirtyProperty(() => IsFlagged != original.IsFlagged);
+                    UpdateDirtyProperty(() => IsFlagged != Original.IsFlagged);
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref title, value))
                 {
-                    UpdateDirtyProperty(() => Title != original.Title);
+                    UpdateDirtyProperty(() => Title != Original.Title);
                     ValidateProperty(() => !string.IsNullOrWhiteSpace(Title));
                 }
             }
@@ -70,7 +70,7 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref text, value))
                 {
-                    UpdateDirtyProperty(() => Text != original.Text);
+                    UpdateDirtyProperty(() => Text != Original.Text);
                 }
             }
         }
@@ -89,9 +89,9 @@ namespace OneDo.ViewModel
 
         public DataService DataService { get; }
 
-        private readonly DateTimeBusiness dateTimeBusiness;
+        public DateTimeBusiness DateTimeBusiness { get; }
 
-        private readonly Note original;
+        public Note Original { get; }
 
         public NoteEditorViewModel(DataService dataService, IProgressService progressService, FolderListViewModel folderList)
             : this(dataService, progressService, folderList, null)
@@ -103,8 +103,8 @@ namespace OneDo.ViewModel
             : base(progressService)
         {
             DataService = dataService;
-            dateTimeBusiness = new DateTimeBusiness(DataService);
-            original = note ?? DataService.Notes.CreateDefault();
+            DateTimeBusiness = new DateTimeBusiness(DataService);
+            Original = note ?? DataService.Notes.CreateDefault();
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
@@ -112,12 +112,12 @@ namespace OneDo.ViewModel
             DatePicker = new DatePickerViewModel(DataService);
             DatePicker.DateChanged += (s, e) =>
             {
-                UpdateDirtyProperty(() => e.Date?.Date != original.Date?.Date);
+                UpdateDirtyProperty(() => e.Date?.Date != Original.Date?.Date);
             };
             ReminderPicker = new TimePickerViewModel(DataService);
             ReminderPicker.TimeChanged += (s, e) =>
             {
-                UpdateDirtyProperty(() => e.Time != original.Reminder);
+                UpdateDirtyProperty(() => e.Time != Original.Reminder);
             };
 
             Load();
@@ -126,71 +126,62 @@ namespace OneDo.ViewModel
 
         private void Load()
         {
-            IsNew = DataService.Notes.IsNew(original);
+            IsNew = DataService.Notes.IsNew(Original);
 
             if (!IsNew)
             {
-                var folder = Folders.Where(x => x.Entity.Id == original.FolderId).FirstOrDefault();
+                var folder = Folders.Where(x => x.Entity.Id == Original.FolderId).FirstOrDefault();
                 if (folder != null)
                 {
                     SelectedFolder = folder;
                 }
             }
-            IsFlagged = original.IsFlagged;
-            Title = original.Title;
-            Text = original.Text;
-            DatePicker.Date = original.Date;
-            ReminderPicker.Time = original.Reminder;
+            IsFlagged = Original.IsFlagged;
+            Title = Original.Title;
+            Text = Original.Text;
+            DatePicker.Date = Original.Date;
+            ReminderPicker.Time = Original.Reminder;
         }
 
-        protected override Task Delete()
+        protected override async Task Delete()
         {
-            if (!IsNew)
+            await ProgressService.RunAsync(async () =>
             {
-                var confirmation = new ConfirmationViewModel
-                {
-                    Text = "To-do will be deleted. Do you want to continue?",
-                    ButtonText = "Yes, delete to-do",
-                };
-                confirmation.ConfirmationRequested += async (s, e) =>
-                {
-                    await ProgressService.RunAsync(async () =>
-                    {
-                        await DataService.Notes.Delete(original);
-                    });
-                    SubModalService.Close();
-                    OnDeleted();
-                };
-                SubModalService.Show(confirmation);
-            }
-            return Task.CompletedTask;
+                await DataService.Notes.Delete(Original);
+            });
+            OnDeleted();
         }
 
         protected override async Task Save()
         {
-            original.FolderId = SelectedFolder.Entity.Id;
-            original.IsFlagged = IsFlagged ?? false;
-            original.Title = Title ?? "";
-            original.Text = Text ?? "";
-            original.Date = DatePicker?.Date;
-            original.Reminder = ReminderPicker?.Time;
+            Original.FolderId = SelectedFolder.Entity.Id;
+            Original.IsFlagged = IsFlagged ?? false;
+            Original.Title = Title ?? "";
+            Original.Text = Text ?? "";
+            Original.Date = DatePicker?.Date;
+            Original.Reminder = ReminderPicker?.Time;
+
+            if (IsNew)
+            {
+                Original.Created = DateTime.Now;
+            }
+            Original.Modified = DateTime.Now;
 
             await ProgressService.RunAsync(async () =>
             {
-                await DataService.Notes.Save(original);
+                await DataService.Notes.Save(Original);
             });
-
             OnSaved();
         }
 
         protected override void OnSaved()
         {
-            Saved?.Invoke(this, new EntityEventArgs<Note>(original));
+            Saved?.Invoke(this, new EntityEventArgs<Note>(Original));
         }
 
         protected override void OnDeleted()
         {
-            Deleted?.Invoke(this, new EntityEventArgs<Note>(original));
+            Deleted?.Invoke(this, new EntityEventArgs<Note>(Original));
         }
     }
 }

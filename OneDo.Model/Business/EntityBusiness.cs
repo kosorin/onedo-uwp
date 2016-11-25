@@ -11,11 +11,11 @@ namespace OneDo.Model.Business
 {
     public abstract class EntityBusiness<TEntity> : DataBusinessBase where TEntity : class, IEntity, new()
     {
-        private readonly Repository<TEntity> repository;
-
         public event EventHandler<EntityEventArgs<TEntity>> Saved;
 
         public event EventHandler<EntityEventArgs<TEntity>> Deleted;
+
+        private readonly Repository<TEntity> repository;
 
         public EntityBusiness(DataService dataService) : base(dataService)
         {
@@ -42,6 +42,7 @@ namespace OneDo.Model.Business
             {
                 await repository.Update(entity);
             }
+            OnSaved(entity);
         }
 
         public async Task SaveAsNew(TEntity entity)

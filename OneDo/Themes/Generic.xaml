@@ -58,12 +58,12 @@
         <Setter Property="ActionText" Value="Undo" />
         <Setter Property="ActionGlyph" Value="&#xE10E;" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundChromeWhiteBrush}" />
         <Setter Property="Height" Value="48" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:InfoBar">
-                    <Grid Background="{TemplateBinding Background}">
+                    <Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
@@ -124,7 +124,6 @@
                                 <TextBlock HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            Style="{ThemeResource BodyTextBlockStyle}"
-                                           Foreground="{TemplateBinding Foreground}"
                                            Text="{TemplateBinding ActionText}" />
                             </StackPanel>
                         </Button>
