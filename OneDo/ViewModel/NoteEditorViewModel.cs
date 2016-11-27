@@ -83,11 +83,6 @@ namespace OneDo.ViewModel
         public TimePickerViewModel ReminderPicker { get; }
 
 
-        public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Deleted;
-
-        public event TypedEventHandler<NoteEditorViewModel, EntityEventArgs<Note>> Saved;
-
-
         public DataService DataService { get; }
 
         public NoteBusiness Business { get; }
