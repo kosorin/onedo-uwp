@@ -70,13 +70,35 @@ namespace OneDo.ViewModel
         protected override void OnEntityAdded(Folder entity)
         {
             base.OnEntityAdded(entity);
-            SelectedItem = Items.Last();
+            SelectedItem = GetItem(entity);
         }
 
         protected override void OnEntityDeleted(Folder entity)
         {
+            var index = Items.IndexOf(SelectedItem);
             base.OnEntityDeleted(entity);
-            SelectedItem = Items.FirstOrDefault();
+            if (Items.Count > index)
+            {
+                SelectedItem = Items.ElementAt(index);
+            }
+            else
+            {
+                SelectedItem = Items.FirstOrDefault();
+            }
+        }
+
+        protected override void OnEntityBulkDeleted(List<Folder> entities)
+        {
+            var index = Items.IndexOf(SelectedItem);
+            base.OnEntityBulkDeleted(entities);
+            if (Items.Count > index)
+            {
+                SelectedItem = Items.ElementAt(index);
+            }
+            else
+            {
+                SelectedItem = Items.FirstOrDefault();
+            }
         }
     }
 }
