@@ -69,6 +69,8 @@ namespace OneDo.ViewModel
 
         private async Task Load()
         {
+            await FolderList.Load();
+
 #if DEBUG
             var folders = await DataService.Folders.GetAll();
             if (!folders.Any())
@@ -120,8 +122,9 @@ namespace OneDo.ViewModel
                     FolderId = (folder2 ?? folder).Id,
                 });
             }
+
+            FolderList.SelectedItem = FolderList.Items.FirstOrDefault();
 #endif
-            await FolderList.Load();
         }
 
 #if DEBUG

@@ -85,7 +85,6 @@ namespace OneDo.Model.Data
             }
             else
             {
-                await connection.DeleteAllAsync<TEntity>();
                 baseConnection.MigrateTable<TEntity>();
             }
         }
