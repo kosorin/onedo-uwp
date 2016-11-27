@@ -8,9 +8,7 @@ namespace OneDo.ViewModel
 {
     public interface IFolderCommands : INotifyPropertyChanged
     {
-        IExtendedCommand AddCommand { get; }
-
-        IExtendedCommand EditCommand { get; }
+        IExtendedCommand ShowEditorCommand { get; }
 
         IExtendedCommand DeleteCommand { get; }
     }

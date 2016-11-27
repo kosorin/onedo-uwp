@@ -31,13 +31,12 @@
         <!--  Notes  -->
         <Grid x:Name="NoteList" Grid.Row="2">
             <v:NoteListControl DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
-            <controls:InfoBar x:Name="InfoBar"
-                              VerticalAlignment="Bottom" />
+            <controls:InfoBar x:Name="InfoBar" VerticalAlignment="Bottom" />
         </Grid>
 
         <!--  AppBar  -->
         <CommandBar x:Name="MainCommandBar" Grid.Row="3">
-            <AppBarButton Command="{x:Bind VM.NoteList.AddCommand}" Label="Add note">
+            <AppBarButton Command="{x:Bind VM.NoteList.ShowEditorCommand}" Label="Add note">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </AppBarButton.Icon>

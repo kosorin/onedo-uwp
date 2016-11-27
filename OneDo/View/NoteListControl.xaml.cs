@@ -47,7 +47,7 @@ namespace OneDo.View
             {
                 var item = new MenuFlyoutItem
                 {
-                    Command = new AsyncRelayCommand(() => VM.FolderList.MoveItem(folder, note)),
+                    Command = new AsyncRelayCommand(() => VM.FolderList.Move(folder, note)),
                 };
 
                 BindingOperations.SetBinding(item, MenuFlyoutItem.TextProperty, new Binding

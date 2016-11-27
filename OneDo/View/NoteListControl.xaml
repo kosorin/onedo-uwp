@@ -103,7 +103,7 @@
                                        BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
                                        BorderThickness="0,0,0,1"
                                        LeftBackground="Khaki"
-                                       LeftCommand="{x:Bind Commands.ToggleFlagCommand}"
+                                       LeftCommand="{x:Bind Commands.ToggleFlagCommand, Mode=OneWay}"
                                        LeftCommandParameter="{x:Bind Mode=OneWay}"
                                        LeftForeground="#443e09"
                                        LeftGlyph="&#xE7C1;"
@@ -111,7 +111,7 @@
                                        LeftReturnPosition="Back"
                                        MouseSlidingEnabled="True"
                                        RightBackground="Tomato"
-                                       RightCommand="{x:Bind Commands.DeleteCommand}"
+                                       RightCommand="{x:Bind Commands.DeleteCommand, Mode=OneWay}"
                                        RightCommandParameter="{x:Bind Mode=OneWay}"
                                        RightForeground="#4d0b00"
                                        RightGlyph="&#xE74D;"
@@ -139,7 +139,7 @@
                 <i:Interaction.Behaviors>
                     <behaviors:OpenFlyoutMenuBehavior />
                     <ic:EventTriggerBehavior EventName="Tapped">
-                        <ic:InvokeCommandAction Command="{x:Bind Commands.EditCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
+                        <ic:InvokeCommandAction Command="{x:Bind Commands.ShowEditorCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <Grid Margin="0,8" VerticalAlignment="Center">
@@ -193,7 +193,7 @@
 
     </UserControl.Resources>
 
-    <ListView x:Name="NoteListView"
+    <ListView x:Name="NoteList"
               Grid.Row="1"
               Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
               BorderBrush="{Binding BorderBrush, ElementName=Root}"

@@ -270,7 +270,7 @@
                                         HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                         <Button Grid.Column="1"
                                 Style="{StaticResource FolderListButtonStyle}"
-                                Command="{Binding AddCommand}">
+                                Command="{Binding ShowEditorCommand}">
                             <FontIcon FontSize="16"
                                       FontWeight="Light"
                                       Glyph="&#xE710;" />
@@ -329,7 +329,7 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE70F;"
-                                        Command="{x:Bind FolderCommands.EditCommand}"
+                                        Command="{x:Bind FolderCommands.ShowEditorCommand}"
                                         CommandParameter="{x:Bind Mode=OneWay}"
                                         Text="Edit" />
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"

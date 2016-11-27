@@ -133,6 +133,7 @@
     <Compile Include="ViewModel\ColorItemObject.cs" />
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
+    <Compile Include="ViewModel\ListViewModel.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="ViewModel\TimePickerViewModel.cs" />
     <Compile Include="ViewModel\UIHost.cs" />
@@ -231,6 +232,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\AppBarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Themes\FlyoutMenuStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

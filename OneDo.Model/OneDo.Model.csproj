@@ -104,9 +104,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Args\EntityListEventArgs.cs" />
     <Compile Include="Business\BusinessBase.cs" />
     <Compile Include="Business\DateTimeBusiness.cs" />
-    <Compile Include="Business\EntityEventArgs.cs" />
+    <Compile Include="Args\EntityEventArgs.cs" />
     <Compile Include="Data\DataService.Data.cs" />
     <None Include="project.json" />
   </ItemGroup>
@@ -117,6 +118,7 @@
     <Compile Include="Business\NoteBusiness.cs" />
     <Compile Include="Data\DataService.Settings.cs" />
     <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Data\Repositories\FolderRepository.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Data\IEntity.cs" />
     <Compile Include="Data\DataService.cs" />
@@ -140,9 +142,7 @@
       <Name>OneDo.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

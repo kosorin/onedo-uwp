@@ -13,7 +13,6 @@ namespace OneDo.Model.Business
     {
         public FolderBusiness(DataService dataService) : base(dataService)
         {
-
         }
 
         public string NormalizeName(string name)

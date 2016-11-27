@@ -12,7 +12,6 @@ namespace OneDo.Model.Business
     {
         public NoteBusiness(DataService dataService) : base(dataService)
         {
-
         }
     }
 }

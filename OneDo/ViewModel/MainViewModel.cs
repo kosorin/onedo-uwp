@@ -18,6 +18,7 @@ using Microsoft.Band.Tiles.Pages;
 using OneDo.Common.Logging;
 using OneDo.Services.InfoService;
 using OneDo.Model.Business;
+using OneDo.Model.Args;
 
 namespace OneDo.ViewModel
 {
@@ -65,21 +66,73 @@ namespace OneDo.ViewModel
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
+
         private async Task Load()
         {
+#if DEBUG
+            var folders = await DataService.Folders.GetAll();
+            if (!folders.Any())
+            {
+                await DataService.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
+                await DataService.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
+                await DataService.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
+                await DataService.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
+                folders = await DataService.Folders.GetAll();
+            }
+
+            if (!await DataService.Notes.Any())
+            {
+                var folder = folders.FirstOrDefault();
+                var folder2 = folders.Skip(1).FirstOrDefault();
+                await DataService.Notes.Add(new Note
+                {
+                    Title = "Buy milk",
+                    Text = "",
+                    FolderId = folder.Id,
+                });
+                await DataService.Notes.Add(new Note
+                {
+                    Title = "Walk Max with bike",
+                    Text = "",
+                    Date = DateTime.Today,
+                    Reminder = TimeSpan.FromHours(7.25),
+                    FolderId = folder.Id,
+                });
+                await DataService.Notes.Add(new Note
+                {
+                    Title = "Call mom",
+                    Text = "",
+                    Date = DateTime.Today.AddDays(5),
+                    IsFlagged = true,
+                    FolderId = folder.Id,
+                });
+                await DataService.Notes.Add(new Note
+                {
+                    Title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                    Text = "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
+                    FolderId = folder.Id,
+                });
+                await DataService.Notes.Add(new Note
+                {
+                    Title = "Test note",
+                    Text = "",
+                    IsFlagged = true,
+                    FolderId = (folder2 ?? folder).Id,
+                });
+            }
+#endif
             await FolderList.Load();
         }
 
+#if DEBUG
         private async Task Clear()
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                await DataService.Notes.DeleteAll();
                 await DataService.Folders.DeleteAll();
             });
         }
 
-#if DEBUG
         public async Task ResetData()
         {
             await Clear();
@@ -93,11 +146,11 @@ namespace OneDo.ViewModel
         }
 
 
-        private async void OnFolderSelectionChanged(FolderListViewModel sender, EntityEventArgs<Folder> args)
+        private async void OnFolderSelectionChanged(object sender, EntityEventArgs<Folder> args)
         {
             if (args.Entity != null)
             {
-                await NoteList.Load(args.Entity.Id);
+                await NoteList.Load();
             }
             else
             {
@@ -107,15 +160,13 @@ namespace OneDo.ViewModel
 
         private void OnFolderDeleted(object sender, EntityEventArgs<Folder> e)
         {
-            UIHost.InfoService.Hide();
         }
 
         private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)
         {
             UIHost.InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
             {
-                await DataService.Notes.SaveAsNew(e.Entity);
-                NoteList.AddOrRefresh(e.Entity);
+                await DataService.Notes.Add(e.Entity);
             });
         }
     }

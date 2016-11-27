@@ -19,7 +19,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Root.HorizontalAlignment" Value="Right" />
-                        <Setter Target="Root.Width" Value="480" />
+                        <Setter Target="Root.Width" Value="440" />
                         <Setter Target="RootGrid.BorderThickness" Value="1,0,0,0" />
                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                     </VisualState.Setters>

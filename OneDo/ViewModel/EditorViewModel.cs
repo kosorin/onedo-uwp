@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.Model.Args;
+using OneDo.Model.Business;
 using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
@@ -14,7 +16,7 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public abstract class EditorViewModel<TModel> : ModalViewModel
+    public abstract class EditorViewModel<TEntity> : ModalViewModel where TEntity : IEntity
     {
         private bool isNew;
         public bool IsNew
@@ -32,13 +34,20 @@ namespace OneDo.ViewModel
 
         public bool CanSave => dirtyProperties.Any(x => x.Value) && validProperties.All(x => x.Value);
 
-        public IProgressService ProgressService { get; }
+
+        public event EventHandler<EntityEventArgs<TEntity>> Saved;
+
+        public event EventHandler<EntityEventArgs<TEntity>> Deleted;
 
 
         public AsyncRelayCommand SaveCommand { get; }
 
         public AsyncRelayCommand DeleteCommand { get; }
 
+
+        public IProgressService ProgressService { get; }
+
+        public TEntity Original { get; protected set; }
 
         private Dictionary<string, bool> dirtyProperties = new Dictionary<string, bool>();
 
@@ -53,28 +62,34 @@ namespace OneDo.ViewModel
         }
 
 
-        protected abstract Task Save();
-
-        protected abstract Task Delete();
-
-        protected abstract void OnSaved();
-
-        protected abstract void OnDeleted();
-
-
         protected void UpdateDirtyProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
         {
             dirtyProperties[propertyName] = isDirtyTest();
-            OnCanSave();
+            RaiseCanSaveChanged();
         }
 
         protected void ValidateProperty(Func<bool> isValidTest, [CallerMemberName] string propertyName = null)
         {
             validProperties[propertyName] = isValidTest();
-            OnCanSave();
+            RaiseCanSaveChanged();
         }
 
-        private void OnCanSave()
+
+        protected abstract Task Save();
+
+        protected abstract Task Delete();
+
+        protected void OnSaved()
+        {
+            Saved?.Invoke(this, new EntityEventArgs<TEntity>(Original));
+        }
+
+        protected void OnDeleted()
+        {
+            Deleted?.Invoke(this, new EntityEventArgs<TEntity>(Original));
+        }
+
+        private void RaiseCanSaveChanged()
         {
             RaisePropertyChanged(nameof(CanSave));
             SaveCommand.RaiseCanExecuteChanged();

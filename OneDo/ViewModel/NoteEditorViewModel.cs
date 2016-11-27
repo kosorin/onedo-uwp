@@ -1,6 +1,7 @@
 ﻿using OneDo.Common.Event;
 using OneDo.Common.Logging;
 using OneDo.Common.UI;
+using OneDo.Model.Args;
 using OneDo.Model.Business;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
@@ -89,9 +90,9 @@ namespace OneDo.ViewModel
 
         public DataService DataService { get; }
 
-        public DateTimeBusiness DateTimeBusiness { get; }
+        public NoteBusiness Business { get; }
 
-        public Note Original { get; }
+        public DateTimeBusiness DateTimeBusiness { get; }
 
         public NoteEditorViewModel(DataService dataService, IProgressService progressService, FolderListViewModel folderList)
             : this(dataService, progressService, folderList, null)
@@ -103,8 +104,9 @@ namespace OneDo.ViewModel
             : base(progressService)
         {
             DataService = dataService;
+            Business = new NoteBusiness(DataService);
             DateTimeBusiness = new DateTimeBusiness(DataService);
-            Original = note ?? DataService.Notes.CreateDefault();
+            Original = note ?? Business.CreateDefault();
 
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
@@ -143,15 +145,6 @@ namespace OneDo.ViewModel
             ReminderPicker.Time = Original.Reminder;
         }
 
-        protected override async Task Delete()
-        {
-            await ProgressService.RunAsync(async () =>
-            {
-                await DataService.Notes.Delete(Original);
-            });
-            OnDeleted();
-        }
-
         protected override async Task Save()
         {
             Original.FolderId = SelectedFolder.Entity.Id;
@@ -169,19 +162,18 @@ namespace OneDo.ViewModel
 
             await ProgressService.RunAsync(async () =>
             {
-                await DataService.Notes.Save(Original);
+                await DataService.Notes.AddOrUpdate(Original);
             });
             OnSaved();
         }
 
-        protected override void OnSaved()
+        protected override async Task Delete()
         {
-            Saved?.Invoke(this, new EntityEventArgs<Note>(Original));
-        }
-
-        protected override void OnDeleted()
-        {
-            Deleted?.Invoke(this, new EntityEventArgs<Note>(Original));
+            await ProgressService.RunAsync(async () =>
+            {
+                await DataService.Notes.Delete(Original);
+            });
+            OnDeleted();
         }
     }
 }

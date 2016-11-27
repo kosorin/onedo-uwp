@@ -25,6 +25,12 @@ namespace OneDo.View
         public FolderListControl()
         {
             InitializeComponent();
+            FolderList.SelectionChanged += FolderList_SelectionChanged;
+        }
+
+        private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

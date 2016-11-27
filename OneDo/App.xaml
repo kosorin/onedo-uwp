@@ -27,6 +27,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/TextBoxStyles.xaml" />
                 <ResourceDictionary Source="Themes/FlyoutMenuStyles.xaml" />
+                <ResourceDictionary Source="Themes/AppBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="SmallWidthBreakpoint">0</x:Double>

@@ -30,9 +30,9 @@ namespace OneDo.ViewModel
             get { return name; }
             set
             {
-                if (Set(ref name, DataService.Folders.NormalizeName(value)))
+                if (Set(ref name, Business.NormalizeName(value)))
                 {
-                    UpdateDirtyProperty(() => Name != original.Name);
+                    UpdateDirtyProperty(() => Name != Original.Name);
                     ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
                 }
             }
@@ -46,20 +46,15 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedColor, value))
                 {
-                    UpdateDirtyProperty(() => SelectedColor?.Color.ToHex() != original.Color);
+                    UpdateDirtyProperty(() => SelectedColor?.Color.ToHex() != Original.Color);
                 }
             }
         }
 
 
-        public event TypedEventHandler<FolderEditorViewModel, EntityEventArgs<Folder>> Saved;
-
-        public event TypedEventHandler<FolderEditorViewModel, EntityEventArgs<Folder>> Deleted;
-
-
         public DataService DataService { get; }
 
-        private readonly Folder original;
+        public FolderBusiness Business { get; }
 
         private readonly Random random = new Random();
 
@@ -89,63 +84,54 @@ namespace OneDo.ViewModel
         public FolderEditorViewModel(DataService dataService, IProgressService progressService)
             : this(dataService, progressService, null)
         {
-
         }
 
         public FolderEditorViewModel(DataService dataService, IProgressService progressService, Folder folder)
             : base(progressService)
         {
             DataService = dataService;
-            original = folder ?? DataService.Folders.CreateDefault();
+            Business = new FolderBusiness(DataService);
+            Original = folder ?? Business.CreateDefault();
 
             Load();
         }
 
+
         private void Load()
         {
-            IsNew = DataService.Folders.IsNew(original);
+            IsNew = DataService.Folders.IsNew(Original);
 
-            Name = original.Name;
+            Name = Original.Name;
             SelectedColor = Colors
-                .Where(x => x.Color.ToHex() == original.Color)
+                .Where(x => x.Color.ToHex() == Original.Color)
                 .FirstOrDefault() ?? Colors[random.Next(Colors.Count)];
         }
 
-
         protected override async Task Save()
         {
-            original.Name = DataService.Folders.NormalizeName(Name);
-            original.Color = SelectedColor.Color.ToHex();
+            Original.Name = Business.NormalizeName(Name);
+            Original.Color = SelectedColor.Color.ToHex();
+
+            if (IsNew)
+            {
+                Original.Created = DateTime.Now;
+            }
+            Original.Modified = DateTime.Now;
 
             await ProgressService.RunAsync(async () =>
             {
-                await DataService.Folders.Save(original);
+                await DataService.Folders.AddOrUpdate(Original);
             });
-
             OnSaved();
         }
 
         protected override async Task Delete()
         {
-            if (!IsNew)
+            await ProgressService.RunAsync(async () =>
             {
-                await ProgressService.RunAsync(async () =>
-                {
-                    await DataService.Folders.Delete(original);
-                });
-
-                OnDeleted();
-            }
-        }
-
-        protected override void OnSaved()
-        {
-            Saved?.Invoke(this, new EntityEventArgs<Folder>(original));
-        }
-
-        protected override void OnDeleted()
-        {
-            Deleted?.Invoke(this, new EntityEventArgs<Folder>(original));
+                await DataService.Folders.Delete(Original);
+            });
+            OnDeleted();
         }
     }
 }

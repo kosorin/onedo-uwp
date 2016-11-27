@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using SQLite.Net.Async;
 using OneDo.Model.Business;
+using OneDo.Model.Data.Repositories;
 
 namespace OneDo.Model.Data
 {
@@ -20,9 +21,9 @@ namespace OneDo.Model.Data
         private const string FileName = "Data.db";
 
 
-        public FolderBusiness Folders { get; private set; }
+        public IRepository<Folder> Folders { get; private set; }
 
-        public NoteBusiness Notes { get; private set; }
+        public IRepository<Note> Notes { get; private set; }
 
 
         private SQLiteConnectionWithLock baseConnection;
@@ -42,26 +43,36 @@ namespace OneDo.Model.Data
                 EnsureTableExists<Folder>();
                 EnsureTableExists<Note>();
 
-                Folders = new FolderBusiness(this);
-                Notes = new NoteBusiness(this);
+                Folders = GetRepository<Folder>();
+                Notes = GetRepository<Note>();
             }
             return Task.CompletedTask;
         }
 
 
-        internal Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
         {
             var type = typeof(TEntity);
             if (repositories.ContainsKey(type))
             {
-                return (Repository<TEntity>)repositories[type];
+                return (IRepository<TEntity>)repositories[type];
             }
             else
             {
-                var repository = new Repository<TEntity>(connection);
+                var repository = CreateRepository<TEntity>();
                 repositories[type] = repository;
                 return repository;
             }
+        }
+
+        private IRepository<TEntity> CreateRepository<TEntity>()
+            where TEntity : class, IEntity
+        {
+            if (typeof(TEntity) == typeof(Folder))
+            {
+                return (IRepository<TEntity>)new FolderRepository(connection, GetRepository<Note>());
+            }
+            return new Repository<TEntity>(connection);
         }
 
 

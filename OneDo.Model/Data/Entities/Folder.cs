@@ -19,5 +19,10 @@ namespace OneDo.Model.Data.Entities
 
         [NotNull]
         public string Color { get; set; }
+
+
+        public DateTime Created { get; set; }
+
+        public DateTime Modified { get; set; }
     }
 }
