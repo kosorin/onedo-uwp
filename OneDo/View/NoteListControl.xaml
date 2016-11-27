@@ -193,14 +193,23 @@
 
     </UserControl.Resources>
 
-    <ListView x:Name="NoteList"
-              Grid.Row="1"
-              Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-              BorderBrush="{Binding BorderBrush, ElementName=Root}"
-              BorderThickness="{Binding BorderThickness, ElementName=Root}"
-              ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
-              ItemTemplate="{StaticResource NoteItemTemplate}"
-              ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
-              SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
+    <Grid>
+        <ListView x:Name="NoteList"
+                  Grid.Row="1"
+                  Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                  BorderBrush="{Binding BorderBrush, ElementName=Root}"
+                  BorderThickness="{Binding BorderThickness, ElementName=Root}"
+                  ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
+                  ItemTemplate="{StaticResource NoteItemTemplate}"
+                  ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
+                  SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="{x:Bind VM.Items.Count, Mode=OneWay, Converter={StaticResource ZeroToVisibilityConverter}}">
+            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                       Text="You have no to-dos here" />
+        </StackPanel>
+    </Grid>
 
 </v:ExtendedUserControl>

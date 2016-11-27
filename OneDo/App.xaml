@@ -57,6 +57,17 @@
                     <x:Boolean>True</x:Boolean>
                 </converters:ConditionConverter.Else>
             </converters:ConditionConverter>
+            <converters:ConditionConverter x:Key="ZeroToVisibilityConverter">
+                <converters:ConditionConverter.If>
+                    <x:Int32>0</x:Int32>
+                </converters:ConditionConverter.If>
+                <converters:ConditionConverter.Then>
+                    <Visibility>Visible</Visibility>
+                </converters:ConditionConverter.Then>
+                <converters:ConditionConverter.Else>
+                    <Visibility>Collapsed</Visibility>
+                </converters:ConditionConverter.Else>
+            </converters:ConditionConverter>
 
             <Style x:Key="HorizontalLineStyle" TargetType="Rectangle">
                 <Setter Property="Height" Value="1" />
