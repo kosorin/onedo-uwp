@@ -32,7 +32,7 @@ namespace OneDo.Model.Data
 
         private Dictionary<Type, IRepository> repositories = new Dictionary<Type, IRepository>();
 
-        public Task InitializeDataAsync()
+        public async Task InitializeDataAsync()
         {
             if (baseConnection == null)
             {
@@ -40,13 +40,12 @@ namespace OneDo.Model.Data
                 baseConnection = new SQLiteConnectionWithLock(new SQLitePlatformWinRT(), connectionString);
                 connection = new SQLiteAsyncConnection(() => baseConnection);
 
-                EnsureTableExists<Folder>();
-                EnsureTableExists<Note>();
+                await EnsureTableExists<Folder>();
+                await EnsureTableExists<Note>();
 
                 Folders = GetRepository<Folder>();
                 Notes = GetRepository<Note>();
             }
-            return Task.CompletedTask;
         }
 
 
@@ -76,16 +75,17 @@ namespace OneDo.Model.Data
         }
 
 
-        private void EnsureTableExists<TEntity>() where TEntity : IEntity
+        private async Task EnsureTableExists<TEntity>() where TEntity : class, IEntity
         {
             var tableName = GetTableName<TEntity>();
             var columnInfos = baseConnection.GetTableInfo(tableName);
             if (!columnInfos.Any())
             {
-                baseConnection.CreateTable<TEntity>();
+                await connection.CreateTableAsync<TEntity>();
             }
             else
             {
+                await connection.DeleteAllAsync<TEntity>();
                 baseConnection.MigrateTable<TEntity>();
             }
         }
