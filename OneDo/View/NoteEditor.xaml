@@ -581,11 +581,11 @@
                         <Button Grid.Column="1"
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
-                                Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                                Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
                     </Grid>
                     <Grid x:Name="ReminderPickerGrid"
                           Margin="0,8,0,0"
-                          Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                          Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
@@ -605,7 +605,7 @@
                         <Button Grid.Column="1"
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.ReminderPicker.ClearCommand, Mode=OneWay}"
-                                Visibility="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                                Visibility="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
 
                         <!--<Border Grid.ColumnSpan="2"
                                 Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"

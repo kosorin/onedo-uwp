@@ -159,7 +159,7 @@
                                    Visibility="{x:Bind HasText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                         <StackPanel Margin="0,2,0,0"
                                     Orientation="Horizontal"
-                                    Visibility="{x:Bind DateWithReminder, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                                    Visibility="{x:Bind DateWithReminder, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
                             <!--<FontIcon Margin="0,0,4,0"
                                       Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
                                       FontSize="16"
@@ -206,9 +206,9 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Visibility="{x:Bind VM.Items.Count, Mode=OneWay, Converter={StaticResource ZeroToVisibilityConverter}}">
-            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
                        Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                       Text="You have no to-dos here" />
+                       Text="You have no notes here" />
         </StackPanel>
     </Grid>
 
