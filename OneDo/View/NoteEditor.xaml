@@ -595,24 +595,11 @@
                                 Foreground="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
                                 Content="{x:Bind VM.ReminderPicker.TimeText, Mode=OneWay}"
                                 Tag="&#xEA8F;"
-                                Tapped="ReminderButton_Tapped">
-                            <!--<FlyoutBase.AttachedFlyout>
-                                <Flyout x:Name="ReminderPickerFlyout" FlyoutPresenterStyle="{StaticResource PickerFlyoutPresenterStyle}">
-                                    <controls:TimePicker DataContext="{x:Bind VM.ReminderPicker, Mode=OneWay}" />
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>-->
-                        </Button>
+                                Tapped="ReminderButton_Tapped" />
                         <Button Grid.Column="1"
                                 Style="{StaticResource ClearPickerButtonStyle}"
                                 Command="{x:Bind VM.ReminderPicker.ClearCommand, Mode=OneWay}"
                                 Visibility="{x:Bind VM.ReminderPicker.Time, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
-
-                        <!--<Border Grid.ColumnSpan="2"
-                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                                BorderThickness="0,1" >
-                            <controls:TimePicker DataContext="{x:Bind VM.ReminderPicker, Mode=OneWay}" />
-                        </Border>-->
                     </Grid>
                 </StackPanel>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
@@ -687,6 +674,16 @@
                             </Border>
                         </DataTemplate>
                     </v:ModalTemplateSelector.DatePickerTemplate>
+                    <v:ModalTemplateSelector.TimePickerTemplate>
+                        <DataTemplate x:DataType="vm:TimePickerViewModel">
+                            <Border HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
+                                    BorderThickness="1">
+                                <v:TimePicker />
+                            </Border>
+                        </DataTemplate>
+                    </v:ModalTemplateSelector.TimePickerTemplate>
                 </v:ModalTemplateSelector>
             </v:ModalContainer.TemplateSelector>
         </v:ModalContainer>

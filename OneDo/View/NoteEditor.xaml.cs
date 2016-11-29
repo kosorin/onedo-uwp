@@ -42,7 +42,7 @@ namespace OneDo.View
 
         private void OnDateChanged(DatePickerViewModel sender, DatePickerEventArgs args)
         {
-            CloseDatePicker();
+            HideDatePicker();
         }
 
         private void OnDateButtonTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -50,7 +50,7 @@ namespace OneDo.View
             ShowDatePicker();
         }
 
-        private void CloseDatePicker()
+        private void HideDatePicker()
         {
             VM.SubModalService.TryClose();
         }
@@ -69,12 +69,28 @@ namespace OneDo.View
 
         private void OnReminderChanged(TimePickerViewModel sender, TimePickerEventArgs args)
         {
-            //ReminderPickerFlyout.Hide();
+            HideTimePicker();
         }
 
         private void ReminderButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            //ReminderPickerFlyout.ShowAt(ReminderPickerGrid);
+            ShowTimePicker();
+        }
+
+        private void HideTimePicker()
+        {
+            VM.SubModalService.TryClose();
+        }
+
+        private void ShowTimePicker()
+        {
+            if (VM.ReminderPicker.Time == null)
+            {
+                VM.ReminderPicker.TimeChanged -= OnReminderChanged;
+                VM.ReminderPicker.Time = TimeSpan.FromHours(7);
+                VM.ReminderPicker.TimeChanged += OnReminderChanged;
+            }
+            VM.SubModalService.Show(VM.ReminderPicker);
         }
     }
 }

@@ -12,7 +12,7 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public class TimePickerViewModel : ExtendedViewModel
+    public class TimePickerViewModel : ModalViewModel
     {
         private TimeSpan? time;
         public TimeSpan? Time

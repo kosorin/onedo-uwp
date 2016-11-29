@@ -20,6 +20,8 @@ namespace OneDo.View
 
         public DataTemplate DatePickerTemplate { get; set; }
 
+        public DataTemplate TimePickerTemplate { get; set; }
+
         public DataTemplate ConfirmationTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
@@ -53,6 +55,10 @@ namespace OneDo.View
             else if (modal is DatePickerViewModel)
             {
                 return DatePickerTemplate;
+            }
+            else if (modal is TimePickerViewModel)
+            {
+                return TimePickerTemplate;
             }
             else if (modal is ConfirmationViewModel)
             {
