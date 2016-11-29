@@ -19,12 +19,15 @@ namespace OneDo.View
             {
                 DataContextChanged += (s, e) =>
                 {
-                    OnViewModelChanging();
+                    if (!ReferenceEquals(ViewModel, e.NewValue))
+                    {
+                        OnViewModelChanging();
 
-                    ViewModel = e.NewValue as ExtendedViewModel;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
+                        ViewModel = e.NewValue as ExtendedViewModel;
+                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
 
-                    OnViewModelChanged();
+                        OnViewModelChanged();
+                    }
                 };
             }
 
