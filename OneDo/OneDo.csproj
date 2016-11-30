@@ -144,8 +144,6 @@
     <Compile Include="View\Behaviors\FlyoutMenuItemBehavior.cs" />
     <Compile Include="View\Behaviors\ItemClickAction.cs" />
     <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
-    <Compile Include="Common\Event\CancelEventArgs.cs" />
-    <Compile Include="Common\Event\HandledEventArgs.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="View\Controls\InfoBar.cs" />
     <Compile Include="View\DatePicker.xaml.cs">

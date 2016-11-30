@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Command;
-using OneDo.Common.Event;
 using OneDo.Common.Logging;
 using OneDo.Common.Media;
 using OneDo.Model.Business;

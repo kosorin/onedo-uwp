@@ -11,7 +11,6 @@ using OneDo.ViewModel.Commands;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using Windows.Foundation;
-using OneDo.Common.Event;
 using OneDo.Common.UI;
 using OneDo.Model.Business;
 using OneDo.Services.InfoService;

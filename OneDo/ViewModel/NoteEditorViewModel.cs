@@ -1,5 +1,4 @@
-﻿using OneDo.Common.Event;
-using OneDo.Common.Logging;
+﻿using OneDo.Common.Logging;
 using OneDo.Common.UI;
 using OneDo.Model.Args;
 using OneDo.Model.Business;
