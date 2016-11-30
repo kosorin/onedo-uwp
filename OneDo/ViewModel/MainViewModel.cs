@@ -59,15 +59,9 @@ namespace OneDo.ViewModel
             DataService.Notes.Deleted += OnNoteDeleted;
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
-
-
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Load();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
-
-        private async Task Load()
+        public async Task Load()
         {
             await FolderList.Load();
 

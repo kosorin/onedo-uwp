@@ -110,5 +110,10 @@ namespace OneDo.View
             RequestedTheme = targetTheme;
         }
 #endif
+
+        protected override async void OnViewModelChanged()
+        {
+            await VM.Load();
+        }
     }
 }
