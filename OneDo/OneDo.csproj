@@ -110,6 +110,8 @@
     </Compile>
     <Compile Include="Common\UI\FlyoutExtensions.cs" />
     <Compile Include="Common\UI\IExtendedCommand.cs" />
+    <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
+    <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />
     <Compile Include="Services\InfoService\IInfoService.cs" />
     <Compile Include="Services\InfoService\InfoActionGlyphs.cs" />
     <Compile Include="Services\InfoService\InfoMessageColors.cs" />
@@ -312,6 +314,9 @@
     <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

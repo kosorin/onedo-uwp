@@ -26,6 +26,7 @@ using Windows.UI;
 using OneDo.Common.Metadata;
 using OneDo.View.Controls;
 using Windows.Globalization;
+using OneDo.Services.BackgroundTaskService;
 
 namespace OneDo
 {
@@ -79,15 +80,15 @@ namespace OneDo
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            InitializeTitleBar();
             await InitializeLogger();
-
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
             Logger.Current.Info($"Tile ID: {args.TileId}");
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
             await InitializeData();
+            await InitializeBackgroundTasks();
+            InitializeTitleBar();
             await InitializeStatusBar();
             InitializeModalService();
 
@@ -128,12 +129,6 @@ namespace OneDo
         }
 
 
-        private void InitializeTitleBar()
-        {
-            var titleBar = CoreApplication.GetCurrentView().TitleBar;
-            titleBar.ExtendViewIntoTitleBar = false;
-        }
-
         private async Task InitializeLogger()
         {
 #if DEBUG
@@ -153,6 +148,14 @@ namespace OneDo
             Logger.Current.Info("Logger initialized");
         }
 
+        private async Task InitializeBackgroundTasks()
+        {
+            var backgroundTaskService = ViewModelLocator.Container.Resolve<IBackgroundTaskService>();
+            await backgroundTaskService.InitializeAsync();
+
+            Logger.Current.Info("Background tasks initialized");
+        }
+
         private async Task InitializeData()
         {
             var dataService = ViewModelLocator.Container.Resolve<DataService>();
@@ -160,6 +163,12 @@ namespace OneDo
             await dataService.InitializeDataAsync();
 
             Logger.Current.Info("Data initialized");
+        }
+
+        private void InitializeTitleBar()
+        {
+            var titleBar = CoreApplication.GetCurrentView().TitleBar;
+            titleBar.ExtendViewIntoTitleBar = false;
         }
 
         private async Task InitializeStatusBar()
@@ -185,6 +194,7 @@ namespace OneDo
 
             Logger.Current.Info("Modal service initialized");
         }
+
 
         private void ShowContent()
         {
