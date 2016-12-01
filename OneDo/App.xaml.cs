@@ -118,7 +118,7 @@ namespace OneDo
             }
             else
             {
-                Logger.Current.Fatal("Unhandled exception", args.Exception);
+                Logger.Current.Fatal($"Unhandled exception: {args.Message}", args.Exception);
             }
         }
 
