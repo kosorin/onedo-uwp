@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
 namespace OneDo.Services.BackgroundTaskService
@@ -9,6 +10,12 @@ namespace OneDo.Services.BackgroundTaskService
 
         Task InitializeAsync();
 
-        bool RegisterTask(string taskName, IBackgroundTrigger trigger);
+        bool Register(string taskName, IBackgroundTrigger trigger);
+
+        bool Register(string taskName, IBackgroundTrigger trigger, BackgroundTaskParameters parameters);
+
+        bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions);
+
+        bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters);
     }
 }

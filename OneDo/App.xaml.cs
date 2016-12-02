@@ -27,6 +27,7 @@ using OneDo.Common.Metadata;
 using OneDo.View.Controls;
 using Windows.Globalization;
 using OneDo.Services.BackgroundTaskService;
+using Windows.ApplicationModel.Background;
 
 namespace OneDo
 {
@@ -128,6 +129,17 @@ namespace OneDo
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(480, 500));
         }
 
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            var taskInstance = args.TaskInstance;
+            switch (taskInstance.Task.Name)
+            {
+            default:
+                Logger.Current.Warn($"Unknown background task '{taskInstance.Task.Name}'");
+                break;
+            }
+        }
+
 
         private async Task InitializeLogger()
         {
@@ -152,8 +164,14 @@ namespace OneDo
         {
             var backgroundTaskService = ViewModelLocator.Container.Resolve<IBackgroundTaskService>();
             await backgroundTaskService.InitializeAsync();
-
-            Logger.Current.Info("Background tasks initialized");
+            if (backgroundTaskService.IsInitialized)
+            {
+                Logger.Current.Info("Background tasks initialized");
+            }
+            else
+            {
+                Logger.Current.Info("Cannot initialize background tasks");
+            }
         }
 
         private async Task InitializeData()

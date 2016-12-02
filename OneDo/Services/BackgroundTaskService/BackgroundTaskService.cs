@@ -27,7 +27,27 @@ namespace OneDo.Services.BackgroundTaskService
                 && status != BackgroundAccessStatus.DeniedByUser;
         }
 
-        public bool RegisterTask(string taskName, IBackgroundTrigger trigger)
+        public static void Run<TBackgroundTask>(IBackgroundTaskInstance taskInstance) where TBackgroundTask : IBackgroundTask
+        {
+            Activator.CreateInstance<TBackgroundTask>().Run(taskInstance);
+        }
+
+        public bool Register(string taskName, IBackgroundTrigger trigger)
+        {
+            return Register(taskName, trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
+        }
+
+        public bool Register(string taskName, IBackgroundTrigger trigger, BackgroundTaskParameters parameters)
+        {
+            return Register(taskName, trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
+        }
+
+        public bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions)
+        {
+            return Register(taskName, trigger, conditions, BackgroundTaskParameters.None);
+        }
+
+        public bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters)
         {
             if (IsInitialized)
             {
@@ -38,9 +58,16 @@ namespace OneDo.Services.BackgroundTaskService
                         var builder = new BackgroundTaskBuilder
                         {
                             Name = taskName,
+                            CancelOnConditionLoss = parameters.HasFlag(BackgroundTaskParameters.CancelOnConditionLoss),
+                            IsNetworkRequested = parameters.HasFlag(BackgroundTaskParameters.IsNetworkRequested),
                         };
                         builder.SetTrigger(trigger);
+                        foreach (var condition in conditions)
+                        {
+                            builder.AddCondition(condition);
+                        }
                         builder.Register();
+                        Logger.Current.Info($"Background task '{taskName}' was registered");
                         return true;
                     }
                     else
@@ -50,7 +77,7 @@ namespace OneDo.Services.BackgroundTaskService
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.Error($"Couldn't register task '{taskName}'", e);
+                    Logger.Current.Error($"Couldn't register background task '{taskName}'", e);
                 }
             }
             return false;
