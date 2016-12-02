@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
@@ -59,17 +60,24 @@ namespace OneDo.Services.BackgroundTaskService
                         var builder = new BackgroundTaskBuilder
                         {
                             Name = taskName,
-                            TaskEntryPoint = typeof(TBackgroundTask).FullName,
                             CancelOnConditionLoss = parameters.HasFlag(BackgroundTaskParameters.CancelOnConditionLoss),
                             IsNetworkRequested = parameters.HasFlag(BackgroundTaskParameters.IsNetworkRequested),
                         };
+
+                        if (parameters.HasFlag(BackgroundTaskParameters.IsOutProcess))
+                        {
+                            builder.TaskEntryPoint =$"{typeof(TBackgroundTask).GetTypeInfo().Assembly.GetName().Name}.{typeof(TBackgroundTask).Name}";
+                        }
+
                         builder.SetTrigger(trigger);
+
                         foreach (var condition in conditions)
                         {
                             builder.AddCondition(condition);
                         }
+
                         builder.Register();
-                        Logger.Current.Info($"Background task '{taskName}' was registered");
+                        Logger.Current.Info($"Register background task '{taskName}'");
                         return true;
                     }
                     else
@@ -79,7 +87,7 @@ namespace OneDo.Services.BackgroundTaskService
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.Error($"Couldn't register background task '{taskName}'", e);
+                    Logger.Current.Error($"Cannot register background task '{taskName}'", e);
                 }
             }
             return false;
