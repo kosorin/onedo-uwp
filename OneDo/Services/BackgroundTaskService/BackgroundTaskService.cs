@@ -27,30 +27,31 @@ namespace OneDo.Services.BackgroundTaskService
                 && status != BackgroundAccessStatus.DeniedByUser;
         }
 
-        public static void Run<TBackgroundTask>(IBackgroundTaskInstance taskInstance) where TBackgroundTask : IBackgroundTask
+        public static void Run<TBackgroundTask>(IBackgroundTaskInstance taskInstance) where TBackgroundTask : class, IBackgroundTask
         {
             Activator.CreateInstance<TBackgroundTask>().Run(taskInstance);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register(taskName, trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
+            return Register<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger, BackgroundTaskParameters parameters)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register(taskName, trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
+            return Register<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register(taskName, trigger, conditions, BackgroundTaskParameters.None);
+            return Register<TBackgroundTask>(trigger, conditions, BackgroundTaskParameters.None);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
         {
             if (IsInitialized)
             {
+                var taskName = typeof(TBackgroundTask).Name;
                 try
                 {
                     if (BackgroundTaskRegistration.AllTasks.All(t => t.Value.Name != taskName))
@@ -58,6 +59,7 @@ namespace OneDo.Services.BackgroundTaskService
                         var builder = new BackgroundTaskBuilder
                         {
                             Name = taskName,
+                            TaskEntryPoint = typeof(TBackgroundTask).FullName,
                             CancelOnConditionLoss = parameters.HasFlag(BackgroundTaskParameters.CancelOnConditionLoss),
                             IsNetworkRequested = parameters.HasFlag(BackgroundTaskParameters.IsNetworkRequested),
                         };

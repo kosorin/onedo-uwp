@@ -83,6 +83,10 @@ namespace OneDo
             stopwatch.Start();
 
             await InitializeLogger();
+
+            Logger.Current.Line("=================================================");
+            Logger.Current.Line("===================== OneDo =====================");
+            Logger.Current.Line("=================================================");
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
             Logger.Current.Info($"Tile ID: {args.TileId}");
@@ -130,9 +134,12 @@ namespace OneDo
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(480, 500));
         }
 
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        protected async override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
+            await InitializeLogger();
+
             var taskInstance = args.TaskInstance;
+            Logger.Current.Info($"Background task '{taskInstance.Task.Name}' activated");
             switch (taskInstance.Task.Name)
             {
             case InProcessTestBackgroundTask.Name:
@@ -147,21 +154,20 @@ namespace OneDo
 
         private async Task InitializeLogger()
         {
+            if (Logger.Current is NullLogger)
+            {
 #if DEBUG
-            var folder = ApplicationData.Current.LocalFolder;
-            var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
-            var logger = new FileLogger(file.Path);
-            Logger.Current = logger;
-            //Logger.Current = Debugger.IsAttached
-            //    ? (ILogger)new DebugLogger()
-            //    : (ILogger)new MemoryLogger();
+                var folder = ApplicationData.Current.LocalFolder;
+                var file = await folder.CreateFileAsync("Log.txt", CreationCollisionOption.OpenIfExists);
+                var logger = new FileLogger(file.Path);
+                Logger.Current = logger;
+                //Logger.Current = Debugger.IsAttached
+                //    ? (ILogger)new DebugLogger()
+                //    : (ILogger)new MemoryLogger();
 #else
-            // Logger v releasu zatím nepoužíváme - výchozí je NullLogger.
+                // Logger v releasu zatím nepoužíváme - výchozí je NullLogger.
 #endif
-            Logger.Current.Line("=================================================");
-            Logger.Current.Line("===================== OneDo =====================");
-            Logger.Current.Line("=================================================");
-            Logger.Current.Info("Logger initialized");
+            }
         }
 
         private async Task InitializeBackgroundTasks()
@@ -170,7 +176,7 @@ namespace OneDo
             await backgroundTaskService.InitializeAsync();
             if (backgroundTaskService.IsInitialized)
             {
-                backgroundTaskService.Register(InProcessTestBackgroundTask.Name, new TimeTrigger(15, false));
+                backgroundTaskService.Register<InProcessTestBackgroundTask>(new TimeTrigger(15, false));
                 Logger.Current.Info("Background tasks initialized");
             }
             else
