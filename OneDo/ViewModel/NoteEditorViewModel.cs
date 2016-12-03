@@ -105,12 +105,12 @@ namespace OneDo.ViewModel
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
-            DatePicker = new DatePickerViewModel(DataService);
+            DatePicker = new DatePickerViewModel(DataService, "Set Date & Reminder");
             DatePicker.DateChanged += (s, e) =>
             {
                 UpdateDirtyProperty(() => e.Date?.Date != Original.Date?.Date);
             };
-            ReminderPicker = new TimePickerViewModel(DataService);
+            ReminderPicker = new TimePickerViewModel(DataService, "Set Reminder");
             ReminderPicker.TimeChanged += (s, e) =>
             {
                 UpdateDirtyProperty(() => e.Time != Original.Reminder);
@@ -145,8 +145,8 @@ namespace OneDo.ViewModel
             Original.IsFlagged = IsFlagged ?? false;
             Original.Title = Title ?? "";
             Original.Text = Text ?? "";
-            Original.Date = DatePicker?.Date;
-            Original.Reminder = ReminderPicker?.Time;
+            Original.Date = DatePicker.Date;
+            Original.Reminder = ReminderPicker.Time;
 
             if (IsNew)
             {

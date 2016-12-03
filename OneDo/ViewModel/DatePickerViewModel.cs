@@ -26,7 +26,14 @@ namespace OneDo.ViewModel
             }
         }
 
-        public string DateText => dateTimeBusiness.DateToLongString(Date) ?? "Set Date & Reminder";
+        private string placeholderText;
+        public string PlaceholderText
+        {
+            get { return placeholderText; }
+            set { Set(ref placeholderText, value); }
+        }
+
+        public string DateText => dateTimeBusiness.DateToLongString(Date) ?? PlaceholderText;
 
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
@@ -42,9 +49,10 @@ namespace OneDo.ViewModel
 
         private readonly DateTimeBusiness dateTimeBusiness;
 
-        public DatePickerViewModel(DataService dataService)
+        public DatePickerViewModel(DataService dataService, string placeholderText)
         {
             dateTimeBusiness = new DateTimeBusiness(dataService);
+            PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Date = null);
             TodayCommand = new RelayCommand(() => Date = dateTimeBusiness.Today());

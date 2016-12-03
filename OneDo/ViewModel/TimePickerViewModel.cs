@@ -25,18 +25,26 @@ namespace OneDo.ViewModel
             }
         }
 
-        public string TimeText => dateTimeBusiness.TimeToString(Time) ?? "Set Reminder";
+        private string placeholderText;
+        public string PlaceholderText
+        {
+            get { return placeholderText; }
+            set { Set(ref placeholderText, value); }
+        }
+
+        public string TimeText => DateTimeBusiness.TimeToString(Time) ?? PlaceholderText;
 
         public event TypedEventHandler<TimePickerViewModel, TimePickerEventArgs> TimeChanged;
 
         public IExtendedCommand ClearCommand { get; }
 
 
-        private readonly DateTimeBusiness dateTimeBusiness;
+        private DateTimeBusiness DateTimeBusiness { get; }
 
-        public TimePickerViewModel(DataService dataService)
+        public TimePickerViewModel(DataService dataService, string placeholderText)
         {
-            dateTimeBusiness = new DateTimeBusiness(dataService);
+            DateTimeBusiness = new DateTimeBusiness(dataService);
+            PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Time = null);
         }

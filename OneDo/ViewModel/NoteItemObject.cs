@@ -33,7 +33,7 @@ namespace OneDo.ViewModel
 
         public string ReminderText => dateTimeBusiness.TimeToString(Reminder);
 
-        public bool HasReminder => Reminder > TimeSpan.Zero;
+        public bool HasReminder => Reminder != null;
 
         public INoteCommands Commands { get; }
 

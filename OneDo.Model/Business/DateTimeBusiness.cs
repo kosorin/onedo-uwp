@@ -102,7 +102,7 @@ namespace OneDo.Model.Business
             if (time != null)
             {
                 var timeValue = time.Value;
-                if (timeValue > TimeSpan.Zero)
+                if (timeValue >= TimeSpan.Zero)
                 {
                     return (Today() + timeValue).ToString("t");
                 }

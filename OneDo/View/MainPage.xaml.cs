@@ -122,7 +122,7 @@ namespace OneDo.View
 
         protected override async void OnViewModelChanged()
         {
-            await VM.Load();
+            await VM?.Load();
         }
     }
 }
