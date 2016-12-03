@@ -33,65 +33,89 @@ namespace OneDo.Services.BackgroundTaskService
             Activator.CreateInstance<TBackgroundTask>().Run(taskInstance);
         }
 
-        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger) where TBackgroundTask : class, IBackgroundTask
+        public bool TryRegister<TBackgroundTask>(IBackgroundTrigger trigger) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
+            return TryRegister<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
         }
 
-        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
+        public bool TryRegister<TBackgroundTask>(IBackgroundTrigger trigger, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
+            return TryRegister<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
         }
 
-        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions) where TBackgroundTask : class, IBackgroundTask
+        public bool TryRegister<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register<TBackgroundTask>(trigger, conditions, BackgroundTaskParameters.None);
+            return TryRegister<TBackgroundTask>(trigger, conditions, BackgroundTaskParameters.None);
         }
 
-        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
+        public bool TryRegister<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
         {
-            if (IsInitialized)
+            if (!IsInitialized)
             {
-                var taskName = typeof(TBackgroundTask).Name;
-                try
+                return false;
+            }
+
+            var name = GetTaskName<TBackgroundTask>();
+            try
+            {
+                if (!IsTaskRegistered(name))
                 {
-                    if (BackgroundTaskRegistration.AllTasks.All(t => t.Value.Name != taskName))
-                    {
-                        var builder = new BackgroundTaskBuilder
-                        {
-                            Name = taskName,
-                            CancelOnConditionLoss = parameters.HasFlag(BackgroundTaskParameters.CancelOnConditionLoss),
-                            IsNetworkRequested = parameters.HasFlag(BackgroundTaskParameters.IsNetworkRequested),
-                        };
-
-                        if (parameters.HasFlag(BackgroundTaskParameters.IsOutProcess))
-                        {
-                            builder.TaskEntryPoint = $"{typeof(TBackgroundTask).GetTypeInfo().Assembly.GetName().Name}.{typeof(TBackgroundTask).Name}";
-                        }
-
-                        builder.SetTrigger(trigger);
-
-                        foreach (var condition in conditions)
-                        {
-                            builder.AddCondition(condition);
-                        }
-
-                        builder.Register();
-                        Logger.Current.Info($"Register background task '{taskName}'");
-                        return true;
-                    }
-                    else
-                    {
-                        Logger.Current.Info($"Background task '{taskName}' already registered");
-                        return true;
-                    }
+                    var entryPoint = GetTaskEntryPoint<TBackgroundTask>();
+                    var builder = CreateTaskBuilder(name, entryPoint, trigger, conditions, parameters);
+                    builder.Register();
+                    Logger.Current.Info($"Register background task '{name}'");
+                    return true;
                 }
-                catch (Exception e)
+                else
                 {
-                    Logger.Current.Error($"Cannot register background task '{taskName}'", e);
+                    Logger.Current.Info($"Background task '{name}' already registered");
+                    return true;
                 }
             }
-            return false;
+            catch (Exception e)
+            {
+                Logger.Current.Error($"Cannot register background task '{name}'", e);
+                return false;
+            }
+        }
+
+        private string GetTaskName<TBackgroundTask>() where TBackgroundTask : class, IBackgroundTask
+        {
+            return typeof(TBackgroundTask).Name;
+        }
+
+        private string GetTaskEntryPoint<TBackgroundTask>() where TBackgroundTask : class, IBackgroundTask
+        {
+            return $"{typeof(TBackgroundTask).GetTypeInfo().Assembly.GetName().Name}.{typeof(TBackgroundTask).Name}";
+        }
+
+        private bool IsTaskRegistered(string name)
+        {
+            return BackgroundTaskRegistration.AllTasks.Values.Any(t => t.Name == name);
+        }
+
+        private BackgroundTaskBuilder CreateTaskBuilder(string name, string entryPoint, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters)
+        {
+            var builder = new BackgroundTaskBuilder
+            {
+                Name = name,
+                CancelOnConditionLoss = parameters.HasFlag(BackgroundTaskParameters.CancelOnConditionLoss),
+                IsNetworkRequested = parameters.HasFlag(BackgroundTaskParameters.IsNetworkRequested),
+            };
+
+            if (parameters.HasFlag(BackgroundTaskParameters.IsOutProcess))
+            {
+                builder.TaskEntryPoint = entryPoint;
+            }
+
+            builder.SetTrigger(trigger);
+
+            foreach (var condition in conditions)
+            {
+                builder.AddCondition(condition);
+            }
+
+            return builder;
         }
     }
 }

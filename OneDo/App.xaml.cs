@@ -179,7 +179,7 @@ namespace OneDo
             await backgroundTaskService.InitializeAsync();
             if (backgroundTaskService.IsInitialized)
             {
-                backgroundTaskService.Register<InProcessTestBackgroundTask>(new ToastNotificationHistoryChangedTrigger());
+                backgroundTaskService.TryRegister<InProcessTestBackgroundTask>(new ToastNotificationHistoryChangedTrigger());
                 Logger.Current.Info("Background tasks initialized");
             }
             else
