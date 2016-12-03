@@ -21,7 +21,7 @@ namespace OneDo.ViewModel
 
         public bool IsOverdue => (DateWithReminder ?? DateTime.MaxValue) < DateTime.Now;
 
-        public DateTime? DateWithReminder => Reminder != null ? Date + Reminder : Date;
+        public DateTime? DateWithReminder => dateTimeBusiness.CombineDateAndTime(Date, Reminder);
 
         public DateTime? Date => Entity.Date?.Date;
 

@@ -49,6 +49,32 @@ namespace OneDo.Model.Business
         }
 
 
+        public bool IsTimeValid(TimeSpan time)
+        {
+            return time >= TimeSpan.Zero && time < TimeSpan.FromDays(1);
+        }
+
+
+        public DateTime CombineDateAndTime(DateTime date, TimeSpan time)
+        {
+            return date + time;
+        }
+
+        public DateTime CombineDateAndTime(DateTime date, TimeSpan? time)
+        {
+            return time != null
+                ? date + (TimeSpan)time
+                : date;
+        }
+
+        public DateTime? CombineDateAndTime(DateTime? date, TimeSpan? time)
+        {
+            return time != null
+                ? date + (TimeSpan)time
+                : date;
+        }
+
+
         public string DateToLongString(DateTime? date)
         {
             if (date != null)
@@ -102,9 +128,9 @@ namespace OneDo.Model.Business
             if (time != null)
             {
                 var timeValue = time.Value;
-                if (timeValue >= TimeSpan.Zero)
+                if (IsTimeValid(timeValue))
                 {
-                    return (Today() + timeValue).ToString("t");
+                    return CombineDateAndTime(Today(), timeValue).ToString("t");
                 }
             }
             return null;
