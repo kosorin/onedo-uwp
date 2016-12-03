@@ -38,8 +38,11 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand ClearCommand { get; }
 
+        public IExtendedCommand InOneMinuteCommand { get; }
 
-        private DateTimeBusiness DateTimeBusiness { get; }
+        public IExtendedCommand InFiveMinuteCommand { get; }
+
+        public DateTimeBusiness DateTimeBusiness { get; }
 
         public TimePickerViewModel(DataService dataService, string placeholderText)
         {
@@ -47,6 +50,8 @@ namespace OneDo.ViewModel
             PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Time = null);
+            InOneMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.CurrentTime().Add(TimeSpan.FromMinutes(1)));
+            InFiveMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.CurrentTime().Add(TimeSpan.FromMinutes(5)));
         }
 
         private void OnTimeChanged()

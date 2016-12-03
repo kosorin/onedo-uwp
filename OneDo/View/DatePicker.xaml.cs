@@ -76,12 +76,10 @@ namespace OneDo.View
                 isPicking = true;
 
                 CalendarView.SelectedDates.Clear();
-                if (date != null)
-                {
-                    var dateTimeOffset = new DateTimeOffset((DateTime)date);
-                    CalendarView.SelectedDates.Add(dateTimeOffset);
-                    CalendarView.SetDisplayDate(dateTimeOffset);
-                }
+                var dateTimeOffset = new DateTimeOffset(date ?? VM.DateTimeBusiness.Today());
+                CalendarView.SelectedDates.Clear();
+                CalendarView.SelectedDates.Add(dateTimeOffset);
+                CalendarView.SetDisplayDate(dateTimeOffset);
 
                 isPicking = false;
             }

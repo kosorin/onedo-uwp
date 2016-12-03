@@ -85,6 +85,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
@@ -130,14 +131,27 @@
                 Orientation="Vertical"
                 Value="{x:Bind Minutes, Mode=TwoWay}" />
 
-        <Button Grid.Row="21"
+        <Button Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,1,0"
+                Command="{x:Bind VM.InOneMinuteCommand}"
+                Content="In 1 minute" />
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource QuickButtonStyle}"
+                BorderThickness="0,1,0,0"
+                Command="{x:Bind VM.InFiveMinuteCommand}"
+                Content="In 5 minutes" />
+
+        <Button Grid.Row="3"
                 Grid.Column="0"
                 Style="{StaticResource QuickButtonStyle}"
                 BorderThickness="0,1,1,0"
                 Tapped="{x:Bind UpdateTime}">
             <FontIcon FontSize="16" Glyph="&#xE8FB;" />
         </Button>
-        <Button Grid.Row="2"
+        <Button Grid.Row="3"
                 Grid.Column="1"
                 Style="{StaticResource QuickButtonStyle}"
                 BorderThickness="0,1,0,0"

@@ -57,12 +57,6 @@ namespace OneDo.View
 
         private void ShowDatePicker()
         {
-            if (VM.DatePicker.Date == null)
-            {
-                VM.DatePicker.DateChanged -= OnDateChanged;
-                VM.DatePicker.Date = DateTime.Today;
-                VM.DatePicker.DateChanged += OnDateChanged;
-            }
             VM.SubModalService.Show(VM.DatePicker);
         }
 
@@ -84,12 +78,6 @@ namespace OneDo.View
 
         private void ShowTimePicker()
         {
-            if (VM.ReminderPicker.Time == null)
-            {
-                VM.ReminderPicker.TimeChanged -= OnReminderChanged;
-                VM.ReminderPicker.Time = TimeSpan.FromHours(7);
-                VM.ReminderPicker.TimeChanged += OnReminderChanged;
-            }
             VM.SubModalService.Show(VM.ReminderPicker);
         }
     }

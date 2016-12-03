@@ -27,6 +27,12 @@ namespace OneDo.Model.Business
         }
 
 
+        public TimeSpan CurrentTime()
+        {
+            var now = DateTime.Now;
+            return new TimeSpan(now.Hour, now.Minute, 0);
+        }
+
         public DateTime Yesterday() => DateTime.Today.AddDays(-1);
 
         public DateTime Today() => DateTime.Today;

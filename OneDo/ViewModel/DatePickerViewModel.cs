@@ -33,7 +33,7 @@ namespace OneDo.ViewModel
             set { Set(ref placeholderText, value); }
         }
 
-        public string DateText => dateTimeBusiness.DateToLongString(Date) ?? PlaceholderText;
+        public string DateText => DateTimeBusiness.DateToLongString(Date) ?? PlaceholderText;
 
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
@@ -47,18 +47,18 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand NextWeekCommand { get; }
 
-        private readonly DateTimeBusiness dateTimeBusiness;
+        public DateTimeBusiness DateTimeBusiness { get; }
 
         public DatePickerViewModel(DataService dataService, string placeholderText)
         {
-            dateTimeBusiness = new DateTimeBusiness(dataService);
+            DateTimeBusiness = new DateTimeBusiness(dataService);
             PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Date = null);
-            TodayCommand = new RelayCommand(() => Date = dateTimeBusiness.Today());
-            TomorrowCommand = new RelayCommand(() => Date = dateTimeBusiness.Tomorrow());
-            ThisWeekCommand = new RelayCommand(() => Date = dateTimeBusiness.ThisWeek());
-            NextWeekCommand = new RelayCommand(() => Date = dateTimeBusiness.NextWeek());
+            TodayCommand = new RelayCommand(() => Date = DateTimeBusiness.Today());
+            TomorrowCommand = new RelayCommand(() => Date = DateTimeBusiness.Tomorrow());
+            ThisWeekCommand = new RelayCommand(() => Date = DateTimeBusiness.ThisWeek());
+            NextWeekCommand = new RelayCommand(() => Date = DateTimeBusiness.NextWeek());
         }
 
         public void Refresh()

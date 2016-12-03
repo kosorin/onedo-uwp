@@ -34,7 +34,7 @@ namespace OneDo.View
         }
 
         public static readonly DependencyProperty HoursProperty =
-            DependencyProperty.Register(nameof(Hours), typeof(double), typeof(TimePicker), new PropertyMetadata(7d));
+            DependencyProperty.Register(nameof(Hours), typeof(double), typeof(TimePicker), new PropertyMetadata(0d));
 
         public double Minutes
         {
@@ -84,8 +84,9 @@ namespace OneDo.View
 
         private void OnTimeChanged(TimeSpan? time)
         {
-            Hours = time?.Hours ?? 7;
-            Minutes = time?.Minutes ?? 0;
+            var now = VM.DateTimeBusiness.CurrentTime();
+            Hours = time?.Hours ?? now.Hours;
+            Minutes = time?.Minutes ?? now.Minutes;
         }
     }
 }
