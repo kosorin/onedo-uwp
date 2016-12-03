@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.ViewModel;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Services.ProgressService
 {
-    public class ProgressService : ViewModelBase, IProgressService
+    public class ProgressService : ExtendedViewModel, IProgressService
     {
         private readonly ConcurrentStack<int> stack = new ConcurrentStack<int>();
 

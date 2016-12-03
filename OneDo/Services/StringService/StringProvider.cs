@@ -8,7 +8,7 @@ using Windows.ApplicationModel.Resources;
 
 namespace OneDo.Services.StringProvider
 {
-    public class StringProvider : ViewModelBase, IStringProvider
+    public class StringProvider : IStringProvider
     {
         private readonly ResourceLoader loader;
 
