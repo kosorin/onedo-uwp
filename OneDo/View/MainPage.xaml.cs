@@ -14,6 +14,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using OneDo.Common.Media;
 using OneDo.ViewModel.Commands;
+using System.Threading.Tasks;
 
 namespace OneDo.View
 {
@@ -67,31 +68,39 @@ namespace OneDo.View
 #if DEBUG
         private void InitializeDebug()
         {
-            var debugButton = new AppBarButton
-            {
-                Label = "Debug",
-            };
-            debugButton.Tapped += (s, e) => VM.UIHost.ModalService.Show(new DebugViewModel(VM.UIHost.ProgressService));
-
-            var switchRequestedThemeButton = new AppBarButton
-            {
-                Label = "Switch RequestedTheme",
-            };
-            switchRequestedThemeButton.Tapped += SwitchRequestedTheme_Tapped;
-
-            var resetDataButton = new AppBarButton
-            {
-                Label = "Reset",
-            };
-            resetDataButton.Tapped += async (s, e) => await VM.ResetData();
-
-            MainCommandBar.SecondaryCommands.Insert(0, new AppBarSeparator());
-            MainCommandBar.SecondaryCommands.Insert(0, resetDataButton);
-            MainCommandBar.SecondaryCommands.Insert(0, switchRequestedThemeButton);
-            MainCommandBar.SecondaryCommands.Insert(0, debugButton);
+            InsertMenuSeparator();
+            InsertMenuButtonAsync("Reset", VM.ResetData);
+            InsertMenuButton("Switch RequestedTheme", SwitchRequestedTheme);
+            InsertMenuButton("Remove all from schedule", VM.ToastService.RemoveAllFromSchedule);
+            InsertMenuButton("Debug", () => VM.UIHost.ModalService.Show(new DebugViewModel(VM.UIHost.ProgressService)));
         }
 
-        private void SwitchRequestedTheme_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void InsertMenuSeparator()
+        {
+            MainCommandBar.SecondaryCommands.Insert(0, new AppBarSeparator());
+        }
+
+        private void InsertMenuButton(string label, Action action)
+        {
+            var button = new AppBarButton
+            {
+                Label = label,
+            };
+            button.Tapped += (s, e) => action();
+            MainCommandBar.SecondaryCommands.Insert(0, button);
+        }
+
+        private void InsertMenuButtonAsync(string label, Func<Task> action)
+        {
+            var button = new AppBarButton
+            {
+                Label = label,
+            };
+            button.Tapped += async (s, e) => await action();
+            MainCommandBar.SecondaryCommands.Insert(0, button);
+        }
+
+        private void SwitchRequestedTheme()
         {
             var targetTheme = RequestedTheme;
             if (targetTheme == ElementTheme.Default)
