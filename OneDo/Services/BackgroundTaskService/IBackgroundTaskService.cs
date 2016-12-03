@@ -10,12 +10,12 @@ namespace OneDo.Services.BackgroundTaskService
 
         Task InitializeAsync();
 
-        bool Register(string taskName, IBackgroundTrigger trigger);
+        bool Register<TBackgroundTask>(IBackgroundTrigger trigger) where TBackgroundTask : class, IBackgroundTask;
 
-        bool Register(string taskName, IBackgroundTrigger trigger, BackgroundTaskParameters parameters);
+        bool Register<TBackgroundTask>(IBackgroundTrigger trigger, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask;
 
-        bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions);
+        bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions) where TBackgroundTask : class, IBackgroundTask;
 
-        bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters);
+        bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask;
     }
 }

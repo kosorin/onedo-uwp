@@ -27,6 +27,7 @@ using OneDo.Common.Metadata;
 using OneDo.View.Controls;
 using Windows.Globalization;
 using OneDo.Services.BackgroundTaskService;
+using OneDo.Core.BackgroundTasks;
 using Windows.ApplicationModel.Background;
 
 namespace OneDo
@@ -141,6 +142,9 @@ namespace OneDo
             Logger.Current.Info($"Background task '{taskInstance.Task.Name}' activated");
             switch (taskInstance.Task.Name)
             {
+            case InProcessTestBackgroundTask.Name:
+                BackgroundTaskService.Run<InProcessTestBackgroundTask>(taskInstance);
+                break;
             default:
                 Logger.Current.Warn($"Unknown background task '{taskInstance.Task.Name}'");
                 break;
@@ -172,6 +176,7 @@ namespace OneDo
             await backgroundTaskService.InitializeAsync();
             if (backgroundTaskService.IsInitialized)
             {
+                backgroundTaskService.Register<InProcessTestBackgroundTask>(new TimeTrigger(15, false));
                 Logger.Current.Info("Background tasks initialized");
             }
             else

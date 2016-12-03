@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
@@ -27,30 +28,31 @@ namespace OneDo.Services.BackgroundTaskService
                 && status != BackgroundAccessStatus.DeniedByUser;
         }
 
-        public static void Run<TBackgroundTask>(IBackgroundTaskInstance taskInstance) where TBackgroundTask : IBackgroundTask
+        public static void Run<TBackgroundTask>(IBackgroundTaskInstance taskInstance) where TBackgroundTask : class, IBackgroundTask
         {
             Activator.CreateInstance<TBackgroundTask>().Run(taskInstance);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register(taskName, trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
+            return Register<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), BackgroundTaskParameters.None);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger, BackgroundTaskParameters parameters)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register(taskName, trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
+            return Register<TBackgroundTask>(trigger, Enumerable.Empty<IBackgroundCondition>(), parameters);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions) where TBackgroundTask : class, IBackgroundTask
         {
-            return Register(taskName, trigger, conditions, BackgroundTaskParameters.None);
+            return Register<TBackgroundTask>(trigger, conditions, BackgroundTaskParameters.None);
         }
 
-        public bool Register(string taskName, IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters)
+        public bool Register<TBackgroundTask>(IBackgroundTrigger trigger, IEnumerable<IBackgroundCondition> conditions, BackgroundTaskParameters parameters) where TBackgroundTask : class, IBackgroundTask
         {
             if (IsInitialized)
             {
+                var taskName = typeof(TBackgroundTask).Name;
                 try
                 {
                     if (BackgroundTaskRegistration.AllTasks.All(t => t.Value.Name != taskName))
@@ -61,13 +63,21 @@ namespace OneDo.Services.BackgroundTaskService
                             CancelOnConditionLoss = parameters.HasFlag(BackgroundTaskParameters.CancelOnConditionLoss),
                             IsNetworkRequested = parameters.HasFlag(BackgroundTaskParameters.IsNetworkRequested),
                         };
+
+                        if (parameters.HasFlag(BackgroundTaskParameters.IsOutProcess))
+                        {
+                            builder.TaskEntryPoint =$"{typeof(TBackgroundTask).GetTypeInfo().Assembly.GetName().Name}.{typeof(TBackgroundTask).Name}";
+                        }
+
                         builder.SetTrigger(trigger);
+
                         foreach (var condition in conditions)
                         {
                             builder.AddCondition(condition);
                         }
+
                         builder.Register();
-                        Logger.Current.Info($"Background task '{taskName}' was registered");
+                        Logger.Current.Info($"Register background task '{taskName}'");
                         return true;
                     }
                     else
@@ -77,7 +87,7 @@ namespace OneDo.Services.BackgroundTaskService
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.Error($"Couldn't register background task '{taskName}'", e);
+                    Logger.Current.Error($"Cannot register background task '{taskName}'", e);
                 }
             }
             return false;

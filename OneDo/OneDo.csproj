@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="Common\UI\FlyoutExtensions.cs" />
     <Compile Include="Common\UI\IExtendedCommand.cs" />
+    <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />

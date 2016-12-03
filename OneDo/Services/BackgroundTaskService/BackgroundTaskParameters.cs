@@ -12,5 +12,6 @@ namespace OneDo.Services.BackgroundTaskService
         None = 0,
         CancelOnConditionLoss = 1,
         IsNetworkRequested = 2,
+        IsOutProcess = 4,
     }
 }
