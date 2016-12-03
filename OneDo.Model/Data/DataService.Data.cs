@@ -34,7 +34,7 @@ namespace OneDo.Model.Data
         {
             if (baseConnection == null)
             {
-                var connectionString = new SQLiteConnectionString(GetPath(), true);
+                var connectionString = new SQLiteConnectionString(GetPath(), false);
                 baseConnection = new SQLiteConnectionWithLock(new SQLitePlatformWinRT(), connectionString);
                 connection = new SQLiteAsyncConnection(() => baseConnection);
 
