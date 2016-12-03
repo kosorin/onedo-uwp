@@ -29,6 +29,8 @@ using Windows.Globalization;
 using OneDo.Services.BackgroundTaskService;
 using OneDo.Core.BackgroundTasks;
 using Windows.ApplicationModel.Background;
+using OneDo.Services.ToastService;
+using Windows.UI.Notifications;
 
 namespace OneDo
 {
@@ -94,6 +96,7 @@ namespace OneDo
 
             await InitializeData();
             await InitializeBackgroundTasks();
+            InitializeToastNotifications();
             InitializeTitleBar();
             await InitializeStatusBar();
             InitializeModalService();
@@ -176,13 +179,21 @@ namespace OneDo
             await backgroundTaskService.InitializeAsync();
             if (backgroundTaskService.IsInitialized)
             {
-                backgroundTaskService.Register<InProcessTestBackgroundTask>(new TimeTrigger(15, false));
+                backgroundTaskService.Register<InProcessTestBackgroundTask>(new ToastNotificationHistoryChangedTrigger());
                 Logger.Current.Info("Background tasks initialized");
             }
             else
             {
                 Logger.Current.Info("Cannot initialize background tasks");
             }
+        }
+
+        private void InitializeToastNotifications()
+        {
+            var toastService = ViewModelLocator.Container.Resolve<IToastService>(
+                TypedParameter.From(ToastNotificationManager.CreateToastNotifier()));
+
+            Logger.Current.Info("Toast service initialized");
         }
 
         private async Task InitializeData()

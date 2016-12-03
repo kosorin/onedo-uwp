@@ -124,6 +124,8 @@
     <Compile Include="Services\ModalService\SubModalService.cs" />
     <Compile Include="Services\StringService\IStringProvider.cs" />
     <Compile Include="Services\StringService\StringProvider.cs" />
+    <Compile Include="Services\ToastService\IToastService.cs" />
+    <Compile Include="Services\ToastService\ToastService.cs" />
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
     <Compile Include="Services\InfoService\InfoMessage.cs" />
     <Compile Include="ViewModel\Args\TimePickerEventArgs.cs" />

@@ -19,6 +19,8 @@ using OneDo.Common.Logging;
 using OneDo.Services.InfoService;
 using OneDo.Model.Business;
 using OneDo.Model.Args;
+using OneDo.Services.ToastService;
+using Windows.UI.Notifications;
 
 namespace OneDo.ViewModel
 {
@@ -45,10 +47,13 @@ namespace OneDo.ViewModel
 
         public UIHost UIHost { get; }
 
-        public MainViewModel(DataService dataService, UIHost uiHost)
+        public IToastService ToastService { get; }
+
+        public MainViewModel(DataService dataService, UIHost uiHost, IToastService toastService)
         {
             DataService = dataService;
             UIHost = uiHost;
+            ToastService = toastService;
 
             FolderList = new FolderListViewModel(DataService, UIHost);
             NoteList = new NoteListViewModel(DataService, UIHost, FolderList);

@@ -8,6 +8,7 @@ using OneDo.Services.InfoService;
 using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
+using OneDo.Services.ToastService;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 
@@ -24,6 +25,7 @@ namespace OneDo.ViewModel
                 var builder = new ContainerBuilder();
 
                 builder.RegisterType<BackgroundTaskService>().As<IBackgroundTaskService>().SingleInstance();
+                builder.RegisterType<ToastService>().As<IToastService>().SingleInstance();
                 builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
                 builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
