@@ -21,10 +21,9 @@ namespace OneDo.Model.Business
         }
 
 
-        public TimeSpan CurrentTime()
+        public TimeSpan Time()
         {
-            var now = DateTime.Now;
-            return new TimeSpan(now.Hour, now.Minute, 0);
+            return DateTime.Now.ToTime(false);
         }
 
         public DateTime Yesterday() => DateTime.Today.Yesterday();

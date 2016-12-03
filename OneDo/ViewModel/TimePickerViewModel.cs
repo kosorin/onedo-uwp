@@ -45,8 +45,8 @@ namespace OneDo.ViewModel
             PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Time = null);
-            InOneMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.CurrentTime().Add(TimeSpan.FromMinutes(1)));
-            InFiveMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.CurrentTime().Add(TimeSpan.FromMinutes(5)));
+            InOneMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.Time().Add(TimeSpan.FromMinutes(1)));
+            InFiveMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.Time().Add(TimeSpan.FromMinutes(5)));
         }
 
         private void OnTimeChanged()

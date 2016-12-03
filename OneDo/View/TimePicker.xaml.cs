@@ -66,7 +66,7 @@ namespace OneDo.View
 
         private void OnTimeChanged(TimeSpan? time)
         {
-            var now = VM.DateTimeBusiness.CurrentTime();
+            var now = VM.DateTimeBusiness.Time();
             Hours = time?.Hours ?? now.Hours;
             Minutes = time?.Minutes ?? now.Minutes;
         }

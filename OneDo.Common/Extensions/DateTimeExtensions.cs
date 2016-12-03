@@ -7,6 +7,16 @@ namespace OneDo.Common.Extensions
     /// </remarks>
     public static class DateTimeExtensions
     {
+        public static TimeSpan ToTime(this DateTime dateTime)
+        {
+            return ToTime(dateTime, true);
+        }
+
+        public static TimeSpan ToTime(this DateTime dateTime, bool includeSeconds)
+        {
+            return new TimeSpan(dateTime.Hour, dateTime.Minute, includeSeconds ? dateTime.Second : 0);
+        }
+
         public static DateTime Yesterday(this DateTime date)
         {
             return date.AddDays(-1);
