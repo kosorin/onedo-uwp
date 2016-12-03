@@ -11,7 +11,7 @@ namespace OneDo.Services.ModalService
 {
     public interface IModalService
     {
-        ModalViewModel Current { get; }
+        IModal Current { get; }
 
         event EventHandler CurrentChanged;
 
@@ -25,6 +25,6 @@ namespace OneDo.Services.ModalService
 
         void Close();
 
-        void Show(ModalViewModel modal);
+        void Show(IModal modal);
     }
 }

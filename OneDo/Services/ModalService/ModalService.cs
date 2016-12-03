@@ -22,8 +22,8 @@ namespace OneDo.Services.ModalService
 {
     public class ModalService : ExtendedViewModel, IModalService
     {
-        private ModalViewModel current;
-        public ModalViewModel Current
+        private IModal current;
+        public IModal Current
         {
             get { return current; }
             private set
@@ -104,7 +104,7 @@ namespace OneDo.Services.ModalService
             Current = null;
         }
 
-        public void Show(ModalViewModel modal)
+        public void Show(IModal modal)
         {
             Detach();
             Current = modal;
