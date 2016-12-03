@@ -12,7 +12,7 @@ namespace OneDo.Model.Data.Entities
     public class Note : IEntity
     {
         [PrimaryKey, AutoIncrement, NotNull]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
 
         [NotNull]
@@ -31,7 +31,7 @@ namespace OneDo.Model.Data.Entities
 
 
         [Indexed]
-        public int? FolderId { get; set; }
+        public Guid? FolderId { get; set; }
 
 
         public DateTime Created { get; set; }

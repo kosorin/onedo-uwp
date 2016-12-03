@@ -34,7 +34,7 @@ namespace OneDo.Model.Data
 
         public bool IsNew(TEntity entity)
         {
-            return entity.Id == default(int);
+            return entity.Id == default(Guid);
         }
 
 
@@ -121,7 +121,7 @@ namespace OneDo.Model.Data
                 .ToListAsync();
         }
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> Get(Guid id)
         {
             return await GetTable()
                 .Where(x => x.Id == id)

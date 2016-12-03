@@ -41,7 +41,7 @@ namespace OneDo.Model.Data
 
         Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate);
 
-        Task<TEntity> Get(int id);
+        Task<TEntity> Get(Guid id);
 
         Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
 

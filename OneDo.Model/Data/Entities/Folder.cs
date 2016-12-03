@@ -12,7 +12,7 @@ namespace OneDo.Model.Data.Entities
     public class Folder : IEntity
     {
         [PrimaryKey, AutoIncrement, NotNull]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [NotNull]
         public string Name { get; set; }
