@@ -57,6 +57,14 @@ namespace OneDo.Services.BackgroundTaskService
             var name = GetTaskName<TBackgroundTask>();
             try
             {
+#if DEBUG
+                var registration = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name == name);
+                if (registration != null)
+                {
+                    Logger.Current.Info($"Unregister background task '{name}'");
+                    registration.Unregister(true);
+                }
+#endif
                 if (!IsTaskRegistered(name))
                 {
                     var entryPoint = GetTaskEntryPoint<TBackgroundTask>();
