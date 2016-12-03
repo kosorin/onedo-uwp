@@ -6,15 +6,15 @@ namespace OneDo.Services.ToastService
 {
     public interface IToastService
     {
-        void Show(ToastNotification toast);
-
-        IEnumerable<ScheduledToastNotification> GetAllScheduledToasts();
+        IEnumerable<ScheduledToastNotification> GetScheduledToasts();
 
         void AddToSchedule(ScheduledToastNotification toast);
 
         void RemoveFromSchedule(ScheduledToastNotification toast);
 
-        void RemoveAllFromSchedule();
+        void RemoveFromSchedule(string group);
+
+        void ClearSchedule();
 
         ScheduledToastNotification CreateToast(string title, string detail, DateTime dateTime);
     }

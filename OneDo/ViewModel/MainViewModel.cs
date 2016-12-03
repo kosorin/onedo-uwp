@@ -49,11 +49,14 @@ namespace OneDo.ViewModel
 
         public IToastService ToastService { get; }
 
+        public NoteBusiness NoteBusiness { get; }
+
         public MainViewModel(DataService dataService, UIHost uiHost, IToastService toastService)
         {
             DataService = dataService;
             UIHost = uiHost;
             ToastService = toastService;
+            NoteBusiness = new NoteBusiness(DataService);
 
             FolderList = new FolderListViewModel(DataService, UIHost);
             NoteList = new NoteListViewModel(DataService, UIHost, FolderList);
@@ -61,6 +64,8 @@ namespace OneDo.ViewModel
             FolderList.SelectionChanged += OnFolderSelectionChanged;
 
             DataService.Folders.Deleted += OnFolderDeleted;
+            DataService.Notes.Added += OnNoteAdded;
+            DataService.Notes.Updated += OnNoteUpdated;
             DataService.Notes.Deleted += OnNoteDeleted;
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
@@ -162,6 +167,34 @@ namespace OneDo.ViewModel
 
         private void OnFolderDeleted(object sender, EntityEventArgs<Folder> e)
         {
+        }
+
+        private void OnNoteAdded(object sender, EntityEventArgs<Note> e)
+        {
+            var note = e.Entity;
+            Schedule(note);
+        }
+
+        private void OnNoteUpdated(object sender, EntityEventArgs<Note> e)
+        {
+            var note = e.Entity;
+            ToastService.RemoveFromSchedule(NoteBusiness.GetToastGroup(note));
+            Schedule(note);
+        }
+
+        private void Schedule(Note note)
+        {
+            if (note.Date != null && note.Reminder != null)
+            {
+                var dateTime = ((DateTime)note.Date).Add((TimeSpan)note.Reminder);
+                if (dateTime > DateTime.Now.AddSeconds(15))
+                {
+                    var toast = ToastService.CreateToast(note.Title, note.Text, dateTime);
+                    toast.Tag = "Reminder";
+                    toast.Group = NoteBusiness.GetToastGroup(note);
+                    ToastService.AddToSchedule(toast);
+                }
+            }
         }
 
         private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)

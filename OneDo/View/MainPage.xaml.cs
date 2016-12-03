@@ -72,8 +72,7 @@ namespace OneDo.View
         {
             InsertMenuSeparator();
             InsertMenuButtonAsync("Reset", VM.ResetData);
-            InsertMenuButton("Switch RequestedTheme", SwitchRequestedTheme);
-            InsertMenuButton("Remove all from schedule", VM.ToastService.RemoveAllFromSchedule);
+            InsertMenuButton("Switch theme", SwitchRequestedTheme);
             InsertMenuButtonAsync("Show schedule", ShowSchedule);
             InsertMenuButton("Debug", () => VM.UIHost.ModalService.Show(new DebugViewModel(VM.UIHost.ProgressService)));
         }
@@ -124,10 +123,18 @@ namespace OneDo.View
 
         private async Task ShowSchedule()
         {
-            var toasts = VM.ToastService.GetAllScheduledToasts();
+            var toasts = VM.ToastService.GetScheduledToasts();
             var schedule = string.Join(Environment.NewLine, toasts.Select(x => $"'{x.Group}.{x.Tag}' > {x.DeliveryTime}"));
+
+            var clearCommand = new UICommand("Clear", x => VM.ToastService.ClearSchedule());
+            var closeCommand = new UICommand("Cancel");
+
             var dialog = new MessageDialog(schedule, "Schedule");
-            await dialog.ShowAsync();
+            dialog.Commands.Add(clearCommand);
+            dialog.Commands.Add(closeCommand);
+            dialog.CancelCommandIndex = (uint)dialog.Commands.Count - 1;
+            dialog.DefaultCommandIndex = (uint)dialog.Commands.Count - 1;
+            var command = await dialog.ShowAsync();
         }
 #endif
 

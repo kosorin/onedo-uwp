@@ -18,12 +18,7 @@ namespace OneDo.Services.ToastService
             Notifier = toastNotifier;
         }
 
-        public void Show(ToastNotification toast)
-        {
-            Notifier.Show(toast);
-        }
-
-        public IEnumerable<ScheduledToastNotification> GetAllScheduledToasts()
+        public IEnumerable<ScheduledToastNotification> GetScheduledToasts()
         {
             return Notifier.GetScheduledToastNotifications();
         }
@@ -40,7 +35,19 @@ namespace OneDo.Services.ToastService
             Notifier.RemoveFromSchedule(toast);
         }
 
-        public void RemoveAllFromSchedule()
+        public void RemoveFromSchedule(string group)
+        {
+            Logger.Current.Info($"Remove from schedule '{group}'");
+            foreach (var toast in Notifier.GetScheduledToastNotifications())
+            {
+                if (toast.Group == group)
+                {
+                    Notifier.RemoveFromSchedule(toast);
+                }
+            }
+        }
+
+        public void ClearSchedule()
         {
             Logger.Current.Info($"Remove all from schedule");
             foreach (var toast in Notifier.GetScheduledToastNotifications())
@@ -75,7 +82,7 @@ namespace OneDo.Services.ToastService
                 Title = "Snooze until:",
             };
             selectionBox.Items.Add(new ToastSelectionBoxItem("5", "5 minutes"));
-            selectionBox.Items.Add(new ToastSelectionBoxItem("10", "10 minutes"));
+            selectionBox.Items.Add(new ToastSelectionBoxItem("15", "15 minutes"));
             selectionBox.Items.Add(new ToastSelectionBoxItem("60", "1 hour"));
             selectionBox.Items.Add(new ToastSelectionBoxItem("240", "4 hours"));
             selectionBox.Items.Add(new ToastSelectionBoxItem("144", "1 day"));
