@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OneDo.Model.Data;
 using OneDo.Model.Data.Entities;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace OneDo.Model.Business
 {
@@ -18,6 +19,11 @@ namespace OneDo.Model.Business
         public virtual TEntity CreateDefault()
         {
             return new TEntity();
+        }
+
+        public string GetToastGroup(TEntity entity)
+        {
+            return entity.Id.ToString("N").Substring(0, 15);
         }
     }
 }
