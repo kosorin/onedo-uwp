@@ -1,15 +1,11 @@
-﻿using OneDo.Model.Args;
-using OneDo.Model.Business;
-using SQLite.Net;
+﻿using OneDo.Model.Entities.Args;
 using SQLite.Net.Async;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Model.Data
+namespace OneDo.Model.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {

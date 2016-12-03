@@ -1,7 +1,4 @@
 using Autofac;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using OneDo.Model.Business;
 using OneDo.Model.Data;
 using OneDo.Services.BackgroundTaskService;
 using OneDo.Services.InfoService;
@@ -10,7 +7,6 @@ using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
 using OneDo.Services.ToastService;
 using Windows.ApplicationModel;
-using Windows.UI.Xaml;
 
 namespace OneDo.ViewModel
 {

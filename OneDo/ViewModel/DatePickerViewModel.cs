@@ -1,14 +1,8 @@
-﻿using OneDo.Common.UI;
-using OneDo.Model.Business;
+﻿using OneDo.Model.Business;
 using OneDo.Model.Data;
-using OneDo.Services.ModalService;
 using OneDo.ViewModel.Args;
-using OneDo.ViewModel.Commands;
+using OneDo.Mvvm;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace OneDo.ViewModel

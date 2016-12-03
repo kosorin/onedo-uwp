@@ -1,19 +1,10 @@
 ﻿using OneDo.Model.Data;
-using OneDo.Model.Data.Entities;
-using System;
-using System.Collections.Generic;
+using OneDo.Model.Entities;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using OneDo.ViewModel.Commands;
-using OneDo.Services.ModalService;
-using OneDo.Services.ProgressService;
-using Windows.Foundation;
-using OneDo.Common.UI;
+using OneDo.Mvvm;
 using OneDo.Model.Business;
-using OneDo.Services.InfoService;
 
 namespace OneDo.ViewModel
 {

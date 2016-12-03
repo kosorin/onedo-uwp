@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using OneDo.Common.Media;
 using Windows.UI;
 
 namespace OneDo.ViewModel

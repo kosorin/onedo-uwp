@@ -104,10 +104,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Compile Include="Args\EntityListEventArgs.cs" />
+    <Compile Include="Entities\Args\EntityListEventArgs.cs" />
     <Compile Include="Business\BusinessBase.cs" />
     <Compile Include="Business\DateTimeBusiness.cs" />
-    <Compile Include="Args\EntityEventArgs.cs" />
+    <Compile Include="Entities\Args\EntityEventArgs.cs" />
     <Compile Include="Data\DataService.Data.cs" />
     <None Include="project.json" />
   </ItemGroup>
@@ -117,15 +117,15 @@
     <Compile Include="Business\FolderBusiness.cs" />
     <Compile Include="Business\NoteBusiness.cs" />
     <Compile Include="Data\DataService.Settings.cs" />
-    <Compile Include="Data\IRepository.cs" />
-    <Compile Include="Data\Repositories\FolderRepository.cs" />
-    <Compile Include="Data\Repository.cs" />
-    <Compile Include="Data\IEntity.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\FolderRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Entities\Folder.cs" />
-    <Compile Include="Data\Entities\Note.cs" />
+    <Compile Include="Entities\Folder.cs" />
+    <Compile Include="Entities\Note.cs" />
     <EmbeddedResource Include="Properties\OneDo.Model.rd.xml" />
   </ItemGroup>
   <ItemGroup>

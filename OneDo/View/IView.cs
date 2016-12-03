@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using OneDo.ViewModel;
+﻿using OneDo.Mvvm;
 
 namespace OneDo.View
 {

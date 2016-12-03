@@ -1,8 +1,6 @@
-﻿using OneDo.Model.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace OneDo.Model.Args
+namespace OneDo.Model.Entities.Args
 {
     public class EntityEventArgs<TEntity> : EventArgs where TEntity : IEntity
     {

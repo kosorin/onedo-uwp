@@ -1,5 +1,4 @@
 ﻿using OneDo.Model.Data;
-using OneDo.Services.ModalService;
 using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel

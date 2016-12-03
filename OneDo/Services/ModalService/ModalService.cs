@@ -1,22 +1,8 @@
-﻿using GalaSoft.MvvmLight;
-using OneDo.ViewModel;
-using OneDo.View;
-using System;
-using System.Linq;
-using System.Windows.Input;
-using Windows.ApplicationModel;
+﻿using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using OneDo.Common.Data;
-using System.Collections.Specialized;
 using Windows.System;
-using OneDo.Common.UI;
-using OneDo.ViewModel.Commands;
-using System.ComponentModel;
+using OneDo.Mvvm;
 
 namespace OneDo.Services.ModalService
 {

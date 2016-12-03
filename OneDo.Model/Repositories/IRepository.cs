@@ -1,11 +1,10 @@
-﻿using OneDo.Model.Args;
-using OneDo.Model.Business;
+﻿using OneDo.Model.Entities.Args;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OneDo.Model.Data
+namespace OneDo.Model.Repositories
 {
     public interface IRepository
     {

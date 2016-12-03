@@ -1,6 +1,4 @@
-﻿using OneDo.ViewModel;
-
-namespace OneDo.View
+﻿namespace OneDo.View
 {
     public interface IXBind<TViewModel>
     {

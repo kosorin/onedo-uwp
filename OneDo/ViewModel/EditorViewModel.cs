@@ -1,18 +1,12 @@
-﻿using GalaSoft.MvvmLight;
-using OneDo.Model.Args;
-using OneDo.Model.Business;
-using OneDo.Model.Data;
-using OneDo.Services.ModalService;
-using OneDo.Services.ProgressService;
-using OneDo.ViewModel.Commands;
+﻿using OneDo.Services.ProgressService;
+using OneDo.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.Foundation;
+using OneDo.Model;
+using OneDo.Model.Entities.Args;
 
 namespace OneDo.ViewModel
 {

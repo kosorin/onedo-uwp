@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OneDo.Model.Data;
-using OneDo.Model.Data.Entities;
-using System.Linq.Expressions;
-using System.Text.RegularExpressions;
+﻿using OneDo.Model.Data;
 
 namespace OneDo.Model.Business
 {

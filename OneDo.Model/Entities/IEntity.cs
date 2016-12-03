@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OneDo.Model.Data
+namespace OneDo.Model
 {
     public interface IEntity
     {

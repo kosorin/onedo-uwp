@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xaml.Interactivity;
-using OneDo.Common.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OneDo.Common.Extensions;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;

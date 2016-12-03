@@ -1,4 +1,4 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Mvvm;
 using System.ComponentModel;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;

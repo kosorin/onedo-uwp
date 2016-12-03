@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OneDo.Model.Data;
-using OneDo.Common;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using Windows.Globalization.DateTimeFormatting;
+using OneDo.Common.Extensions;
 
 namespace OneDo.Model.Business
 {
@@ -33,11 +27,11 @@ namespace OneDo.Model.Business
             return new TimeSpan(now.Hour, now.Minute, 0);
         }
 
-        public DateTime Yesterday() => DateTime.Today.AddDays(-1);
+        public DateTime Yesterday() => DateTime.Today.Yesterday();
 
         public DateTime Today() => DateTime.Today;
 
-        public DateTime Tomorrow() => DateTime.Today.AddDays(1);
+        public DateTime Tomorrow() => DateTime.Today.Tomorrow();
 
         public DateTime ThisWeek()
         {

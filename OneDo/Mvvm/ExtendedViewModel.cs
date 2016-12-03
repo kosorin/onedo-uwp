@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
-using OneDo.Common.Logging;
-using System.Threading.Tasks;
 
-namespace OneDo.ViewModel
+namespace OneDo.Mvvm
 {
     public abstract class ExtendedViewModel : ViewModelBase
     {

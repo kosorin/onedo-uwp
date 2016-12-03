@@ -1,5 +1,4 @@
-﻿using OneDo.Model.Data.Entities;
-using SQLite.Net;
+﻿using SQLite.Net;
 using SQLite.Net.Attributes;
 using SQLite.Net.Platform.WinRT;
 using System;
@@ -7,12 +6,11 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using SQLite.Net.Async;
-using OneDo.Model.Business;
-using OneDo.Model.Data.Repositories;
+using OneDo.Model.Entities;
+using OneDo.Model.Repositories;
 
 namespace OneDo.Model.Data
 {

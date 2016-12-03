@@ -1,15 +1,11 @@
-﻿using OneDo.Common.UI;
-using OneDo.Model.Args;
-using OneDo.Model.Business;
+﻿using OneDo.Model;
 using OneDo.Model.Data;
-using OneDo.Services.ProgressService;
-using OneDo.ViewModel.Commands;
-using System;
+using OneDo.Model.Entities.Args;
+using OneDo.Model.Repositories;
+using OneDo.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 

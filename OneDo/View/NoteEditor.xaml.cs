@@ -1,12 +1,5 @@
-﻿using System;
-using OneDo.ViewModel;
+﻿using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using System.Numerics;
-using Windows.UI.Composition;
-using OneDo.Services.ModalService;
 
 namespace OneDo.View
 {

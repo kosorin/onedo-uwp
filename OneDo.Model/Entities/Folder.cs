@@ -1,11 +1,8 @@
-﻿using OneDo.Model.Data;
-using SQLite.Net.Attributes;
+﻿using SQLite.Net.Attributes;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using Windows.UI;
 
-namespace OneDo.Model.Data.Entities
+namespace OneDo.Model.Entities
 {
     [DebuggerDisplay("{Id}: {Name}")]
     [Table("Folders")]

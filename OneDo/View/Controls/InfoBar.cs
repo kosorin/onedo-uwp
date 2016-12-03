@@ -1,13 +1,10 @@
 ﻿using OneDo.Common.Media;
 using OneDo.Services.InfoService;
-using OneDo.ViewModel.Commands;
+using OneDo.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;

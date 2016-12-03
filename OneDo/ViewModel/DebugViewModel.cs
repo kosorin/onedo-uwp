@@ -1,18 +1,15 @@
-﻿using OneDo.Common;
-using OneDo.Common.Logging;
-using OneDo.Model.Data;
-using OneDo.Services.ModalService;
+﻿using OneDo.Common.Logging;
 using OneDo.Services.ProgressService;
-using OneDo.ViewModel.Commands;
+using OneDo.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using OneDo.Common.Extensions;
 
 namespace OneDo.ViewModel
 {

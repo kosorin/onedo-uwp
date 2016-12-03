@@ -1,32 +1,28 @@
 ﻿using GalaSoft.MvvmLight.Helpers;
-using OneDo.Common.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModel.Commands
+namespace OneDo.Mvvm
 {
-    public class RelayCommand : IExtendedCommand
+    public class AsyncRelayCommand : IExtendedCommand
     {
-        private readonly WeakAction execute;
+        private readonly WeakFunc<Task> execute;
 
         private readonly WeakFunc<bool> canExecute;
 
-        public RelayCommand(Action execute) : this(execute, null)
+        public AsyncRelayCommand(Func<Task> execute) : this(execute, null)
         {
 
         }
 
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public AsyncRelayCommand(Func<Task> execute, Func<bool> canExecute)
         {
             if (execute == null)
             {
                 throw new ArgumentNullException(nameof(execute));
             }
 
-            this.execute = new WeakAction(execute);
+            this.execute = new WeakFunc<Task>(execute);
             if (canExecute != null)
             {
                 this.canExecute = new WeakFunc<bool>(canExecute);
@@ -45,34 +41,34 @@ namespace OneDo.ViewModel.Commands
             return canExecute == null || (canExecute.IsStatic || canExecute.IsAlive) && canExecute.Execute();
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             if (CanExecute(parameter) && execute != null && (execute.IsStatic || execute.IsAlive))
             {
-                execute.Execute();
+                await execute.Execute();
             }
         }
     }
 
-    public class RelayCommand<T> : IExtendedCommand
+    public class AsyncRelayCommand<T> : IExtendedCommand
     {
-        private readonly WeakAction<T> execute;
+        private readonly WeakFunc<T, Task> execute;
 
         private readonly WeakFunc<T, bool> canExecute;
 
-        public RelayCommand(Action<T> execute) : this(execute, null)
+        public AsyncRelayCommand(Func<T, Task> execute) : this(execute, null)
         {
 
         }
 
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+        public AsyncRelayCommand(Func<T, Task> execute, Func<T, bool> canExecute)
         {
             if (execute == null)
             {
                 throw new ArgumentNullException(nameof(execute));
             }
 
-            this.execute = new WeakAction<T>(execute);
+            this.execute = new WeakFunc<T, Task>(execute);
             if (canExecute != null)
             {
                 this.canExecute = new WeakFunc<T, bool>(canExecute);
@@ -91,11 +87,11 @@ namespace OneDo.ViewModel.Commands
             return canExecute == null || (canExecute.IsStatic || canExecute.IsAlive) && canExecute.Execute((T)parameter);
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             if (CanExecute(parameter) && execute != null && (execute.IsStatic || execute.IsAlive))
             {
-                execute.Execute((T)parameter);
+                await execute.Execute((T)parameter);
             }
         }
     }

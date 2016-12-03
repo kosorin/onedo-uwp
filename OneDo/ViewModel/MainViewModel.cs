@@ -1,26 +1,14 @@
-﻿using OneDo.Services.ModalService;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using OneDo.Model.Data;
-using System.Collections.Generic;
 using System.Linq;
-using Windows.UI.Core;
-using OneDo.Model.Data.Entities;
-using System.Collections.ObjectModel;
+using OneDo.Model.Entities;
 using System.Threading.Tasks;
-using OneDo.ViewModel.Commands;
-using OneDo.Services.ProgressService;
+using OneDo.Mvvm;
 using System;
-using Microsoft.Band;
-using Windows.UI.Xaml.Media.Imaging;
-using Microsoft.Band.Tiles;
-using OneDo.Band;
-using Microsoft.Band.Tiles.Pages;
-using OneDo.Common.Logging;
 using OneDo.Services.InfoService;
 using OneDo.Model.Business;
-using OneDo.Model.Args;
 using OneDo.Services.ToastService;
-using Windows.UI.Notifications;
+using OneDo.Model.Entities.Args;
 
 namespace OneDo.ViewModel
 {
