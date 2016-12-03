@@ -35,7 +35,6 @@ namespace OneDo.ViewModel
                 builder.RegisterType<MainViewModel>().SingleInstance();
 
                 builder.RegisterType<DataService>().SingleInstance();
-                builder.RegisterType<DateTimeBusiness>().SingleInstance();
 
                 Container = builder.Build();
             }
