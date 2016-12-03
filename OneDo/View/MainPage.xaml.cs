@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Media;
 using OneDo.Common.Media;
 using OneDo.ViewModel.Commands;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
+using System.Linq;
 
 namespace OneDo.View
 {
@@ -72,6 +74,7 @@ namespace OneDo.View
             InsertMenuButtonAsync("Reset", VM.ResetData);
             InsertMenuButton("Switch RequestedTheme", SwitchRequestedTheme);
             InsertMenuButton("Remove all from schedule", VM.ToastService.RemoveAllFromSchedule);
+            InsertMenuButtonAsync("Show schedule", ShowSchedule);
             InsertMenuButton("Debug", () => VM.UIHost.ModalService.Show(new DebugViewModel(VM.UIHost.ProgressService)));
         }
 
@@ -117,6 +120,14 @@ namespace OneDo.View
             case ElementTheme.Dark: targetTheme = ElementTheme.Light; break;
             }
             RequestedTheme = targetTheme;
+        }
+
+        private async Task ShowSchedule()
+        {
+            var toasts = VM.ToastService.GetAllScheduledToasts();
+            var schedule = string.Join(Environment.NewLine, toasts.Select(x => $"'{x.Group}.{x.Tag}' > {x.DeliveryTime}"));
+            var dialog = new MessageDialog(schedule, "Schedule");
+            await dialog.ShowAsync();
         }
 #endif
 

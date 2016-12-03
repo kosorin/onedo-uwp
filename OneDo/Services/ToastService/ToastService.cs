@@ -23,6 +23,11 @@ namespace OneDo.Services.ToastService
             Notifier.Show(toast);
         }
 
+        public IEnumerable<ScheduledToastNotification> GetAllScheduledToasts()
+        {
+            return Notifier.GetScheduledToastNotifications();
+        }
+
         public void AddToSchedule(ScheduledToastNotification toast)
         {
             Logger.Current.Info($"Add to schedule '{toast.Group}.{toast.Tag}' on {toast.DeliveryTime}");
