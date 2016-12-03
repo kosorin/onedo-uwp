@@ -66,7 +66,7 @@ namespace OneDo.Services.BackgroundTaskService
 
                         if (parameters.HasFlag(BackgroundTaskParameters.IsOutProcess))
                         {
-                            builder.TaskEntryPoint =$"{typeof(TBackgroundTask).GetTypeInfo().Assembly.GetName().Name}.{typeof(TBackgroundTask).Name}";
+                            builder.TaskEntryPoint = $"{typeof(TBackgroundTask).GetTypeInfo().Assembly.GetName().Name}.{typeof(TBackgroundTask).Name}";
                         }
 
                         builder.SetTrigger(trigger);
@@ -82,6 +82,7 @@ namespace OneDo.Services.BackgroundTaskService
                     }
                     else
                     {
+                        Logger.Current.Info($"Background task '{taskName}' already registered");
                         return true;
                     }
                 }
