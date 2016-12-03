@@ -44,7 +44,7 @@ namespace OneDo.Services.ToastService
             }
         }
 
-        public ScheduledToastNotification CreateReminder(string title, string detail, DateTime dateTime)
+        public ScheduledToastNotification CreateToast(string title, string detail, DateTime dateTime)
         {
             var visual = new ToastVisual()
             {

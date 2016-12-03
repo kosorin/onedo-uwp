@@ -13,6 +13,6 @@ namespace OneDo.Services.ToastService
 
         void RemoveAllFromSchedule();
 
-        ScheduledToastNotification CreateReminder(string title, string detail, DateTime dateTime);
+        ScheduledToastNotification CreateToast(string title, string detail, DateTime dateTime);
     }
 }
