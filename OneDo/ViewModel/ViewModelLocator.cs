@@ -39,10 +39,6 @@ namespace OneDo.ViewModel
             }
         }
 
-        public IProgressService ProgressService => Container?.Resolve<IProgressService>();
-
-        public IModalService ModalService => Container?.Resolve<IModalService>();
-
         public MainViewModel Main => Container?.Resolve<MainViewModel>();
     }
 }

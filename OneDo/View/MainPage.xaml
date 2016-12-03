@@ -50,7 +50,7 @@
         <v:ModalContainer x:Name="ModalContainer"
                           Grid.RowSpan="4"
                           CloseCommand="{Binding CloseCommand}"
-                          DataContext="{Binding ModalService, Source={StaticResource Locator}}"
+                          DataContext="{x:Bind VM.UIHost.ModalService, Mode=OneWay}"
                           Modal="{Binding Current}">
             <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>
@@ -87,7 +87,7 @@
         <Grid Grid.RowSpan="4">
             <ProgressBar VerticalAlignment="Top"
                          Background="Transparent"
-                         DataContext="{Binding ProgressService, Source={StaticResource Locator}}"
+                         DataContext="{x:Bind VM.UIHost.ProgressService, Mode=OneWay}"
                          IsIndeterminate="{Binding IsBusy}" />
         </Grid>
 
