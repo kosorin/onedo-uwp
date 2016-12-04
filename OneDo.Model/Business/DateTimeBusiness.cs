@@ -5,7 +5,7 @@ using OneDo.Common.Extensions;
 
 namespace OneDo.Model.Business
 {
-    public class DateTimeBusiness : DataBusinessBase
+    public class DateTimeBusiness
     {
         public DateTimeFormatter LongDateFormatter { get; }
 
@@ -13,8 +13,12 @@ namespace OneDo.Model.Business
 
         public DateTimeFormatter MonthDayFormatter { get; }
 
-        public DateTimeBusiness(DataService dataService) : base(dataService)
+        public DataService DataService { get; }
+
+        public DateTimeBusiness(DataService dataService)
         {
+            DataService = dataService;
+
             LongDateFormatter = new DateTimeFormatter("longdate");
             ShortDateFormatter = new DateTimeFormatter("shortdate");
             MonthDayFormatter = new DateTimeFormatter(YearFormat.None, MonthFormat.Numeric, DayFormat.Default, DayOfWeekFormat.Default);

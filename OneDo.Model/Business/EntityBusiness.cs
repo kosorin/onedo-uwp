@@ -2,10 +2,13 @@
 
 namespace OneDo.Model.Business
 {
-    public abstract class EntityBusiness<TEntity> : DataBusinessBase where TEntity : class, IEntity, new()
+    public abstract class EntityBusiness<TEntity> where TEntity : class, IEntity, new()
     {
-        public EntityBusiness(DataService dataService) : base(dataService)
+        public DataService DataService { get; }
+
+        public EntityBusiness(DataService dataService)
         {
+            DataService = dataService;
         }
 
         public virtual TEntity CreateDefault()

@@ -105,14 +105,12 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Compile Include="Entities\Args\EntityListEventArgs.cs" />
-    <Compile Include="Business\BusinessBase.cs" />
     <Compile Include="Business\DateTimeBusiness.cs" />
     <Compile Include="Entities\Args\EntityEventArgs.cs" />
     <Compile Include="Data\DataService.Data.cs" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\DataBusinessBase.cs" />
     <Compile Include="Business\EntityBusiness.cs" />
     <Compile Include="Business\FolderBusiness.cs" />
     <Compile Include="Business\NoteBusiness.cs" />
