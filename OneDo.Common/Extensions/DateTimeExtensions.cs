@@ -113,7 +113,7 @@ namespace OneDo.Common.Extensions
             return targetDate;
         }
 
-
+#warning Zrušit metodu DateTimeExtensions.IsThisYear
         public static bool IsThisYear(this DateTime date)
         {
             return date.Year == DateTime.Today.Year;
