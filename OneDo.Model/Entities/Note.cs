@@ -28,7 +28,7 @@ namespace OneDo.Model.Entities
 
 
         [Indexed]
-        public Guid? FolderId { get; set; }
+        public Guid FolderId { get; set; }
 
 
         public DateTime Created { get; set; }
