@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DADB853B-CA2C-4E7D-9C2B-056BE93C0CDE}</ProjectGuid>
+    <ProjectGuid>{1711DC0D-DD6B-4111-9EA3-90BB913C5DEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OneDo.Domain</RootNamespace>
-    <AssemblyName>OneDo.Domain</AssemblyName>
+    <RootNamespace>OneDo.Data</RootNamespace>
+    <AssemblyName>OneDo.Data</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\OneDo.Domain.rd.xml" />
+    <EmbeddedResource Include="Properties\OneDo.Data.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
