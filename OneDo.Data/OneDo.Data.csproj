@@ -110,6 +110,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\OneDo.Data.rd.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
+      <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
+      <Name>OneDo.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OneDo.Domain\OneDo.Domain.csproj">
+      <Project>{dadb853b-ca2c-4e7d-9c2b-056be93c0cde}</Project>
+      <Name>OneDo.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
