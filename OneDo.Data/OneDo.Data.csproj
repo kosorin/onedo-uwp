@@ -107,13 +107,16 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Folder.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\Note.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\FolderRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <EmbeddedResource Include="Properties\OneDo.Data.rd.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
@@ -123,6 +126,11 @@
       <Project>{dadb853b-ca2c-4e7d-9c2b-056be93c0cde}</Project>
       <Name>OneDo.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.14.2">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
