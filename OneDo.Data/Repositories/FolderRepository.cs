@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using SQLite.Net.Async;
 using System.Linq.Expressions;
-using OneDo.Domain.Repositories;
 
 namespace OneDo.Data.Repositories
 {

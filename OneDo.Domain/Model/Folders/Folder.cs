@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Domain.Entities
+namespace OneDo.Domain.Model.Folders
 {
     public class Folder : Entity
     {
