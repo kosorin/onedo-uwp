@@ -11,5 +11,7 @@ namespace OneDo.Domain.Model.Folders
         public string Name { get; set; }
 
         public string Color { get; set; }
+
+        public IEnumerable<Note> Notes { get; set; }
     }
 }
