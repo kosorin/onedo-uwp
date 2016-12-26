@@ -107,7 +107,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainEvents.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="IDomainEvent.cs" />
+    <Compile Include="IHandle.cs" />
     <Compile Include="Model\Folders\Folder.cs" />
     <Compile Include="Model\Folders\Note.cs" />
     <Compile Include="Model\Notes\Note.cs" />
