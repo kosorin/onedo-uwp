@@ -1,7 +1,7 @@
-﻿using OneDo.Model.Business;
+﻿using OneDo.Common.Mvvm;
+using OneDo.Model.Business;
 using OneDo.Model.Data;
 using OneDo.ViewModel.Args;
-using OneDo.Mvvm;
 using System;
 using Windows.Foundation;
 

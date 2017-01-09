@@ -1,4 +1,4 @@
-﻿using OneDo.Mvvm;
+﻿using OneDo.Common.Mvvm;
 using System.ComponentModel;
 
 namespace OneDo.ViewModel

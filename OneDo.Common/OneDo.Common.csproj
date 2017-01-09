@@ -107,9 +107,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ObservableStack.cs" />
     <Compile Include="Data\Serialization.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="IHandler.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Logging\FileLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="Logging\LoggerBase.cs" />
     <Compile Include="Logging\MemoryLogger.cs" />
     <Compile Include="Logging\NullLogger.cs" />
-    <Compile Include="Media\ColorHelper.cs" />
     <Compile Include="Metadata\ApiContract.cs" />
     <Compile Include="Metadata\ApiInformationHelper.cs" />
     <Compile Include="Metadata\DeviceFormFactorType.cs" />

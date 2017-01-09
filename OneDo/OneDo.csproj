@@ -91,10 +91,6 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="App.config" />
-    <None Include="Band\BandTileLayout.msbtl">
-      <Generator>MSBandLayoutCodeGenerator</Generator>
-      <LastGenOutput>BandTileLayout.cs</LastGenOutput>
-    </None>
     <None Include="OneDo_StoreKey.pfx" />
     <None Include="project.json" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
@@ -103,13 +99,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Band\BandTileLayout.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BandTileLayout.msbtl</DependentUpon>
-    </Compile>
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
-    <Compile Include="Mvvm\IExtendedCommand.cs" />
+    <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
@@ -130,7 +121,7 @@
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
     <Compile Include="Services\InfoService\InfoMessage.cs" />
     <Compile Include="ViewModel\Args\TimePickerEventArgs.cs" />
-    <Compile Include="Mvvm\RelayCommand.cs" />
+    <Compile Include="Common\Mvvm\RelayCommand.cs" />
     <Compile Include="ViewModel\ConfirmationViewModel.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\DatePickerViewModel.cs" />
@@ -176,14 +167,14 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Services\ProgressService\IProgressService.cs" />
     <Compile Include="Services\ProgressService\ProgressService.cs" />
-    <Compile Include="Mvvm\AsyncRelayCommand.cs" />
+    <Compile Include="Common\Mvvm\AsyncRelayCommand.cs" />
     <Compile Include="ViewModel\FolderListViewModel.cs" />
     <Compile Include="ViewModel\ModalViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\FolderItemObject.cs" />
     <Compile Include="ViewModel\NoteItemObject.cs" />
     <Compile Include="ViewModel\NoteEditorViewModel.cs" />
-    <Compile Include="Mvvm\ExtendedViewModel.cs" />
+    <Compile Include="Common\Mvvm\ExtendedViewModel.cs" />
     <Compile Include="View\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
@@ -303,6 +294,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OneDo.Api\OneDo.Application.csproj">
+      <Project>{98ECB73F-A239-4073-8EE3-4F027FFD92C7}</Project>
+      <Name>OneDo.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
       <Name>OneDo.Common</Name>

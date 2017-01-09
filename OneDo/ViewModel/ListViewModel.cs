@@ -1,8 +1,8 @@
-﻿using OneDo.Model;
+﻿using OneDo.Common.Mvvm;
+using OneDo.Model;
 using OneDo.Model.Data;
 using OneDo.Model.Entities.Args;
 using OneDo.Model.Repositories;
-using OneDo.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

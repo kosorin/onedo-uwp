@@ -1,4 +1,5 @@
-﻿using OneDo.Mvvm;
+﻿
+using OneDo.Common.Mvvm;
 
 namespace OneDo.View
 {

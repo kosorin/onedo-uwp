@@ -1,6 +1,5 @@
 ﻿using OneDo.Common.Logging;
 using OneDo.Services.ProgressService;
-using OneDo.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.ViewModel
 {

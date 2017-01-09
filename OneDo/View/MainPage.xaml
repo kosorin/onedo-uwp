@@ -6,7 +6,6 @@
                 xmlns:behaviors="using:OneDo.View.Behaviors"
                 xmlns:controls="using:OneDo.View.Controls"
                 xmlns:converters="using:OneDo.View.Converters"
-                xmlns:entities="using:OneDo.Model.Data.Entities"
                 xmlns:i="using:Microsoft.Xaml.Interactivity"
                 xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:v="using:OneDo.View"

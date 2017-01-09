@@ -1,4 +1,4 @@
-﻿using OneDo.Common.Media;
+﻿using OneDo.Common.Extensions;
 using OneDo.Model.Business;
 using OneDo.Model.Data;
 using OneDo.Model.Entities;

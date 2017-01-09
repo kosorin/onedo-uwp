@@ -1,4 +1,5 @@
-﻿using OneDo.Model.Entities;
+﻿using OneDo.Common.Extensions;
+using OneDo.Model.Entities;
 using Windows.UI;
 
 namespace OneDo.ViewModel
@@ -7,7 +8,7 @@ namespace OneDo.ViewModel
     {
         public string Name => Entity.Name;
 
-        public Color Color => Common.Media.ColorHelper.FromHex(Entity.Color);
+        public Color Color => Entity.Color.ToColor();
 
         public IFolderCommands FolderCommands { get; }
 

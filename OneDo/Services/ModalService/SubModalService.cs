@@ -1,5 +1,5 @@
 ﻿using System;
-using OneDo.Mvvm;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.Services.ModalService
 {

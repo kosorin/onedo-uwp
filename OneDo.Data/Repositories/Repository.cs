@@ -1,4 +1,5 @@
 ﻿using OneDo.Data.Entities;
+using OneDo.Domain.Common;
 using SQLite.Net.Async;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,6 @@ namespace OneDo.Data.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
-        //public event EventHandler<EntityEventArgs<TEntity>> Added;
-
-        //public event EventHandler<EntityEventArgs<TEntity>> Updated;
-
-        //public event EventHandler<EntityEventArgs<TEntity>> Deleted;
-
-        //public event EventHandler<EntityListEventArgs<TEntity>> BulkDeleted;
-
-
         protected readonly SQLiteAsyncConnection connection;
 
         private bool isBulkDelete;
@@ -27,80 +19,9 @@ namespace OneDo.Data.Repositories
             this.connection = connection;
         }
 
-
-        public bool IsTransient(TEntity entity)
+        protected AsyncTableQuery<TEntity> GetTable()
         {
-            return entity.Id == default(Guid);
-        }
-
-
-        public async Task AddOrUpdate(TEntity entity)
-        {
-            if (IsTransient(entity))
-            {
-                await Add(entity);
-            }
-            else
-            {
-                await Update(entity);
-            }
-        }
-
-        public virtual async Task Add(TEntity entity)
-        {
-            await connection.InsertAsync(entity);
-            OnAdded(entity);
-        }
-
-        public virtual async Task Update(TEntity entity)
-        {
-            await connection.UpdateAsync(entity);
-            OnUpdated(entity);
-        }
-
-        public virtual async Task Delete(TEntity entity)
-        {
-            await connection.DeleteAsync<TEntity>(entity.Id);
-            OnDeleted(entity);
-        }
-
-        public virtual async Task DeleteAll()
-        {
-            await RunBulkDelete(async () =>
-            {
-                var entities = await GetAll();
-                foreach (var entity in entities)
-                {
-                    await Delete(entity);
-                }
-                OnBulkDeleted(entities);
-            });
-        }
-
-        public virtual async Task DeleteAll(Expression<Func<TEntity, bool>> predicate)
-        {
-            await RunBulkDelete(async () =>
-            {
-                var entities = await GetAll(predicate);
-                foreach (var entity in entities)
-                {
-                    await Delete(entity);
-                }
-                OnBulkDeleted(entities);
-            });
-        }
-
-        protected async Task RunBulkDelete(Func<Task> action)
-        {
-            try
-            {
-                isBulkDelete = true;
-                await action?.Invoke();
-            }
-            finally
-            {
-                isBulkDelete = false;
-            }
+            return connection.Table<TEntity>();
         }
 
 
@@ -133,44 +54,83 @@ namespace OneDo.Data.Repositories
 
         public async Task<bool> Any()
         {
-            return (await GetTable()
-                .CountAsync()) != 0;
+            var entity = await GetTable()
+                .FirstOrDefaultAsync();
+            return entity != null;
         }
 
         public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate)
         {
-            return (await GetTable()
+            var entity = await GetTable()
                 .Where(predicate)
-                .CountAsync()) != 0;
+                .FirstOrDefaultAsync();
+            return entity != null;
+        }
+
+        public async Task<int> Count()
+        {
+            return await GetTable()
+                .CountAsync();
+        }
+
+        public async Task<int> Count(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await GetTable()
+                .Where(predicate)
+                .CountAsync();
         }
 
 
-        protected void OnAdded(TEntity entity)
+        public virtual async Task Add(TEntity entity)
         {
-            //Added?.Invoke(this, new EntityEventArgs<TEntity>(entity));
+            await connection.InsertAsync(entity);
         }
 
-        protected void OnUpdated(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
+            await connection.UpdateAsync(entity);
         }
 
-        protected void OnDeleted(TEntity entity)
+        public virtual async Task Delete(TEntity entity)
         {
-            if (!isBulkDelete)
+            await connection.DeleteAsync<TEntity>(entity.Id);
+        }
+
+        public virtual async Task DeleteAll()
+        {
+            await RunBulkDeletion(async () =>
             {
-                //Deleted?.Invoke(this, new EntityEventArgs<TEntity>(entity));
+                var entities = await GetTable().ToListAsync();
+                foreach (var entity in entities)
+                {
+                    await Delete(entity);
+                }
+            });
+        }
+
+        public virtual async Task DeleteAll(Expression<Func<TEntity, bool>> predicate)
+        {
+            await RunBulkDeletion(async () =>
+            {
+                var entities = await GetTable().Where(predicate).ToListAsync();
+                foreach (var entity in entities)
+                {
+                    await Delete(entity);
+                }
+            });
+        }
+
+        protected async Task RunBulkDeletion(Func<Task> action)
+        {
+            try
+            {
+                isBulkDelete = true;
+                await action?.Invoke();
             }
-        }
-
-        protected void OnBulkDeleted(IList<TEntity> entities)
-        {
-            //BulkDeleted?.Invoke(this, new EntityListEventArgs<TEntity>(entities));
-        }
-
-
-        protected AsyncTableQuery<TEntity> GetTable()
-        {
-            return connection.Table<TEntity>();
+            finally
+            {
+                isBulkDelete = false;
+            }
         }
     }
 }
