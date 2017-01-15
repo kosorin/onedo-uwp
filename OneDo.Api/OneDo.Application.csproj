@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
+    <Compile Include="Commands\Folders\DeleteFolderCommand.cs" />
     <Compile Include="Commands\Folders\SaveFolderCommand.cs" />
     <Compile Include="Core\CommandBus.cs" />
     <Compile Include="Core\ICommandBus.cs" />

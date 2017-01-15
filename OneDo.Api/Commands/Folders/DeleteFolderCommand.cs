@@ -7,19 +7,13 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application.Commands.Folders
 {
-    public class SaveFolderCommand : ICommand
+    public class DeleteFolderCommand : ICommand
     {
-        public SaveFolderCommand(Guid id, string name, string color)
+        public DeleteFolderCommand(Guid id)
         {
             Id = id;
-            Name = name;
-            Color = color;
         }
 
         public Guid Id { get; }
-
-        public string Name { get; }
-
-        public string Color { get;  }
     }
 }

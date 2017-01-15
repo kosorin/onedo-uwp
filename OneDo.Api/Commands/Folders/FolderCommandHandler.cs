@@ -17,7 +17,8 @@ using System.Threading.Tasks;
 namespace OneDo.Application.Commands.Folders
 {
     public class FolderCommandHandler :
-        ICommandHandler<SaveFolderCommand>
+        ICommandHandler<SaveFolderCommand>,
+        ICommandHandler<DeleteFolderCommand>
     {
         private readonly IFolderRepository folderRepository;
 
@@ -44,41 +45,9 @@ namespace OneDo.Application.Commands.Folders
             await folderRepository.Save(folder);
         }
 
-        //public async Task Delete(Guid id)
-        //{
-        //    var folder = await folderRepository.GetById(id);
-        //    if (folder != null)
-        //    {
-        //        await folderRepository.Delete(folder);
-        //    }
-        //}
-
-        //public async Task<IList<FolderDTO>> GetAll()
-        //{
-        //    var folders = await folderRepository.GetAll();
-        //    return folders.Select(Map).ToList();
-        //}
-
-        //public bool IsNameValid(string name)
-        //{
-        //    return name?.Length > 0;
-        //}
-
-
-        //private Folder Map(FolderDTO folderDTO)
-        //{
-        //    return new Folder(folderDTO.Id, folderDTO.Name, new Color(folderDTO.Color), Enumerable.Empty<Guid>());
-        //}
-
-        //private FolderDTO Map(Folder folder)
-        //{
-        //    return new FolderDTO
-        //    {
-        //        Id = folder.Id,
-        //        Name = folder.Name,
-        //        Color = folder.Color.Hex,
-        //        BadgeNumber = folder.NoteIds.Count(note => noteBadgeSpecification.IsSatisfiedBy(note)),
-        //    };
-        //}
+        public async Task Handle(DeleteFolderCommand command)
+        {
+            await folderRepository.Delete(command.Id);
+        }
     }
 }
