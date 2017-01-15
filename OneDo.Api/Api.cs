@@ -1,5 +1,8 @@
 ﻿using OneDo.Application.Core;
-using OneDo.Application.Services.DataService;
+using OneDo.Application.Queries;
+using OneDo.Application.Queries.Folders;
+using OneDo.Data.Entities;
+using OneDo.Data.Services.DataService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,9 @@ namespace OneDo.Application
 {
     public class Api
     {
-        public ICommandDispatcher CommandDispatcher { get; }
+        public ICommandBus CommandBus { get; }
+
+        public IFolderQuery FolderQuery { get; }
 
         private readonly IDataService dataService;
 
@@ -18,7 +23,9 @@ namespace OneDo.Application
         {
             dataService = new DataService();
 
-            CommandDispatcher = new CommandDispatcher(dataService);
+            CommandBus = new CommandBus(dataService);
+
+            FolderQuery = new FolderQuery(dataService.RepositoryFactory.GetQueryRepository<FolderData>());
         }
     }
 }

@@ -108,6 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\IAggreagteRoot.cs" />
+    <Compile Include="Common\IRepository.cs" />
+    <Compile Include="Model\Repositories\IFolderRepository.cs" />
+    <Compile Include="Model\Repositories\INoteRepository.cs" />
     <Compile Include="Model\ValueObjects\Color.cs" />
     <Compile Include="Model\Entities\Folder.cs" />
     <Compile Include="Model\TodayNoteSpecification.cs" />

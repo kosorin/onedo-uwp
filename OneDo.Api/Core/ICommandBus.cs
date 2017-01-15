@@ -3,7 +3,7 @@ using OneDo.Application.Common;
 
 namespace OneDo.Application.Core
 {
-    public interface ICommandDispatcher
+    public interface ICommandBus
     {
         Task Execute<TCommand>(TCommand command) where TCommand : ICommand;
     }

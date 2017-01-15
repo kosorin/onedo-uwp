@@ -23,10 +23,8 @@ using OneDo.Core.BackgroundTasks;
 using Windows.ApplicationModel.Background;
 using OneDo.Services.ToastService;
 using Windows.UI.Notifications;
-using OneDo.Application.Core;
-using OneDo.Application.Folders;
-using OneDo.Application.Queries;
 using OneDo.Application;
+using OneDo.Application.Commands.Folders;
 
 namespace OneDo
 {

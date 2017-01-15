@@ -1,8 +1,12 @@
 ﻿using OneDo.Application.Common;
-using OneDo.Application.Services;
-using OneDo.Application.Services.DataService;
+using OneDo.Data.Repositories.Domain;
+using OneDo.Data.Services.DataService;
 using OneDo.Domain;
+using OneDo.Domain.Common;
 using OneDo.Domain.Model;
+using OneDo.Domain.Model.Entities;
+using OneDo.Domain.Model.Repositories;
+using OneDo.Domain.Model.ValueObjects;
 using OneDo.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -10,69 +14,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Application.Folders
+namespace OneDo.Application.Commands.Folders
 {
-    public class KarelCommand : ICommand
-    {
-        public string Name { get; set; }
-    }
-    public class CtiborCommand : ICommand
-    {
-        public string Name { get; set; }
-    }
-
     public class FolderCommandHandler :
-        ICommandHandler<KarelCommand>,
-        ICommandHandler<CtiborCommand>
+        ICommandHandler<SaveFolderCommand>
     {
-        private readonly IDataService dataService;
+        private readonly IFolderRepository folderRepository;
 
         private readonly DateTimeService dateTimeService;
 
         public FolderCommandHandler(IDataService dataService, DateTimeService dateTimeService)
         {
-            this.dataService = dataService;
+            folderRepository = new FolderRepository(dataService);
             this.dateTimeService = dateTimeService;
         }
 
-        public Task Handle(CtiborCommand args)
+        public async Task Handle(SaveFolderCommand command)
         {
-            return Task.CompletedTask;
+            var folder = await folderRepository.Get(command.Id);
+            if (folder != null)
+            {
+                folder.ChangeName(command.Name);
+                folder.ChangeColor(new Color(command.Color));
+            }
+            else
+            {
+                folder = new Folder(command.Id, command.Name, new Color(command.Color));
+            }
+            await folderRepository.Save(folder);
         }
-
-        public Task Handle(KarelCommand args)
-        {
-            return Task.CompletedTask;
-        }
-
-        //public async Task Save(FolderDTO folderDTO)
-        //{
-        //    if (Entity.IsTransient(folderDTO.Id))
-        //    {
-        //        await Add(folderDTO);
-        //    }
-        //    else
-        //    {
-        //        await Update(folderDTO);
-        //    }
-        //}
-
-        //private async Task Add(FolderDTO folderDTO)
-        //{
-        //    var folder = Map(folderDTO);
-        //    await folderRepository.Add(folder);
-        //}
-
-        //private async Task Update(FolderDTO folderDTO)
-        //{
-        //    var folder = await folderRepository.GetById(folderDTO.Id);
-        //    if (folder != null)
-        //    {
-        //        folder.ChangeName(folderDTO.Name);
-        //        folder.ChangeColor(new Color(folderDTO.Color));
-        //        await folderRepository.Update(folder);
-        //    }
-        //}
 
         //public async Task Delete(Guid id)
         //{

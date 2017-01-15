@@ -13,7 +13,7 @@ namespace OneDo.Data.Repositories
 
         Task Update(TEntity entity);
 
-        Task Delete(TEntity entity);
+        Task Delete(Guid id);
 
         Task DeleteAll();
 

@@ -1,7 +1,7 @@
 ﻿using OneDo.Data.Repositories;
 using System;
 
-namespace OneDo.Application.Services.DataService
+namespace OneDo.Data.Services.DataService
 {
     public interface IDataService : IDisposable
     {

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OneDo.Application.Queries
+namespace OneDo.Application.Queries.Folders
 {
     public interface IFolderQuery
     {
-        Task<IList<FolderDTO>> GetAll();
-
-        bool IsNameValid(string name);
+        Task<IList<FolderModel>> GetAll();
     }
 }

@@ -8,35 +8,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Application.Queries
+namespace OneDo.Application.Queries.Folders
 {
     public class FolderQuery : IFolderQuery
     {
-        private readonly IQueryRepository<Folder> folderRepository;
+        private readonly IQueryRepository<FolderData> folderRepository;
 
-        public FolderQuery(IQueryRepository<Folder> folderRepository)
+        public FolderQuery(IQueryRepository<FolderData> folderRepository)
         {
             this.folderRepository = folderRepository;
         }
 
-        public async Task<IList<FolderDTO>> GetAll()
+        public async Task<IList<FolderModel>> GetAll()
         {
             var folders = await folderRepository.GetAll();
             return folders.Select(Map).ToList();
         }
 
-        public bool IsNameValid(string name)
+        private FolderModel Map(FolderData folder)
         {
-            return name?.Length > 0;
-        }
-
-        private FolderDTO Map(Folder folder)
-        {
-            return new FolderDTO
+            return new FolderModel
             {
                 Id = folder.Id,
                 Name = folder.Name,
-                Color = folder.Color.ToColor(),
+                Color = folder.Color,
             };
         }
     }

@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace OneDo.Application.Services.DataService
+namespace OneDo.Data.Services.DataService
 {
     public class DataService : IDataService
     {
@@ -33,8 +33,8 @@ namespace OneDo.Application.Services.DataService
             baseConnection = new SQLiteConnectionWithLock(sqlitePlatform, sqliteConnectionString);
             connection = new SQLiteAsyncConnection(() => baseConnection);
 
-            EnsureTableExists<Folder>();
-            EnsureTableExists<Note>();
+            EnsureTableExists<FolderData>();
+            EnsureTableExists<NoteData>();
 
             RepositoryFactory = new RepositoryFactory(connection);
         }

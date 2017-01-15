@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Domain.Model.Entities
 {
-    public class Note : Entity
+    public class Note : Entity, IAggreagteRoot
     {
         public Guid FolderId { get; private set; }
 
@@ -23,37 +23,65 @@ namespace OneDo.Domain.Model.Entities
 
         public Note(Guid id, Guid folderId, string title, string text, DateTime? date, TimeSpan? reminder, bool isFlagged) : base(id)
         {
+            MoveToFolder(folderId);
+            ChangeTitle(title);
+            ChangeText(text);
+            ChangeDate(date);
+            ChangeReminder(reminder);
+            SetFlag(isFlagged);
+        }
+
+        public void MoveToFolder(Guid folderId)
+        {
+            if (folderId == null)
+            {
+                throw new ArgumentNullException(nameof(folderId), $"{nameof(folderId)} should not be null");
+            }
             FolderId = folderId;
-            Title = title;
-            Text = text;
-            Date = date;
-            Reminder = reminder;
-            IsFlagged = isFlagged;
         }
 
         public void ChangeTitle(string title)
         {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new InvalidOperationException($"{nameof(title)} should not be null, empty or white space");
+            }
             Title = title;
         }
 
         public void ChangeText(string text)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text), $"{nameof(text)} should not be null");
+            }
             Text = text;
         }
 
         public void ChangeDate(DateTime? date)
         {
             Date = date;
+            if (date == null)
+            {
+                ChangeReminder(null);
+            }
         }
 
-        public void ChangeReminder(TimeSpan time)
+        public void ChangeReminder(TimeSpan? time)
         {
-            Reminder = time;
+            if (Date != null)
+            {
+                Reminder = time;
+            }
+            else
+            {
+                Reminder = null;
+            }
         }
 
-        public void ToggleFlag()
+        public void SetFlag(bool isFlagged)
         {
-            IsFlagged = !IsFlagged;
+            IsFlagged = isFlagged;
         }
     }
 }

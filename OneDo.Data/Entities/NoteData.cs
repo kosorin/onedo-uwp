@@ -6,7 +6,7 @@ namespace OneDo.Data.Entities
 {
     [DebuggerDisplay("{Id}: {Title}")]
     [Table("Notes")]
-    public class Note : IEntity
+    public class NoteData : IEntity
     {
         [PrimaryKey, AutoIncrement, NotNull, Unique]
         public Guid Id { get; set; }
@@ -29,10 +29,5 @@ namespace OneDo.Data.Entities
 
         [Indexed, NotNull]
         public Guid FolderId { get; set; }
-
-
-        public DateTime Created { get; set; }
-
-        public DateTime Modified { get; set; }
     }
 }

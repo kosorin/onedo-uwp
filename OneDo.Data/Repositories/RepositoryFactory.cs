@@ -25,17 +25,22 @@ namespace OneDo.Data.Repositories
             this.connection = connection;
         }
 
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
+        {
+            return GetCachedRepository<TEntity>();
+        }
+
         public IQueryRepository<TEntity> GetQueryRepository<TEntity>() where TEntity : class, IEntity
         {
-            return GetRepository<TEntity>();
+            return GetCachedRepository<TEntity>();
         }
 
         public ICommandRepository<TEntity> GetCommandRepository<TEntity>() where TEntity : class, IEntity
         {
-            return GetRepository<TEntity>();
+            return GetCachedRepository<TEntity>();
         }
 
-        private Repository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity
+        private Repository<TEntity> GetCachedRepository<TEntity>() where TEntity : class, IEntity
         {
             var type = typeof(TEntity);
             if (repositories.ContainsKey(type))

@@ -8,19 +8,16 @@ using System.Threading.Tasks;
 
 namespace OneDo.Domain.Model.Entities
 {
-    public class Folder : Entity
+    public class Folder : Entity, IAggreagteRoot
     {
         public string Name { get; private set; }
 
         public Color Color { get; private set; }
 
-        public IEnumerable<Guid> NoteIds { get; private set; }
-
-        public Folder(Guid id, string name, Color color, IEnumerable<Guid> notes) : base(id)
+        public Folder(Guid id, string name, Color color) : base(id)
         {
-            Name = name;
-            Color = color;
-            NoteIds = notes.ToList();
+            ChangeName(name);
+            ChangeColor(color);
         }
 
         public void ChangeName(string name)
@@ -36,7 +33,7 @@ namespace OneDo.Domain.Model.Entities
         {
             if (color == null)
             {
-                throw new InvalidOperationException($"{nameof(color)} should not be null");
+                throw new ArgumentNullException(nameof(color),$"{nameof(color)} should not be null");
             }
             Color = color;
         }
