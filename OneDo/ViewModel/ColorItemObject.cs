@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using OneDo.Common.Extensions;
 using Windows.UI;
 
 namespace OneDo.ViewModel
@@ -19,7 +20,7 @@ namespace OneDo.ViewModel
 
         public ColorItemObject(string hex)
         {
-            Color = Common.Media.ColorHelper.FromHex(hex);
+            Color = hex.ToColor();
         }
     }
 }

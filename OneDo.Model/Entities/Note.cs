@@ -8,7 +8,7 @@ namespace OneDo.Model.Entities
     [Table("Notes")]
     public class Note : IEntity
     {
-        [PrimaryKey, AutoIncrement, NotNull]
+        [PrimaryKey, AutoIncrement, NotNull, Unique]
         public Guid Id { get; set; }
 
 
@@ -27,7 +27,7 @@ namespace OneDo.Model.Entities
         public bool IsFlagged { get; set; }
 
 
-        [Indexed]
+        [Indexed, NotNull]
         public Guid FolderId { get; set; }
 
 

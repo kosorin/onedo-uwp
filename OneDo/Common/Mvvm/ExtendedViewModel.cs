@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 
-namespace OneDo.Mvvm
+namespace OneDo.Common.Mvvm
 {
     public abstract class ExtendedViewModel : ViewModelBase
     {

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
+﻿using OneDo.Common.Mvvm;
+using System.ComponentModel;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using OneDo.Mvvm;
 
 namespace OneDo.View
 {

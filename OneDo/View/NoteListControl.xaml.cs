@@ -1,7 +1,7 @@
-﻿using OneDo.View.Behaviors;
+﻿using OneDo.Common.Mvvm;
+using OneDo.View.Behaviors;
 using OneDo.View.Converters;
 using OneDo.ViewModel;
-using OneDo.Mvvm;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -48,7 +48,7 @@ namespace OneDo.View
                     Path = new PropertyPath(nameof(folder.Color)),
                     Source = folder,
                     Mode = BindingMode.OneWay,
-                    Converter = Application.Current.Resources[nameof(ColorToBrushConverter)] as ColorToBrushConverter,
+                    Converter = Windows.UI.Xaml.Application.Current.Resources[nameof(ColorToBrushConverter)] as ColorToBrushConverter,
                 });
 
                 rootItem.Items.Add(item);

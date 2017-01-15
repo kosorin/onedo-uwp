@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace OneDo.Mvvm
+namespace OneDo.Common.Mvvm
 {
     public interface IExtendedCommand : ICommand
     {

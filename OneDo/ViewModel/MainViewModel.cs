@@ -3,12 +3,12 @@ using OneDo.Model.Data;
 using System.Linq;
 using OneDo.Model.Entities;
 using System.Threading.Tasks;
-using OneDo.Mvvm;
 using System;
 using OneDo.Services.InfoService;
 using OneDo.Model.Business;
 using OneDo.Services.ToastService;
 using OneDo.Model.Entities.Args;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.ViewModel
 {

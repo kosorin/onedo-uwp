@@ -1,9 +1,14 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.UI;
 
-namespace OneDo.Common.Media
+namespace OneDo.Common.Extensions
 {
-    public static class ColorHelper
+    public static class ColorExtensions
     {
         public static string ToHex(this Color color)
         {
@@ -14,7 +19,7 @@ namespace OneDo.Common.Media
             return string.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
         }
 
-        public static Color FromHex(string hex)
+        public static Color ToColor(this string hex)
         {
             if (string.IsNullOrEmpty(hex)) return Colors.Transparent;
 

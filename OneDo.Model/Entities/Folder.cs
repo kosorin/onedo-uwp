@@ -8,7 +8,7 @@ namespace OneDo.Model.Entities
     [Table("Folders")]
     public class Folder : IEntity
     {
-        [PrimaryKey, AutoIncrement, NotNull]
+        [PrimaryKey, AutoIncrement, NotNull, Unique]
         public Guid Id { get; set; }
 
         [NotNull]

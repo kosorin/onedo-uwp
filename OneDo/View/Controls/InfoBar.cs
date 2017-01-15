@@ -1,6 +1,6 @@
-﻿using OneDo.Common.Media;
+﻿using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using OneDo.Services.InfoService;
-using OneDo.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -197,7 +197,7 @@ namespace OneDo.View.Controls
             Text = message.Text;
             IsActionVisible = message.Action != null;
             Background = message.Color != null
-                ? new SolidColorBrush(ColorHelper.FromHex(message.Color))
+                ? new SolidColorBrush(message.Color.ToColor())
                 : defaultBackground;
             if (IsActionVisible)
             {

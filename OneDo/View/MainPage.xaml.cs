@@ -97,7 +97,7 @@ namespace OneDo.View
             var targetTheme = RequestedTheme;
             if (targetTheme == ElementTheme.Default)
             {
-                switch (Application.Current.RequestedTheme)
+                switch (Windows.UI.Xaml.Application.Current.RequestedTheme)
                 {
                 case ApplicationTheme.Light: targetTheme = ElementTheme.Light; break;
                 case ApplicationTheme.Dark: targetTheme = ElementTheme.Dark; break;

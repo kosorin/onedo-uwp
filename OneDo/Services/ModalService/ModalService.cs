@@ -2,7 +2,7 @@
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.System;
-using OneDo.Mvvm;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.Services.ModalService
 {

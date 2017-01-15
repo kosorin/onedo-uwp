@@ -1,5 +1,4 @@
 ﻿using OneDo.Services.ProgressService;
-using OneDo.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using OneDo.Model;
 using OneDo.Model.Entities.Args;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.ViewModel
 {

@@ -23,10 +23,12 @@ using OneDo.Core.BackgroundTasks;
 using Windows.ApplicationModel.Background;
 using OneDo.Services.ToastService;
 using Windows.UI.Notifications;
+using OneDo.Application;
+using OneDo.Application.Commands.Folders;
 
 namespace OneDo
 {
-    sealed partial class App : Application
+    sealed partial class App : Windows.UI.Xaml.Application
     {
         static App()
         {

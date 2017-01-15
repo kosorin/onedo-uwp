@@ -3,8 +3,8 @@ using OneDo.Model.Entities;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using OneDo.Mvvm;
 using OneDo.Model.Business;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.ViewModel
 {
