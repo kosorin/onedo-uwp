@@ -21,17 +21,18 @@ namespace OneDo.Application.Queries.Folders
 
         public async Task<IList<FolderModel>> GetAll()
         {
-            var folders = await folderRepository.GetAll();
-            return folders.Select(Map).ToList();
+            var folderDatas = await folderRepository.GetAll();
+            return folderDatas.Select(Map).ToList();
         }
 
-        private FolderModel Map(FolderData folder)
+
+        private FolderModel Map(FolderData folderData)
         {
             return new FolderModel
             {
-                Id = folder.Id,
-                Name = folder.Name,
-                Color = folder.Color,
+                Id = folderData.Id,
+                Name = folderData.Name,
+                Color = folderData.Color,
             };
         }
     }

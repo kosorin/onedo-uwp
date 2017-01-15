@@ -22,27 +22,25 @@ namespace OneDo.Application.Commands.Folders
     {
         private readonly IFolderRepository folderRepository;
 
-        private readonly DateTimeService dateTimeService;
-
-        public FolderCommandHandler(IDataService dataService, DateTimeService dateTimeService)
+        public FolderCommandHandler(IDataService dataService)
         {
             folderRepository = new FolderRepository(dataService);
-            this.dateTimeService = dateTimeService;
         }
 
         public async Task Handle(SaveFolderCommand command)
         {
             var folder = await folderRepository.Get(command.Id);
-            if (folder != null)
+            if (folder != null && !folder.IsTransient())
             {
                 folder.ChangeName(command.Name);
                 folder.ChangeColor(new Color(command.Color));
+                await folderRepository.Update(folder);
             }
             else
             {
                 folder = new Folder(command.Id, command.Name, new Color(command.Color));
+                await folderRepository.Add(folder);
             }
-            await folderRepository.Save(folder);
         }
 
         public async Task Handle(DeleteFolderCommand command)

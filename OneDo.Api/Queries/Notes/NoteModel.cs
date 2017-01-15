@@ -1,31 +1,24 @@
-﻿using SQLite.Net.Attributes;
-using System;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace OneDo.Data.Entities
+namespace OneDo.Application.Queries.Notes
 {
-    [DebuggerDisplay("{Id}: {Title}")]
-    [Table("Notes")]
-    public class NoteData : IEntity
+    public class NoteModel
     {
-        [PrimaryKey, AutoIncrement, NotNull, Unique]
         public Guid Id { get; set; }
 
-        [Indexed, NotNull]
         public Guid FolderId { get; set; }
 
-
-        [NotNull]
         public string Title { get; set; }
 
-        [NotNull]
         public string Text { get; set; }
-
 
         public DateTime? Date { get; set; }
 
         public TimeSpan? Reminder { get; set; }
-
 
         public bool IsFlagged { get; set; }
     }

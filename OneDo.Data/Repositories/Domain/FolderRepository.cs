@@ -36,25 +36,13 @@ namespace OneDo.Data.Repositories.Domain
             }
         }
 
-        public async Task Save(Folder folder)
-        {
-            if (folder.IsTransient())
-            {
-                await Add(folder);
-            }
-            else
-            {
-                await Update(folder);
-            }
-        }
-
-        private async Task Add(Folder folder)
+        public async Task Add(Folder folder)
         {
             var folderData = Map(folder);
             await folderRepository.Add(folderData);
         }
 
-        private async Task Update(Folder folder)
+        public async Task Update(Folder folder)
         {
             var folderData = Map(folder);
             await folderRepository.Update(folderData);

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using OneDo.Application.Commands.Folders;
+using OneDo.Application.Commands.Notes;
 using OneDo.Application.Common;
 using OneDo.Data.Entities;
 using OneDo.Data.Repositories;
@@ -32,6 +33,7 @@ namespace OneDo.Application.Core
                 .AsSelf();
 
             builder.RegisterType<FolderCommandHandler>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<NoteCommandHandler>().AsImplementedInterfaces().SingleInstance();
 
             container = builder.Build();
         }

@@ -14,7 +14,5 @@ namespace OneDo.Application.Queries.Folders
         public string Name { get; set; }
 
         public string Color { get; set; }
-
-        public int BadgeNumber { get; set; }
     }
 }

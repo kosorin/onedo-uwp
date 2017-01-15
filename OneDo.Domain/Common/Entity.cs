@@ -22,7 +22,7 @@ namespace OneDo.Domain.Common
 
         public static bool IsTransient(Guid id)
         {
-            return id == Guid.Empty;
+            return id == null || id == Guid.Empty;
         }
 
         public static Guid GetTransientId()

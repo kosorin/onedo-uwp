@@ -10,7 +10,9 @@ namespace OneDo.Domain.Common
     {
         Task<TAggreagteRoot> Get(Guid id);
 
-        Task Save(TAggreagteRoot aggregateRoot);
+        Task Add(TAggreagteRoot aggregateRoot);
+
+        Task Update(TAggreagteRoot aggregateRoot);
 
         Task Delete(Guid id);
     }

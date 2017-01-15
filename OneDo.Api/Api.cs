@@ -1,6 +1,7 @@
 ﻿using OneDo.Application.Core;
 using OneDo.Application.Queries;
 using OneDo.Application.Queries.Folders;
+using OneDo.Application.Queries.Notes;
 using OneDo.Data.Entities;
 using OneDo.Data.Services.DataService;
 using System;
@@ -17,6 +18,8 @@ namespace OneDo.Application
 
         public IFolderQuery FolderQuery { get; }
 
+        public INoteQuery NoteQuery { get; }
+
         private readonly IDataService dataService;
 
         public Api()
@@ -26,6 +29,7 @@ namespace OneDo.Application
             CommandBus = new CommandBus(dataService);
 
             FolderQuery = new FolderQuery(dataService.RepositoryFactory.GetQueryRepository<FolderData>());
+            NoteQuery = new NoteQuery(dataService.RepositoryFactory.GetQueryRepository<NoteData>());
         }
     }
 }

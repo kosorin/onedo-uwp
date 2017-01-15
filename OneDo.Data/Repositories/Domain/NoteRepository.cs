@@ -33,25 +33,13 @@ namespace OneDo.Data.Repositories.Domain
             }
         }
 
-        public async Task Save(Note note)
-        {
-            if (note.IsTransient())
-            {
-                await Add(note);
-            }
-            else
-            {
-                await Update(note);
-            }
-        }
-
-        private async Task Add(Note note)
+        public async Task Add(Note note)
         {
             var noteData = Map(note);
             await noteRepository.Add(noteData);
         }
 
-        private async Task Update(Note note)
+        public async Task Update(Note note)
         {
             var noteData = Map(note);
             await noteRepository.Update(noteData);
