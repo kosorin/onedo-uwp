@@ -1,4 +1,7 @@
 ﻿using OneDo.Application.Common;
+using OneDo.Application.Queries.Folders;
+using OneDo.Data.Entities;
+using OneDo.Data.Repositories;
 using OneDo.Data.Repositories.Domain;
 using OneDo.Data.Services.DataService;
 using OneDo.Domain;
@@ -18,19 +21,23 @@ namespace OneDo.Application.Commands.Folders
 {
     public class FolderCommandHandler :
         ICommandHandler<SaveFolderCommand>,
-        ICommandHandler<DeleteFolderCommand>
+        ICommandHandler<DeleteFolderCommand>,
+        ICommandHandler<DeleteAllFoldersCommand>
     {
         private readonly IFolderRepository folderRepository;
+
+        private readonly IQueryRepository<FolderData> folderQueryRepository;
 
         public FolderCommandHandler(IDataService dataService)
         {
             folderRepository = new FolderRepository(dataService);
+            folderQueryRepository = dataService.RepositoryFactory.GetQueryRepository<FolderData>();
         }
 
         public async Task Handle(SaveFolderCommand command)
         {
             var folder = await folderRepository.Get(command.Id);
-            if (folder != null && !folder.IsTransient())
+            if (folder != null)
             {
                 folder.ChangeName(command.Name);
                 folder.ChangeColor(new Color(command.Color));
@@ -46,6 +53,15 @@ namespace OneDo.Application.Commands.Folders
         public async Task Handle(DeleteFolderCommand command)
         {
             await folderRepository.Delete(command.Id);
+        }
+
+        public async Task Handle(DeleteAllFoldersCommand args)
+        {
+            var folderDatas = await folderQueryRepository.GetAll();
+            foreach (var folderData in folderDatas)
+            {
+                await folderRepository.Delete(folderData.Id);
+            }
         }
     }
 }

@@ -302,10 +302,6 @@
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
       <Name>OneDo.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OneDo.Model\OneDo.Model.csproj">
-      <Project>{74631ad1-d01e-4bc4-970c-8e3a0c8c012e}</Project>
-      <Name>OneDo.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.14393.0">

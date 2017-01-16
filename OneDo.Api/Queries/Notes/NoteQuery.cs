@@ -17,6 +17,12 @@ namespace OneDo.Application.Queries.Notes
             this.noteRepository = noteRepository;
         }
 
+        public async Task<IList<NoteModel>> GetAll()
+        {
+            var noteDatas = await noteRepository.GetAll();
+            return noteDatas.Select(Map).ToList();
+        }
+
         public async Task<IList<NoteModel>> GetAll(Guid folderId)
         {
             var noteDatas = await noteRepository.GetAll(x => x.FolderId == folderId);

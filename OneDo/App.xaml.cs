@@ -1,5 +1,4 @@
 ﻿using OneDo.Common.Logging;
-using OneDo.Model.Data;
 using OneDo.Services.ModalService;
 using OneDo.View;
 using OneDo.ViewModel;
@@ -88,7 +87,7 @@ namespace OneDo
             Logger.Current.Info($"Tile ID: {args.TileId}");
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
-            await InitializeData();
+            await InitializeApi();
             await InitializeBackgroundTasks();
             InitializeToastNotifications();
             InitializeTitleBar();
@@ -101,12 +100,15 @@ namespace OneDo
             Logger.Current.Info($"Launch time: {stopwatch.Elapsed}");
         }
 
-        private async Task OnSuspendingAsync(DateTimeOffset deadline)
+        private Task OnSuspendingAsync(DateTimeOffset deadline)
         {
             Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
 
-            var dataService = ViewModelLocator.Container.Resolve<DataService>();
-            await dataService.SaveSettingsAsync();
+            var api = ViewModelLocator.Container.Resolve<Api>();
+#warning Ukládání nastavení
+            //await api.SaveSettingsAsync();
+
+            return Task.CompletedTask;
         }
 
         private void OnResuming(object data)
@@ -190,13 +192,16 @@ namespace OneDo
             Logger.Current.Info("Toast service initialized");
         }
 
-        private async Task InitializeData()
+        private Task InitializeApi()
         {
-            var dataService = ViewModelLocator.Container.Resolve<DataService>();
-            await dataService.LoadSettingsAsync();
-            await dataService.InitializeDataAsync();
+            var api = ViewModelLocator.Container.Resolve<Api>();
+#warning Inicializace dat a nastavení
+            //await api.LoadSettingsAsync();
+            //await api.InitializeDataAsync();
 
             Logger.Current.Info("Data initialized");
+
+            return Task.CompletedTask;
         }
 
         private void InitializeTitleBar()

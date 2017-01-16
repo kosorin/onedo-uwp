@@ -1,5 +1,5 @@
 using Autofac;
-using OneDo.Model.Data;
+using OneDo.Application;
 using OneDo.Services.BackgroundTaskService;
 using OneDo.Services.InfoService;
 using OneDo.Services.ModalService;
@@ -10,6 +10,7 @@ using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel
 {
+#warning Pøedìlat ViewModelLocator ze statického ServiceLocatoru na nìco rozumného
     public class ViewModelLocator
     {
         public static IContainer Container { get; }
@@ -30,7 +31,7 @@ namespace OneDo.ViewModel
                 builder.RegisterType<UIHost>().SingleInstance();
                 builder.RegisterType<MainViewModel>().SingleInstance();
 
-                builder.RegisterType<DataService>().SingleInstance();
+                builder.RegisterType<Api>().AsSelf().SingleInstance();
 
                 Container = builder.Build();
             }

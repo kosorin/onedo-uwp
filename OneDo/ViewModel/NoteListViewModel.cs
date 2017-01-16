@@ -1,14 +1,13 @@
-﻿using OneDo.Model.Data;
-using OneDo.Model.Entities;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using OneDo.Model.Business;
 using OneDo.Common.Mvvm;
+using OneDo.Application.Queries.Notes;
+using OneDo.Application;
 
 namespace OneDo.ViewModel
 {
-    public class NoteListViewModel : ListViewModel<Note, NoteItemObject>, INoteCommands
+    public class NoteListViewModel : ListViewModel<NoteModel, NoteItemObject>, INoteCommands
     {
         public IExtendedCommand ToggleFlagCommand { get; }
 
@@ -17,7 +16,7 @@ namespace OneDo.ViewModel
 
         public DateTimeBusiness DateTimeBusiness { get; }
 
-        public NoteListViewModel(DataService dataService, UIHost uiHost, FolderListViewModel folderList) : base(dataService, uiHost)
+        public NoteListViewModel(Api api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
         {
             FolderList = folderList;
             DateTimeBusiness = new DateTimeBusiness(DataService);

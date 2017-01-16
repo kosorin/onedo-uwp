@@ -1,14 +1,13 @@
 ﻿using System.Windows.Input;
-using OneDo.Model.Data;
 using System.Linq;
-using OneDo.Model.Entities;
 using System.Threading.Tasks;
 using System;
 using OneDo.Services.InfoService;
-using OneDo.Model.Business;
 using OneDo.Services.ToastService;
-using OneDo.Model.Entities.Args;
 using OneDo.Common.Mvvm;
+using OneDo.Application;
+using OneDo.Application.Commands.Folders;
+using OneDo.Application.Commands.Notes;
 
 namespace OneDo.ViewModel
 {
@@ -31,30 +30,28 @@ namespace OneDo.ViewModel
 
         public ICommand ShowSettingsCommand { get; }
 
-        public DataService DataService { get; }
+        public Api Api { get; }
 
         public UIHost UIHost { get; }
 
         public IToastService ToastService { get; }
 
-        public NoteBusiness NoteBusiness { get; }
-
-        public MainViewModel(DataService dataService, UIHost uiHost, IToastService toastService)
+        public MainViewModel(Api api, UIHost uiHost, IToastService toastService)
         {
-            DataService = dataService;
+            Api = api;
             UIHost = uiHost;
             ToastService = toastService;
-            NoteBusiness = new NoteBusiness(DataService);
 
-            FolderList = new FolderListViewModel(DataService, UIHost);
-            NoteList = new NoteListViewModel(DataService, UIHost, FolderList);
+            FolderList = new FolderListViewModel(Api, UIHost);
+            NoteList = new NoteListViewModel(Api, UIHost, FolderList);
 
             FolderList.SelectionChanged += OnFolderSelectionChanged;
 
-            DataService.Folders.Deleted += OnFolderDeleted;
-            DataService.Notes.Added += OnNoteAdded;
-            DataService.Notes.Updated += OnNoteUpdated;
-            DataService.Notes.Deleted += OnNoteDeleted;
+#warning Dodělat eventy
+            //Api.Folders.Deleted += OnFolderDeleted;
+            //Api.Notes.Added += OnNoteAdded;
+            //Api.Notes.Updated += OnNoteUpdated;
+            //Api.Notes.Deleted += OnNoteDeleted;
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
         }
@@ -64,55 +61,25 @@ namespace OneDo.ViewModel
             await FolderList.Load();
 
 #if DEBUG
-            var folders = await DataService.Folders.GetAll();
+            var folders = await Api.FolderQuery.GetAll();
             if (!folders.Any())
             {
-                await DataService.Folders.Add(new Folder { Name = "Inbox", Color = "#0063AF", });
-                await DataService.Folders.Add(new Folder { Name = "Work", Color = "#0F893E", });
-                await DataService.Folders.Add(new Folder { Name = "Shopping list", Color = "#AC008C", });
-                await DataService.Folders.Add(new Folder { Name = "Vacation", Color = "#F7630D", });
-                folders = await DataService.Folders.GetAll();
-            }
+                await Api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Inbox", "#0063AF"));
+                await Api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Work", "#0F893E"));
+                await Api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Shopping list", "#AC008C"));
+                await Api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Vacation", "#F7630D"));
+                folders = await Api.FolderQuery.GetAll();
 
-            if (!await DataService.Notes.Any())
-            {
                 var folder = folders.FirstOrDefault();
                 var folder2 = folders.Skip(1).FirstOrDefault();
-                await DataService.Notes.Add(new Note
-                {
-                    Title = "Buy milk",
-                    Text = "",
-                    FolderId = folder.Id,
-                });
-                await DataService.Notes.Add(new Note
-                {
-                    Title = "Walk Max with bike",
-                    Text = "",
-                    Date = DateTime.Today,
-                    Reminder = TimeSpan.FromHours(7.25),
-                    FolderId = folder.Id,
-                });
-                await DataService.Notes.Add(new Note
-                {
-                    Title = "Call mom",
-                    Text = "",
-                    Date = DateTime.Today.AddDays(5),
-                    IsFlagged = true,
-                    FolderId = folder.Id,
-                });
-                await DataService.Notes.Add(new Note
-                {
-                    Title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                    Text = "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
-                    FolderId = folder.Id,
-                });
-                await DataService.Notes.Add(new Note
-                {
-                    Title = "Test note",
-                    Text = "",
-                    IsFlagged = true,
-                    FolderId = (folder2 ?? folder).Id,
-                });
+                await Api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Buy milk", "", null, null, false));
+                await Api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Walk Max with bike", "", DateTime.Today, TimeSpan.FromHours(7.25), false));
+                await Api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Call mom", "", DateTime.Today.AddDays(5), null, true));
+                await Api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id,
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                    "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
+                    null, null, false));
+                await Api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder2.Id, "Test note", "", null, null, true));
             }
 
             FolderList.SelectedItem = FolderList.Items.FirstOrDefault();
@@ -124,7 +91,7 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                await DataService.Folders.DeleteAll();
+                await Api.CommandBus.Execute(new DeleteAllFoldersCommand());
             });
         }
 
@@ -137,7 +104,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            UIHost.ModalService.Show(new SettingsViewModel(DataService));
+            UIHost.ModalService.Show(new SettingsViewModel(Api));
         }
 
 
@@ -170,26 +137,27 @@ namespace OneDo.ViewModel
             Schedule(note);
         }
 
-        private void Schedule(Note note)
-        {
-            if (note.Date != null && note.Reminder != null)
-            {
-                var dateTime = ((DateTime)note.Date).Add((TimeSpan)note.Reminder);
-                if (dateTime > DateTime.Now.AddSeconds(15))
-                {
-                    var toast = ToastService.CreateToast(note.Title, note.Text, dateTime);
-                    toast.Tag = "Reminder";
-                    toast.Group = NoteBusiness.GetToastGroup(note);
-                    ToastService.AddToSchedule(toast);
-                }
-            }
-        }
+#warning Nastavit připomenutí
+        //private void Schedule(Note note)
+        //{
+        //    if (note.Date != null && note.Reminder != null)
+        //    {
+        //        var dateTime = ((DateTime)note.Date).Add((TimeSpan)note.Reminder);
+        //        if (dateTime > DateTime.Now.AddSeconds(15))
+        //        {
+        //            var toast = ToastService.CreateToast(note.Title, note.Text, dateTime);
+        //            toast.Tag = "Reminder";
+        //            toast.Group = NoteBusiness.GetToastGroup(note);
+        //            ToastService.AddToSchedule(toast);
+        //        }
+        //    }
+        //}
 
         private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)
         {
             UIHost.InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
             {
-                await DataService.Notes.Add(e.Entity);
+                await Api.Notes.Add(e.Entity);
             });
         }
     }

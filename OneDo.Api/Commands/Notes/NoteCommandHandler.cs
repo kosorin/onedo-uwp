@@ -30,7 +30,7 @@ namespace OneDo.Application.Commands.Notes
         public async Task Handle(SaveNoteCommand command)
         {
             var note = await noteRepository.Get(command.Id);
-            if (note != null && !note.IsTransient())
+            if (note != null)
             {
                 note.MoveToFolder(command.FolderId);
                 note.ChangeTitle(command.Title);

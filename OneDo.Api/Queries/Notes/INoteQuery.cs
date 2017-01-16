@@ -6,6 +6,8 @@ namespace OneDo.Application.Queries.Notes
 {
     public interface INoteQuery
     {
+        Task<IList<NoteModel>> GetAll();
+
         Task<IList<NoteModel>> GetAll(Guid folderId);
     }
 }
