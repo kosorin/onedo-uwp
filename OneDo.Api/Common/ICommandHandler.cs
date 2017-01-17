@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application.Common
 {
-    public interface ICommandHandler<in TCommand> : IHandler<TCommand> where TCommand : ICommand
+    public interface ICommandHandler<in TCommand> : IAsyncHandler<TCommand> where TCommand : ICommand
     {
     }
 }

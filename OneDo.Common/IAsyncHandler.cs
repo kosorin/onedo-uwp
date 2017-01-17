@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Common
 {
-    public interface IHandler<in TArgs>
+    public interface IAsyncHandler<in TArgs>
     {
         Task Handle(TArgs args);
     }
