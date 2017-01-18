@@ -2,7 +2,7 @@
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
-namespace OneDo.Common.Metadata
+namespace OneDo.Common.Meta
 {
     public static class DeviceTypeHelper
     {

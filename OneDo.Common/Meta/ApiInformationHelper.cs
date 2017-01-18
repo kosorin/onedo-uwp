@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Windows.Foundation.Metadata;
 
-namespace OneDo.Common.Metadata
+namespace OneDo.Common.Meta
 {
     public static class ApiInformationHelper
     {

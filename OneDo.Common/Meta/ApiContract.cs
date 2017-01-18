@@ -1,4 +1,4 @@
-﻿namespace OneDo.Common.Metadata
+﻿namespace OneDo.Common.Meta
 {
     public enum ApiContract
     {

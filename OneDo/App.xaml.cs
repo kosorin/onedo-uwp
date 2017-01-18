@@ -15,7 +15,7 @@ using Autofac;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
-using OneDo.Common.Metadata;
+using OneDo.Common.Meta;
 using Windows.Globalization;
 using OneDo.Services.BackgroundTaskService;
 using OneDo.Core.BackgroundTasks;
