@@ -120,6 +120,7 @@
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="Meta\ApiContract.cs" />
     <Compile Include="Meta\ApiInformationHelper.cs" />
+    <Compile Include="Meta\AppInformation.cs" />
     <Compile Include="Meta\DeviceFormFactorType.cs" />
     <Compile Include="Meta\DeviceTypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
