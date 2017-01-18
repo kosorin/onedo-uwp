@@ -10,7 +10,6 @@ using OneDo.Domain.Model;
 using OneDo.Domain.Model.Entities;
 using OneDo.Domain.Model.Repositories;
 using OneDo.Domain.Model.ValueObjects;
-using OneDo.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,6 @@ using OneDo.Application.Common;
 using OneDo.Infrastructure.Entities;
 using OneDo.Infrastructure.Repositories;
 using OneDo.Infrastructure.Services.DataService;
-using OneDo.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +20,6 @@ namespace OneDo.Application.Core
         public CommandBus(IDataService dataService)
         {
             var builder = new ContainerBuilder();
-
-            builder.RegisterType<DateTimeService>().AsSelf();
 
             builder.RegisterInstance(dataService).As<IDataService>().ExternallyOwned().SingleInstance();
             builder.Register(c => c.Resolve<IDataService>().RepositoryFactory.GetRepository<FolderData>())
