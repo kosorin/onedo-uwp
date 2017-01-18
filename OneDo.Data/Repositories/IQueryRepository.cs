@@ -1,10 +1,10 @@
-﻿using OneDo.Data.Entities;
+﻿using OneDo.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OneDo.Data.Repositories
+namespace OneDo.Infrastructure.Repositories
 {
     public interface IQueryRepository<TEntity> where TEntity : class, IEntity
     {

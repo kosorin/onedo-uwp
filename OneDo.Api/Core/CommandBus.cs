@@ -2,9 +2,9 @@
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Common;
-using OneDo.Data.Entities;
-using OneDo.Data.Repositories;
-using OneDo.Data.Services.DataService;
+using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Repositories;
+using OneDo.Infrastructure.Services.DataService;
 using OneDo.Domain.Services;
 using System;
 using System.Collections.Generic;

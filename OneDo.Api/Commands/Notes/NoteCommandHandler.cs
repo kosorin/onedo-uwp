@@ -1,6 +1,6 @@
 ﻿using OneDo.Application.Common;
-using OneDo.Data.Repositories.Domain;
-using OneDo.Data.Services.DataService;
+using OneDo.Infrastructure.Repositories.Domain;
+using OneDo.Infrastructure.Services.DataService;
 using OneDo.Domain.Model.Entities;
 using OneDo.Domain.Model.Repositories;
 using OneDo.Domain.Services;

@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OneDo.Domain.Model.Entities;
 using OneDo.Domain.Model.ValueObjects;
-using OneDo.Data.Services.DataService;
-using OneDo.Data.Entities;
+using OneDo.Infrastructure.Services.DataService;
+using OneDo.Infrastructure.Entities;
 
-namespace OneDo.Data.Repositories.Domain
+namespace OneDo.Infrastructure.Repositories.Domain
 {
     public class FolderRepository : IFolderRepository
     {

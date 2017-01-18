@@ -1,11 +1,11 @@
-﻿using OneDo.Data.Entities;
+﻿using OneDo.Infrastructure.Entities;
 using OneDo.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OneDo.Data.Repositories
+namespace OneDo.Infrastructure.Repositories
 {
     public interface ICommandRepository<TEntity> where TEntity : class, IEntity
     {

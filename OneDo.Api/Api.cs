@@ -2,8 +2,8 @@
 using OneDo.Application.Queries;
 using OneDo.Application.Queries.Folders;
 using OneDo.Application.Queries.Notes;
-using OneDo.Data.Entities;
-using OneDo.Data.Services.DataService;
+using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Services.DataService;
 using System;
 using System.Collections.Generic;
 using System.Linq;

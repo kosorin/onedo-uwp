@@ -1,5 +1,5 @@
-﻿using OneDo.Data.Entities;
-using OneDo.Data.Repositories;
+﻿using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Repositories;
 using SQLite.Net;
 using SQLite.Net.Async;
 using SQLite.Net.Attributes;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace OneDo.Data.Services.DataService
+namespace OneDo.Infrastructure.Services.DataService
 {
     public class DataService : IDataService
     {

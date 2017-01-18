@@ -134,9 +134,9 @@
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
       <Name>OneDo.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OneDo.Data\OneDo.Data.csproj">
+    <ProjectReference Include="..\OneDo.Data\OneDo.Infrastructure.csproj">
       <Project>{1711dc0d-dd6b-4111-9ea3-90bb913c5def}</Project>
-      <Name>OneDo.Data</Name>
+      <Name>OneDo.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\OneDo.Domain\OneDo.Domain.csproj">
       <Project>{dadb853b-ca2c-4e7d-9c2b-056be93c0cde}</Project>

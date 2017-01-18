@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Data.Entities
+namespace OneDo.Infrastructure.Entities
 {
     [DebuggerDisplay("{Id}: {Name}")]
     [Table("Folders")]

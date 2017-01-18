@@ -1,4 +1,4 @@
-﻿using OneDo.Data.Entities;
+﻿using OneDo.Infrastructure.Entities;
 using SQLite.Net;
 using SQLite.Net.Async;
 using SQLite.Net.Attributes;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace OneDo.Data.Repositories
+namespace OneDo.Infrastructure.Repositories
 {
     public class RepositoryFactory : IRepositoryFactory
     {

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDo.Common", "OneDo.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDo.Domain", "OneDo.Domain\OneDo.Domain.csproj", "{DADB853B-CA2C-4E7D-9C2B-056BE93C0CDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDo.Data", "OneDo.Data\OneDo.Data.csproj", "{1711DC0D-DD6B-4111-9EA3-90BB913C5DEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDo.Infrastructure", "OneDo.Data\OneDo.Infrastructure.csproj", "{1711DC0D-DD6B-4111-9EA3-90BB913C5DEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDo.Application", "OneDo.Api\OneDo.Application.csproj", "{98ECB73F-A239-4073-8EE3-4F027FFD92C7}"
 EndProject

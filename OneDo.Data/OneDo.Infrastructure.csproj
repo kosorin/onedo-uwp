@@ -7,8 +7,8 @@
     <ProjectGuid>{1711DC0D-DD6B-4111-9EA3-90BB913C5DEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OneDo.Data</RootNamespace>
-    <AssemblyName>OneDo.Data</AssemblyName>
+    <RootNamespace>OneDo.Infrastructure</RootNamespace>
+    <AssemblyName>OneDo.Infrastructure</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>

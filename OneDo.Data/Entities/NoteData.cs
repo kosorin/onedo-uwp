@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace OneDo.Data.Entities
+namespace OneDo.Infrastructure.Entities
 {
     [DebuggerDisplay("{Id}: {Title}")]
     [Table("Notes")]

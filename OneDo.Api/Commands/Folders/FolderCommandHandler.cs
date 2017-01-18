@@ -1,9 +1,9 @@
 ﻿using OneDo.Application.Common;
 using OneDo.Application.Queries.Folders;
-using OneDo.Data.Entities;
-using OneDo.Data.Repositories;
-using OneDo.Data.Repositories.Domain;
-using OneDo.Data.Services.DataService;
+using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Repositories;
+using OneDo.Infrastructure.Repositories.Domain;
+using OneDo.Infrastructure.Services.DataService;
 using OneDo.Domain;
 using OneDo.Domain.Common;
 using OneDo.Domain.Model;

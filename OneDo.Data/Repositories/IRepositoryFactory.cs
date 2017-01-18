@@ -1,6 +1,6 @@
-﻿using OneDo.Data.Entities;
+﻿using OneDo.Infrastructure.Entities;
 
-namespace OneDo.Data.Repositories
+namespace OneDo.Infrastructure.Repositories
 {
     public interface IRepositoryFactory
     {

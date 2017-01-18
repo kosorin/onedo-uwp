@@ -1,5 +1,5 @@
-﻿using OneDo.Data.Entities;
-using OneDo.Data.Repositories;
+﻿using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
