@@ -1,12 +1,12 @@
-﻿using OneDo.Common.Mvvm;
-using OneDo.Model.Business;
-using OneDo.Model.Data;
+﻿using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using OneDo.ViewModel.Args;
 using System;
 using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
+#warning Přesunout do View, aby control nebyl závislý na VM
     public class DatePickerViewModel : ModalViewModel
     {
         private DateTime? date;
@@ -27,7 +27,7 @@ namespace OneDo.ViewModel
             set { Set(ref placeholderText, value); }
         }
 
-        public string DateText => DateTimeBusiness.DateToLongString(Date) ?? PlaceholderText;
+        public string DateText => Date?.ToLongDateString() ?? PlaceholderText;
 
         public event TypedEventHandler<DatePickerViewModel, DatePickerEventArgs> DateChanged;
 
@@ -41,18 +41,15 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand NextWeekCommand { get; }
 
-        public DateTimeBusiness DateTimeBusiness { get; }
-
-        public DatePickerViewModel(DataService dataService, string placeholderText)
+        public DatePickerViewModel(string placeholderText)
         {
-            DateTimeBusiness = new DateTimeBusiness(dataService);
             PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Date = null);
-            TodayCommand = new RelayCommand(() => Date = DateTimeBusiness.Today());
-            TomorrowCommand = new RelayCommand(() => Date = DateTimeBusiness.Tomorrow());
-            ThisWeekCommand = new RelayCommand(() => Date = DateTimeBusiness.ThisWeek());
-            NextWeekCommand = new RelayCommand(() => Date = DateTimeBusiness.NextWeek());
+            TodayCommand = new RelayCommand(() => Date = DateTime.Today);
+            TomorrowCommand = new RelayCommand(() => Date = DateTime.Today.Tomorrow());
+            ThisWeekCommand = new RelayCommand(() => Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday));
+            NextWeekCommand = new RelayCommand(() => Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday).AddWeeks(1));
         }
 
         public void Refresh()

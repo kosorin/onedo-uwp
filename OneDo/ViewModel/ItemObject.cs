@@ -1,15 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
-using OneDo.Model;
+using OneDo.Application.Common;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ItemObject<TEntity> : ObservableObject where TEntity : IEntity
+    public abstract class ItemObject<TEntityModel> : ObservableObject where TEntityModel : IEntityModel
     {
-        public TEntity Entity { get; }
+        public TEntityModel EntityModel { get; }
 
-        protected ItemObject(TEntity entity)
+        protected ItemObject(TEntityModel entityModel)
         {
-            Entity = entity;
+            EntityModel = entityModel;
         }
 
         public void Refresh()

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using OneDo.Model;
-using OneDo.Model.Entities.Args;
 using OneDo.Common.Mvvm;
+using OneDo.Application.Common;
+using OneDo.ViewModel.Args;
 
 namespace OneDo.ViewModel
 {
-    public abstract class EditorViewModel<TEntity> : ModalViewModel where TEntity : IEntity
+    public abstract class EditorViewModel<TEntityModel> : ModalViewModel where TEntityModel : IEntityModel, new()
     {
         private bool isNew;
         public bool IsNew
@@ -29,9 +29,9 @@ namespace OneDo.ViewModel
         public bool CanSave => dirtyProperties.Any(x => x.Value) && validProperties.All(x => x.Value);
 
 
-        public event EventHandler<EntityEventArgs<TEntity>> Saved;
+        public event EventHandler<EntityModelEventArgs<TEntityModel>> Saved;
 
-        public event EventHandler<EntityEventArgs<TEntity>> Deleted;
+        public event EventHandler<EntityModelEventArgs<TEntityModel>> Deleted;
 
 
         public AsyncRelayCommand SaveCommand { get; }
@@ -41,7 +41,7 @@ namespace OneDo.ViewModel
 
         public IProgressService ProgressService { get; }
 
-        public TEntity Original { get; protected set; }
+        public TEntityModel Original { get; protected set; }
 
         private Dictionary<string, bool> dirtyProperties = new Dictionary<string, bool>();
 
@@ -53,6 +53,11 @@ namespace OneDo.ViewModel
 
             SaveCommand = new AsyncRelayCommand(Save, () => CanSave);
             DeleteCommand = new AsyncRelayCommand(Delete, () => !IsNew);
+        }
+
+        protected virtual TEntityModel CreateDefault()
+        {
+            return new TEntityModel();
         }
 
 
@@ -75,12 +80,12 @@ namespace OneDo.ViewModel
 
         protected void OnSaved()
         {
-            Saved?.Invoke(this, new EntityEventArgs<TEntity>(Original));
+            Saved?.Invoke(this, new EntityModelEventArgs<TEntityModel>(Original));
         }
 
         protected void OnDeleted()
         {
-            Deleted?.Invoke(this, new EntityEventArgs<TEntity>(Original));
+            Deleted?.Invoke(this, new EntityModelEventArgs<TEntityModel>(Original));
         }
 
         private void RaiseCanSaveChanged()

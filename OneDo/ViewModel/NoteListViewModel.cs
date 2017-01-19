@@ -19,7 +19,7 @@ namespace OneDo.ViewModel
         public NoteListViewModel(Api api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
         {
             FolderList = folderList;
-            DateTimeBusiness = new DateTimeBusiness(DataService);
+            DateTimeBusiness = new DateTimeBusiness(Api);
 
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemObject>(ToggleFlag);
         }
@@ -28,8 +28,8 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                var folderId = FolderList.SelectedItem?.Entity.Id;
-                var notes = await DataService.Notes.GetAll(x => x.FolderId == folderId);
+                var folderId = FolderList.SelectedItem?.EntityModel.Id;
+                var notes = await Api.Notes.GetAll(x => x.FolderId == folderId);
                 Items = new ObservableCollection<NoteItemObject>(notes.Select(CreateItem));
             });
         }
@@ -42,12 +42,12 @@ namespace OneDo.ViewModel
 
         protected override EditorViewModel<Note> CreateEditor(NoteItemObject item)
         {
-            return new NoteEditorViewModel(DataService, UIHost.ProgressService, FolderList, item?.Entity);
+            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList, item?.EntityModel);
         }
 
         protected override bool CanContain(Note entity)
         {
-            return entity.FolderId == FolderList.SelectedItem?.Entity.Id;
+            return entity.FolderId == FolderList.SelectedItem?.EntityModel.Id;
         }
 
 
@@ -55,8 +55,8 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                item.Entity.IsFlagged = !item.Entity.IsFlagged;
-                await DataService.Notes.Update(item.Entity);
+                item.EntityModel.IsFlagged = !item.EntityModel.IsFlagged;
+                await Api.Notes.Update(item.EntityModel);
             });
         }
     }

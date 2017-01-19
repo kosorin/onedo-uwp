@@ -8,6 +8,8 @@ using OneDo.Common.Mvvm;
 using OneDo.Application;
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
+using OneDo.ViewModel.Args;
+using OneDo.Application.Queries.Notes;
 
 namespace OneDo.ViewModel
 {
@@ -44,14 +46,6 @@ namespace OneDo.ViewModel
 
             FolderList = new FolderListViewModel(Api, UIHost);
             NoteList = new NoteListViewModel(Api, UIHost, FolderList);
-
-            FolderList.SelectionChanged += OnFolderSelectionChanged;
-
-#warning Dodělat eventy
-            //Api.Folders.Deleted += OnFolderDeleted;
-            //Api.Notes.Added += OnNoteAdded;
-            //Api.Notes.Updated += OnNoteUpdated;
-            //Api.Notes.Deleted += OnNoteDeleted;
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
         }
@@ -104,61 +98,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            UIHost.ModalService.Show(new SettingsViewModel(Api));
-        }
-
-
-        private async void OnFolderSelectionChanged(object sender, EntityEventArgs<Folder> args)
-        {
-            if (args.Entity != null)
-            {
-                await NoteList.Load();
-            }
-            else
-            {
-                NoteList.Clear();
-            }
-        }
-
-        private void OnFolderDeleted(object sender, EntityEventArgs<Folder> e)
-        {
-        }
-
-        private void OnNoteAdded(object sender, EntityEventArgs<Note> e)
-        {
-            var note = e.Entity;
-            Schedule(note);
-        }
-
-        private void OnNoteUpdated(object sender, EntityEventArgs<Note> e)
-        {
-            var note = e.Entity;
-            ToastService.RemoveFromSchedule(NoteBusiness.GetToastGroup(note));
-            Schedule(note);
-        }
-
-#warning Nastavit připomenutí
-        //private void Schedule(Note note)
-        //{
-        //    if (note.Date != null && note.Reminder != null)
-        //    {
-        //        var dateTime = ((DateTime)note.Date).Add((TimeSpan)note.Reminder);
-        //        if (dateTime > DateTime.Now.AddSeconds(15))
-        //        {
-        //            var toast = ToastService.CreateToast(note.Title, note.Text, dateTime);
-        //            toast.Tag = "Reminder";
-        //            toast.Group = NoteBusiness.GetToastGroup(note);
-        //            ToastService.AddToSchedule(toast);
-        //        }
-        //    }
-        //}
-
-        private void OnNoteDeleted(object sender, EntityEventArgs<Note> e)
-        {
-            UIHost.InfoService.Show($"Deleted", InfoMessageDurations.Delete, InfoMessageColors.Default, InfoActionGlyphs.Undo, "Undo", async () =>
-            {
-                await Api.Notes.Add(e.Entity);
-            });
+            UIHost.ModalService.Show(new SettingsViewModel());
         }
     }
 }

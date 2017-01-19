@@ -101,7 +101,7 @@ namespace OneDo.Common.Extensions
             return DateToString(date, longDateFormatter);
         }
 
-        public static string ToShortDateString(DateTime date)
+        public static string ToShortDateString(this DateTime date)
         {
             if (date.Year == DateTime.Now.Year)
             {
@@ -135,13 +135,18 @@ namespace OneDo.Common.Extensions
             return formatter?.Format(date);
         }
 
+        public static string ToTimeString(this TimeSpan time)
+        {
+            return (DateTime.Today + time).ToString("t");
+        }
+
 
         public static DateTime SetTime(this DateTime date, int hour, int minute)
         {
             return new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
         }
 
-        public static TimeSpan ToTime(this DateTime dateTime, bool includeSeconds)
+        public static TimeSpan ToTime(this DateTime dateTime)
         {
             return new TimeSpan(dateTime.Hour, dateTime.Minute, 0);
         }

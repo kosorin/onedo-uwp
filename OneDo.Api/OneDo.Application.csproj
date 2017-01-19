@@ -115,6 +115,7 @@
     <Compile Include="Commands\Notes\NoteCommandHandler.cs" />
     <Compile Include="Commands\Notes\SaveNoteCommand.cs" />
     <Compile Include="Commands\Notes\SetNoteFlagCommand.cs" />
+    <Compile Include="Common\IEntityModel.cs" />
     <Compile Include="Core\CommandBus.cs" />
     <Compile Include="Core\ICommandBus.cs" />
     <Compile Include="Queries\Folders\FolderModel.cs" />

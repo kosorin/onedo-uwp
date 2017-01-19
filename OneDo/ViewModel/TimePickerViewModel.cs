@@ -1,12 +1,12 @@
-﻿using OneDo.Common.Mvvm;
-using OneDo.Model.Business;
-using OneDo.Model.Data;
+﻿using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using OneDo.ViewModel.Args;
 using System;
 using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
+#warning Přesunout do View, aby control nebyl závislý na VM
     public class TimePickerViewModel : ModalViewModel
     {
         private TimeSpan? time;
@@ -27,7 +27,7 @@ namespace OneDo.ViewModel
             set { Set(ref placeholderText, value); }
         }
 
-        public string TimeText => DateTimeBusiness.TimeToString(Time) ?? PlaceholderText;
+        public string TimeText => Time?.ToTimeString() ?? PlaceholderText;
 
         public event TypedEventHandler<TimePickerViewModel, TimePickerEventArgs> TimeChanged;
 
@@ -37,16 +37,13 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand InFiveMinuteCommand { get; }
 
-        public DateTimeBusiness DateTimeBusiness { get; }
-
-        public TimePickerViewModel(DataService dataService, string placeholderText)
+        public TimePickerViewModel(string placeholderText)
         {
-            DateTimeBusiness = new DateTimeBusiness(dataService);
             PlaceholderText = placeholderText;
 
             ClearCommand = new RelayCommand(() => Time = null);
-            InOneMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.Time().Add(TimeSpan.FromMinutes(1)));
-            InFiveMinuteCommand = new RelayCommand(() => Time = DateTimeBusiness.Time().Add(TimeSpan.FromMinutes(5)));
+            InOneMinuteCommand = new RelayCommand(() => Time = DateTime.Now.ToTime() + TimeSpan.FromMinutes(1));
+            InFiveMinuteCommand = new RelayCommand(() => Time = DateTime.Now.ToTime() + TimeSpan.FromMinutes(5));
         }
 
         private void OnTimeChanged()

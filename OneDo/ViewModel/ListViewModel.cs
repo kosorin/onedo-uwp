@@ -1,8 +1,7 @@
-﻿using OneDo.Common.Mvvm;
-using OneDo.Model;
-using OneDo.Model.Data;
-using OneDo.Model.Entities.Args;
-using OneDo.Model.Repositories;
+﻿using OneDo.Application;
+using OneDo.Application.Common;
+using OneDo.Common.Mvvm;
+using OneDo.ViewModel.Args;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,9 +10,9 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ListViewModel<TEntity, TItem> : ModalViewModel
-        where TEntity : class, IEntity
-        where TItem : ItemObject<TEntity>
+    public abstract class ListViewModel<TEntityModel, TItem> : ModalViewModel
+        where TEntityModel : class, IEntityModel
+        where TItem : ItemObject<TEntityModel>
     {
         private ObservableCollection<TItem> items;
         public ObservableCollection<TItem> Items
@@ -37,12 +36,12 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedItem, value))
                 {
-                    SelectionChanged?.Invoke(this, new EntityEventArgs<TEntity>(SelectedItem?.Entity));
+                    SelectionChanged?.Invoke(this, new EntityModelEventArgs<TEntityModel>(SelectedItem?.EntityModel));
                 }
             }
         }
 
-        public event TypedEventHandler<ListViewModel<TEntity, TItem>, EntityEventArgs<TEntity>> SelectionChanged;
+        public event TypedEventHandler<ListViewModel<TEntityModel, TItem>, EntityEventArgs<TEntityModel>> SelectionChanged;
 
 
         public IExtendedCommand ShowEditorCommand { get; }
@@ -50,7 +49,7 @@ namespace OneDo.ViewModel
         public IExtendedCommand DeleteCommand { get; }
 
 
-        public DataService DataService { get; }
+        public Api Api { get; }
 
         public UIHost UIHost { get; }
 
@@ -58,13 +57,13 @@ namespace OneDo.ViewModel
 
         protected ListViewModel(DataService dataService, UIHost uiHost)
         {
-            DataService = dataService;
+            Api = dataService;
             UIHost = uiHost;
 
             ShowEditorCommand = new RelayCommand<TItem>(ShowEditor);
             DeleteCommand = new AsyncRelayCommand<TItem>(Delete, CanDelete);
 
-            Repository = DataService.GetRepository<TEntity>();
+            Repository = Api.GetRepository<TEntity>();
             Repository.Added += (_, args) => OnEntityAdded(args.Entity);
             Repository.Updated += (_, args) => OnEntityUpdated(args.Entity);
             Repository.Deleted += (_, args) => OnEntityDeleted(args.Entity);
@@ -107,7 +106,7 @@ namespace OneDo.ViewModel
 
         protected TItem GetItem(TEntity entity)
         {
-            return Items.FirstOrDefault(x => x.Entity.Id == entity.Id);
+            return Items.FirstOrDefault(x => x.EntityModel.Id == entity.Id);
         }
 
         protected abstract TItem CreateItem(TEntity entity);
@@ -132,7 +131,7 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                await Repository.Delete(item.Entity);
+                await Repository.Delete(item.EntityModel);
             });
         }
 
@@ -159,7 +158,7 @@ namespace OneDo.ViewModel
 
         protected virtual void OnEntityBulkDeleted(List<TEntity> entities)
         {
-            var items = Items.Where(x => entities.Contains(x.Entity)).ToList();
+            var items = Items.Where(x => entities.Contains(x.EntityModel)).ToList();
             if (items.Count == Items.Count)
             {
                 Clear();

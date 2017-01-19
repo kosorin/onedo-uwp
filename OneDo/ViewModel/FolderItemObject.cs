@@ -1,18 +1,18 @@
-﻿using OneDo.Common.Extensions;
-using OneDo.Model.Entities;
+﻿using OneDo.Application.Queries.Folders;
+using OneDo.Common.Extensions;
 using Windows.UI;
 
 namespace OneDo.ViewModel
 {
-    public class FolderItemObject : ItemObject<Folder>
+    public class FolderItemObject : ItemObject<FolderModel>
     {
-        public string Name => Entity.Name;
+        public string Name => EntityModel.Name;
 
-        public Color Color => Entity.Color.ToColor();
+        public Color Color => EntityModel.Color.ToColor();
 
         public IFolderCommands FolderCommands { get; }
 
-        public FolderItemObject(Folder entity, IFolderCommands folderCommands) : base(entity)
+        public FolderItemObject(FolderModel entityModel, IFolderCommands folderCommands) : base(entityModel)
         {
             FolderCommands = folderCommands;
         }

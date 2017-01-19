@@ -1,5 +1,5 @@
-﻿using OneDo.Model.Data;
-using OneDo.Model.Entities;
+﻿using OneDo.Application;
+using OneDo.Application.Queries.Folders;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public class FolderListViewModel : ListViewModel<Folder, FolderItemObject>, IFolderCommands
+    public class FolderListViewModel : ListViewModel<FolderModel, FolderItemObject>, IFolderCommands
     {
-        public FolderListViewModel(DataService dataService, UIHost uiHost)
-            : base(dataService, uiHost)
+        public FolderListViewModel(Api api, UIHost uiHost)
+            : base(api, uiHost)
         {
         }
 
@@ -18,7 +18,7 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                var folders = await DataService.Folders.GetAll();
+                var folders = await Api.Folders.GetAll();
                 var folderItems = folders.Select(x => new FolderItemObject(x, this));
                 Items = new ObservableCollection<FolderItemObject>(folderItems);
                 Items.CollectionChanged += (s, e) =>
@@ -37,7 +37,7 @@ namespace OneDo.ViewModel
 
         protected override EditorViewModel<Folder> CreateEditor(FolderItemObject item)
         {
-            return new FolderEditorViewModel(DataService, UIHost.ProgressService, item?.Entity);
+            return new FolderEditorViewModel(Api, UIHost.ProgressService, item?.EntityModel);
         }
 
         protected override bool CanDelete(FolderItemObject item)
@@ -50,8 +50,8 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                note.Entity.FolderId = folder.Entity.Id;
-                await DataService.Notes.Update(note.Entity);
+                note.EntityModel.FolderId = folder.EntityModel.Id;
+                await Api.Notes.Update(note.EntityModel);
             });
             SelectedItem = folder;
         }

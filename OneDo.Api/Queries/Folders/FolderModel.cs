@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OneDo.Application.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using Windows.UI;
 
 namespace OneDo.Application.Queries.Folders
 {
-    public class FolderModel
+    public class FolderModel : IEntityModel
     {
         public Guid Id { get; set; }
 

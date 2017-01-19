@@ -1,7 +1,7 @@
-﻿using OneDo.Common.Extensions;
-using OneDo.Model.Business;
-using OneDo.Model.Data;
-using OneDo.Model.Entities;
+﻿using OneDo.Application;
+using OneDo.Application.Commands.Folders;
+using OneDo.Application.Queries.Folders;
+using OneDo.Common.Extensions;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public class FolderEditorViewModel : EditorViewModel<Folder>
+    public class FolderEditorViewModel : EditorViewModel<FolderModel>
     {
         public static List<ColorItemObject> colors;
         public List<ColorItemObject> Colors => colors;
@@ -21,9 +21,9 @@ namespace OneDo.ViewModel
             get { return name; }
             set
             {
-                if (Set(ref name, Business.NormalizeName(value)))
+                if (Set(ref name, value))
                 {
-                    UpdateDirtyProperty(() => Name != Original.Name);
+                    UpdateDirtyProperty(() => (string.IsNullOrWhiteSpace(Name) != string.IsNullOrWhiteSpace(Original.Name)) && Name != Original.Name);
                     ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
                 }
             }
@@ -38,14 +38,13 @@ namespace OneDo.ViewModel
                 if (Set(ref selectedColor, value))
                 {
                     UpdateDirtyProperty(() => SelectedColor?.Color.ToHex() != Original.Color);
+                    ValidateProperty(() => SelectedColor != null);
                 }
             }
         }
 
 
-        public DataService DataService { get; }
-
-        public FolderBusiness Business { get; }
+        public Api Api { get; }
 
         private readonly Random random = new Random();
 
@@ -72,17 +71,17 @@ namespace OneDo.ViewModel
             };
         }
 
-        public FolderEditorViewModel(DataService dataService, IProgressService progressService)
-            : this(dataService, progressService, null)
+        public FolderEditorViewModel(Api api, IProgressService progressService)
+            : this(api, progressService, null)
         {
         }
 
-        public FolderEditorViewModel(DataService dataService, IProgressService progressService, Folder folder)
+        public FolderEditorViewModel(Api api, IProgressService progressService, FolderModel folder)
             : base(progressService)
         {
-            DataService = dataService;
-            Business = new FolderBusiness(DataService);
-            Original = folder ?? Business.CreateDefault();
+            Api = api;
+            IsNew = folder == null;
+            Original = folder ?? CreateDefault();
 
             Load();
         }
@@ -90,8 +89,6 @@ namespace OneDo.ViewModel
 
         private void Load()
         {
-            IsNew = DataService.Folders.IsNew(Original);
-
             Name = Original.Name;
             SelectedColor = Colors
                 .Where(x => x.Color.ToHex() == Original.Color)
@@ -100,18 +97,12 @@ namespace OneDo.ViewModel
 
         protected override async Task Save()
         {
-            Original.Name = Business.NormalizeName(Name);
+            Original.Name = Name;
             Original.Color = SelectedColor.Color.ToHex();
-
-            if (IsNew)
-            {
-                Original.Created = DateTime.Now;
-            }
-            Original.Modified = DateTime.Now;
 
             await ProgressService.RunAsync(async () =>
             {
-                await DataService.Folders.AddOrUpdate(Original);
+                await Api.CommandBus.Execute(new SaveFolderCommand(Original.Id, Original.Name, Original.Color));
             });
             OnSaved();
         }
@@ -120,7 +111,7 @@ namespace OneDo.ViewModel
         {
             await ProgressService.RunAsync(async () =>
             {
-                await DataService.Folders.Delete(Original);
+                await Api.CommandBus.Execute(new DeleteFolderCommand(Original.Id));
             });
             OnDeleted();
         }

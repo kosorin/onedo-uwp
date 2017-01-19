@@ -46,16 +46,16 @@ namespace OneDo.Domain.Model.Entities
             {
                 throw new InvalidOperationException($"{nameof(title)} should not be null, empty or white space");
             }
-            Title = title;
+            Title = title.Trim();
         }
 
         public void ChangeText(string text)
         {
-            if (text == null)
+            if (string.IsNullOrWhiteSpace(text))
             {
-                throw new ArgumentNullException(nameof(text), $"{nameof(text)} should not be null");
+                throw new ArgumentNullException(nameof(text), $"{nameof(text)} should not be null, empty or white space");
             }
-            Text = text;
+            Text = text.Trim();
         }
 
         public void ChangeDate(DateTime? date)

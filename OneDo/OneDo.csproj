@@ -120,6 +120,7 @@
     <Compile Include="Services\ToastService\ToastService.cs" />
     <Compile Include="ViewModel\Args\DatePickerEventArgs.cs" />
     <Compile Include="Services\InfoService\InfoMessage.cs" />
+    <Compile Include="ViewModel\Args\EntityModelEventArgs.cs" />
     <Compile Include="ViewModel\Args\TimePickerEventArgs.cs" />
     <Compile Include="Common\Mvvm\RelayCommand.cs" />
     <Compile Include="ViewModel\ConfirmationViewModel.cs" />

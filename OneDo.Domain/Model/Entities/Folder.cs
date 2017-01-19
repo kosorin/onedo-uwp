@@ -26,7 +26,7 @@ namespace OneDo.Domain.Model.Entities
             {
                 throw new InvalidOperationException($"{nameof(name)} should not be null, empty or white space");
             }
-            Name = name;
+            Name = name.Trim();
         }
 
         public void ChangeColor(Color color)
