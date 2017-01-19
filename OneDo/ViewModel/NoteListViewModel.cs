@@ -4,60 +4,76 @@ using System.Threading.Tasks;
 using OneDo.Common.Mvvm;
 using OneDo.Application.Queries.Notes;
 using OneDo.Application;
+using System;
+using OneDo.Application.Commands.Notes;
 
 namespace OneDo.ViewModel
 {
-    public class NoteListViewModel : ListViewModel<NoteModel, NoteItemObject>, INoteCommands
+    public class NoteListViewModel : ListViewModel<NoteItemViewModel, NoteModel>, INoteCommands
     {
         public IExtendedCommand ToggleFlagCommand { get; }
 
 
         public FolderListViewModel FolderList { get; }
 
-        public DateTimeBusiness DateTimeBusiness { get; }
-
         public NoteListViewModel(Api api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
         {
             FolderList = folderList;
-            DateTimeBusiness = new DateTimeBusiness(Api);
 
-            ToggleFlagCommand = new AsyncRelayCommand<NoteItemObject>(ToggleFlag);
+            ToggleFlagCommand = new AsyncRelayCommand<NoteItemViewModel>(ToggleFlag);
         }
 
         public async Task Load()
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                var folderId = FolderList.SelectedItem?.EntityModel.Id;
-                var notes = await Api.Notes.GetAll(x => x.FolderId == folderId);
-                Items = new ObservableCollection<NoteItemObject>(notes.Select(CreateItem));
+                var folderId = FolderList.SelectedItem?.Entity.Id;
+                if (folderId != null)
+                {
+                    var notes = await Api.NoteQuery.GetAll((Guid)folderId);
+                    Items = new ObservableCollection<NoteItemViewModel>(notes.Select(CreateItem));
+                }
+                else
+                {
+                    Items = new ObservableCollection<NoteItemViewModel>();
+                }
             });
         }
 
 
-        protected override NoteItemObject CreateItem(Note entity)
+        protected override NoteItemViewModel CreateItem(NoteModel entity)
         {
-            return new NoteItemObject(entity, DateTimeBusiness, this);
+            return new NoteItemViewModel(entity, this);
         }
 
-        protected override EditorViewModel<Note> CreateEditor(NoteItemObject item)
+        protected override EditorViewModel<NoteModel> CreateEditor(NoteItemViewModel item)
         {
-            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList, item?.EntityModel);
+            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList, item?.Entity);
         }
 
-        protected override bool CanContain(Note entity)
+        protected override bool CanContain(NoteModel entity)
         {
-            return entity.FolderId == FolderList.SelectedItem?.EntityModel.Id;
+            return entity.FolderId == FolderList.SelectedItem?.Entity.Id;
         }
 
 
-        private async Task ToggleFlag(NoteItemObject item)
+        private async Task ToggleFlag(NoteItemViewModel item)
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                item.EntityModel.IsFlagged = !item.EntityModel.IsFlagged;
-                await Api.Notes.Update(item.EntityModel);
+                item.Entity.IsFlagged = !item.Entity.IsFlagged;
+                await Api.CommandBus.Execute(new SetNoteFlagCommand(item.Entity.Id, item.Entity.IsFlagged));
             });
+        }
+
+        protected override async Task Delete(NoteItemViewModel item)
+        {
+            await Api.CommandBus.Execute(new DeleteNoteCommand(item.Entity.Id));
+        }
+
+        protected override bool CanDelete(NoteItemViewModel item)
+        {
+            return true;
         }
     }
 }

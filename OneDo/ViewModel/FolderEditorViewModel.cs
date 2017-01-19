@@ -23,9 +23,9 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref name, value))
                 {
-                    UpdateDirtyProperty(() => (string.IsNullOrWhiteSpace(Name) != string.IsNullOrWhiteSpace(Original.Name)) && Name != Original.Name);
-                    ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
+                    UpdateDirtyProperty(() => string.IsNullOrWhiteSpace(Name) != string.IsNullOrWhiteSpace(Original.Name) || Name != Original.Name);
                 }
+                ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
             }
         }
 
@@ -38,8 +38,8 @@ namespace OneDo.ViewModel
                 if (Set(ref selectedColor, value))
                 {
                     UpdateDirtyProperty(() => SelectedColor?.Color.ToHex() != Original.Color);
-                    ValidateProperty(() => SelectedColor != null);
                 }
+                ValidateProperty(() => SelectedColor != null);
             }
         }
 

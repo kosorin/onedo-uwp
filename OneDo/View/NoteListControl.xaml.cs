@@ -27,14 +27,15 @@ namespace OneDo.View
 
             var menu = sender as MenuFlyout;
             var rootItem = menu.Items.FirstOrDefault(x => x.Name == "MoveToFolderRootMenuItem") as MenuFlyoutSubItem;
-            var note = FlyoutMenuItemBehavior.GetSubItemContext(rootItem) as NoteItemObject;
+            var note = FlyoutMenuItemBehavior.GetSubItemContext(rootItem) as NoteItemViewModel;
 
             rootItem.Items.Clear();
             foreach (var folder in VM.FolderList.Items)
             {
                 var item = new MenuFlyoutItem
                 {
-                    Command = new AsyncRelayCommand(() => VM.FolderList.Move(folder, note)),
+                    //Command = new AsyncRelayCommand(() => VM.FolderList.Move(folder, note)),
+                    Command = new RelayCommand(() => { }),
                 };
 
                 BindingOperations.SetBinding(item, MenuFlyoutItem.TextProperty, new Binding

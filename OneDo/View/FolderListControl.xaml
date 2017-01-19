@@ -323,7 +323,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vm:FolderItemObject">
+        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vm:FolderItemViewModel">
             <Border Background="Transparent" BorderThickness="0">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>

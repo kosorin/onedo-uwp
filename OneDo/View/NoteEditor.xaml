@@ -556,7 +556,7 @@
                           ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
                           SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="vm:FolderItemObject">
+                        <DataTemplate x:DataType="vm:FolderItemViewModel">
                             <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>

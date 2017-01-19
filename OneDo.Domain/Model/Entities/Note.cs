@@ -51,11 +51,7 @@ namespace OneDo.Domain.Model.Entities
 
         public void ChangeText(string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new ArgumentNullException(nameof(text), $"{nameof(text)} should not be null, empty or white space");
-            }
-            Text = text.Trim();
+            Text = text?.Trim();
         }
 
         public void ChangeDate(DateTime? date)

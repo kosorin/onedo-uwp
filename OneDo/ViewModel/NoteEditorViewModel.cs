@@ -11,17 +11,17 @@ namespace OneDo.ViewModel
 {
     public class NoteEditorViewModel : EditorViewModel<NoteModel>
     {
-        public List<FolderItemObject> Folders { get; }
+        public List<FolderItemViewModel> Folders { get; }
 
-        private FolderItemObject selectedFolder;
-        public FolderItemObject SelectedFolder
+        private FolderItemViewModel selectedFolder;
+        public FolderItemViewModel SelectedFolder
         {
             get { return selectedFolder; }
             set
             {
                 if (Set(ref selectedFolder, value))
                 {
-                    UpdateDirtyProperty(() => SelectedFolder?.EntityModel.Id != Original.FolderId);
+                    UpdateDirtyProperty(() => SelectedFolder?.Entity.Id != Original.FolderId);
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace OneDo.ViewModel
 
             if (!IsNew)
             {
-                var folder = Folders.Where(x => x.EntityModel.Id == Original.FolderId).FirstOrDefault();
+                var folder = Folders.Where(x => x.Entity.Id == Original.FolderId).FirstOrDefault();
                 if (folder != null)
                 {
                     SelectedFolder = folder;
@@ -124,7 +124,7 @@ namespace OneDo.ViewModel
 
         protected override async Task Save()
         {
-            Original.FolderId = SelectedFolder.EntityModel.Id;
+            Original.FolderId = SelectedFolder.Entity.Id;
             Original.Title = Title ?? "";
             Original.Text = Text ?? "";
             Original.Date = DatePicker.Date;

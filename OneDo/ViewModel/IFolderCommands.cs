@@ -3,10 +3,7 @@ using System.ComponentModel;
 
 namespace OneDo.ViewModel
 {
-    public interface IFolderCommands : INotifyPropertyChanged
+    public interface IFolderCommands : IListCommandsCommands
     {
-        IExtendedCommand ShowEditorCommand { get; }
-
-        IExtendedCommand DeleteCommand { get; }
     }
 }

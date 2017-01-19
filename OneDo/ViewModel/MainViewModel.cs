@@ -32,6 +32,7 @@ namespace OneDo.ViewModel
 
         public ICommand ShowSettingsCommand { get; }
 
+
         public Api Api { get; }
 
         public UIHost UIHost { get; }
@@ -52,8 +53,6 @@ namespace OneDo.ViewModel
 
         public async Task Load()
         {
-            await FolderList.Load();
-
 #if DEBUG
             var folders = await Api.FolderQuery.GetAll();
             if (!folders.Any())
@@ -78,6 +77,7 @@ namespace OneDo.ViewModel
 
             FolderList.SelectedItem = FolderList.Items.FirstOrDefault();
 #endif
+            await FolderList.Load();
         }
 
 #if DEBUG

@@ -3,12 +3,8 @@ using System.ComponentModel;
 
 namespace OneDo.ViewModel
 {
-    public interface INoteCommands : INotifyPropertyChanged
+    public interface INoteCommands : IListCommandsCommands
     {
-        IExtendedCommand ShowEditorCommand { get; }
-
-        IExtendedCommand DeleteCommand { get; }
-
         IExtendedCommand ToggleFlagCommand { get; }
     }
 }

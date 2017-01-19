@@ -18,7 +18,6 @@ namespace OneDo.Infrastructure.Entities
         [NotNull]
         public string Title { get; set; }
 
-        [NotNull]
         public string Text { get; set; }
 
 

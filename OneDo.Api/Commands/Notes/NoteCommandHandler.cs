@@ -3,7 +3,6 @@ using OneDo.Infrastructure.Repositories.Domain;
 using OneDo.Infrastructure.Services.DataService;
 using OneDo.Domain.Model.Entities;
 using OneDo.Domain.Model.Repositories;
-using OneDo.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +18,9 @@ namespace OneDo.Application.Commands.Notes
     {
         private readonly INoteRepository noteRepository;
 
-        private readonly DateTimeService dateTimeService;
-
-        public NoteCommandHandler(IDataService dataService, DateTimeService dateTimeService)
+        public NoteCommandHandler(IDataService dataService)
         {
             noteRepository = new NoteRepository(dataService);
-            this.dateTimeService = dateTimeService;
         }
 
         public async Task Handle(SaveNoteCommand command)

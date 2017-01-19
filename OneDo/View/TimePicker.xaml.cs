@@ -1,4 +1,5 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Common.Extensions;
+using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using System;
 using Windows.UI.Xaml;
@@ -66,7 +67,7 @@ namespace OneDo.View
 
         private void OnTimeChanged(TimeSpan? time)
         {
-            var now = VM.DateTimeBusiness.Time();
+            var now = DateTime.Now.ToTime();
             Hours = time?.Hours ?? now.Hours;
             Minutes = time?.Minutes ?? now.Minutes;
         }

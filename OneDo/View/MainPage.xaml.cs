@@ -54,7 +54,7 @@ namespace OneDo.View
 
         private void InitializeInfoBar()
         {
-            Messenger.Default.Register<InfoMessage>(this, InfoBar.Show);
+            Messenger.Default.Register<InfoMessage>(InfoBar, InfoBar.Show);
         }
 
 #if DEBUG

@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using OneDo.Application.Commands.Folders;
 
 namespace OneDo.ViewModel
 {
-    public class FolderListViewModel : ListViewModel<FolderModel, FolderItemObject>, IFolderCommands
+    public class FolderListViewModel : ListViewModel<FolderItemViewModel, FolderModel>, IFolderCommands
     {
         public FolderListViewModel(Api api, UIHost uiHost)
             : base(api, uiHost)
@@ -18,9 +20,8 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                var folders = await Api.Folders.GetAll();
-                var folderItems = folders.Select(x => new FolderItemObject(x, this));
-                Items = new ObservableCollection<FolderItemObject>(folderItems);
+                var folders = await Api.FolderQuery.GetAll();
+                Items = new ObservableCollection<FolderItemViewModel>(folders.Select(CreateItem));
                 Items.CollectionChanged += (s, e) =>
                 {
                     DeleteCommand.RaiseCanExecuteChanged();
@@ -30,65 +31,24 @@ namespace OneDo.ViewModel
         }
 
 
-        protected override FolderItemObject CreateItem(Folder entity)
+        protected override FolderItemViewModel CreateItem(FolderModel entity)
         {
-            return new FolderItemObject(entity, this);
+            return new FolderItemViewModel(entity, this);
         }
 
-        protected override EditorViewModel<Folder> CreateEditor(FolderItemObject item)
+        protected override EditorViewModel<FolderModel> CreateEditor(FolderItemViewModel item)
         {
-            return new FolderEditorViewModel(Api, UIHost.ProgressService, item?.EntityModel);
+            return new FolderEditorViewModel(Api, UIHost.ProgressService, item?.Entity);
         }
 
-        protected override bool CanDelete(FolderItemObject item)
+        protected override async Task Delete(FolderItemViewModel item)
+        {
+            await Api.CommandBus.Execute(new DeleteFolderCommand(item.Entity.Id));
+        }
+
+        protected override bool CanDelete(FolderItemViewModel item)
         {
             return Items.Count > 1;
-        }
-
-
-        public async Task Move(FolderItemObject folder, NoteItemObject note)
-        {
-            await UIHost.ProgressService.RunAsync(async () =>
-            {
-                note.EntityModel.FolderId = folder.EntityModel.Id;
-                await Api.Notes.Update(note.EntityModel);
-            });
-            SelectedItem = folder;
-        }
-
-
-        protected override void OnEntityAdded(Folder entity)
-        {
-            base.OnEntityAdded(entity);
-            SelectedItem = GetItem(entity);
-        }
-
-        protected override void OnEntityDeleted(Folder entity)
-        {
-            var index = Items.IndexOf(SelectedItem);
-            base.OnEntityDeleted(entity);
-            if (Items.Count > index)
-            {
-                SelectedItem = Items.ElementAt(index);
-            }
-            else
-            {
-                SelectedItem = Items.FirstOrDefault();
-            }
-        }
-
-        protected override void OnEntityBulkDeleted(List<Folder> entities)
-        {
-            var index = Items.IndexOf(SelectedItem);
-            base.OnEntityBulkDeleted(entities);
-            if (Items.Count > index)
-            {
-                SelectedItem = Items.ElementAt(index);
-            }
-            else
-            {
-                SelectedItem = Items.FirstOrDefault();
-            }
         }
     }
 }

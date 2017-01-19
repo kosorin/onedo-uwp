@@ -64,7 +64,7 @@ namespace OneDo.View
                 isPicking = true;
 
                 CalendarView.SelectedDates.Clear();
-                var dateTimeOffset = new DateTimeOffset(date ?? VM.DateTimeBusiness.Today());
+                var dateTimeOffset = new DateTimeOffset(date ?? DateTime.Today);
                 CalendarView.SelectedDates.Clear();
                 CalendarView.SelectedDates.Add(dateTimeOffset);
                 CalendarView.SetDisplayDate(dateTimeOffset);

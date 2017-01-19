@@ -10,9 +10,9 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ListViewModel<TEntityModel, TItem> : ModalViewModel
-        where TEntityModel : class, IEntityModel
-        where TItem : ItemObject<TEntityModel>
+    public abstract class ListViewModel<TItem, TEntity> : ModalViewModel, IListCommandsCommands
+        where TItem : ItemViewModel<TEntity>
+        where TEntity : class, IEntityModel, new()
     {
         private ObservableCollection<TItem> items;
         public ObservableCollection<TItem> Items
@@ -36,12 +36,13 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedItem, value))
                 {
-                    SelectionChanged?.Invoke(this, new EntityModelEventArgs<TEntityModel>(SelectedItem?.EntityModel));
+                    SelectionChanged?.Invoke(this, new EntityEventArgs<TEntity>(SelectedItem?.Entity));
                 }
             }
         }
 
-        public event TypedEventHandler<ListViewModel<TEntityModel, TItem>, EntityEventArgs<TEntityModel>> SelectionChanged;
+
+        public event TypedEventHandler<ListViewModel<TItem, TEntity>, EntityEventArgs<TEntity>> SelectionChanged;
 
 
         public IExtendedCommand ShowEditorCommand { get; }
@@ -53,21 +54,13 @@ namespace OneDo.ViewModel
 
         public UIHost UIHost { get; }
 
-        public IRepository<TEntity> Repository { get; }
-
-        protected ListViewModel(DataService dataService, UIHost uiHost)
+        protected ListViewModel(Api api, UIHost uiHost)
         {
-            Api = dataService;
+            Api = api;
             UIHost = uiHost;
 
             ShowEditorCommand = new RelayCommand<TItem>(ShowEditor);
             DeleteCommand = new AsyncRelayCommand<TItem>(Delete, CanDelete);
-
-            Repository = Api.GetRepository<TEntity>();
-            Repository.Added += (_, args) => OnEntityAdded(args.Entity);
-            Repository.Updated += (_, args) => OnEntityUpdated(args.Entity);
-            Repository.Deleted += (_, args) => OnEntityDeleted(args.Entity);
-            Repository.BulkDeleted += (_, args) => OnEntityBulkDeleted(args.Entities);
         }
 
 
@@ -106,7 +99,7 @@ namespace OneDo.ViewModel
 
         protected TItem GetItem(TEntity entity)
         {
-            return Items.FirstOrDefault(x => x.EntityModel.Id == entity.Id);
+            return Items.FirstOrDefault(x => x.Entity.Id == entity.Id);
         }
 
         protected abstract TItem CreateItem(TEntity entity);
@@ -127,49 +120,8 @@ namespace OneDo.ViewModel
 
         protected abstract EditorViewModel<TEntity> CreateEditor(TItem item);
 
-        protected virtual async Task Delete(TItem item)
-        {
-            await UIHost.ProgressService.RunAsync(async () =>
-            {
-                await Repository.Delete(item.EntityModel);
-            });
-        }
+        protected abstract Task Delete(TItem item);
 
-        protected virtual bool CanDelete(TItem item)
-        {
-            return true;
-        }
-
-
-        protected virtual void OnEntityAdded(TEntity entity)
-        {
-            Add(entity);
-        }
-
-        protected virtual void OnEntityUpdated(TEntity entity)
-        {
-            Refresh(entity);
-        }
-
-        protected virtual void OnEntityDeleted(TEntity entity)
-        {
-            Remove(entity);
-        }
-
-        protected virtual void OnEntityBulkDeleted(List<TEntity> entities)
-        {
-            var items = Items.Where(x => entities.Contains(x.EntityModel)).ToList();
-            if (items.Count == Items.Count)
-            {
-                Clear();
-            }
-            else
-            {
-                foreach (var item in items)
-                {
-                    Items.Remove(item);
-                }
-            }
-        }
+        protected abstract bool CanDelete(TItem item);
     }
 }
