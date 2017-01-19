@@ -71,11 +71,8 @@ namespace OneDo.ViewModel
 
         public void Add(TEntity entity)
         {
-            if (CanContain(entity))
-            {
                 var item = CreateItem(entity);
                 Items.Add(item);
-            }
         }
 
         public void Refresh(TEntity entity)
@@ -103,11 +100,6 @@ namespace OneDo.ViewModel
         }
 
         protected abstract TItem CreateItem(TEntity entity);
-
-        protected virtual bool CanContain(TEntity entity)
-        {
-            return true;
-        }
 
 
         protected void ShowEditor(TItem item)

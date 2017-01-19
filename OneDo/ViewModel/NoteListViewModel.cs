@@ -13,30 +13,17 @@ namespace OneDo.ViewModel
     {
         public IExtendedCommand ToggleFlagCommand { get; }
 
-
-        public FolderListViewModel FolderList { get; }
-
-        public NoteListViewModel(Api api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
+        public NoteListViewModel(Api api, UIHost uiHost) : base(api, uiHost)
         {
-            FolderList = folderList;
-
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemViewModel>(ToggleFlag);
         }
 
-        public async Task Load()
+        public async Task Load(Guid folderId)
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                var folderId = FolderList.SelectedItem?.Entity.Id;
-                if (folderId != null)
-                {
-                    var notes = await Api.NoteQuery.GetAll((Guid)folderId);
-                    Items = new ObservableCollection<NoteItemViewModel>(notes.Select(CreateItem));
-                }
-                else
-                {
-                    Items = new ObservableCollection<NoteItemViewModel>();
-                }
+                var notes = await Api.NoteQuery.GetAll(folderId);
+                Items = new ObservableCollection<NoteItemViewModel>(notes.Select(CreateItem));
             });
         }
 
@@ -48,12 +35,7 @@ namespace OneDo.ViewModel
 
         protected override EditorViewModel<NoteModel> CreateEditor(NoteItemViewModel item)
         {
-            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList, item?.Entity);
-        }
-
-        protected override bool CanContain(NoteModel entity)
-        {
-            return entity.FolderId == FolderList.SelectedItem?.Entity.Id;
+            return new NoteEditorViewModel(Api, UIHost.ProgressService, item?.Entity);
         }
 
 

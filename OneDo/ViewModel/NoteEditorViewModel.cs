@@ -73,21 +73,21 @@ namespace OneDo.ViewModel
 
         public Api Api { get; }
 
-        public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList)
-            : this(api, progressService, folderList, null)
+        public NoteEditorViewModel(Api api, IProgressService progressService)
+            : this(api, progressService, null)
         {
 
         }
 
-        public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList, NoteModel noteModel)
+        public NoteEditorViewModel(Api api, IProgressService progressService, NoteModel noteModel)
             : base(progressService)
         {
             Api = api;
             IsNew = noteModel == null;
             Original = noteModel ?? CreateDefault();
 
-            Folders = folderList.Items.ToList();
-            SelectedFolder = folderList.SelectedItem;
+            //Folders = folderList.Items.ToList();
+            //SelectedFolder = folderList.SelectedItem;
 
             DatePicker = new DatePickerViewModel("Set Date & Reminder");
             DatePicker.DateChanged += (s, e) =>
