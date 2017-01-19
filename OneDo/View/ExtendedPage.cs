@@ -1,5 +1,6 @@
 ﻿using OneDo.Common.Mvvm;
 using System.ComponentModel;
+using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
@@ -34,12 +35,12 @@ namespace OneDo.View
             compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         }
 
-        protected virtual void OnViewModelChanged()
+        protected virtual void OnViewModelChanging()
         {
 
         }
 
-        protected virtual void OnViewModelChanging()
+        protected virtual void OnViewModelChanged()
         {
 
         }

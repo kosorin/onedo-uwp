@@ -34,12 +34,12 @@ namespace OneDo.View
             compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         }
 
-        protected virtual void OnViewModelChanged()
+        protected virtual void OnViewModelChanging()
         {
 
         }
 
-        protected virtual void OnViewModelChanging()
+        protected virtual void OnViewModelChanged()
         {
 
         }
