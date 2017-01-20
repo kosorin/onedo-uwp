@@ -11,8 +11,7 @@ namespace OneDo.ViewModel
 {
     public class FolderListViewModel : ListViewModel<FolderItemViewModel, FolderModel>, IFolderCommands
     {
-        public FolderListViewModel(Api api, UIHost uiHost)
-            : base(api, uiHost)
+        public FolderListViewModel(Api api, UIHost uiHost) : base(api, uiHost)
         {
         }
 
@@ -40,6 +39,7 @@ namespace OneDo.ViewModel
         {
             return new FolderEditorViewModel(Api, UIHost.ProgressService, item?.Entity);
         }
+
 
         protected override async Task Delete(FolderItemViewModel item)
         {

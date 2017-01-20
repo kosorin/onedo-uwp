@@ -2,6 +2,7 @@
 using OneDo.Application.Common;
 using OneDo.Common.Mvvm;
 using OneDo.ViewModel.Args;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace OneDo.ViewModel
         }
 
 
-        public event TypedEventHandler<ListViewModel<TItem, TEntity>, EntityEventArgs<TEntity>> SelectionChanged;
+        public event EventHandler<EntityEventArgs<TEntity>> SelectionChanged;
 
 
         public IExtendedCommand ShowEditorCommand { get; }
@@ -63,18 +64,20 @@ namespace OneDo.ViewModel
             DeleteCommand = new AsyncRelayCommand<TItem>(Delete, CanDelete);
         }
 
-
+        [Obsolete]
         public void Clear()
         {
             Items.Clear();
         }
 
+        [Obsolete]
         public void Add(TEntity entity)
         {
             var item = CreateItem(entity);
             Items.Add(item);
         }
 
+        [Obsolete]
         public void Refresh(TEntity entity)
         {
             var item = GetItem(entity);
@@ -84,6 +87,7 @@ namespace OneDo.ViewModel
             }
         }
 
+        [Obsolete]
         public void Remove(TEntity entity)
         {
             var item = GetItem(entity);
@@ -111,6 +115,7 @@ namespace OneDo.ViewModel
         }
 
         protected abstract EditorViewModel<TEntity> CreateEditor(TItem item);
+
 
         protected abstract Task Delete(TItem item);
 

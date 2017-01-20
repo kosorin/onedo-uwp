@@ -37,20 +37,14 @@ namespace OneDo.ViewModel
 
         public UIHost UIHost { get; }
 
-        public MainViewModel(Api api, UIHost uiHost)
+        public MainViewModel(Api api, UIHost uiHost, FolderListViewModel folderList, NoteListViewModel noteList)
         {
             Api = api;
             UIHost = uiHost;
-
-            FolderList = new FolderListViewModel(Api, UIHost);
-            NoteList = new NoteListViewModel(Api, UIHost, FolderList);
+            FolderList = folderList;
+            NoteList = noteList;
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
-        }
-
-        public async Task Load()
-        {
-            await FolderList.Load();
         }
 
 #if DEBUG
@@ -65,7 +59,7 @@ namespace OneDo.ViewModel
         public async Task ResetData()
         {
             await Clear();
-            await Load();
+            await FolderList.Load();
         }
 #endif
 

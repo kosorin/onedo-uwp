@@ -129,10 +129,5 @@ namespace OneDo.View
             var command = await dialog.ShowAsync();
         }
 #endif
-
-        protected override async void OnViewModelChanged()
-        {
-            await VM?.Load();
-        }
     }
 }
