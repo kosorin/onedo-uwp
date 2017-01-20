@@ -8,12 +8,15 @@ namespace OneDo.Services.ToastService
 {
     public class ToastService : IToastService
     {
-        public ToastNotifier Notifier { get; }
-
-        public ToastService(ToastNotifier toastNotifier)
+        private ToastNotifier notifier;
+        public ToastNotifier Notifier
         {
-            Notifier = toastNotifier;
+            get
+            {
+                return notifier ?? (notifier = ToastNotificationManager.CreateToastNotifier());
+            }
         }
+
 
         public IEnumerable<ScheduledToastNotification> GetScheduledToasts()
         {

@@ -23,13 +23,13 @@
 
         <!--  Folders  -->
         <Border Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
-            <v:FolderListControl x:Name="FolderList" DataContext="{x:Bind VM.FolderList, Mode=OneWay}" />
+            <v:FolderListControl x:Name="FolderList" />
         </Border>
         <Border Grid.Row="1" Background="{x:Bind VM.FolderList.SelectedItem.Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />
 
         <!--  Notes  -->
         <Grid x:Name="NoteList" Grid.Row="2">
-            <v:NoteListControl DataContext="{x:Bind VM.NoteList, Mode=OneWay}" />
+            <v:NoteListControl />
             <controls:InfoBar x:Name="InfoBar" VerticalAlignment="Bottom" />
         </Grid>
 

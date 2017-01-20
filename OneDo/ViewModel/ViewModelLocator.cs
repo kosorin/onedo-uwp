@@ -21,6 +21,8 @@ namespace OneDo.ViewModel
             {
                 var builder = new ContainerBuilder();
 
+                builder.RegisterType<Api>().AsSelf().SingleInstance();
+                builder.RegisterType<UIHost>().AsSelf().SingleInstance();
                 builder.RegisterType<BackgroundTaskService>().As<IBackgroundTaskService>().SingleInstance();
                 builder.RegisterType<ToastService>().As<IToastService>().SingleInstance();
                 builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
@@ -28,17 +30,24 @@ namespace OneDo.ViewModel
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
 
-                builder.RegisterType<UIHost>().AsSelf().SingleInstance();
-                builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
 
-                builder.RegisterType<Api>().AsSelf().SingleInstance();
+                builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
+
+                builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
+
+                builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
+
 
                 Container = builder.Build();
             }
         }
 
         public MainViewModel Main => Container?.Resolve<MainViewModel>();
+
+        public FolderListViewModel FolderList => Container?.Resolve<FolderListViewModel>();
+
+        public NoteListViewModel NoteList => Container?.Resolve<NoteListViewModel>();
     }
 }

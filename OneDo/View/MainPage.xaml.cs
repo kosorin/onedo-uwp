@@ -7,6 +7,7 @@ using OneDo.Services.InfoService;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using System.Linq;
+using OneDo.Services.ToastService;
 
 namespace OneDo.View
 {
@@ -113,10 +114,11 @@ namespace OneDo.View
 
         private async Task ShowSchedule()
         {
-            var toasts = VM.ToastService.GetScheduledToasts();
+            var toastService = new ToastService();
+            var toasts = toastService.GetScheduledToasts();
             var schedule = string.Join(Environment.NewLine, toasts.Select(x => $"'{x.Group}.{x.Tag}' > {x.DeliveryTime}"));
 
-            var clearCommand = new UICommand("Clear", x => VM.ToastService.ClearSchedule());
+            var clearCommand = new UICommand("Clear", x => toastService.ClearSchedule());
             var closeCommand = new UICommand("Cancel");
 
             var dialog = new MessageDialog(schedule, "Schedule");

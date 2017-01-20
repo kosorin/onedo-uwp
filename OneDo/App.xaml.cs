@@ -24,6 +24,8 @@ using OneDo.Services.ToastService;
 using Windows.UI.Notifications;
 using OneDo.Application;
 using OneDo.Application.Commands.Folders;
+using System.Linq;
+using OneDo.Application.Commands.Notes;
 
 namespace OneDo
 {
@@ -89,7 +91,6 @@ namespace OneDo
 
             await InitializeApi();
             await InitializeBackgroundTasks();
-            InitializeToastNotifications();
             InitializeTitleBar();
             await InitializeStatusBar();
             InitializeModalService();
@@ -184,24 +185,39 @@ namespace OneDo
             }
         }
 
-        private void InitializeToastNotifications()
-        {
-            var toastService = ViewModelLocator.Container.Resolve<IToastService>(
-                TypedParameter.From(ToastNotificationManager.CreateToastNotifier()));
-
-            Logger.Current.Info("Toast service initialized");
-        }
-
-        private Task InitializeApi()
+        private async Task InitializeApi()
         {
             var api = ViewModelLocator.Container.Resolve<Api>();
 #warning Inicializace dat a nastavení
             //await api.LoadSettingsAsync();
             //await api.InitializeDataAsync();
 
-            Logger.Current.Info("Data initialized");
+#if DEBUG
+            var folders = await api.FolderQuery.GetAll();
+            if (!folders.Any())
+            {
+                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Inbox", "#0063AF"));
+                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Work", "#0F893E"));
+                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Shopping list", "#AC008C"));
+                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Vacation", "#F7630D"));
+                folders = await api.FolderQuery.GetAll();
 
+                var folder = folders.FirstOrDefault();
+                var folder2 = folders.Skip(1).FirstOrDefault();
+                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Buy milk", "", null, null, false));
+                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Walk Max with bike", "", DateTime.Today, TimeSpan.FromHours(7.25), false));
+                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Call mom", "", DateTime.Today.AddDays(5), null, true));
+                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id,
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                    "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
+                    null, null, false));
+                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder2.Id, "Test note", "", null, null, true));
+            }
+#else
             return Task.CompletedTask;
+#endif
+
+            Logger.Current.Info("Data initialized");
         }
 
         private void InitializeTitleBar()
