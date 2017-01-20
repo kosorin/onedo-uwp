@@ -71,8 +71,8 @@ namespace OneDo.ViewModel
 
         public void Add(TEntity entity)
         {
-                var item = CreateItem(entity);
-                Items.Add(item);
+            var item = CreateItem(entity);
+            Items.Add(item);
         }
 
         public void Refresh(TEntity entity)

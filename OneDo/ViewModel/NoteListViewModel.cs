@@ -13,9 +13,12 @@ namespace OneDo.ViewModel
     {
         public IExtendedCommand ToggleFlagCommand { get; }
 
-        public NoteListViewModel(Api api, UIHost uiHost) : base(api, uiHost)
+        public FolderListViewModel FolderList { get; set; }
+
+        public NoteListViewModel(Api api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
         {
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemViewModel>(ToggleFlag);
+            FolderList = folderList;
         }
 
         public async Task Load(Guid folderId)
@@ -35,7 +38,7 @@ namespace OneDo.ViewModel
 
         protected override EditorViewModel<NoteModel> CreateEditor(NoteItemViewModel item)
         {
-            return new NoteEditorViewModel(Api, UIHost.ProgressService, item?.Entity);
+            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList, item?.Entity);
         }
 
 

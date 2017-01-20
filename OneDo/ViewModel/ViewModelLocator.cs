@@ -28,8 +28,10 @@ namespace OneDo.ViewModel
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
 
-                builder.RegisterType<UIHost>().SingleInstance();
-                builder.RegisterType<MainViewModel>().SingleInstance();
+                builder.RegisterType<UIHost>().AsSelf().SingleInstance();
+                builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
 
                 builder.RegisterType<Api>().AsSelf().SingleInstance();
 

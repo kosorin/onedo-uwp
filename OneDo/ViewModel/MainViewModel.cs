@@ -46,7 +46,7 @@ namespace OneDo.ViewModel
             ToastService = toastService;
 
             FolderList = new FolderListViewModel(Api, UIHost);
-            NoteList = new NoteListViewModel(Api, UIHost);
+            NoteList = new NoteListViewModel(Api, UIHost, FolderList);
 
             ShowSettingsCommand = new RelayCommand(ShowSettings);
         }
