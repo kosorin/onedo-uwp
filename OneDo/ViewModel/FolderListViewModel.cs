@@ -37,7 +37,7 @@ namespace OneDo.ViewModel
 
         protected override EditorViewModel<FolderModel> CreateEditor(FolderItemViewModel item)
         {
-            return new FolderEditorViewModel(Api, UIHost.ProgressService, item?.Entity);
+            return new FolderEditorViewModel(Api, UIHost.ProgressService);
         }
 
 

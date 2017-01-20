@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OneDo.Common.Mvvm;
 using OneDo.Application.Common;
 using OneDo.ViewModel.Args;
+using OneDo.Application;
 
 namespace OneDo.ViewModel
 {
@@ -40,6 +41,8 @@ namespace OneDo.ViewModel
         public AsyncRelayCommand DeleteCommand { get; }
 
 
+        public Api Api { get; }
+
         public IProgressService ProgressService { get; }
 
         public TEntity Original { get; protected set; }
@@ -48,13 +51,24 @@ namespace OneDo.ViewModel
 
         private Dictionary<string, bool> validProperties = new Dictionary<string, bool>();
 
-        protected EditorViewModel(IProgressService progressService)
+        protected EditorViewModel(Api api, IProgressService progressService)
         {
+            Api = api;
             ProgressService = progressService;
 
             SaveCommand = new AsyncRelayCommand(Save, () => CanSave);
             DeleteCommand = new AsyncRelayCommand(Delete, () => !IsNew);
         }
+
+        public void Load(TEntity entity)
+        {
+            IsNew = entity == null;
+            Original = entity ?? CreateDefault();
+
+            Load();
+        }
+
+        protected abstract void Load();
 
         protected virtual TEntity CreateDefault()
         {

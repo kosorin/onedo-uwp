@@ -71,21 +71,8 @@ namespace OneDo.ViewModel
         }
 
 
-        public Api Api { get; }
-
-        public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList)
-            : this(api, progressService, folderList, null)
+        public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList) : base(api, progressService)
         {
-
-        }
-
-        public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList, NoteModel noteModel)
-            : base(progressService)
-        {
-            Api = api;
-            IsNew = noteModel == null;
-            Original = noteModel ?? CreateDefault();
-
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
@@ -99,12 +86,9 @@ namespace OneDo.ViewModel
             {
                 UpdateDirtyProperty(() => e.Time != Original.Reminder);
             };
-
-            Load();
         }
 
-
-        private void Load()
+        protected override void Load()
         {
             if (!IsNew)
             {
@@ -120,6 +104,7 @@ namespace OneDo.ViewModel
             ReminderPicker.Time = Original.Reminder;
             IsFlagged = Original.IsFlagged;
         }
+
 
         protected override async Task Save()
         {

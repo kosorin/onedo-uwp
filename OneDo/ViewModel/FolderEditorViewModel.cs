@@ -44,8 +44,6 @@ namespace OneDo.ViewModel
         }
 
 
-        public Api Api { get; }
-
         private readonly Random random = new Random();
 
         static FolderEditorViewModel()
@@ -71,29 +69,18 @@ namespace OneDo.ViewModel
             };
         }
 
-        public FolderEditorViewModel(Api api, IProgressService progressService)
-            : this(api, progressService, null)
+        public FolderEditorViewModel(Api api, IProgressService progressService) : base(api, progressService)
         {
         }
 
-        public FolderEditorViewModel(Api api, IProgressService progressService, FolderModel folder)
-            : base(progressService)
-        {
-            Api = api;
-            IsNew = folder == null;
-            Original = folder ?? CreateDefault();
-
-            Load();
-        }
-
-
-        private void Load()
+        protected override void Load()
         {
             Name = Original.Name;
             SelectedColor = Colors
                 .Where(x => x.Color.ToHex() == Original.Color)
                 .FirstOrDefault() ?? Colors[random.Next(Colors.Count)];
         }
+
 
         protected override async Task Save()
         {

@@ -54,7 +54,7 @@ namespace OneDo.ViewModel
 
         protected override EditorViewModel<NoteModel> CreateEditor(NoteItemViewModel item)
         {
-            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList, item?.Entity);
+            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList);
         }
 
 
