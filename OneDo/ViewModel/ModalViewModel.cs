@@ -3,20 +3,14 @@ using OneDo.Services.ModalService;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ModalViewModel : ExtendedViewModel, IModal
+    public abstract class ModalViewModel : ExtendedViewModel
     {
         public static ModalViewModel Null { get; } = new NullModalViewModel();
 
-        public SubModalService SubModalService { get; } = new SubModalService();
-
-        IModalService IModal.SubModalService => SubModalService;
+        public ModalViewModel Child { get; set; }
 
         private class NullModalViewModel : ModalViewModel
         {
-            public NullModalViewModel()
-            {
-
-            }
         }
     }
 }

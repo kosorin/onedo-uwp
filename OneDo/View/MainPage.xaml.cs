@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using System.Linq;
 using OneDo.Services.ToastService;
+using OneDo.ViewModel.Messages;
+using OneDo.Application.Queries.Folders;
+using OneDo.Common;
+using OneDo.Application.Queries.Notes;
 
 namespace OneDo.View
 {
-    public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>
+    public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>,
+        IHandler<ShowEntityEditorMessage<FolderModel>>,
+        IHandler<ShowEntityEditorMessage<NoteModel>>
     {
         public MainViewModel VM => (MainViewModel)ViewModel;
 
@@ -20,6 +26,7 @@ namespace OneDo.View
             InitializeComponent();
             InitializeModalAnimations();
             InitializeInfoBar();
+            InitializeNavigation();
 
 #if DEBUG
             InitializeDebug();
@@ -58,6 +65,24 @@ namespace OneDo.View
             Messenger.Default.Register<InfoMessage>(InfoBar, InfoBar.Show);
         }
 
+        private void InitializeNavigation()
+        {
+            Messenger.Default.Register<ShowEntityEditorMessage<FolderModel>>(this, Handle);
+            Messenger.Default.Register<ShowEntityEditorMessage<NoteModel>>(this, Handle);
+        }
+
+
+        public void Handle(ShowEntityEditorMessage<FolderModel> args)
+        {
+            var editor = new FolderEditor();
+        }
+
+        public void Handle(ShowEntityEditorMessage<NoteModel> args)
+        {
+            throw new NotImplementedException();
+        }
+
+
 #if DEBUG
         private void InitializeDebug()
         {
@@ -65,7 +90,7 @@ namespace OneDo.View
             InsertMenuButtonAsync("Reset", VM.ResetData);
             InsertMenuButton("Switch theme", SwitchRequestedTheme);
             InsertMenuButtonAsync("Show schedule", ShowSchedule);
-            InsertMenuButton("Debug", () => VM.UIHost.ModalService.Show(new DebugViewModel(VM.UIHost.ProgressService)));
+            InsertMenuButton("Debug", () => Messenger.Default.Send(new ShowDebugMessage()));
         }
 
         private void InsertMenuSeparator()

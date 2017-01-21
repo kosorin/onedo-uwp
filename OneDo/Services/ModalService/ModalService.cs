@@ -6,6 +6,7 @@ using OneDo.Common.Mvvm;
 
 namespace OneDo.Services.ModalService
 {
+    [Obsolete("Otevírání Modalů se řeší přes Messanger")]
     public class ModalService : ExtendedViewModel, IModalService
     {
         private IModal current;
@@ -94,7 +95,6 @@ namespace OneDo.Services.ModalService
         {
             Detach();
             Current = modal;
-            Attach(modal.SubModalService);
         }
 
 

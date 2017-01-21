@@ -93,7 +93,6 @@ namespace OneDo
             await InitializeBackgroundTasks();
             InitializeTitleBar();
             await InitializeStatusBar();
-            InitializeModalService();
 
             ShowContent();
 
@@ -239,15 +238,6 @@ namespace OneDo
                     await statusBar.ShowAsync();
                 }
             }
-        }
-
-        private void InitializeModalService()
-        {
-            ViewModelLocator.Container.Resolve<IModalService>(
-                TypedParameter.From(Window.Current),
-                TypedParameter.From(SystemNavigationManager.GetForCurrentView()));
-
-            Logger.Current.Info("Modal service initialized");
         }
 
 

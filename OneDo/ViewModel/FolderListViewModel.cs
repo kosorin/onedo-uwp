@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using OneDo.Application.Commands.Folders;
+using OneDo.ViewModel.Messages;
 
 namespace OneDo.ViewModel
 {
@@ -35,9 +36,9 @@ namespace OneDo.ViewModel
             return new FolderItemViewModel(entity, this);
         }
 
-        protected override EditorViewModel<FolderModel> CreateEditor(FolderItemViewModel item)
+        protected override ShowEntityEditorMessage<FolderModel> CreateShowEditorMessage(FolderModel entity)
         {
-            return new FolderEditorViewModel(Api, UIHost.ProgressService);
+            return new ShowEntityEditorMessage<FolderModel>(entity?.Id);
         }
 
 

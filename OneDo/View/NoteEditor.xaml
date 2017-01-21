@@ -660,7 +660,6 @@
         <v:ModalContainer x:Name="ModalContainer"
                           Grid.RowSpan="2"
                           CloseCommand="{Binding CloseCommand}"
-                          DataContext="{x:Bind VM.SubModalService, Mode=OneWay}"
                           Modal="{Binding Current}">
             <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>

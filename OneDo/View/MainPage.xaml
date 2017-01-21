@@ -49,7 +49,6 @@
         <v:ModalContainer x:Name="ModalContainer"
                           Grid.RowSpan="4"
                           CloseCommand="{Binding CloseCommand}"
-                          DataContext="{x:Bind VM.UIHost.ModalService, Mode=OneWay}"
                           Modal="{Binding Current}">
             <v:ModalContainer.TemplateSelector>
                 <v:ModalTemplateSelector>

@@ -8,6 +8,7 @@ using System;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Folders;
 using OneDo.ViewModel.Args;
+using OneDo.ViewModel.Messages;
 
 namespace OneDo.ViewModel
 {
@@ -52,9 +53,9 @@ namespace OneDo.ViewModel
             return new NoteItemViewModel(entity, this);
         }
 
-        protected override EditorViewModel<NoteModel> CreateEditor(NoteItemViewModel item)
+        protected override ShowEntityEditorMessage<NoteModel> CreateShowEditorMessage(NoteModel entity)
         {
-            return new NoteEditorViewModel(Api, UIHost.ProgressService, FolderList);
+            return new ShowEntityEditorMessage<NoteModel>(entity?.Id);
         }
 
 

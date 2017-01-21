@@ -1,4 +1,5 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Common.Mvvm;
+using OneDo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -8,9 +9,11 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Markup;
 
 namespace OneDo.View
 {
+    [ContentProperty(Name = nameof(Modal))]
     public sealed partial class ModalContainer : ExtendedUserControl
     {
         public ModalViewModel Modal
@@ -24,7 +27,11 @@ namespace OneDo.View
 
         private static void Modal_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as ModalContainer)?.OnModalChanged(e.NewValue as ModalViewModel, e.OldValue as ModalViewModel);
+            var container = d as ModalContainer;
+            if (container != null)
+            {
+                container.OnModalChanged(e.NewValue as ModalViewModel, e.OldValue as ModalViewModel);
+            }
         }
 
 
@@ -48,14 +55,14 @@ namespace OneDo.View
             DependencyProperty.Register(nameof(TemplateSelector), typeof(DataTemplateSelector), typeof(ModalContainer), new PropertyMetadata(null));
 
 
-        public ICommand CloseCommand
+        public IExtendedCommand CloseCommand
         {
-            get { return (ICommand)GetValue(CloseCommandProperty); }
+            get { return (IExtendedCommand)GetValue(CloseCommandProperty); }
             set { SetValue(CloseCommandProperty, value); }
         }
 
         public static readonly DependencyProperty CloseCommandProperty =
-            DependencyProperty.Register(nameof(CloseCommand), typeof(ICommand), typeof(ModalContainer), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(CloseCommand), typeof(IExtendedCommand), typeof(ModalContainer), new PropertyMetadata(null));
 
 
         public CubicBezierEasingFunction DefaultEasing { get; }
@@ -135,6 +142,7 @@ namespace OneDo.View
             fadeOutAnimationInfos = new Dictionary<Type, AnimationInfo>();
         }
 
+
         public void AddFadeInAnimation<TViewModel>(string propertyName, CompositionAnimation animation)
         {
             fadeInAnimationInfos[typeof(TViewModel)] = new AnimationInfo(propertyName, animation);
@@ -144,6 +152,7 @@ namespace OneDo.View
         {
             fadeOutAnimationInfos[typeof(TViewModel)] = new AnimationInfo(propertyName, animation);
         }
+
 
         private void OnModalChanged(ModalViewModel newModal, ModalViewModel oldModal)
         {

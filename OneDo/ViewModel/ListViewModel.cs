@@ -1,7 +1,9 @@
-﻿using OneDo.Application;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OneDo.Application;
 using OneDo.Application.Common;
 using OneDo.Common.Mvvm;
 using OneDo.ViewModel.Args;
+using OneDo.ViewModel.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -108,13 +110,10 @@ namespace OneDo.ViewModel
 
         protected void ShowEditor(TItem item)
         {
-            var editor = CreateEditor(item);
-            editor.Saved += (s, e) => UIHost.ModalService.Close();
-            editor.Deleted += (s, e) => UIHost.ModalService.Close();
-            UIHost.ModalService.Show(editor);
+            Messenger.Default.Send(CreateShowEditorMessage(item?.Entity));
         }
 
-        protected abstract EditorViewModel<TEntity> CreateEditor(TItem item);
+        protected abstract ShowEntityEditorMessage<TEntity> CreateShowEditorMessage(TEntity entity);
 
 
         protected abstract Task Delete(TItem item);

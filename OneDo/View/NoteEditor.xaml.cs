@@ -45,12 +45,12 @@ namespace OneDo.View
 
         private void HideDatePicker()
         {
-            VM.SubModalService.TryClose();
+            //VM.SubModalService.TryClose();
         }
 
         private void ShowDatePicker()
         {
-            VM.SubModalService.Show(VM.DatePicker);
+            //VM.SubModalService.Show(VM.DatePicker);
         }
 
 
@@ -66,12 +66,12 @@ namespace OneDo.View
 
         private void HideTimePicker()
         {
-            VM.SubModalService.TryClose();
+            //VM.SubModalService.TryClose();
         }
 
         private void ShowTimePicker()
         {
-            VM.SubModalService.Show(VM.ReminderPicker);
+            //VM.SubModalService.Show(VM.ReminderPicker);
         }
     }
 }

@@ -56,6 +56,8 @@ namespace OneDo.ViewModel
             Api = api;
             ProgressService = progressService;
 
+            Original = CreateDefault();
+
             SaveCommand = new AsyncRelayCommand(Save, () => CanSave);
             DeleteCommand = new AsyncRelayCommand(Delete, () => !IsNew);
         }
@@ -63,7 +65,7 @@ namespace OneDo.ViewModel
         public void Load(TEntity entity)
         {
             IsNew = entity == null;
-            Original = entity ?? CreateDefault();
+            Original = entity ?? Original;
 
             Load();
         }

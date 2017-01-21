@@ -25,7 +25,6 @@ namespace OneDo.ViewModel
                 builder.RegisterType<UIHost>().AsSelf().SingleInstance();
                 builder.RegisterType<BackgroundTaskService>().As<IBackgroundTaskService>().SingleInstance();
                 builder.RegisterType<ToastService>().As<IToastService>().SingleInstance();
-                builder.RegisterType<ModalService>().As<IModalService>().SingleInstance();
                 builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();

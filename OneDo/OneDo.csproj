@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
+    <Compile Include="Common\IMessage.cs" />
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
@@ -134,6 +135,9 @@
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
+    <Compile Include="ViewModel\Messages\ShowDebugMessage.cs" />
+    <Compile Include="ViewModel\Messages\ShowEntityEditorMessage.cs" />
+    <Compile Include="ViewModel\Messages\ShowSettingsMessage.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="ViewModel\TimePickerViewModel.cs" />
     <Compile Include="ViewModel\UIHost.cs" />

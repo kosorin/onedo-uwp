@@ -10,6 +10,8 @@ using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
 using OneDo.ViewModel.Args;
 using OneDo.Application.Queries.Notes;
+using GalaSoft.MvvmLight.Messaging;
+using OneDo.ViewModel.Messages;
 
 namespace OneDo.ViewModel
 {
@@ -65,7 +67,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            UIHost.ModalService.Show(new SettingsViewModel());
+            Messenger.Default.Send(new ShowSettingsMessage());
         }
     }
 }
