@@ -12,11 +12,11 @@ namespace OneDo.ViewModel.Messages
     public class ShowEntityEditorMessage<TEntity> : IMessage
         where TEntity : IEntityModel
     {
-        public ShowEntityEditorMessage(Guid? entityId)
+        public ShowEntityEditorMessage(TEntity entity)
         {
-            EntityId = entityId;
+            Entity = entity;
         }
 
-        public Guid? EntityId { get; }
+        public TEntity Entity { get; }
     }
 }

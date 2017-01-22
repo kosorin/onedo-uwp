@@ -47,6 +47,10 @@ namespace OneDo.ViewModel
 
         public FolderListViewModel FolderList => Container?.Resolve<FolderListViewModel>();
 
+        public FolderEditorViewModel FolderEditor => Container?.Resolve<FolderEditorViewModel>();
+
         public NoteListViewModel NoteList => Container?.Resolve<NoteListViewModel>();
+
+        public NoteEditorViewModel NoteEditor => Container?.Resolve<NoteEditorViewModel>();
     }
 }

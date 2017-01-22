@@ -39,25 +39,25 @@ namespace OneDo.View
             noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
             noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
             noteEditorFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeInAnimation<NoteEditorViewModel>("Offset.Y", noteEditorFadeInAnimation);
+            ModalContainer.AddFadeInAnimation<NoteEditor>("Offset.Y", noteEditorFadeInAnimation);
 
             var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
             noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
             noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
             noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeOutAnimation<NoteEditorViewModel>("Offset.Y", noteEditorFadeOutAnimation);
+            ModalContainer.AddFadeOutAnimation<NoteEditor>("Offset.Y", noteEditorFadeOutAnimation);
 
             var settingsFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             settingsFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
             settingsFadeInAnimation.InsertExpressionKeyFrame(0, "Width");
             settingsFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeInAnimation<SettingsViewModel>("Offset.X", settingsFadeInAnimation);
+            ModalContainer.AddFadeInAnimation<SettingsView>("Offset.X", settingsFadeInAnimation);
 
             var settingsFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
             settingsFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
             settingsFadeOutAnimation.InsertKeyFrame(0, 0);
             settingsFadeOutAnimation.InsertExpressionKeyFrame(1, "Width", ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeOutAnimation<SettingsViewModel>("Offset.X", settingsFadeOutAnimation);
+            ModalContainer.AddFadeOutAnimation<SettingsView>("Offset.X", settingsFadeOutAnimation);
         }
 
         private void InitializeInfoBar()
@@ -74,12 +74,12 @@ namespace OneDo.View
 
         public void Handle(ShowEntityEditorMessage<FolderModel> args)
         {
-            var editor = new FolderEditor();
+            ModalContainer.Modal = new FolderEditor(args.Entity);
         }
 
         public void Handle(ShowEntityEditorMessage<NoteModel> args)
         {
-            throw new NotImplementedException();
+            ModalContainer.Modal = new NoteEditor(args.Entity);
         }
 
 

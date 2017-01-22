@@ -4,16 +4,19 @@ using Windows.UI;
 
 namespace OneDo.ViewModel
 {
-    public class FolderItemViewModel: ItemViewModel<FolderModel>
+    public class FolderItemViewModel : ItemViewModel<FolderModel>
     {
-        public string Name => Entity.Name;
+        public string Name { get; }
 
-        public Color Color => Entity.Color.ToColor();
+        public Color Color { get; }
 
         public IFolderCommands FolderCommands { get; }
 
-        public FolderItemViewModel(FolderModel entityModel, IFolderCommands folderCommands) : base(entityModel)
+        public FolderItemViewModel(FolderModel entity, IFolderCommands folderCommands) : base(entity.Id)
         {
+            Name = entity.Name;
+            Color = entity.Color.ToColor();
+
             FolderCommands = folderCommands;
         }
     }

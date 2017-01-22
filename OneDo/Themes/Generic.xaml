@@ -1,6 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:OneDo.View.Controls">
+                    xmlns:controls="using:OneDo.View.Controls"
+                    xmlns:i="using:Microsoft.Xaml.Interactivity"
+                    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                    xmlns:im="using:Microsoft.Xaml.Interactions.Media"
+                    xmlns:v="using:OneDo.View">
 
     <Style TargetType="controls:SlidableListItem">
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -128,6 +132,23 @@
                             </StackPanel>
                         </Button>
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="v:ModalContainer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="v:ModalContainer">
+                    <Grid x:Name="PART_RootGrid">
+                        <Border x:Name="PART_BackgroundControl" Background="{ThemeResource ModalContainerBackgroundBrush}" />
+                        <ContentControl x:Name="PART_ContentControl"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Content="{TemplateBinding ActualModal}" />
+                    </Grid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

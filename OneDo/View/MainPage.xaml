@@ -47,39 +47,7 @@
 
         <!--  Modals  -->
         <v:ModalContainer x:Name="ModalContainer"
-                          Grid.RowSpan="4"
-                          CloseCommand="{Binding CloseCommand}"
-                          Modal="{Binding Current}">
-            <v:ModalContainer.TemplateSelector>
-                <v:ModalTemplateSelector>
-                    <v:ModalTemplateSelector.FolderEditorTemplate>
-                        <DataTemplate x:DataType="vm:FolderEditorViewModel">
-                            <Border HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
-                                    BorderThickness="1">
-                                <v:FolderEditor />
-                            </Border>
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.FolderEditorTemplate>
-                    <v:ModalTemplateSelector.NoteEditorTemplate>
-                        <DataTemplate x:DataType="vm:NoteEditorViewModel">
-                            <v:NoteEditor />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.NoteEditorTemplate>
-                    <v:ModalTemplateSelector.SettingsTemplate>
-                        <DataTemplate x:DataType="vm:SettingsViewModel">
-                            <v:SettingsView />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.SettingsTemplate>
-                    <v:ModalTemplateSelector.DebugTemplate>
-                        <DataTemplate x:DataType="vm:DebugViewModel">
-                            <v:DebugView />
-                        </DataTemplate>
-                    </v:ModalTemplateSelector.DebugTemplate>
-                </v:ModalTemplateSelector>
-            </v:ModalContainer.TemplateSelector>
-        </v:ModalContainer>
+                          Grid.RowSpan="4" />
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="4">

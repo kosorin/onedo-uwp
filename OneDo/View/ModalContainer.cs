@@ -2,8 +2,10 @@
 using OneDo.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
-using System.Windows.Input;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -14,60 +16,59 @@ using Windows.UI.Xaml.Markup;
 namespace OneDo.View
 {
     [ContentProperty(Name = nameof(Modal))]
-    public sealed partial class ModalContainer : ExtendedUserControl
+    [TemplatePart(Name = RootGridPartName, Type = typeof(Grid))]
+    [TemplatePart(Name = BackgroundControlPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = ContentControlPartName, Type = typeof(ContentControl))]
+    public class ModalContainer : ExtendedContentControl
     {
-        public ModalViewModel Modal
+        private const string RootGridPartName = "PART_RootGrid";
+        private const string BackgroundControlPartName = "PART_BackgroundControl";
+        private const string ContentControlPartName = "PART_ContentControl";
+
+        private class NullModal : ModalBase
         {
-            get { return (ModalViewModel)GetValue(ModalProperty); }
+        }
+
+        public static ModalBase Null { get; }
+
+        public static CubicBezierEasingFunction DefaultEasing { get; }
+
+        public static int DefaultDuration { get; }
+
+
+        public ModalBase Modal
+        {
+            get { return (ModalBase)GetValue(ModalProperty); }
             set { SetValue(ModalProperty, value); }
         }
 
         public static readonly DependencyProperty ModalProperty =
-            DependencyProperty.Register(nameof(Modal), typeof(ModalViewModel), typeof(ModalContainer), new PropertyMetadata(null, Modal_Changed));
+            DependencyProperty.Register(nameof(Modal), typeof(ModalBase), typeof(ModalContainer), new PropertyMetadata(Null, OnModalChanged));
 
-        private static void Modal_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var container = d as ModalContainer;
-            if (container != null)
-            {
-                container.OnModalChanged(e.NewValue as ModalViewModel, e.OldValue as ModalViewModel);
-            }
+            var container = (ModalContainer)d;
+            container.OnModalChanged(e.NewValue as ModalBase, e.OldValue as ModalBase);
         }
 
 
-        public ModalViewModel ActualModal
+        public ModalBase ActualModal
         {
-            get { return (ModalViewModel)GetValue(ActualModalProperty); }
+            get { return (ModalBase)GetValue(ActualModalProperty); }
             private set { SetValue(ActualModalProperty, value); }
         }
 
         public static readonly DependencyProperty ActualModalProperty =
-            DependencyProperty.Register(nameof(ActualModal), typeof(ModalViewModel), typeof(ModalContainer), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ActualModal), typeof(ModalBase), typeof(ModalContainer), new PropertyMetadata(Null));
 
 
-        public DataTemplateSelector TemplateSelector
-        {
-            get { return (DataTemplateSelector)GetValue(TemplateSelectorProperty); }
-            set { SetValue(TemplateSelectorProperty, value); }
-        }
-
-        public static readonly DependencyProperty TemplateSelectorProperty =
-            DependencyProperty.Register(nameof(TemplateSelector), typeof(DataTemplateSelector), typeof(ModalContainer), new PropertyMetadata(null));
 
 
-        public IExtendedCommand CloseCommand
-        {
-            get { return (IExtendedCommand)GetValue(CloseCommandProperty); }
-            set { SetValue(CloseCommandProperty, value); }
-        }
+        private Grid rootGrid;
 
-        public static readonly DependencyProperty CloseCommandProperty =
-            DependencyProperty.Register(nameof(CloseCommand), typeof(IExtendedCommand), typeof(ModalContainer), new PropertyMetadata(null));
+        private FrameworkElement backgroundControl;
 
-
-        public CubicBezierEasingFunction DefaultEasing { get; }
-
-        public int DefaultDuration { get; }
+        private ContentControl contentControl;
 
 
         private Visual backgroundVisual;
@@ -86,29 +87,40 @@ namespace OneDo.View
 
         private Dictionary<Type, AnimationInfo> fadeOutAnimationInfos;
 
-        public ModalContainer()
+        static ModalContainer()
         {
-            InitializeComponent();
-            if (!DesignMode.DesignModeEnabled)
-            {
-                backgroundVisual = ElementCompositionPreview.GetElementVisual(BackgroundControl);
-                contentVisual = ElementCompositionPreview.GetElementVisual(ContentControl);
+            Null = new NullModal();
 
-                DefaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
-                DefaultDuration = 300;
-
-                RootGrid.Visibility = Modal != null
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-
-                InitializeBackgroundControl();
-                InitializeAnimations();
-            }
+            DefaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
+            DefaultDuration = 300;
         }
 
-        private void InitializeBackgroundControl()
+        public ModalContainer()
         {
+            DefaultStyleKey = typeof(ModalContainer);
+
             InitializeBackgroundAnimations();
+            InitializeContentAnimations();
+        }
+
+        protected override void OnApplyTemplate()
+        {
+            rootGrid = (Grid)GetTemplateChild(RootGridPartName);
+            rootGrid.Visibility = Modal != Null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            backgroundControl = (FrameworkElement)GetTemplateChild(BackgroundControlPartName);
+            backgroundControl.Tapped += OnBackgroundControlTapped;
+            backgroundVisual = ElementCompositionPreview.GetElementVisual(backgroundControl);
+
+            contentControl = (ContentControl)GetTemplateChild(ContentControlPartName);
+            contentVisual = ElementCompositionPreview.GetElementVisual(contentControl);
+        }
+
+        private void OnBackgroundControlTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Modal = Null;
         }
 
         private void InitializeBackgroundAnimations()
@@ -125,7 +137,7 @@ namespace OneDo.View
             opacityFadeOutAnimation.InsertKeyFrame(1, 0);
         }
 
-        private void InitializeAnimations()
+        private void InitializeContentAnimations()
         {
             var defaultFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             defaultFadeInAnimation.Duration = TimeSpan.FromMilliseconds(DefaultDuration);
@@ -143,32 +155,34 @@ namespace OneDo.View
         }
 
 
-        public void AddFadeInAnimation<TViewModel>(string propertyName, CompositionAnimation animation)
+        public void AddFadeInAnimation<TModal>(string propertyName, CompositionAnimation animation)
+            where TModal : ModalBase
         {
-            fadeInAnimationInfos[typeof(TViewModel)] = new AnimationInfo(propertyName, animation);
+            fadeInAnimationInfos[typeof(TModal)] = new AnimationInfo(propertyName, animation);
         }
 
-        public void AddFadeOutAnimation<TViewModel>(string propertyName, CompositionAnimation animation)
+        public void AddFadeOutAnimation<TModal>(string propertyName, CompositionAnimation animation)
+            where TModal : ModalBase
         {
-            fadeOutAnimationInfos[typeof(TViewModel)] = new AnimationInfo(propertyName, animation);
+            fadeOutAnimationInfos[typeof(TModal)] = new AnimationInfo(propertyName, animation);
         }
 
 
-        private void OnModalChanged(ModalViewModel newModal, ModalViewModel oldModal)
+        private void OnModalChanged(ModalBase newModal, ModalBase oldModal)
         {
-            if (newModal != null)
+            if (newModal != Null)
             {
                 OnModalShowed(newModal);
             }
-            else if (oldModal != null)
+            else if (oldModal != Null)
             {
                 OnModalClosed(oldModal);
             }
         }
 
-        private void OnModalShowed(ModalViewModel modal)
+        private void OnModalShowed(ModalBase modal)
         {
-            RootGrid.Visibility = modal != null ? Visibility.Visible : Visibility.Collapsed;
+            rootGrid.Visibility = Visibility.Visible;
             ActualModal = modal;
 
             backgroundVisual.StartAnimation("Opacity", opacityFadeInAnimation);
@@ -178,13 +192,13 @@ namespace OneDo.View
             RunContentAnimation(fadeInAnimationInfos, modal.GetType(), defaultFadeInAnimationInfo);
         }
 
-        private void OnModalClosed(ModalViewModel modal)
+        private void OnModalClosed(ModalBase modal)
         {
             var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             batch.Completed += (s, e) =>
             {
-                RootGrid.Visibility = Visibility.Collapsed;
-                ActualModal = ModalViewModel.Null;
+                rootGrid.Visibility = Visibility.Collapsed;
+                ActualModal = Null;
             };
 
             backgroundVisual.StartAnimation("Opacity", opacityFadeOutAnimation);

@@ -36,15 +36,20 @@ namespace OneDo.ViewModel
             return new FolderItemViewModel(entity, this);
         }
 
+        protected override async Task<FolderModel> GetEntity(FolderItemViewModel item)
+        {
+            return await Api.FolderQuery.Get(item.Id);
+        }
+
         protected override ShowEntityEditorMessage<FolderModel> CreateShowEditorMessage(FolderModel entity)
         {
-            return new ShowEntityEditorMessage<FolderModel>(entity?.Id);
+            return new ShowEntityEditorMessage<FolderModel>(entity);
         }
 
 
         protected override async Task Delete(FolderItemViewModel item)
         {
-            await Api.CommandBus.Execute(new DeleteFolderCommand(item.Entity.Id));
+            await Api.CommandBus.Execute(new DeleteFolderCommand(item.Id));
         }
 
         protected override bool CanDelete(FolderItemViewModel item)

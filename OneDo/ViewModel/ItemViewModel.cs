@@ -1,21 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using OneDo.Application.Common;
+using System;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ItemViewModel<TEntity> : ObservableObject 
+    public abstract class ItemViewModel<TEntity> : ObservableObject
         where TEntity : IEntityModel
     {
-        public TEntity Entity { get; }
+        public Guid Id { get; }
 
-        protected ItemViewModel(TEntity entity)
+        protected ItemViewModel(Guid id)
         {
-            Entity = entity;
-        }
-
-        public void Refresh()
-        {
-            RaisePropertyChanged("");
+            Id = id;
         }
     }
 }

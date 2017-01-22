@@ -1,4 +1,5 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Application.Queries.Notes;
+using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 
 namespace OneDo.View
@@ -7,10 +8,11 @@ namespace OneDo.View
     {
         public NoteEditorViewModel VM => ViewModel as NoteEditorViewModel;
 
-
-        public NoteEditor()
+        public NoteEditor(NoteModel note)
         {
             InitializeComponent();
+
+            VM.Load(note);
         }
 
 

@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel.Args
 {
-    public class EntityEventArgs<TEntity> : EventArgs
-        where TEntity : IEntityModel
+    public class SelectionChangedEventArgs<TItem> : EventArgs
     {
-        public TEntity Entity { get; }
+        public TItem Item { get; }
 
-        public EntityEventArgs(TEntity entity)
+        public SelectionChangedEventArgs(TItem item)
         {
-            Entity = entity;
+            Item = item;
         }
     }
 }

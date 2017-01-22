@@ -26,11 +26,11 @@ namespace OneDo.ViewModel
             FolderList.SelectionChanged += OnFolderListSelectionChanged;
         }
 
-        private async void OnFolderListSelectionChanged(object sender, EntityEventArgs<FolderModel> args)
+        private async void OnFolderListSelectionChanged(object sender, SelectionChangedEventArgs<FolderItemViewModel> args)
         {
-            if (args.Entity != null)
+            if (args.Item != null)
             {
-                await Load(args.Entity.Id);
+                await Load(args.Item.Id);
             }
             else
             {
@@ -53,15 +53,20 @@ namespace OneDo.ViewModel
             return new NoteItemViewModel(entity, this);
         }
 
+        protected override async Task<NoteModel> GetEntity(NoteItemViewModel item)
+        {
+            return await Api.NoteQuery.Get(item.Id);
+        }
+
         protected override ShowEntityEditorMessage<NoteModel> CreateShowEditorMessage(NoteModel entity)
         {
-            return new ShowEntityEditorMessage<NoteModel>(entity?.Id);
+            return new ShowEntityEditorMessage<NoteModel>(entity);
         }
 
 
         protected override async Task Delete(NoteItemViewModel item)
         {
-            await Api.CommandBus.Execute(new DeleteNoteCommand(item.Entity.Id));
+            await Api.CommandBus.Execute(new DeleteNoteCommand(item.Id));
         }
 
         protected override bool CanDelete(NoteItemViewModel item)
@@ -74,8 +79,7 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                item.Entity.IsFlagged = !item.Entity.IsFlagged;
-                await Api.CommandBus.Execute(new SetNoteFlagCommand(item.Entity.Id, item.Entity.IsFlagged));
+                await Api.CommandBus.Execute(new SetNoteFlagCommand(item.Id, !item.IsFlagged));
             });
         }
     }

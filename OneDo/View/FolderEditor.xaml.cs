@@ -1,4 +1,6 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Application.Queries.Folders;
+using OneDo.ViewModel;
+using System;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 
@@ -10,9 +12,11 @@ namespace OneDo.View
 
         private bool isSelectionChanging = false;
 
-        public FolderEditor()
+        public FolderEditor(FolderModel folder)
         {
             InitializeComponent();
+
+            VM.Load(folder);
         }
 
         private void Colors_SelectionChanged(object sender, SelectionChangedEventArgs e)

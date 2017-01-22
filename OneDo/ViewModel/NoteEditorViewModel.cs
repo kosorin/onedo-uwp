@@ -21,7 +21,7 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedFolder, value))
                 {
-                    UpdateDirtyProperty(() => SelectedFolder?.Entity.Id != Original.FolderId);
+                    UpdateDirtyProperty(() => SelectedFolder?.Id != Original.FolderId);
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace OneDo.ViewModel
         {
             if (!IsNew)
             {
-                var folder = Folders.Where(x => x.Entity.Id == Original.FolderId).FirstOrDefault();
+                var folder = Folders.Where(x => x.Id == Original.FolderId).FirstOrDefault();
                 if (folder != null)
                 {
                     SelectedFolder = folder;
@@ -108,7 +108,7 @@ namespace OneDo.ViewModel
 
         protected override async Task Save()
         {
-            Original.FolderId = SelectedFolder.Entity.Id;
+            Original.FolderId = SelectedFolder.Id;
             Original.Title = Title ?? "";
             Original.Text = Text ?? "";
             Original.Date = DatePicker.Date;

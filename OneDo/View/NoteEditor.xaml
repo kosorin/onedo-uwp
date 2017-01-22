@@ -14,6 +14,7 @@
              x:Name="Root"
              d:DesignHeight="640"
              d:DesignWidth="360"
+             DataContext="{Binding NoteEditor, Source={StaticResource Locator}}"
              mc:Ignorable="d">
 
     <v:ModalBase.Resources>
@@ -657,7 +658,7 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <v:ModalContainer x:Name="ModalContainer"
+        <!--<v:ModalContainer x:Name="ModalContainer"
                           Grid.RowSpan="2"
                           CloseCommand="{Binding CloseCommand}"
                           Modal="{Binding Current}">
@@ -686,7 +687,7 @@
                 </v:ModalTemplateSelector>
             </v:ModalContainer.TemplateSelector>
         </v:ModalContainer>
-
+-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">

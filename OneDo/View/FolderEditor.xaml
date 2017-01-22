@@ -7,6 +7,7 @@
              xmlns:v="using:OneDo.View"
              xmlns:vm="using:OneDo.ViewModel"
              d:DesignWidth="264"
+             DataContext="{Binding FolderEditor, Source={StaticResource Locator}}"
              mc:Ignorable="d">
 
     <v:ModalBase.Resources>
@@ -58,50 +59,57 @@
 
     </v:ModalBase.Resources>
 
-    <Grid Width="264" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Border Width="266"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
+            BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Margin="24,16">
-            <TextBox Style="{StaticResource BorderlessTextBoxStyle}"
-                     behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
-                     PlaceholderText="Folder"
-                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Rectangle Style="{StaticResource HorizontalLineStyle}" />
-            <GridView Margin="0,16,-8,-8"
-                      ItemContainerStyle="{StaticResource ColorItemContainerStyle}"
-                      ItemContainerTransitions="{x:Null}"
-                      ItemTemplate="{StaticResource ColorItemTemplate}"
-                      ItemsSource="{x:Bind VM.Colors}"
-                      SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
-                      SelectionChanged="Colors_SelectionChanged"
-                      SelectionMode="Multiple">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-            </GridView>
-        </StackPanel>
+            <StackPanel Margin="24,16">
+                <TextBox Style="{StaticResource BorderlessTextBoxStyle}"
+                         behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
+                         PlaceholderText="Folder"
+                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <GridView Margin="0,16,-8,-8"
+                          ItemContainerStyle="{StaticResource ColorItemContainerStyle}"
+                          ItemContainerTransitions="{x:Null}"
+                          ItemTemplate="{StaticResource ColorItemTemplate}"
+                          ItemsSource="{x:Bind VM.Colors}"
+                          SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                          SelectionChanged="Colors_SelectionChanged"
+                          SelectionMode="Multiple">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+            </StackPanel>
 
-        <CommandBar Grid.Row="1">
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE74E;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Command="{x:Bind VM.DeleteCommand, Mode=OneWay}"
-                              Label="Delete"
-                              Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE74D;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.PrimaryCommands>
-        </CommandBar>
-    </Grid>
+            <CommandBar Grid.Row="1">
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74E;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Command="{x:Bind VM.DeleteCommand, Mode=OneWay}"
+                                  Label="Delete"
+                                  Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74D;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+    </Border>
 
 </v:ModalBase>

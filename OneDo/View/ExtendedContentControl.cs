@@ -7,13 +7,13 @@ using Windows.UI.Xaml.Hosting;
 
 namespace OneDo.View
 {
-    public class ExtendedUserControl : UserControl, IView, INotifyPropertyChanged
+    public class ExtendedContentControl : ContentControl, IView, INotifyPropertyChanged
     {
         public ExtendedViewModel ViewModel { get; set; }
 
         protected readonly Compositor compositor;
 
-        public ExtendedUserControl()
+        public ExtendedContentControl()
         {
             if (!DesignMode.DesignModeEnabled)
             {

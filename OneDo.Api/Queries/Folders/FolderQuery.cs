@@ -19,6 +19,19 @@ namespace OneDo.Application.Queries.Folders
             this.folderRepository = folderRepository;
         }
 
+        public async Task<FolderModel> Get(Guid id)
+        {
+            var folderData = await folderRepository.Get(id);
+            if (folderData != null)
+            {
+                return Map(folderData);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<IList<FolderModel>> GetAll()
         {
             var folderDatas = await folderRepository.GetAll();

@@ -39,13 +39,13 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedItem, value))
                 {
-                    SelectionChanged?.Invoke(this, new EntityEventArgs<TEntity>(SelectedItem?.Entity));
+                    SelectionChanged?.Invoke(this, new SelectionChangedEventArgs<TItem>(SelectedItem));
                 }
             }
         }
 
 
-        public event EventHandler<EntityEventArgs<TEntity>> SelectionChanged;
+        public event EventHandler<SelectionChangedEventArgs<TItem>> SelectionChanged;
 
 
         public IExtendedCommand ShowEditorCommand { get; }
@@ -62,55 +62,27 @@ namespace OneDo.ViewModel
             Api = api;
             UIHost = uiHost;
 
-            ShowEditorCommand = new RelayCommand<TItem>(ShowEditor);
+            ShowEditorCommand = new AsyncRelayCommand<TItem>(ShowEditor);
             DeleteCommand = new AsyncRelayCommand<TItem>(Delete, CanDelete);
         }
 
-        [Obsolete]
-        public void Clear()
-        {
-            Items.Clear();
-        }
-
-        [Obsolete]
-        public void Add(TEntity entity)
-        {
-            var item = CreateItem(entity);
-            Items.Add(item);
-        }
-
-        [Obsolete]
-        public void Refresh(TEntity entity)
-        {
-            var item = GetItem(entity);
-            if (item != null)
-            {
-                item.Refresh();
-            }
-        }
-
-        [Obsolete]
-        public void Remove(TEntity entity)
-        {
-            var item = GetItem(entity);
-            if (item != null)
-            {
-                Items.Remove(item);
-            }
-        }
-
-
-        protected TItem GetItem(TEntity entity)
-        {
-            return Items.FirstOrDefault(x => x.Entity.Id == entity.Id);
-        }
 
         protected abstract TItem CreateItem(TEntity entity);
 
+        protected abstract Task<TEntity> GetEntity(TItem item);
 
-        protected void ShowEditor(TItem item)
+
+        protected async Task ShowEditor(TItem item)
         {
-            Messenger.Default.Send(CreateShowEditorMessage(item?.Entity));
+            await UIHost.ProgressService.RunAsync(async () =>
+            {
+                var entity = await GetEntity(item);
+                if (entity != null)
+                {
+                    var message = CreateShowEditorMessage(entity);
+                    Messenger.Default.Send(message);
+                }
+            });
         }
 
         protected abstract ShowEntityEditorMessage<TEntity> CreateShowEditorMessage(TEntity entity);
