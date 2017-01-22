@@ -12,6 +12,8 @@ namespace OneDo.View
 
         private bool isSelectionChanging = false;
 
+        private readonly Guid? entityId;
+
         public FolderEditor(FolderModel folder)
         {
             InitializeComponent();

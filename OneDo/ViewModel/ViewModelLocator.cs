@@ -36,7 +36,7 @@ namespace OneDo.ViewModel
                 builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
 
                 builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
+                builder.Register(c=>c.Reso).As<NoteEditorViewModel>().InstancePerDependency();
 
 
                 Container = builder.Build();
