@@ -2,7 +2,7 @@
 using OneDo.Common.Extensions;
 using Windows.UI;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModel.Items
 {
     public class ColorItemObject : ObservableObject
     {

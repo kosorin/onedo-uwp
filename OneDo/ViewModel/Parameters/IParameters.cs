@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModel.Messages
+namespace OneDo.ViewModel.Parameters
 {
-    public class ShowDebugMessage : IMessage
+    public interface IParameters
     {
     }
 }

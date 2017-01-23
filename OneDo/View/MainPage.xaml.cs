@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using System.Linq;
 using OneDo.Services.ToastService;
-using OneDo.ViewModel.Messages;
+using OneDo.ViewModel.Parameters;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common;
 using OneDo.Application.Queries.Notes;
@@ -16,6 +16,8 @@ using OneDo.Application.Queries.Notes;
 namespace OneDo.View
 {
     public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>,
+        IHandler<SettingsParameters>,
+        IHandler<DebugParameters>,
         IHandler<ShowEntityEditorMessage<FolderModel>>,
         IHandler<ShowEntityEditorMessage<NoteModel>>
     {
@@ -67,19 +69,31 @@ namespace OneDo.View
 
         private void InitializeNavigation()
         {
+            Messenger.Default.Register<SettingsParameters>(this, Handle);
+            Messenger.Default.Register<DebugParameters>(this, Handle);
             Messenger.Default.Register<ShowEntityEditorMessage<FolderModel>>(this, Handle);
             Messenger.Default.Register<ShowEntityEditorMessage<NoteModel>>(this, Handle);
         }
 
 
+        public void Handle(SettingsParameters args)
+        {
+            ModalContainer.Show(new SettingsView());
+        }
+
+        public void Handle(DebugParameters args)
+        {
+            ModalContainer.Show(new DebugView());
+        }
+
         public void Handle(ShowEntityEditorMessage<FolderModel> args)
         {
-            ModalContainer.Modal = new FolderEditor(args.Entity);
+            ModalContainer.Show(new FolderEditor(args.EntityId));
         }
 
         public void Handle(ShowEntityEditorMessage<NoteModel> args)
         {
-            ModalContainer.Modal = new NoteEditor(args.Entity);
+            ModalContainer.Show(new NoteEditor(args.EntityId));
         }
 
 
@@ -90,7 +104,7 @@ namespace OneDo.View
             InsertMenuButtonAsync("Reset", VM.ResetData);
             InsertMenuButton("Switch theme", SwitchRequestedTheme);
             InsertMenuButtonAsync("Show schedule", ShowSchedule);
-            InsertMenuButton("Debug", () => Messenger.Default.Send(new ShowDebugMessage()));
+            InsertMenuButton("Debug", () => Messenger.Default.Send(new DebugParameters()));
         }
 
         private void InsertMenuSeparator()

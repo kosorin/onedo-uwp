@@ -14,19 +14,22 @@ namespace OneDo.ViewModel
     public abstract class EditorViewModel<TEntity> : ModalViewModel
         where TEntity : class, IEntityModel, new()
     {
-        private bool isNew;
-        public bool IsNew
+        private Guid? id;
+        public Guid? Id
         {
-            get { return isNew; }
-            set
+            get { return id; }
+            private set
             {
-                if (Set(ref isNew, value))
+                if (Set(ref id, value))
                 {
+                    RaisePropertyChanged(nameof(IsNew));
                     UpdateDirtyProperty(() => IsNew);
                     DeleteCommand.RaiseCanExecuteChanged();
                 }
             }
         }
+
+        public bool IsNew => Id == null;
 
         public bool CanSave => dirtyProperties.Any(x => x.Value) && validProperties.All(x => x.Value);
 
@@ -59,18 +62,22 @@ namespace OneDo.ViewModel
             Original = CreateDefault();
 
             SaveCommand = new AsyncRelayCommand(Save, () => CanSave);
-            DeleteCommand = new AsyncRelayCommand(Delete, () => !IsNew);
+            DeleteCommand = new AsyncRelayCommand(Delete, () => Id != null);
         }
 
-        public void Load(TEntity entity)
+        public async Task Load(Guid? id)
         {
-            IsNew = entity == null;
-            Original = entity ?? Original;
-
-            Load();
+            Id = id;
+            if (Id != null)
+            {
+                await InitializeData();
+            }
+            InitializeProperties();
         }
 
-        protected abstract void Load();
+        protected abstract Task InitializeData();
+
+        protected abstract void InitializeProperties();
 
         protected virtual TEntity CreateDefault()
         {

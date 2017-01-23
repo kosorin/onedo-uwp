@@ -100,7 +100,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
-    <Compile Include="Common\IMessage.cs" />
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
@@ -111,10 +110,6 @@
     <Compile Include="Services\InfoService\InfoMessageColors.cs" />
     <Compile Include="Services\InfoService\InfoMessageDurations.cs" />
     <Compile Include="Services\InfoService\InfoService.cs" />
-    <Compile Include="Services\ModalService\IModal.cs" />
-    <Compile Include="Services\ModalService\IModalService.cs" />
-    <Compile Include="Services\ModalService\ModalService.cs" />
-    <Compile Include="Services\ModalService\SubModalService.cs" />
     <Compile Include="Services\StringService\IStringProvider.cs" />
     <Compile Include="Services\StringService\StringProvider.cs" />
     <Compile Include="Services\ToastService\IToastService.cs" />
@@ -131,14 +126,16 @@
     <Compile Include="ViewModel\IFolderCommands.cs" />
     <Compile Include="ViewModel\IListCommandsCommands.cs" />
     <Compile Include="ViewModel\INoteCommands.cs" />
-    <Compile Include="ViewModel\ItemViewModel.cs" />
-    <Compile Include="ViewModel\ColorItemObject.cs" />
+    <Compile Include="ViewModel\Items\ItemViewModel.cs" />
+    <Compile Include="ViewModel\Items\ColorItemObject.cs" />
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
-    <Compile Include="ViewModel\Messages\ShowDebugMessage.cs" />
-    <Compile Include="ViewModel\Messages\ShowEntityEditorMessage.cs" />
-    <Compile Include="ViewModel\Messages\ShowSettingsMessage.cs" />
+    <Compile Include="ViewModel\Parameters\FolderEditorParameters.cs" />
+    <Compile Include="ViewModel\Parameters\IParameters.cs" />
+    <Compile Include="ViewModel\Parameters\DebugParameters.cs" />
+    <Compile Include="ViewModel\Parameters\NoteEditorParameters.cs" />
+    <Compile Include="ViewModel\Parameters\SettingsParameters.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="ViewModel\TimePickerViewModel.cs" />
     <Compile Include="ViewModel\UIHost.cs" />
@@ -177,14 +174,14 @@
     <Compile Include="ViewModel\FolderListViewModel.cs" />
     <Compile Include="ViewModel\ModalViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\FolderItemViewModel.cs" />
-    <Compile Include="ViewModel\NoteItemViewModel.cs" />
+    <Compile Include="ViewModel\Items\FolderItemViewModel.cs" />
+    <Compile Include="ViewModel\Items\NoteItemViewModel.cs" />
     <Compile Include="ViewModel\NoteEditorViewModel.cs" />
     <Compile Include="Common\Mvvm\ExtendedViewModel.cs" />
     <Compile Include="View\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ModalBase.cs" />
+    <Compile Include="View\ModalView.cs" />
     <Compile Include="View\ConfirmationView.xaml.cs">
       <DependentUpon>ConfirmationView.xaml</DependentUpon>
     </Compile>

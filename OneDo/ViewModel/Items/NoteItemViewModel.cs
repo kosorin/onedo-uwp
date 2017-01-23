@@ -2,7 +2,7 @@
 using OneDo.Common.Extensions;
 using System;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModel.Items
 {
     public class NoteItemViewModel : ItemViewModel<NoteModel>
     {

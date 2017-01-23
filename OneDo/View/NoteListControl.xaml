@@ -10,6 +10,7 @@
                        xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                        xmlns:v="using:OneDo.View"
                        xmlns:vm="using:OneDo.ViewModel"
+                       xmlns:vmItems="using:OneDo.ViewModel.Items"
                        x:Name="Root"
                        DataContext="{Binding NoteList, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
@@ -97,7 +98,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="NoteItemTemplate" x:DataType="vm:NoteItemViewModel">
+        <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemViewModel">
             <controls:SlidableListItem MinHeight="60"
                                        MaxHeight="100"
                                        Background="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"

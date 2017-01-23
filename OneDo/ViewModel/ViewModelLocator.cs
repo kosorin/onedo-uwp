@@ -2,7 +2,6 @@ using Autofac;
 using OneDo.Application;
 using OneDo.Services.BackgroundTaskService;
 using OneDo.Services.InfoService;
-using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
 using OneDo.Services.ToastService;
@@ -31,12 +30,14 @@ namespace OneDo.ViewModel
 
 
                 builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<SettingsViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<DebugViewModel>().AsSelf().SingleInstance();
 
                 builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
                 builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
 
                 builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
-                builder.Register(c=>c.Reso).As<NoteEditorViewModel>().InstancePerDependency();
+                builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
 
 
                 Container = builder.Build();
@@ -44,6 +45,10 @@ namespace OneDo.ViewModel
         }
 
         public MainViewModel Main => Container?.Resolve<MainViewModel>();
+
+        public SettingsViewModel Settings => Container?.Resolve<SettingsViewModel>();
+
+        public DebugViewModel Debug => Container?.Resolve<DebugViewModel>();
 
         public FolderListViewModel FolderList => Container?.Resolve<FolderListViewModel>();
 

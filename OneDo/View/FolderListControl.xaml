@@ -10,6 +10,7 @@
                        xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                        xmlns:v="using:OneDo.View"
                        xmlns:vm="using:OneDo.ViewModel"
+                       xmlns:vmItems="using:OneDo.ViewModel.Items"
                        DataContext="{Binding FolderList, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
 
@@ -324,7 +325,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vm:FolderItemViewModel">
+        <DataTemplate x:Key="FolderItemTemplate" x:DataType="vmItems:FolderItemViewModel">
             <Border Background="Transparent" BorderThickness="0">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>

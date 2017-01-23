@@ -1,5 +1,4 @@
 ﻿using OneDo.Services.InfoService;
-using OneDo.Services.ModalService;
 using OneDo.Services.ProgressService;
 using System;
 

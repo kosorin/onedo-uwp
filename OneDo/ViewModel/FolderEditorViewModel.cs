@@ -3,6 +3,7 @@ using OneDo.Application.Commands.Folders;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common.Extensions;
 using OneDo.Services.ProgressService;
+using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,22 @@ namespace OneDo.ViewModel
         {
         }
 
-        protected override void Load()
+        protected override async Task InitializeData()
+        {
+            if (Id != null)
+            {
+                await ProgressService.RunAsync(async () =>
+                {
+                    var original = await Api.FolderQuery.Get((Guid)Id);
+                    if (original != null)
+                    {
+                        Original = original;
+                    }
+                });
+            }
+        }
+
+        protected override void InitializeProperties()
         {
             Name = Original.Name;
             SelectedColor = Colors

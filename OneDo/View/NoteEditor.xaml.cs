@@ -1,18 +1,27 @@
 ﻿using OneDo.Application.Queries.Notes;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
+using OneDo.ViewModel.Parameters;
+using System;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace OneDo.View
 {
-    public sealed partial class NoteEditor : ModalBase, IXBind<NoteEditorViewModel>
+    public sealed partial class NoteEditor : ModalView, IXBind<NoteEditorViewModel>
     {
         public NoteEditorViewModel VM => ViewModel as NoteEditorViewModel;
 
-        public NoteEditor(NoteModel note)
+        public NoteEditor(NoteEditorParameters parameters) : base(parameters)
         {
             InitializeComponent();
+        }
 
-            VM.Load(note);
+        protected override async Task OnFirstLoad()
+        {
+            var parameters = (NoteEditorParameters)Parameters;
+            await VM.Load(parameters.EntityId);
         }
 
 
@@ -40,7 +49,7 @@ namespace OneDo.View
             HideDatePicker();
         }
 
-        private void OnDateButtonTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void OnDateButtonTapped(object sender, TappedRoutedEventArgs e)
         {
             ShowDatePicker();
         }

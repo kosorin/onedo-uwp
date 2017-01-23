@@ -11,7 +11,7 @@ using OneDo.Application.Commands.Notes;
 using OneDo.ViewModel.Args;
 using OneDo.Application.Queries.Notes;
 using GalaSoft.MvvmLight.Messaging;
-using OneDo.ViewModel.Messages;
+using OneDo.ViewModel.Parameters;
 
 namespace OneDo.ViewModel
 {
@@ -67,7 +67,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            Messenger.Default.Send(new ShowSettingsMessage());
+            Messenger.Default.Send(new SettingsParameters());
         }
     }
 }

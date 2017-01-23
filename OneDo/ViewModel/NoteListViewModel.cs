@@ -8,7 +8,8 @@ using System;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Folders;
 using OneDo.ViewModel.Args;
-using OneDo.ViewModel.Messages;
+using OneDo.ViewModel.Parameters;
+using OneDo.ViewModel.Items;
 
 namespace OneDo.ViewModel
 {
@@ -38,7 +39,7 @@ namespace OneDo.ViewModel
             }
         }
 
-        public async Task Load(Guid folderId)
+        private async Task Load(Guid folderId)
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
@@ -53,14 +54,10 @@ namespace OneDo.ViewModel
             return new NoteItemViewModel(entity, this);
         }
 
-        protected override async Task<NoteModel> GetEntity(NoteItemViewModel item)
-        {
-            return await Api.NoteQuery.Get(item.Id);
-        }
 
-        protected override ShowEntityEditorMessage<NoteModel> CreateShowEditorMessage(NoteModel entity)
+        protected override IParameters GetEditorParameters(Guid? id)
         {
-            return new ShowEntityEditorMessage<NoteModel>(entity);
+            return new NoteEditorParameters(id, FolderList.SelectedItem.Id);
         }
 
 

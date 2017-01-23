@@ -2,7 +2,7 @@
 using OneDo.Application.Common;
 using System;
 
-namespace OneDo.ViewModel
+namespace OneDo.ViewModel.Items
 {
     public abstract class ItemViewModel<TEntity> : ObservableObject
         where TEntity : IEntityModel

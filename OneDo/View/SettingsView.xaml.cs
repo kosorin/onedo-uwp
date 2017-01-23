@@ -2,7 +2,7 @@
 
 namespace OneDo.View
 {
-    public sealed partial class SettingsView : ModalBase, IXBind<SettingsViewModel>
+    public sealed partial class SettingsView : ModalView, IXBind<SettingsViewModel>
     {
         public SettingsViewModel VM => (SettingsViewModel)ViewModel;
 

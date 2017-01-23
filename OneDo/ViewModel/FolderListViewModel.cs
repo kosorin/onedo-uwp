@@ -6,7 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using OneDo.Application.Commands.Folders;
-using OneDo.ViewModel.Messages;
+using OneDo.ViewModel.Parameters;
+using OneDo.ViewModel.Items;
 
 namespace OneDo.ViewModel
 {
@@ -36,14 +37,10 @@ namespace OneDo.ViewModel
             return new FolderItemViewModel(entity, this);
         }
 
-        protected override async Task<FolderModel> GetEntity(FolderItemViewModel item)
-        {
-            return await Api.FolderQuery.Get(item.Id);
-        }
 
-        protected override ShowEntityEditorMessage<FolderModel> CreateShowEditorMessage(FolderModel entity)
+        protected override IParameters GetEditorParameters(Guid? id)
         {
-            return new ShowEntityEditorMessage<FolderModel>(entity);
+            return new FolderEditorParameters(id);
         }
 
 

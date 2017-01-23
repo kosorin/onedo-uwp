@@ -8,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 
 namespace OneDo.View
@@ -22,45 +24,48 @@ namespace OneDo.View
     public class ModalContainer : ExtendedContentControl
     {
         private const string RootGridPartName = "PART_RootGrid";
+
         private const string BackgroundControlPartName = "PART_BackgroundControl";
+
         private const string ContentControlPartName = "PART_ContentControl";
 
-        private class NullModal : ModalBase
+
+        private class NullModal : ModalView
         {
         }
 
-        public static ModalBase Null { get; }
-
-        public static CubicBezierEasingFunction DefaultEasing { get; }
-
-        public static int DefaultDuration { get; }
+        public static ModalView Null { get; } = new NullModal();
 
 
-        public ModalBase Modal
+        public CubicBezierEasingFunction DefaultEasing { get; }
+
+        public int DefaultDuration { get; }
+
+
+        public ModalView Modal
         {
-            get { return (ModalBase)GetValue(ModalProperty); }
-            set { SetValue(ModalProperty, value); }
+            get { return (ModalView)GetValue(ModalProperty); }
+            private set { SetValue(ModalProperty, value); }
         }
 
         public static readonly DependencyProperty ModalProperty =
-            DependencyProperty.Register(nameof(Modal), typeof(ModalBase), typeof(ModalContainer), new PropertyMetadata(Null, OnModalChanged));
+            DependencyProperty.Register(nameof(Modal), typeof(ModalView), typeof(ModalContainer), new PropertyMetadata(Null, OnModalChanged));
 
         private static void OnModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var container = (ModalContainer)d;
-            container.OnModalChanged(e.NewValue as ModalBase, e.OldValue as ModalBase);
+            container.OnModalChanged(e.NewValue as ModalView, e.OldValue as ModalView);
         }
 
 
-        public ModalBase ActualModal
+        public ModalView ActualModal
         {
-            get { return (ModalBase)GetValue(ActualModalProperty); }
+            get { return (ModalView)GetValue(ActualModalProperty); }
             private set { SetValue(ActualModalProperty, value); }
         }
 
         public static readonly DependencyProperty ActualModalProperty =
-            DependencyProperty.Register(nameof(ActualModal), typeof(ModalBase), typeof(ModalContainer), new PropertyMetadata(Null));
-
+            DependencyProperty.Register(nameof(ActualModal), typeof(ModalView), typeof(ModalContainer), new PropertyMetadata(Null));
 
 
 
@@ -87,17 +92,18 @@ namespace OneDo.View
 
         private Dictionary<Type, AnimationInfo> fadeOutAnimationInfos;
 
-        static ModalContainer()
-        {
-            Null = new NullModal();
 
-            DefaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
-            DefaultDuration = 300;
-        }
+        private SystemNavigationManager navigationManager;
 
         public ModalContainer()
         {
+            navigationManager = SystemNavigationManager.GetForCurrentView();
+            navigationManager.BackRequested += OnBackRequested;
+
             DefaultStyleKey = typeof(ModalContainer);
+
+            DefaultEasing = compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1.0f));
+            DefaultDuration = 300;
 
             InitializeBackgroundAnimations();
             InitializeContentAnimations();
@@ -118,7 +124,7 @@ namespace OneDo.View
             contentVisual = ElementCompositionPreview.GetElementVisual(contentControl);
         }
 
-        private void OnBackgroundControlTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void OnBackgroundControlTapped(object sender, TappedRoutedEventArgs e)
         {
             Modal = Null;
         }
@@ -155,21 +161,43 @@ namespace OneDo.View
         }
 
 
+        public bool TryClose()
+        {
+            if (ActualModal != Null)
+            {
+                Close();
+                return true;
+            }
+            return false;
+        }
+
+        public void Close()
+        {
+            Modal = Null;
+        }
+
+        public void Show(ModalView modal)
+        {
+            Modal = modal;
+        }
+
         public void AddFadeInAnimation<TModal>(string propertyName, CompositionAnimation animation)
-            where TModal : ModalBase
+            where TModal : ModalView
         {
             fadeInAnimationInfos[typeof(TModal)] = new AnimationInfo(propertyName, animation);
         }
 
         public void AddFadeOutAnimation<TModal>(string propertyName, CompositionAnimation animation)
-            where TModal : ModalBase
+            where TModal : ModalView
         {
             fadeOutAnimationInfos[typeof(TModal)] = new AnimationInfo(propertyName, animation);
         }
 
 
-        private void OnModalChanged(ModalBase newModal, ModalBase oldModal)
+        private void OnModalChanged(ModalView newModal, ModalView oldModal)
         {
+            UpdateBackButtonVisibility();
+
             if (newModal != Null)
             {
                 OnModalShowed(newModal);
@@ -180,7 +208,7 @@ namespace OneDo.View
             }
         }
 
-        private void OnModalShowed(ModalBase modal)
+        private void OnModalShowed(ModalView modal)
         {
             rootGrid.Visibility = Visibility.Visible;
             ActualModal = modal;
@@ -192,7 +220,7 @@ namespace OneDo.View
             RunContentAnimation(fadeInAnimationInfos, modal.GetType(), defaultFadeInAnimationInfo);
         }
 
-        private void OnModalClosed(ModalBase modal)
+        private void OnModalClosed(ModalView modal)
         {
             var batch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             batch.Completed += (s, e) =>
@@ -217,6 +245,22 @@ namespace OneDo.View
             animationInfo.Animation.SetScalarParameter("Width", (float)ActualWidth);
             animationInfo.Animation.SetScalarParameter("Height", (float)ActualHeight);
             animationInfo.Start(contentVisual);
+        }
+
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (TryClose())
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void UpdateBackButtonVisibility()
+        {
+            navigationManager.AppViewBackButtonVisibility = Modal != Null
+                ? AppViewBackButtonVisibility.Visible
+                : AppViewBackButtonVisibility.Collapsed;
         }
     }
 }

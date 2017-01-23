@@ -2,6 +2,7 @@
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Notes;
 using OneDo.Services.ProgressService;
+using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,9 +89,24 @@ namespace OneDo.ViewModel
             };
         }
 
-        protected override void Load()
+        protected override async Task InitializeData()
         {
-            if (!IsNew)
+            if (Id != null)
+            {
+                await ProgressService.RunAsync(async () =>
+                {
+                    var original = await Api.NoteQuery.Get((Guid)Id);
+                    if (original != null)
+                    {
+                        Original = original;
+                    }
+                });
+            }
+        }
+
+        protected override void InitializeProperties()
+        {
+            if (Id != null)
             {
                 var folder = Folders.Where(x => x.Id == Original.FolderId).FirstOrDefault();
                 if (folder != null)

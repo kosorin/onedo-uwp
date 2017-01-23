@@ -1,5 +1,4 @@
 ﻿using OneDo.Common.Logging;
-using OneDo.Services.ModalService;
 using OneDo.View;
 using OneDo.ViewModel;
 using System;

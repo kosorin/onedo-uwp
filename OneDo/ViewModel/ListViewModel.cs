@@ -3,7 +3,8 @@ using OneDo.Application;
 using OneDo.Application.Common;
 using OneDo.Common.Mvvm;
 using OneDo.ViewModel.Args;
-using OneDo.ViewModel.Messages;
+using OneDo.ViewModel.Items;
+using OneDo.ViewModel.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -62,30 +63,20 @@ namespace OneDo.ViewModel
             Api = api;
             UIHost = uiHost;
 
-            ShowEditorCommand = new AsyncRelayCommand<TItem>(ShowEditor);
+            ShowEditorCommand = new RelayCommand<TItem>(ShowEditor);
             DeleteCommand = new AsyncRelayCommand<TItem>(Delete, CanDelete);
         }
 
 
         protected abstract TItem CreateItem(TEntity entity);
 
-        protected abstract Task<TEntity> GetEntity(TItem item);
 
-
-        protected async Task ShowEditor(TItem item)
+        protected void ShowEditor(TItem item)
         {
-            await UIHost.ProgressService.RunAsync(async () =>
-            {
-                var entity = await GetEntity(item);
-                if (entity != null)
-                {
-                    var message = CreateShowEditorMessage(entity);
-                    Messenger.Default.Send(message);
-                }
-            });
+            Messenger.Default.Send(GetEditorParameters(item?.Id));
         }
 
-        protected abstract ShowEntityEditorMessage<TEntity> CreateShowEditorMessage(TEntity entity);
+        protected abstract IParameters GetEditorParameters(Guid? id);
 
 
         protected abstract Task Delete(TItem item);

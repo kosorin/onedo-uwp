@@ -2,7 +2,7 @@
 
 namespace OneDo.View
 {
-    public sealed partial class DebugView : ModalBase, IXBind<DebugViewModel>
+    public sealed partial class DebugView : ModalView, IXBind<DebugViewModel>
     {
         public DebugViewModel VM => (DebugViewModel)ViewModel;
 

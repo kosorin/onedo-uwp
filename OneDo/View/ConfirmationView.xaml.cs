@@ -2,7 +2,7 @@
 
 namespace OneDo.View
 {
-    public sealed partial class ConfirmationView : ModalBase, IXBind<ConfirmationViewModel>
+    public sealed partial class ConfirmationView : ModalView, IXBind<ConfirmationViewModel>
     {
         public ConfirmationViewModel VM => ViewModel as ConfirmationViewModel;
 

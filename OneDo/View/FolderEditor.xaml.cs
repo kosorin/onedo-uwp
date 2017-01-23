@@ -2,23 +2,30 @@
 using OneDo.ViewModel;
 using System;
 using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 namespace OneDo.View
 {
-    public sealed partial class FolderEditor : ModalBase, IXBind<FolderEditorViewModel>
+    public sealed partial class FolderEditor : ModalView, IXBind<FolderEditorViewModel>
     {
         public FolderEditorViewModel VM => ViewModel as FolderEditorViewModel;
 
         private bool isSelectionChanging = false;
 
-        private readonly Guid? entityId;
+        private readonly Guid? folderId;
 
-        public FolderEditor(FolderModel folder)
+        public FolderEditor(Guid? folderId)
         {
             InitializeComponent();
 
-            VM.Load(folder);
+            this.folderId = folderId;
+        }
+
+        protected override async Task OnFirstLoad()
+        {
+            await VM.Load(folderId);
         }
 
         private void Colors_SelectionChanged(object sender, SelectionChangedEventArgs e)
