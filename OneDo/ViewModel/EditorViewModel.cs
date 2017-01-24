@@ -54,6 +54,8 @@ namespace OneDo.ViewModel
 
         private Dictionary<string, bool> validProperties = new Dictionary<string, bool>();
 
+        private bool isInitialized;
+
         protected EditorViewModel(Api api, IProgressService progressService)
         {
             Api = api;
@@ -72,6 +74,7 @@ namespace OneDo.ViewModel
             {
                 await InitializeData();
             }
+            isInitialized = true;
             InitializeProperties();
         }
 
@@ -87,14 +90,20 @@ namespace OneDo.ViewModel
 
         protected void UpdateDirtyProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
         {
-            dirtyProperties[propertyName] = isDirtyTest();
-            RaiseCanSaveChanged();
+            if (isInitialized)
+            {
+                dirtyProperties[propertyName] = isDirtyTest();
+                RaiseCanSaveChanged();
+            }
         }
 
         protected void ValidateProperty(Func<bool> isValidTest, [CallerMemberName] string propertyName = null)
         {
-            validProperties[propertyName] = isValidTest();
-            RaiseCanSaveChanged();
+            if (isInitialized)
+            {
+                validProperties[propertyName] = isValidTest();
+                RaiseCanSaveChanged();
+            }
         }
 
         private void RaiseCanSaveChanged()

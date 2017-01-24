@@ -114,6 +114,7 @@ namespace OneDo.ViewModel
                     SelectedFolder = folder;
                 }
             }
+
             Title = Original.Title;
             Text = Original.Text;
             DatePicker.Date = Original.Date;
