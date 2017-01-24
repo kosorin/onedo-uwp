@@ -1,4 +1,5 @@
-﻿using OneDo.ViewModel;
+﻿using System.Threading.Tasks;
+using OneDo.ViewModel;
 using OneDo.ViewModel.Parameters;
 
 namespace OneDo.View
@@ -10,6 +11,11 @@ namespace OneDo.View
         public DebugView(DebugParameters parameters) : base(parameters)
         {
             InitializeComponent();
+        }
+
+        protected override async Task OnFirstLoad()
+        {
+            await VM.LoadLog();
         }
     }
 }

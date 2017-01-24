@@ -138,17 +138,17 @@
     </Style>
 
     <Style TargetType="v:ModalContainer">
+        <Setter Property="Background" Value="{ThemeResource ModalContainerBackgroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="v:ModalContainer">
                     <Grid x:Name="PART_RootGrid">
-                        <Border x:Name="PART_BackgroundControl" Background="{ThemeResource ModalContainerBackgroundBrush}" />
+                        <Border x:Name="PART_BackgroundControl" Background="{TemplateBinding Background}" />
                         <ContentControl x:Name="PART_ContentControl"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         Content="{TemplateBinding ActualModal}" />
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

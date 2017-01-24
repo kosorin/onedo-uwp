@@ -1,15 +1,31 @@
-﻿using OneDo.Common.Extensions;
+﻿using OneDo.Common.Args;
+using OneDo.Common.Extensions;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using System;
+using System.Linq;
+using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace OneDo.View
 {
-    public sealed partial class TimePicker : ExtendedUserControl, IXBind<TimePickerViewModel>
+    public sealed partial class TimePicker : ModalView
     {
-        public TimePickerViewModel VM => ViewModel as TimePickerViewModel;
-
+        public TimeSpan Time
+        {
+            get { return (TimeSpan)GetValue(TimeProperty); }
+            set { SetValue(TimeProperty, value); }
+        }
+        public static readonly DependencyProperty TimeProperty =
+            DependencyProperty.Register(nameof(Time), typeof(TimeSpan), typeof(TimePicker), new PropertyMetadata(TimeSpan.Zero, Time_Changed));
+        private static void Time_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var picker = (TimePicker)d;
+            var time = (TimeSpan)e.NewValue;
+            picker.SetTime(time);
+            picker.OnTimeChanged(time);
+        }
 
         public double Hours
         {
@@ -27,53 +43,41 @@ namespace OneDo.View
         public static readonly DependencyProperty MinutesProperty =
             DependencyProperty.Register(nameof(Minutes), typeof(double), typeof(TimePicker), new PropertyMetadata(0d));
 
+        public event TypedEventHandler<TimePicker, TimeChangedEventArgs> TimeChanged;
 
-        public TimePicker()
+
+        public TimePicker(TimeSpan time) : base(null)
         {
             InitializeComponent();
+
+            Time = time;
         }
 
         public void UpdateTime()
         {
-            if (VM != null)
-            {
-                VM.Time = new TimeSpan((int)Hours, (int)Minutes, 0);
-            }
+            Time = new TimeSpan((int)Hours, (int)Minutes, 0);
         }
 
         public void SetInOneMinute()
         {
-
+            Time = DateTime.Now.ToTime() + TimeSpan.FromMinutes(1);
         }
 
-        protected override void OnViewModelChanging()
+        public void SetInFiveMinutes()
         {
-            if (VM != null)
-            {
-                VM.TimeChanged -= OnTimeChanged;
-            }
+            Time = DateTime.Now.ToTime() + TimeSpan.FromMinutes(5);
         }
 
-        protected override void OnViewModelChanged()
+        private void SetTime(TimeSpan time)
         {
-            if (VM != null)
-            {
-                OnTimeChanged(VM.Time);
-                VM.TimeChanged += OnTimeChanged;
-            }
+            Hours = time.Hours;
+            Minutes = time.Minutes;
         }
 
 
-        private void OnTimeChanged(TimePickerViewModel picker, TimePickerEventArgs args)
+        private void OnTimeChanged(TimeSpan time)
         {
-            OnTimeChanged(args.Time);
-        }
-
-        private void OnTimeChanged(TimeSpan? time)
-        {
-            var now = DateTime.Now.ToTime();
-            Hours = time?.Hours ?? now.Hours;
-            Minutes = time?.Minutes ?? now.Minutes;
+            TimeChanged?.Invoke(this, new TimeChangedEventArgs(time));
         }
     }
 }

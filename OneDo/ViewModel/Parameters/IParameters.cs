@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel.Parameters
 {
+    [Obsolete("Slepá větev")]
     public interface IParameters
     {
     }

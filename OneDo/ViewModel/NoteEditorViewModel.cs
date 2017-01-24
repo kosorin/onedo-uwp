@@ -72,7 +72,21 @@ namespace OneDo.ViewModel
 
         public string DateText => Date?.ToLongDateString() ?? "Set Date & Reminder";
 
-        public TimePickerViewModel ReminderPicker { get; }
+        private TimeSpan? reminder;
+        public TimeSpan? Reminder
+        {
+            get { return reminder; }
+            set
+            {
+                if (Set(ref reminder, value))
+                {
+                    UpdateDirtyProperty(() => Reminder != Original.Reminder);
+                    RaisePropertyChanged(nameof(ReminderText));
+                }
+            }
+        }
+
+        public string ReminderText => Reminder?.ToTimeString() ?? "Set Reminder";
 
         private bool? isFlagged;
         public bool? IsFlagged
@@ -97,13 +111,7 @@ namespace OneDo.ViewModel
             SelectedFolder = folderList.SelectedItem;
 
             ClearDateCommand = new RelayCommand(() => Date = null);
-            ClearReminderCommand = new RelayCommand(() => ReminderPicker.Time = null);
-
-            ReminderPicker = new TimePickerViewModel("Set Reminder");
-            ReminderPicker.TimeChanged += (s, e) =>
-            {
-                UpdateDirtyProperty(() => e.Time != Original.Reminder);
-            };
+            ClearReminderCommand = new RelayCommand(() => Reminder = null);
         }
 
         protected override async Task InitializeData()
@@ -135,7 +143,7 @@ namespace OneDo.ViewModel
             Title = Original.Title;
             Text = Original.Text;
             Date = Original.Date;
-            ReminderPicker.Time = Original.Reminder;
+            Reminder = Original.Reminder;
             IsFlagged = Original.IsFlagged;
         }
 
@@ -146,7 +154,7 @@ namespace OneDo.ViewModel
             Original.Title = Title ?? "";
             Original.Text = Text ?? "";
             Original.Date = Date;
-            Original.Reminder = ReminderPicker.Time;
+            Original.Reminder = Reminder;
             Original.IsFlagged = IsFlagged ?? false;
 
             await ProgressService.RunAsync(async () =>

@@ -12,9 +12,9 @@ namespace OneDo.View
 
         public virtual ModalContainer SubContainer => null;
 
-        [Obsolete("Po smazani parametrů zrusit obsolete")]
         public ModalView()
         {
+            // Kvůli designeru
         }
 
         public ModalView(IParameters parameters)

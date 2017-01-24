@@ -18,8 +18,8 @@ namespace OneDo.View
             set { SetValue(DateProperty, value); }
         }
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register(nameof(Date), typeof(DateTime), typeof(DatePicker), new PropertyMetadata(DateTime.Today, OnDateChanged));
-        private static void OnDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+            DependencyProperty.Register(nameof(Date), typeof(DateTime), typeof(DatePicker), new PropertyMetadata(DateTime.Today, Date_Changed));
+        private static void Date_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var picker = (DatePicker)d;
             var date = (DateTime)e.NewValue;
@@ -28,6 +28,7 @@ namespace OneDo.View
         }
 
         public event TypedEventHandler<DatePicker, DateChangedEventArgs> DateChanged;
+
 
         private bool isPicking;
 
@@ -58,12 +59,6 @@ namespace OneDo.View
             Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday).AddWeeks(1);
         }
 
-
-        private void OnDateChanged(DateTime date)
-        {
-            DateChanged?.Invoke(this, new DateChangedEventArgs(date));
-        }
-
         private void SelectCalendarViewDate(DateTime date)
         {
             if (!isPicking)
@@ -77,6 +72,12 @@ namespace OneDo.View
 
                 isPicking = false;
             }
+        }
+
+
+        private void OnDateChanged(DateTime date)
+        {
+            DateChanged?.Invoke(this, new DateChangedEventArgs(date));
         }
 
         private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)

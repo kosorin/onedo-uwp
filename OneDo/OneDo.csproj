@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Args\DateChangedEventArgs.cs" />
+    <Compile Include="Common\Args\TimeChangedEventArgs.cs" />
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
