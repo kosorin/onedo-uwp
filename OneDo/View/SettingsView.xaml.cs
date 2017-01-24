@@ -1,4 +1,5 @@
 ﻿using OneDo.ViewModel;
+using OneDo.ViewModel.Parameters;
 
 namespace OneDo.View
 {
@@ -6,7 +7,7 @@ namespace OneDo.View
     {
         public SettingsViewModel VM => (SettingsViewModel)ViewModel;
 
-        public SettingsView()
+        public SettingsView(SettingsParameters parameters) : base(parameters)
         {
             InitializeComponent();
         }

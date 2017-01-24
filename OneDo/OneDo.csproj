@@ -191,7 +191,6 @@
     <Compile Include="View\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ModalTemplateSelector.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="View\ExtendedUserControl.cs" />
     <Compile Include="View\NoteEditor.xaml.cs">

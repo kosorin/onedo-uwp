@@ -15,11 +15,7 @@ using OneDo.Application.Queries.Notes;
 
 namespace OneDo.View
 {
-    public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>,
-        IHandler<SettingsParameters>,
-        IHandler<DebugParameters>,
-        IHandler<ShowEntityEditorMessage<FolderModel>>,
-        IHandler<ShowEntityEditorMessage<NoteModel>>
+    public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>
     {
         public MainViewModel VM => (MainViewModel)ViewModel;
 
@@ -71,29 +67,29 @@ namespace OneDo.View
         {
             Messenger.Default.Register<SettingsParameters>(this, Handle);
             Messenger.Default.Register<DebugParameters>(this, Handle);
-            Messenger.Default.Register<ShowEntityEditorMessage<FolderModel>>(this, Handle);
-            Messenger.Default.Register<ShowEntityEditorMessage<NoteModel>>(this, Handle);
+            Messenger.Default.Register<FolderEditorParameters>(this, Handle);
+            Messenger.Default.Register<NoteEditorParameters>(this, Handle);
         }
 
 
-        public void Handle(SettingsParameters args)
+        private void Handle(SettingsParameters args)
         {
-            ModalContainer.Show(new SettingsView());
+            ModalContainer.Show(new SettingsView(args));
         }
 
-        public void Handle(DebugParameters args)
+        private void Handle(DebugParameters args)
         {
-            ModalContainer.Show(new DebugView());
+            ModalContainer.Show(new DebugView(args));
         }
 
-        public void Handle(ShowEntityEditorMessage<FolderModel> args)
+        private void Handle(FolderEditorParameters args)
         {
-            ModalContainer.Show(new FolderEditor(args.EntityId));
+            ModalContainer.Show(new FolderEditor(args));
         }
 
-        public void Handle(ShowEntityEditorMessage<NoteModel> args)
+        private void Handle(NoteEditorParameters args)
         {
-            ModalContainer.Show(new NoteEditor(args.EntityId));
+            ModalContainer.Show(new NoteEditor(args));
         }
 
 

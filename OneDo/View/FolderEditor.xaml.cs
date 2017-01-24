@@ -5,6 +5,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
+using OneDo.ViewModel.Parameters;
 
 namespace OneDo.View
 {
@@ -14,18 +15,15 @@ namespace OneDo.View
 
         private bool isSelectionChanging = false;
 
-        private readonly Guid? folderId;
-
-        public FolderEditor(Guid? folderId)
+        public FolderEditor(FolderEditorParameters parameters) : base(parameters)
         {
             InitializeComponent();
-
-            this.folderId = folderId;
         }
 
         protected override async Task OnFirstLoad()
         {
-            await VM.Load(folderId);
+            var parameters = (FolderEditorParameters)Parameters;
+            await VM.Load(parameters.EntityId);
         }
 
         private void Colors_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -6,7 +6,7 @@ namespace OneDo.View
     {
         public ConfirmationViewModel VM => ViewModel as ConfirmationViewModel;
 
-        public ConfirmationView()
+        public ConfirmationView() : base(null)
         {
             InitializeComponent();
         }

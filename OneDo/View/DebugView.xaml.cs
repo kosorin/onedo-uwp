@@ -1,4 +1,5 @@
 ﻿using OneDo.ViewModel;
+using OneDo.ViewModel.Parameters;
 
 namespace OneDo.View
 {
@@ -6,7 +7,7 @@ namespace OneDo.View
     {
         public DebugViewModel VM => (DebugViewModel)ViewModel;
 
-        public DebugView()
+        public DebugView(DebugParameters parameters) : base(parameters)
         {
             InitializeComponent();
         }

@@ -32,6 +32,9 @@ namespace OneDo.View
 
         private class NullModal : ModalView
         {
+            public NullModal() : base(null)
+            {
+            }
         }
 
         public static ModalView Null { get; } = new NullModal();
