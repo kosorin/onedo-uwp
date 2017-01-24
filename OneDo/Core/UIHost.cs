@@ -2,7 +2,7 @@
 using OneDo.Services.ProgressService;
 using System;
 
-namespace OneDo.ViewModel
+namespace OneDo.Core
 {
     public class UIHost
     {

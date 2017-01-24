@@ -2,6 +2,7 @@
 using OneDo.Application;
 using OneDo.Application.Common;
 using OneDo.Common.Mvvm;
+using OneDo.Core;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Items;
 using OneDo.ViewModel.Parameters;
@@ -71,12 +72,7 @@ namespace OneDo.ViewModel
         protected abstract TItem CreateItem(TEntity entity);
 
 
-        protected void ShowEditor(TItem item)
-        {
-            Messenger.Default.Send(GetEditorParameters(item?.Id));
-        }
-
-        protected abstract IParameters GetEditorParameters(Guid? id);
+        protected abstract void ShowEditor(TItem item);
 
 
         protected abstract Task Delete(TItem item);

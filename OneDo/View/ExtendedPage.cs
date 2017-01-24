@@ -1,5 +1,7 @@
 ﻿using OneDo.Common.Mvvm;
+using OneDo.Common.Extensions;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
@@ -25,7 +27,10 @@ namespace OneDo.View
                         OnViewModelChanging();
 
                         ViewModel = e.NewValue as ExtendedViewModel;
-                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
+                        if (GetType().ImplementsGenericInterface(typeof(IXBind<>)))
+                        {
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
+                        }
 
                         OnViewModelChanged();
                     }

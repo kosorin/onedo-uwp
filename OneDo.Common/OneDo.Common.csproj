@@ -110,6 +110,7 @@
     <Compile Include="Data\Serialization.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IAsyncHandler.cs" />
     <Compile Include="IHandler.cs" />
     <Compile Include="Logging\DebugLogger.cs" />

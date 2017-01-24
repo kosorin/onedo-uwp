@@ -1,5 +1,6 @@
 using Autofac;
 using OneDo.Application;
+using OneDo.Core;
 using OneDo.Services.BackgroundTaskService;
 using OneDo.Services.InfoService;
 using OneDo.Services.ProgressService;

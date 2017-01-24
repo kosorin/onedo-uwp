@@ -12,6 +12,7 @@ using OneDo.ViewModel.Args;
 using OneDo.Application.Queries.Notes;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.ViewModel.Parameters;
+using OneDo.Core;
 
 namespace OneDo.ViewModel
 {

@@ -8,6 +8,8 @@ using System;
 using OneDo.Application.Commands.Folders;
 using OneDo.ViewModel.Parameters;
 using OneDo.ViewModel.Items;
+using OneDo.Core;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace OneDo.ViewModel
 {
@@ -38,9 +40,9 @@ namespace OneDo.ViewModel
         }
 
 
-        protected override IParameters GetEditorParameters(Guid? id)
+        protected override void ShowEditor(FolderItemViewModel folder)
         {
-            return new FolderEditorParameters(id);
+            Messenger.Default.Send(new FolderEditorParameters(folder?.Id));
         }
 
 

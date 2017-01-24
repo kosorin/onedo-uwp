@@ -10,6 +10,8 @@ using OneDo.Application.Queries.Folders;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Parameters;
 using OneDo.ViewModel.Items;
+using OneDo.Core;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace OneDo.ViewModel
 {
@@ -55,9 +57,9 @@ namespace OneDo.ViewModel
         }
 
 
-        protected override IParameters GetEditorParameters(Guid? id)
+        protected override void ShowEditor(NoteItemViewModel note)
         {
-            return new NoteEditorParameters(id, FolderList.SelectedItem.Id);
+            Messenger.Default.Send(new NoteEditorParameters(note?.Id, FolderList.SelectedItem.Id));
         }
 
 

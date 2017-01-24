@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Composition;
 
-namespace OneDo.View
+namespace OneDo.Common.UI
 {
     public class AnimationInfo
     {
@@ -10,9 +10,9 @@ namespace OneDo.View
             Animation = animation;
         }
 
-        public string PropertyName { get; set; }
+        public string PropertyName { get; }
 
-        public CompositionAnimation Animation { get; set; }
+        public CompositionAnimation Animation { get; }
 
         public void Start(Visual visual)
         {
