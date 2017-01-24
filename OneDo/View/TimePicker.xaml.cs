@@ -10,12 +10,12 @@ namespace OneDo.View
     {
         public TimePickerViewModel VM => ViewModel as TimePickerViewModel;
 
+
         public double Hours
         {
             get { return (double)GetValue(HoursProperty); }
             set { SetValue(HoursProperty, value); }
         }
-
         public static readonly DependencyProperty HoursProperty =
             DependencyProperty.Register(nameof(Hours), typeof(double), typeof(TimePicker), new PropertyMetadata(0d));
 
@@ -24,7 +24,6 @@ namespace OneDo.View
             get { return (double)GetValue(MinutesProperty); }
             set { SetValue(MinutesProperty, value); }
         }
-
         public static readonly DependencyProperty MinutesProperty =
             DependencyProperty.Register(nameof(Minutes), typeof(double), typeof(TimePicker), new PropertyMetadata(0d));
 
@@ -40,6 +39,11 @@ namespace OneDo.View
             {
                 VM.Time = new TimeSpan((int)Hours, (int)Minutes, 0);
             }
+        }
+
+        public void SetInOneMinute()
+        {
+
         }
 
         protected override void OnViewModelChanging()

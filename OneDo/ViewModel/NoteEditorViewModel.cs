@@ -1,6 +1,8 @@
 ﻿using OneDo.Application;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Notes;
+using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using OneDo.Services.ProgressService;
 using OneDo.ViewModel.Items;
 using System;
@@ -54,7 +56,21 @@ namespace OneDo.ViewModel
             }
         }
 
-        public DatePickerViewModel DatePicker { get; }
+        private DateTime? date;
+        public DateTime? Date
+        {
+            get { return date; }
+            set
+            {
+                if (Set(ref date, value))
+                {
+                    UpdateDirtyProperty(() => Date?.Date != Original.Date?.Date);
+                    RaisePropertyChanged(nameof(DateText));
+                }
+            }
+        }
+
+        public string DateText => Date?.ToLongDateString() ?? "Set Date & Reminder";
 
         public TimePickerViewModel ReminderPicker { get; }
 
@@ -71,17 +87,18 @@ namespace OneDo.ViewModel
             }
         }
 
+        public IExtendedCommand ClearDateCommand { get; }
+
+        public IExtendedCommand ClearReminderCommand { get; }
 
         public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList) : base(api, progressService)
         {
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
-            DatePicker = new DatePickerViewModel("Set Date & Reminder");
-            DatePicker.DateChanged += (s, e) =>
-            {
-                UpdateDirtyProperty(() => e.Date?.Date != Original.Date?.Date);
-            };
+            ClearDateCommand = new RelayCommand(() => Date = null);
+            ClearReminderCommand = new RelayCommand(() => ReminderPicker.Time = null);
+
             ReminderPicker = new TimePickerViewModel("Set Reminder");
             ReminderPicker.TimeChanged += (s, e) =>
             {
@@ -117,7 +134,7 @@ namespace OneDo.ViewModel
 
             Title = Original.Title;
             Text = Original.Text;
-            DatePicker.Date = Original.Date;
+            Date = Original.Date;
             ReminderPicker.Time = Original.Reminder;
             IsFlagged = Original.IsFlagged;
         }
@@ -128,7 +145,7 @@ namespace OneDo.ViewModel
             Original.FolderId = SelectedFolder.Id;
             Original.Title = Title ?? "";
             Original.Text = Text ?? "";
-            Original.Date = DatePicker.Date;
+            Original.Date = Date;
             Original.Reminder = ReminderPicker.Time;
             Original.IsFlagged = IsFlagged ?? false;
 

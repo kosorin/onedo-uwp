@@ -1,4 +1,5 @@
 ﻿using OneDo.Application.Queries.Notes;
+using OneDo.Common.Args;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Parameters;
@@ -13,6 +14,8 @@ namespace OneDo.View
     {
         public NoteEditorViewModel VM => ViewModel as NoteEditorViewModel;
 
+        public override ModalContainer SubContainer => ModalContainer;
+
         public NoteEditor(NoteEditorParameters parameters) : base(parameters)
         {
             InitializeComponent();
@@ -25,64 +28,46 @@ namespace OneDo.View
         }
 
 
-        protected override void OnViewModelChanging()
-        {
-            if (VM != null)
-            {
-                VM.DatePicker.DateChanged -= OnDateChanged;
-                VM.ReminderPicker.TimeChanged -= OnReminderChanged;
-            }
-        }
-
-        protected override void OnViewModelChanged()
-        {
-            if (VM != null)
-            {
-                VM.DatePicker.DateChanged += OnDateChanged;
-                VM.ReminderPicker.TimeChanged += OnReminderChanged;
-            }
-        }
-
-
-        private void OnDateChanged(DatePickerViewModel sender, DatePickerEventArgs args)
-        {
-            HideDatePicker();
-        }
-
-        private void OnDateButtonTapped(object sender, TappedRoutedEventArgs e)
-        {
-            ShowDatePicker();
-        }
-
         private void HideDatePicker()
         {
-            //VM.SubModalService.TryClose();
+            SubContainer.TryClose();
+        }
+
+        private void HideTimePicker()
+        {
         }
 
         private void ShowDatePicker()
         {
-            //VM.SubModalService.Show(VM.DatePicker);
+            var picker = new DatePicker(VM.Date ?? DateTime.Today);
+            picker.DateChanged += DatePicker_DateChanged;
+            SubContainer.Show(picker);
         }
 
+        private void ShowTimePicker()
+        {
+        }
+
+
+        private void DatePicker_DateChanged(DatePicker sender, DateChangedEventArgs args)
+        {
+            VM.Date = args.Date;
+            HideDatePicker();
+        }
 
         private void OnReminderChanged(TimePickerViewModel sender, TimePickerEventArgs args)
         {
             HideTimePicker();
         }
 
-        private void ReminderButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void DateButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ShowDatePicker();
+        }
+
+        private void ReminderButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             ShowTimePicker();
-        }
-
-        private void HideTimePicker()
-        {
-            //VM.SubModalService.TryClose();
-        }
-
-        private void ShowTimePicker()
-        {
-            //VM.SubModalService.Show(VM.ReminderPicker);
         }
     }
 }

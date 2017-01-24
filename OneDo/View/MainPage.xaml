@@ -47,7 +47,8 @@
 
         <!--  Modals  -->
         <v:ModalContainer x:Name="ModalContainer"
-                          Grid.RowSpan="4" />
+                          Grid.RowSpan="4"
+                          IsRoot="True" />
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="4">

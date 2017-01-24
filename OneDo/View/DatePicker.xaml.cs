@@ -1,75 +1,99 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Common.Args;
+using OneDo.Common.Extensions;
+using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using System;
 using System.Linq;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace OneDo.View
 {
-    public sealed partial class DatePicker : ExtendedUserControl, IXBind<DatePickerViewModel>
+    public sealed partial class DatePicker : ModalView
     {
-        public DatePickerViewModel VM => ViewModel as DatePickerViewModel;
+        public DateTime Date
+        {
+            get { return (DateTime)GetValue(DateProperty); }
+            set { SetValue(DateProperty, value); }
+        }
+        public static readonly DependencyProperty DateProperty =
+            DependencyProperty.Register(nameof(Date), typeof(DateTime), typeof(DatePicker), new PropertyMetadata(DateTime.Today, OnDateChanged));
+        private static void OnDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var picker = (DatePicker)d;
+            var date = (DateTime)e.NewValue;
+            picker.SelectCalendarViewDate(date);
+            picker.OnDateChanged(date);
+        }
 
-        private bool isPicking = false;
+        public event TypedEventHandler<DatePicker, DateChangedEventArgs> DateChanged;
 
-        public DatePicker()
+        private bool isPicking;
+
+        public DatePicker(DateTime date) : base(null)
         {
             InitializeComponent();
+
+            Date = date;
         }
 
-        protected override void OnViewModelChanging()
+        public void SetToday()
         {
-            if (VM != null)
-            {
-                VM.DateChanged -= OnDateChanged;
-            }
+            Date = DateTime.Today;
         }
 
-        protected override void OnViewModelChanged()
+        public void SetTomorrow()
         {
-            if (VM != null)
-            {
-                SetCalendarViewDate(VM.Date);
-                VM.DateChanged += OnDateChanged;
-            }
+            Date = DateTime.Today.Tomorrow();
         }
 
-        private void OnDateChanged(DatePickerViewModel picker, DatePickerEventArgs args)
+        public void SetEndOfWeek()
         {
-            SetCalendarViewDate(args.Date);
+            Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday);
         }
 
-        private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        public void SetEndOfNextWeek()
         {
-            if (!isPicking && VM != null)
-            {
-                if (args.AddedDates.Any())
-                {
-                    isPicking = true;
-                    VM.Date = args.AddedDates.First().Date;
-                    isPicking = false;
-                }
-                else
-                {
-                    VM.Refresh();
-                    SetCalendarViewDate(VM.Date);
-                }
-            }
+            Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday).AddWeeks(1);
         }
 
-        private void SetCalendarViewDate(DateTime? date)
+
+        private void OnDateChanged(DateTime date)
+        {
+            DateChanged?.Invoke(this, new DateChangedEventArgs(date));
+        }
+
+        private void SelectCalendarViewDate(DateTime date)
         {
             if (!isPicking)
             {
                 isPicking = true;
 
+                var dateOffset = new DateTimeOffset(date);
                 CalendarView.SelectedDates.Clear();
-                var dateTimeOffset = new DateTimeOffset(date ?? DateTime.Today);
-                CalendarView.SelectedDates.Clear();
-                CalendarView.SelectedDates.Add(dateTimeOffset);
-                CalendarView.SetDisplayDate(dateTimeOffset);
+                CalendarView.SelectedDates.Add(dateOffset);
+                CalendarView.SetDisplayDate(dateOffset);
 
                 isPicking = false;
+            }
+        }
+
+        private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            if (!isPicking)
+            {
+                if (args.AddedDates.Any())
+                {
+                    isPicking = true;
+                    Date = args.AddedDates.First().Date;
+                    isPicking = false;
+                }
+                else
+                {
+                    SelectCalendarViewDate(Date);
+                    OnDateChanged(Date);
+                }
             }
         }
     }

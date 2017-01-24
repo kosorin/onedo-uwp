@@ -576,18 +576,18 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="DateButton"
                                 Style="{StaticResource PickerButtonStyle}"
-                                Foreground="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
-                                Content="{x:Bind VM.DatePicker.DateText, Mode=OneWay}"
+                                Foreground="{x:Bind VM.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
+                                Content="{x:Bind VM.DateText, Mode=OneWay}"
                                 Tag="&#xE787;"
-                                Tapped="OnDateButtonTapped" />
+                                Tapped="DateButton_Tapped" />
                         <Button Grid.Column="1"
                                 Style="{StaticResource ClearPickerButtonStyle}"
-                                Command="{x:Bind VM.DatePicker.ClearCommand, Mode=OneWay}"
-                                Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
+                                Command="{x:Bind VM.ClearDateCommand, Mode=OneWay}"
+                                Visibility="{x:Bind VM.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
                     </Grid>
                     <Grid x:Name="ReminderPickerGrid"
                           Margin="0,8,0,0"
-                          Visibility="{x:Bind VM.DatePicker.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
+                          Visibility="{x:Bind VM.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
@@ -644,20 +644,14 @@
                 <AppBarButton Command="{x:Bind VM.DeleteCommand, Mode=OneWay}"
                               Label="Delete"
                               Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
-                    <!--<AppBarButton.Flyout>
-                        <Flyout PickerFlyoutBase.Title="Test">
-                            <StackPanel>
-                                <TextBlock Margin="0,0,0,10" Text="To-do will be deleted. Do you want to continue?" />
-                                <Button Command="{x:Bind VM.DeleteCommand, Mode=OneWay}" Content="Yes, delete to-do" />
-                            </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>-->
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
+
+        <v:ModalContainer x:Name="ModalContainer" Grid.RowSpan="2" Margin="0,49,0,0" />
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">

@@ -1,6 +1,7 @@
 ﻿using OneDo.ViewModel.Parameters;
 using System;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 
 namespace OneDo.View
@@ -8,6 +9,13 @@ namespace OneDo.View
     public class ModalView : ExtendedUserControl
     {
         public IParameters Parameters { get; set; }
+
+        public virtual ModalContainer SubContainer => null;
+
+        [Obsolete("Po smazani parametrů zrusit obsolete")]
+        public ModalView()
+        {
+        }
 
         public ModalView(IParameters parameters)
         {

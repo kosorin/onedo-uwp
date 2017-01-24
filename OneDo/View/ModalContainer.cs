@@ -46,31 +46,39 @@ namespace OneDo.View
         public int DefaultDuration { get; }
 
 
+        public bool IsRoot
+        {
+            get { return (bool)GetValue(IsRootProperty); }
+            set { SetValue(IsRootProperty, value); }
+        }
+        public static readonly DependencyProperty IsRootProperty =
+            DependencyProperty.Register("IsRoot", typeof(bool), typeof(ModalContainer), new PropertyMetadata(false));
+
         public ModalView Modal
         {
             get { return (ModalView)GetValue(ModalProperty); }
-            private set { SetValue(ModalProperty, value); }
+            private set { SetValue(ModalProperty, value ?? Null); }
         }
-
         public static readonly DependencyProperty ModalProperty =
             DependencyProperty.Register(nameof(Modal), typeof(ModalView), typeof(ModalContainer), new PropertyMetadata(Null, OnModalChanged));
-
         private static void OnModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var container = (ModalContainer)d;
             container.OnModalChanged(e.NewValue as ModalView, e.OldValue as ModalView);
         }
 
-
         public ModalView ActualModal
         {
             get { return (ModalView)GetValue(ActualModalProperty); }
-            private set { SetValue(ActualModalProperty, value); }
+            private set { SetValue(ActualModalProperty, value ?? Null); }
         }
-
         public static readonly DependencyProperty ActualModalProperty =
-            DependencyProperty.Register(nameof(ActualModal), typeof(ModalView), typeof(ModalContainer), new PropertyMetadata(Null));
-
+            DependencyProperty.Register(nameof(ActualModal), typeof(ModalView), typeof(ModalContainer), new PropertyMetadata(Null, OnActualModalChanged));
+        private static void OnActualModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var container = (ModalContainer)d;
+            container.OnActualModalChanged(e.NewValue as ModalView, e.OldValue as ModalView);
+        }
 
 
         private Grid rootGrid;
@@ -116,9 +124,6 @@ namespace OneDo.View
         protected override void OnApplyTemplate()
         {
             rootGrid = (Grid)GetTemplateChild(RootGridPartName);
-            rootGrid.Visibility = Modal != Null
-                ? Visibility.Visible
-                : Visibility.Collapsed;
 
             backgroundControl = (FrameworkElement)GetTemplateChild(BackgroundControlPartName);
             backgroundControl.Tapped += OnBackgroundControlTapped;
@@ -126,11 +131,13 @@ namespace OneDo.View
 
             contentControl = (ContentControl)GetTemplateChild(ContentControlPartName);
             contentVisual = ElementCompositionPreview.GetElementVisual(contentControl);
+
+            UpdateVisibility();
         }
 
         private void OnBackgroundControlTapped(object sender, TappedRoutedEventArgs e)
         {
-            Modal = Null;
+            TryClose();
         }
 
         private void InitializeBackgroundAnimations()
@@ -167,7 +174,7 @@ namespace OneDo.View
 
         public bool TryClose()
         {
-            if (ActualModal != Null)
+            if (Modal != Null)
             {
                 Close();
                 return true;
@@ -177,7 +184,10 @@ namespace OneDo.View
 
         public void Close()
         {
-            Modal = Null;
+            if (Modal.SubContainer == null || !Modal.SubContainer.TryClose())
+            {
+                Modal = Null;
+            }
         }
 
         public void Show(ModalView modal)
@@ -212,6 +222,12 @@ namespace OneDo.View
             }
         }
 
+        private void OnActualModalChanged(ModalView newModal, ModalView oldModal)
+        {
+            UpdateVisibility();
+        }
+
+
         private void OnModalShowed(ModalView modal)
         {
             rootGrid.Visibility = Visibility.Visible;
@@ -241,6 +257,7 @@ namespace OneDo.View
             batch.End();
         }
 
+
         private void RunContentAnimation(Dictionary<Type, AnimationInfo> animations, Type modalType, AnimationInfo defaultAnimation)
         {
             var animationInfo = animations.ContainsKey(modalType)
@@ -260,11 +277,27 @@ namespace OneDo.View
             }
         }
 
+
+        private void UpdateVisibility()
+        {
+            if (rootGrid != null)
+            {
+                var show = ActualModal != Null;
+                rootGrid.Visibility = show
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
         private void UpdateBackButtonVisibility()
         {
-            navigationManager.AppViewBackButtonVisibility = Modal != Null
-                ? AppViewBackButtonVisibility.Visible
-                : AppViewBackButtonVisibility.Collapsed;
+            if (IsRoot)
+            {
+                var showBackButton = Modal != Null;
+                navigationManager.AppViewBackButtonVisibility = showBackButton
+                    ? AppViewBackButtonVisibility.Visible
+                    : AppViewBackButtonVisibility.Collapsed;
+            }
         }
     }
 }
