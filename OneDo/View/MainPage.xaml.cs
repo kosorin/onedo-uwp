@@ -74,22 +74,22 @@ namespace OneDo.View
 
         private void Handle(SettingsParameters args)
         {
-            ModalContainer.Show(new SettingsView(args));
+            ModalContainer.Show(new SettingsView());
         }
 
         private void Handle(DebugParameters args)
         {
-            ModalContainer.Show(new DebugView(args));
+            ModalContainer.Show(new DebugView());
         }
 
         private void Handle(FolderEditorParameters args)
         {
-            ModalContainer.Show(new FolderEditor(args));
+            ModalContainer.Show(new FolderEditor(args.EntityId));
         }
 
         private void Handle(NoteEditorParameters args)
         {
-            ModalContainer.Show(new NoteEditor(args));
+            ModalContainer.Show(new NoteEditor(args.EntityId));
         }
 
 

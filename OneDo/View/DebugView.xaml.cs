@@ -8,7 +8,7 @@ namespace OneDo.View
     {
         public DebugViewModel VM => (DebugViewModel)ViewModel;
 
-        public DebugView(DebugParameters parameters) : base(parameters)
+        public DebugView()
         {
             InitializeComponent();
         }

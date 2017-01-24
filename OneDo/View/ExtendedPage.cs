@@ -7,6 +7,8 @@ using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml;
+using System.Threading.Tasks;
 
 namespace OneDo.View
 {
@@ -38,6 +40,19 @@ namespace OneDo.View
             }
 
             compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+            Loaded += OnModalLoaded;
+        }
+
+        private void OnModalLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnModalLoaded;
+            OnFirstLoad();
+        }
+
+        protected virtual Task OnFirstLoad()
+        {
+            return Task.CompletedTask;
         }
 
         protected virtual void OnViewModelChanging()

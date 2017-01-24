@@ -8,7 +8,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace OneDo.View
+namespace OneDo.View.Controls
 {
     public sealed partial class TimePicker : ModalView
     {
@@ -46,7 +46,7 @@ namespace OneDo.View
         public event TypedEventHandler<TimePicker, TimeChangedEventArgs> TimeChanged;
 
 
-        public TimePicker(TimeSpan time) : base(null)
+        public TimePicker(TimeSpan time)
         {
             InitializeComponent();
 

@@ -33,7 +33,7 @@ namespace OneDo.View
 
         private class NullModal : ModalView
         {
-            public NullModal() : base(null)
+            public NullModal()
             {
             }
         }

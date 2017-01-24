@@ -148,7 +148,7 @@
     <Compile Include="View\Behaviors\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="View\Controls\InfoBar.cs" />
-    <Compile Include="View\DatePicker.xaml.cs">
+    <Compile Include="View\Controls\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ExtendedContentControl.cs" />
@@ -158,7 +158,7 @@
     </Compile>
     <Compile Include="View\Controls\RingSlice.cs" />
     <Compile Include="View\Controls\SlidableListItem.cs" />
-    <Compile Include="View\TimePicker.xaml.cs">
+    <Compile Include="View\Controls\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
@@ -250,7 +250,7 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="View\DatePicker.xaml">
+    <Page Include="View\Controls\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,7 +262,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TimePicker.xaml">
+    <Page Include="View\Controls\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

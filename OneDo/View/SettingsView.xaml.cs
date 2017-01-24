@@ -7,7 +7,7 @@ namespace OneDo.View
     {
         public SettingsViewModel VM => (SettingsViewModel)ViewModel;
 
-        public SettingsView(SettingsParameters parameters) : base(parameters)
+        public SettingsView()
         {
             InitializeComponent();
         }

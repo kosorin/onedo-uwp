@@ -1,13 +1,13 @@
 ﻿using OneDo.Application.Queries.Notes;
 using OneDo.Common.Args;
 using OneDo.Common.Extensions;
+using OneDo.View.Controls;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Parameters;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace OneDo.View
@@ -18,10 +18,16 @@ namespace OneDo.View
 
         public override ModalContainer SubContainer => ModalContainer;
 
-        public NoteEditor(NoteEditorParameters parameters) : base(parameters)
+        public Guid? FolderId { get; }
+
+        public Guid? NoteId { get; }
+
+        public NoteEditor(Guid? noteId)
         {
             InitializeComponent();
             InitializeModalAnimations();
+
+            NoteId = noteId;
         }
 
         private void InitializeModalAnimations()
@@ -53,8 +59,7 @@ namespace OneDo.View
 
         protected override async Task OnFirstLoad()
         {
-            var parameters = (NoteEditorParameters)Parameters;
-            await VM.Load(parameters.EntityId);
+            await VM.Load(NoteId);
         }
 
 

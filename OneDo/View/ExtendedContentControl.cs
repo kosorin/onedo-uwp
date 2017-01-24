@@ -1,8 +1,10 @@
 ﻿using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
@@ -36,6 +38,19 @@ namespace OneDo.View
             }
 
             compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+            Loaded += OnModalLoaded;
+        }
+
+        private void OnModalLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnModalLoaded;
+            OnFirstLoad();
+        }
+
+        protected virtual Task OnFirstLoad()
+        {
+            return Task.CompletedTask;
         }
 
         protected virtual void OnViewModelChanging()

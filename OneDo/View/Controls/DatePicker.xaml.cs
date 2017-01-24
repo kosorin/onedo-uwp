@@ -8,7 +8,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace OneDo.View
+namespace OneDo.View.Controls
 {
     public sealed partial class DatePicker : ModalView
     {
@@ -32,7 +32,7 @@ namespace OneDo.View
 
         private bool isPicking;
 
-        public DatePicker(DateTime date) : base(null)
+        public DatePicker(DateTime date)
         {
             InitializeComponent();
 

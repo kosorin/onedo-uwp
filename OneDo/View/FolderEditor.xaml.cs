@@ -13,17 +13,20 @@ namespace OneDo.View
     {
         public FolderEditorViewModel VM => ViewModel as FolderEditorViewModel;
 
+        public Guid? FolderId { get; }
+
         private bool isSelectionChanging = false;
 
-        public FolderEditor(FolderEditorParameters parameters) : base(parameters)
+        public FolderEditor(Guid? folderId)
         {
             InitializeComponent();
+
+            FolderId = folderId;
         }
 
         protected override async Task OnFirstLoad()
         {
-            var parameters = (FolderEditorParameters)Parameters;
-            await VM.Load(parameters.EntityId);
+            await VM.Load(FolderId);
         }
 
         private void Colors_SelectionChanged(object sender, SelectionChangedEventArgs e)
