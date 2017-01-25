@@ -23,7 +23,7 @@ namespace OneDo.ViewModel
                 if (Set(ref id, value))
                 {
                     RaisePropertyChanged(nameof(IsNew));
-                    UpdateDirtyProperty(() => IsNew);
+                    MarkProperty(() => IsNew);
                     DeleteCommand.RaiseCanExecuteChanged();
                 }
             }
@@ -32,6 +32,9 @@ namespace OneDo.ViewModel
         public bool IsNew => Id == null;
 
         public bool CanSave => dirtyProperties.Any(x => x.Value) && validProperties.All(x => x.Value);
+
+
+        protected Dictionary<string, Func<bool>> Rules { get; set; } = new Dictionary<string, Func<bool>>();
 
 
         public event EventHandler<EntityEventArgs<TEntity>> Saved;
@@ -74,8 +77,10 @@ namespace OneDo.ViewModel
             {
                 await InitializeData();
             }
-            isInitialized = true;
             InitializeProperties();
+
+            isInitialized = true;
+            ValidateAll();
         }
 
         protected abstract Task InitializeData();
@@ -88,7 +93,7 @@ namespace OneDo.ViewModel
         }
 
 
-        protected void UpdateDirtyProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
+        protected void MarkProperty(Func<bool> isDirtyTest, [CallerMemberName] string propertyName = null)
         {
             if (isInitialized)
             {
@@ -97,11 +102,27 @@ namespace OneDo.ViewModel
             }
         }
 
-        protected void ValidateProperty(Func<bool> isValidTest, [CallerMemberName] string propertyName = null)
+        protected void ValidateProperty([CallerMemberName] string propertyName = null)
         {
             if (isInitialized)
             {
-                validProperties[propertyName] = isValidTest();
+                Func<bool> rule;
+                if (Rules.TryGetValue(propertyName, out rule))
+                {
+                    validProperties[propertyName] = rule();
+                    RaiseCanSaveChanged();
+                }
+            }
+        }
+
+        protected void ValidateAll()
+        {
+            if (isInitialized)
+            {
+                foreach (var ruleItem in Rules)
+                {
+                    validProperties[ruleItem.Key] = ruleItem.Value();
+                }
                 RaiseCanSaveChanged();
             }
         }

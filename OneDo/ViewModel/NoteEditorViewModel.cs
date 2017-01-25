@@ -24,7 +24,8 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedFolder, value))
                 {
-                    UpdateDirtyProperty(() => SelectedFolder?.Id != Original.FolderId);
+                    ValidateProperty();
+                    MarkProperty(() => SelectedFolder?.Id != Original.FolderId);
                 }
             }
         }
@@ -37,8 +38,8 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref title, value))
                 {
-                    UpdateDirtyProperty(() => Title != Original.Title);
-                    ValidateProperty(() => !string.IsNullOrWhiteSpace(Title));
+                    ValidateProperty();
+                    MarkProperty(() => Title.TrimNull() != Original.Title.TrimNull());
                 }
             }
         }
@@ -51,7 +52,8 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref text, value))
                 {
-                    UpdateDirtyProperty(() => Text != Original.Text);
+                    ValidateProperty();
+                    MarkProperty(() => Text.TrimNull() != Original.Text.TrimNull());
                 }
             }
         }
@@ -64,7 +66,8 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref date, value))
                 {
-                    UpdateDirtyProperty(() => Date?.Date != Original.Date?.Date);
+                    ValidateProperty();
+                    MarkProperty(() => Date?.Date != Original.Date?.Date);
                     RaisePropertyChanged(nameof(DateText));
                 }
             }
@@ -80,7 +83,8 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref reminder, value))
                 {
-                    UpdateDirtyProperty(() => Reminder != Original.Reminder);
+                    ValidateProperty();
+                    MarkProperty(() => Reminder != Original.Reminder);
                     RaisePropertyChanged(nameof(ReminderText));
                 }
             }
@@ -96,7 +100,8 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref isFlagged, value))
                 {
-                    UpdateDirtyProperty(() => IsFlagged != Original.IsFlagged);
+                    ValidateProperty();
+                    MarkProperty(() => IsFlagged != Original.IsFlagged);
                 }
             }
         }
@@ -112,6 +117,13 @@ namespace OneDo.ViewModel
 
             ClearDateCommand = new RelayCommand(() => Date = null);
             ClearReminderCommand = new RelayCommand(() => Reminder = null);
+
+            Rules = new Dictionary<string, Func<bool>>
+            {
+                [nameof(SelectedFolder)] = () => SelectedFolder != null,
+                [nameof(Title)] = () => !string.IsNullOrWhiteSpace(Title),
+                [nameof(IsFlagged)] = () => IsFlagged != null,
+            };
         }
 
         protected override async Task InitializeData()
@@ -151,8 +163,8 @@ namespace OneDo.ViewModel
         protected override async Task Save()
         {
             Original.FolderId = SelectedFolder.Id;
-            Original.Title = Title ?? "";
-            Original.Text = Text ?? "";
+            Original.Title = Title.TrimNull();
+            Original.Text = Text.TrimNull();
             Original.Date = Date;
             Original.Reminder = Reminder;
             Original.IsFlagged = IsFlagged ?? false;

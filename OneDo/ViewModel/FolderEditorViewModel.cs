@@ -24,9 +24,9 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref name, value))
                 {
-                    UpdateDirtyProperty(() => string.IsNullOrWhiteSpace(Name) != string.IsNullOrWhiteSpace(Original.Name) || Name != Original.Name);
+                    ValidateProperty();
+                    MarkProperty(() => Name.TrimNull() != Original.Name.TrimNull());
                 }
-                ValidateProperty(() => !string.IsNullOrWhiteSpace(Name));
             }
         }
 
@@ -38,9 +38,9 @@ namespace OneDo.ViewModel
             {
                 if (Set(ref selectedColor, value))
                 {
-                    UpdateDirtyProperty(() => SelectedColor?.Color.ToHex() != Original.Color);
+                    ValidateProperty();
+                    MarkProperty(() => SelectedColor?.Color.ToHex() != Original.Color);
                 }
-                ValidateProperty(() => SelectedColor != null);
             }
         }
 
@@ -72,6 +72,11 @@ namespace OneDo.ViewModel
 
         public FolderEditorViewModel(Api api, IProgressService progressService) : base(api, progressService)
         {
+            Rules = new Dictionary<string, Func<bool>>
+            {
+                [nameof(Name)] = () => !string.IsNullOrWhiteSpace(Name),
+                [nameof(SelectedColor)] = () => SelectedColor != null,
+            };
         }
 
         protected override async Task InitializeData()
@@ -100,7 +105,7 @@ namespace OneDo.ViewModel
 
         protected override async Task Save()
         {
-            Original.Name = Name;
+            Original.Name = Name.TrimNull();
             Original.Color = SelectedColor.Color.ToHex();
 
             await ProgressService.RunAsync(async () =>
