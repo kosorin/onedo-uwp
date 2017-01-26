@@ -137,7 +137,6 @@
     <Compile Include="ViewModel\Parameters\NoteEditorParameters.cs" />
     <Compile Include="ViewModel\Parameters\SettingsParameters.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
-    <Compile Include="ViewModel\TimePickerViewModel.cs" />
     <Compile Include="Core\UIHost.cs" />
     <Compile Include="Common\UI\AnimationInfo.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />

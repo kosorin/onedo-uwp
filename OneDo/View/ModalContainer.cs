@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.System;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -111,6 +112,10 @@ namespace OneDo.View
         {
             navigationManager = SystemNavigationManager.GetForCurrentView();
             navigationManager.BackRequested += OnBackRequested;
+
+            var window = Window.Current;
+            window.CoreWindow.PointerPressed += OnPointerPressed;
+            window.CoreWindow.KeyDown += OnKeyDown;
 
             DefaultStyleKey = typeof(ModalContainer);
 
@@ -269,11 +274,39 @@ namespace OneDo.View
         }
 
 
-        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        private void OnPointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (TryClose())
+            var properties = args.CurrentPoint.Properties;
+            if (properties.IsXButton1Pressed || properties.IsXButton2Pressed)
             {
-                e.Handled = true;
+                args.Handled = true;
+            }
+
+            if (properties.IsXButton1Pressed)
+            {
+                TryClose();
+            }
+        }
+
+        private void OnKeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            if (!args.Handled && args.VirtualKey == VirtualKey.Escape)
+            {
+                if (TryClose())
+                {
+                    args.Handled = true;
+                }
+            }
+        }
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs args)
+        {
+            if (!args.Handled)
+            {
+                if (TryClose())
+                {
+                    args.Handled = true;
+                }
             }
         }
 
