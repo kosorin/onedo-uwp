@@ -6,11 +6,9 @@ namespace OneDo.Services.InfoService
 {
     public class InfoService : IInfoService
     {
-        public IMessenger Messenger { get; } = new Messenger();
-
         public void Hide()
         {
-            Messenger.Send<InfoMessage>(null);
+            Messenger.Default.Send<InfoMessage>(null);
         }
 
         public void Show(string text)
@@ -20,7 +18,7 @@ namespace OneDo.Services.InfoService
 
         public void Show(string text, TimeSpan duration, string color)
         {
-            Messenger.Send(new InfoMessage
+            Messenger.Default.Send(new InfoMessage
             {
                 Text = text,
                 Duration = duration,
@@ -35,7 +33,7 @@ namespace OneDo.Services.InfoService
 
         public void Show(string text, TimeSpan duration, string color, string actionGlyph, string actionText, Func<Task> action)
         {
-            Messenger.Send(new InfoMessage
+            Messenger.Default.Send(new InfoMessage
             {
                 Text = text,
                 Duration = duration,

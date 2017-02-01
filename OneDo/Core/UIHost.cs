@@ -11,13 +11,10 @@ namespace OneDo.Core
 
         public IInfoService InfoService { get; }
 
-        public IMessenger Messenger { get; }
-
         public UIHost(IProgressService progressService, IInfoService infoService)
         {
             ProgressService = progressService;
             InfoService = infoService;
-            Messenger = new Messenger();
         }
     }
 }

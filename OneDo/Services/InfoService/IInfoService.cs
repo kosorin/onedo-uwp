@@ -6,8 +6,6 @@ namespace OneDo.Services.InfoService
 {
     public interface IInfoService
     {
-        IMessenger Messenger { get; }
-
         void Hide();
 
         void Show(string text);
