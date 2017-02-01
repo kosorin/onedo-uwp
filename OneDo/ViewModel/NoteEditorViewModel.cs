@@ -1,8 +1,10 @@
-﻿using OneDo.Application;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OneDo.Application;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
+using OneDo.Core.Messages;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;
