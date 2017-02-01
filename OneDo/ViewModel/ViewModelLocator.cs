@@ -29,17 +29,14 @@ namespace OneDo.ViewModel
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
 
-
                 builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<SettingsViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<DebugViewModel>().AsSelf().SingleInstance();
-
                 builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
-
                 builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
 
+                builder.RegisterType<SettingsViewModel>().AsSelf().InstancePerDependency();
+                builder.RegisterType<DebugViewModel>().AsSelf().InstancePerDependency();
+                builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
+                builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
 
                 Container = builder.Build();
             }
@@ -53,9 +50,9 @@ namespace OneDo.ViewModel
 
         public FolderListViewModel FolderList => Container?.Resolve<FolderListViewModel>();
 
-        public FolderEditorViewModel FolderEditor => Container?.Resolve<FolderEditorViewModel>();
-
         public NoteListViewModel NoteList => Container?.Resolve<NoteListViewModel>();
+
+        public FolderEditorViewModel FolderEditor => Container?.Resolve<FolderEditorViewModel>();
 
         public NoteEditorViewModel NoteEditor => Container?.Resolve<NoteEditorViewModel>();
     }
