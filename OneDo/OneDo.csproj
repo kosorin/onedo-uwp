@@ -99,8 +99,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\Args\DateChangedEventArgs.cs" />
-    <Compile Include="Common\Args\TimeChangedEventArgs.cs" />
+    <Compile Include="Core\Args\DateChangedEventArgs.cs" />
+    <Compile Include="Core\Args\TimeChangedEventArgs.cs" />
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
@@ -131,11 +131,10 @@
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
-    <Compile Include="ViewModel\Parameters\FolderEditorParameters.cs" />
-    <Compile Include="ViewModel\Parameters\IParameters.cs" />
-    <Compile Include="ViewModel\Parameters\DebugParameters.cs" />
-    <Compile Include="ViewModel\Parameters\NoteEditorParameters.cs" />
-    <Compile Include="ViewModel\Parameters\SettingsParameters.cs" />
+    <Compile Include="ViewModel\Parameters\ShowFolderEditorMessage.cs" />
+    <Compile Include="ViewModel\Parameters\ShowDebugMessage.cs" />
+    <Compile Include="ViewModel\Parameters\ShowNoteEditorMessage.cs" />
+    <Compile Include="ViewModel\Parameters\ShowSettingsMessage.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="Core\UIHost.cs" />
     <Compile Include="Common\UI\AnimationInfo.cs" />

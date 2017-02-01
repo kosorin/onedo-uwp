@@ -1,6 +1,6 @@
 ﻿using OneDo.Application.Queries.Notes;
-using OneDo.Common.Args;
 using OneDo.Common.Extensions;
+using OneDo.Core.Args;
 using OneDo.View.Controls;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;

@@ -1,4 +1,5 @@
-﻿using OneDo.Common;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OneDo.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel.Parameters
 {
-    [Obsolete("Slepá větev")]
-    public interface IParameters
+    public class ShowSettingsMessage : MessageBase
     {
     }
 }

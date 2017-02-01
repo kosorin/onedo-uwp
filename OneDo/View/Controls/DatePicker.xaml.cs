@@ -1,5 +1,5 @@
-﻿using OneDo.Common.Args;
-using OneDo.Common.Extensions;
+﻿using OneDo.Common.Extensions;
+using OneDo.Core.Args;
 using OneDo.ViewModel;
 using OneDo.ViewModel.Args;
 using System;

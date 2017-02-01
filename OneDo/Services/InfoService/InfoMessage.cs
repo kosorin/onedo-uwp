@@ -1,9 +1,10 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Threading.Tasks;
 
 namespace OneDo.Services.InfoService
 {
-    public class InfoMessage
+    public class InfoMessage : MessageBase
     {
         public string Text { get; set; }
 

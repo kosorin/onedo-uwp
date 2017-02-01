@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Common.Args
+namespace OneDo.Core.Args
 {
     public class DateChangedEventArgs : EventArgs
     {

@@ -9,13 +9,10 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel.Parameters
 {
-    public class FolderEditorParameters : IParameters
+    public class ShowNoteEditorMessage : GenericMessage<Guid?>
     {
-        public FolderEditorParameters(Guid? entityId)
+        public ShowNoteEditorMessage(Guid? entityId) : base(entityId)
         {
-            EntityId = entityId;
         }
-
-        public Guid? EntityId { get; }
     }
 }

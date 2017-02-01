@@ -59,7 +59,7 @@ namespace OneDo.ViewModel
 
         protected override void ShowEditor(NoteItemViewModel note)
         {
-            Messenger.Default.Send(new NoteEditorParameters(note?.Id));
+            Messenger.Default.Send(new ShowNoteEditorMessage(note?.Id));
         }
 
 
