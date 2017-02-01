@@ -77,7 +77,8 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                await Api.CommandBus.Execute(new SetNoteFlagCommand(item.Id, !item.IsFlagged));
+                item.IsFlagged = !item.IsFlagged;
+                await Api.CommandBus.Execute(new SetNoteFlagCommand(item.Id, item.IsFlagged));
             });
         }
     }
