@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using OneDo.Common.Mvvm;
 using OneDo.Application.Common;
-using OneDo.ViewModel.Args;
 using OneDo.Application;
 
 namespace OneDo.ViewModel

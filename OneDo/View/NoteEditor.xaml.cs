@@ -3,7 +3,6 @@ using OneDo.Common.Extensions;
 using OneDo.Core.Args;
 using OneDo.View.Controls;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Args;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;

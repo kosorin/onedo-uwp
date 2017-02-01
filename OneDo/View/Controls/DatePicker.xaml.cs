@@ -1,7 +1,6 @@
 ﻿using OneDo.Common.Extensions;
 using OneDo.Core.Args;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Args;
 using System;
 using System.Linq;
 using Windows.Foundation;

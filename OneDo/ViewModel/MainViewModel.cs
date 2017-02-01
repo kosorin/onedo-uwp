@@ -8,7 +8,6 @@ using OneDo.Common.Mvvm;
 using OneDo.Application;
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
-using OneDo.ViewModel.Args;
 using OneDo.Application.Queries.Notes;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core;
