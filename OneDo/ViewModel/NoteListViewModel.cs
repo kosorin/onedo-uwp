@@ -7,11 +7,11 @@ using OneDo.Application;
 using System;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Folders;
-using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Items;
 using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.Messages;
+using OneDo.Core.Args;
 
 namespace OneDo.ViewModel
 {

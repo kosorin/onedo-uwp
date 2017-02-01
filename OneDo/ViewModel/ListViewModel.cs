@@ -3,7 +3,7 @@ using OneDo.Application;
 using OneDo.Application.Common;
 using OneDo.Common.Mvvm;
 using OneDo.Core;
-using OneDo.ViewModel.Args;
+using OneDo.Core.Args;
 using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;

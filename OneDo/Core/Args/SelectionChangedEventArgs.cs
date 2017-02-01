@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModel.Args
+namespace OneDo.Core.Args
 {
     public class SelectionChangedEventArgs<TItem> : EventArgs
     {
