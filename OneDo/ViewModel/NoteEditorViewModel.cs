@@ -179,6 +179,7 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new DeleteNoteCommand(Original.Id));
+                Messenger.Default.Send(new CloseModalMessage());
             });
         }
     }

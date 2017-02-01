@@ -65,12 +65,18 @@ namespace OneDo.View
 
         private void InitializeNavigation()
         {
+            Messenger.Default.Register<CloseModalMessage>(this, Handle);
             Messenger.Default.Register<ShowSettingsMessage>(this, Handle);
             Messenger.Default.Register<ShowDebugMessage>(this, Handle);
             Messenger.Default.Register<ShowFolderEditorMessage>(this, Handle);
             Messenger.Default.Register<ShowNoteEditorMessage>(this, Handle);
         }
 
+
+        private void Handle(CloseModalMessage message)
+        {
+            ModalContainer.TryClose();
+        }
 
         private void Handle(ShowSettingsMessage message)
         {

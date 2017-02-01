@@ -104,6 +104,7 @@
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
+    <Compile Include="Core\Messages\CloseModalMessage.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />
