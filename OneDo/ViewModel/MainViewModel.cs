@@ -68,7 +68,7 @@ namespace OneDo.ViewModel
 
         private void ShowSettings()
         {
-            Messenger.Default.Send(new SettingsParameters());
+            UIHost.Messenger.Send(new SettingsParameters());
         }
     }
 }

@@ -6,7 +6,7 @@ namespace OneDo.Services.InfoService
 {
     public class InfoService : IInfoService
     {
-        public IMessenger Messenger => GalaSoft.MvvmLight.Messaging.Messenger.Default;
+        public IMessenger Messenger { get; } = new Messenger();
 
         public void Hide()
         {

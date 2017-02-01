@@ -42,7 +42,7 @@ namespace OneDo.ViewModel
 
         protected override void ShowEditor(FolderItemViewModel folder)
         {
-            Messenger.Default.Send(new FolderEditorParameters(folder?.Id));
+            UIHost.Messenger.Send(new FolderEditorParameters(folder?.Id));
         }
 
 

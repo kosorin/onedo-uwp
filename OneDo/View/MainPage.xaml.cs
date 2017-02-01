@@ -60,15 +60,15 @@ namespace OneDo.View
 
         private void InitializeInfoBar()
         {
-            Messenger.Default.Register<InfoMessage>(InfoBar, InfoBar.Show);
+            VM.UIHost.InfoService.Messenger.Register<InfoMessage>(InfoBar, InfoBar.Show);
         }
 
         private void InitializeNavigation()
         {
-            Messenger.Default.Register<SettingsParameters>(this, Handle);
-            Messenger.Default.Register<DebugParameters>(this, Handle);
-            Messenger.Default.Register<FolderEditorParameters>(this, Handle);
-            Messenger.Default.Register<NoteEditorParameters>(this, Handle);
+            VM.UIHost.Messenger.Register<SettingsParameters>(this, Handle);
+            VM.UIHost.Messenger.Register<DebugParameters>(this, Handle);
+            VM.UIHost.Messenger.Register<FolderEditorParameters>(this, Handle);
+            VM.UIHost.Messenger.Register<NoteEditorParameters>(this, Handle);
         }
 
 
@@ -100,7 +100,7 @@ namespace OneDo.View
             InsertMenuButtonAsync("Reset", VM.ResetData);
             InsertMenuButton("Switch theme", SwitchRequestedTheme);
             InsertMenuButtonAsync("Show schedule", ShowSchedule);
-            InsertMenuButton("Debug", () => Messenger.Default.Send(new DebugParameters()));
+            InsertMenuButton("Debug", () => VM.UIHost.Messenger.Send(new DebugParameters()));
         }
 
         private void InsertMenuSeparator()
