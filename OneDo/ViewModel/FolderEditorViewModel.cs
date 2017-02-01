@@ -112,7 +112,6 @@ namespace OneDo.ViewModel
             {
                 await Api.CommandBus.Execute(new SaveFolderCommand(Original.Id, Original.Name, Original.Color));
             });
-            OnSaved();
         }
 
         protected override async Task Delete()
@@ -121,7 +120,6 @@ namespace OneDo.ViewModel
             {
                 await Api.CommandBus.Execute(new DeleteFolderCommand(Original.Id));
             });
-            OnDeleted();
         }
     }
 }

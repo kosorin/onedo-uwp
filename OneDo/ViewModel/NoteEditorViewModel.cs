@@ -173,7 +173,6 @@ namespace OneDo.ViewModel
             {
                 await Api.CommandBus.Execute(new SaveNoteCommand(Original.Id, Original.FolderId, Original.Title, Original.Text, Original.Date, Original.Reminder, Original.IsFlagged));
             });
-            OnSaved();
         }
 
         protected override async Task Delete()
@@ -182,7 +181,6 @@ namespace OneDo.ViewModel
             {
                 await Api.CommandBus.Execute(new DeleteNoteCommand(Original.Id));
             });
-            OnDeleted();
         }
     }
 }

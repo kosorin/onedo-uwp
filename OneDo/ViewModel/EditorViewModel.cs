@@ -37,11 +37,6 @@ namespace OneDo.ViewModel
         protected Dictionary<string, Func<bool>> Rules { get; set; } = new Dictionary<string, Func<bool>>();
 
 
-        public event EventHandler<EntityEventArgs<TEntity>> Saved;
-
-        public event EventHandler<EntityEventArgs<TEntity>> Deleted;
-
-
         public AsyncRelayCommand SaveCommand { get; }
 
         public AsyncRelayCommand DeleteCommand { get; }
@@ -137,15 +132,5 @@ namespace OneDo.ViewModel
         protected abstract Task Save();
 
         protected abstract Task Delete();
-
-        protected void OnSaved()
-        {
-            Saved?.Invoke(this, new EntityEventArgs<TEntity>(Original));
-        }
-
-        protected void OnDeleted()
-        {
-            Deleted?.Invoke(this, new EntityEventArgs<TEntity>(Original));
-        }
     }
 }
