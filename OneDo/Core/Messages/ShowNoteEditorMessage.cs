@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace OneDo.Core.Messages
 {
-    public class ShowNoteEditorMessage : GenericMessage<Guid?>
+    public class ShowNoteEditorMessage : MessageBase
     {
-        public ShowNoteEditorMessage(Guid? entityId) : base(entityId)
+        public ShowNoteEditorMessage(Guid? id)
         {
+            Id = id;
         }
+
+        public Guid? Id { get; set; }
     }
 }

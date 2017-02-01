@@ -84,12 +84,12 @@ namespace OneDo.View
 
         private void Handle(ShowFolderEditorMessage message)
         {
-            ModalContainer.Show(new FolderEditor(message.Content));
+            ModalContainer.Show(new FolderEditor(message.Id));
         }
 
         private void Handle(ShowNoteEditorMessage message)
         {
-            ModalContainer.Show(new NoteEditor(message.Content));
+            ModalContainer.Show(new NoteEditor(message.Id));
         }
 
 
