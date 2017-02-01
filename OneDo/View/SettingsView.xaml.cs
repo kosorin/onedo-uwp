@@ -1,5 +1,4 @@
 ﻿using OneDo.ViewModel;
-using OneDo.ViewModel.Parameters;
 
 namespace OneDo.View
 {

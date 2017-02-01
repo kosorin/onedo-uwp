@@ -5,7 +5,6 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
-using OneDo.ViewModel.Parameters;
 
 namespace OneDo.View
 {

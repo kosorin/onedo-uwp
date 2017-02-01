@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModel.Parameters
+namespace OneDo.Core.Messages
 {
     public class ShowDebugMessage : MessageBase
     {

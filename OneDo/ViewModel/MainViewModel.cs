@@ -11,8 +11,8 @@ using OneDo.Application.Commands.Notes;
 using OneDo.ViewModel.Args;
 using OneDo.Application.Queries.Notes;
 using GalaSoft.MvvmLight.Messaging;
-using OneDo.ViewModel.Parameters;
 using OneDo.Core;
+using OneDo.Core.Messages;
 
 namespace OneDo.ViewModel
 {

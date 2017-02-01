@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using System.Linq;
 using OneDo.Services.ToastService;
-using OneDo.ViewModel.Parameters;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common;
 using OneDo.Application.Queries.Notes;
+using OneDo.Core.Messages;
 
 namespace OneDo.View
 {

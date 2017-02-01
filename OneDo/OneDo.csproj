@@ -131,10 +131,10 @@
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
-    <Compile Include="ViewModel\Parameters\ShowFolderEditorMessage.cs" />
-    <Compile Include="ViewModel\Parameters\ShowDebugMessage.cs" />
-    <Compile Include="ViewModel\Parameters\ShowNoteEditorMessage.cs" />
-    <Compile Include="ViewModel\Parameters\ShowSettingsMessage.cs" />
+    <Compile Include="Core\Messages\ShowFolderEditorMessage.cs" />
+    <Compile Include="Core\Messages\ShowDebugMessage.cs" />
+    <Compile Include="Core\Messages\ShowNoteEditorMessage.cs" />
+    <Compile Include="Core\Messages\ShowSettingsMessage.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="Core\UIHost.cs" />
     <Compile Include="Common\UI\AnimationInfo.cs" />

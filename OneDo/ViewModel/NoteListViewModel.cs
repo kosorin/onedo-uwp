@@ -8,10 +8,10 @@ using System;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Folders;
 using OneDo.ViewModel.Args;
-using OneDo.ViewModel.Parameters;
 using OneDo.ViewModel.Items;
 using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
+using OneDo.Core.Messages;
 
 namespace OneDo.ViewModel
 {

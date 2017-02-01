@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.ViewModel.Parameters
+namespace OneDo.Core.Messages
 {
-    public class ShowFolderEditorMessage : GenericMessage<Guid?>
+    public class ShowNoteEditorMessage : GenericMessage<Guid?>
     {
-        public ShowFolderEditorMessage(Guid? entityId) : base(entityId)
+        public ShowNoteEditorMessage(Guid? entityId) : base(entityId)
         {
         }
     }

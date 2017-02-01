@@ -5,7 +5,6 @@ using OneDo.Common.Mvvm;
 using OneDo.Core;
 using OneDo.ViewModel.Args;
 using OneDo.ViewModel.Items;
-using OneDo.ViewModel.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
