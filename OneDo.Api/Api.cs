@@ -28,8 +28,9 @@ namespace OneDo.Application
 
             CommandBus = new CommandBus(dataService);
 
-            FolderQuery = new FolderQuery(dataService.RepositoryFactory.GetQueryRepository<FolderData>());
-            NoteQuery = new NoteQuery(dataService.RepositoryFactory.GetQueryRepository<NoteData>());
+            var repositoryFactory = dataService.RepositoryFactory;
+            FolderQuery = new FolderQuery(repositoryFactory.GetQueryRepository<FolderData>());
+            NoteQuery = new NoteQuery(repositoryFactory.GetQueryRepository<NoteData>());
         }
     }
 }
