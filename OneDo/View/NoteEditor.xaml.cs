@@ -18,8 +18,6 @@ namespace OneDo.View
 
         public override ModalContainer SubContainer => ModalContainer;
 
-        public Guid? FolderId { get; }
-
         public Guid? NoteId { get; }
 
         public NoteEditor(Guid? noteId)

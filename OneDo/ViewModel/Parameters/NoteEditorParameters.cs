@@ -11,14 +11,11 @@ namespace OneDo.ViewModel.Parameters
 {
     public class NoteEditorParameters : IParameters
     {
-        public NoteEditorParameters(Guid? entityId, Guid selectedFolderId)
+        public NoteEditorParameters(Guid? entityId)
         {
             EntityId = entityId;
-            SelectedFolderId = selectedFolderId;
         }
 
         public Guid? EntityId { get; }
-
-        public Guid SelectedFolderId { get; set; }
     }
 }
