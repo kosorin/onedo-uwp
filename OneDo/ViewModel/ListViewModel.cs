@@ -4,7 +4,6 @@ using OneDo.Application.Common;
 using OneDo.Common.Mvvm;
 using OneDo.Core;
 using OneDo.Core.Args;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +14,7 @@ using Windows.Foundation;
 namespace OneDo.ViewModel
 {
     public abstract class ListViewModel<TItem, TEntity> : ModalViewModel, IListCommandsCommands
-        where TItem : ItemViewModel<TEntity>
+        where TItem : EntityViewModel<TEntity>
         where TEntity : class, IEntityModel, new()
     {
         private ObservableCollection<TItem> items;

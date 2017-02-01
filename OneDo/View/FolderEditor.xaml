@@ -6,7 +6,6 @@
              xmlns:behaviors="using:OneDo.View.Behaviors"
              xmlns:v="using:OneDo.View"
              xmlns:vm="using:OneDo.ViewModel"
-             xmlns:vmItems="using:OneDo.ViewModel.Items"
              d:DesignWidth="266"
              DataContext="{Binding FolderEditor, Source={StaticResource Locator}}"
              mc:Ignorable="d">
@@ -54,7 +53,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="ColorItemTemplate" x:DataType="vmItems:ColorItemObject">
+        <DataTemplate x:Key="ColorItemTemplate" x:DataType="vm:ColorViewModel">
             <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}" />
         </DataTemplate>
 

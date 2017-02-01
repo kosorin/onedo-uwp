@@ -2,7 +2,6 @@
 using OneDo.View.Behaviors;
 using OneDo.View.Converters;
 using OneDo.ViewModel;
-using OneDo.ViewModel.Items;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

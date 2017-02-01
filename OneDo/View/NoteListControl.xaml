@@ -98,7 +98,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmItems:NoteItemViewModel">
+        <DataTemplate x:Key="NoteItemTemplate" x:DataType="vm:NoteItemViewModel">
             <controls:SlidableListItem MinHeight="60"
                                        MaxHeight="100"
                                        Background="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"

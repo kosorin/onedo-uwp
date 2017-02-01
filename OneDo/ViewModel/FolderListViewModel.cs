@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using OneDo.Application.Commands.Folders;
-using OneDo.ViewModel.Items;
 using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.Messages;

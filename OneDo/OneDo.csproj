@@ -124,8 +124,8 @@
     <Compile Include="ViewModel\IFolderCommands.cs" />
     <Compile Include="ViewModel\IListCommandsCommands.cs" />
     <Compile Include="ViewModel\INoteCommands.cs" />
-    <Compile Include="ViewModel\Items\ItemViewModel.cs" />
-    <Compile Include="ViewModel\Items\ColorItemObject.cs" />
+    <Compile Include="ViewModel\EntityViewModel.cs" />
+    <Compile Include="ViewModel\ColorViewModel.cs" />
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
@@ -170,8 +170,8 @@
     <Compile Include="ViewModel\FolderListViewModel.cs" />
     <Compile Include="ViewModel\ModalViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\Items\FolderItemViewModel.cs" />
-    <Compile Include="ViewModel\Items\NoteItemViewModel.cs" />
+    <Compile Include="ViewModel\FolderItemViewModel.cs" />
+    <Compile Include="ViewModel\NoteItemViewModel.cs" />
     <Compile Include="ViewModel\NoteEditorViewModel.cs" />
     <Compile Include="Common\Mvvm\ExtendedViewModel.cs" />
     <Compile Include="View\FolderListControl.xaml.cs">

@@ -2,9 +2,9 @@
 using OneDo.Common.Extensions;
 using Windows.UI;
 
-namespace OneDo.ViewModel.Items
+namespace OneDo.ViewModel
 {
-    public class ColorItemObject : ObservableObject
+    public class ColorViewModel : ObservableObject
     {
         private Color color;
         public Color Color
@@ -13,12 +13,12 @@ namespace OneDo.ViewModel.Items
             set { Set(ref color, value); }
         }
 
-        public ColorItemObject(Color color)
+        public ColorViewModel(Color color)
         {
             Color = color;
         }
 
-        public ColorItemObject(string hex)
+        public ColorViewModel(string hex)
         {
             Color = hex.ToColor();
         }

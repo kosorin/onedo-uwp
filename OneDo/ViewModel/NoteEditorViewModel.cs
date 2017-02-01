@@ -4,7 +4,6 @@ using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using OneDo.Services.ProgressService;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;

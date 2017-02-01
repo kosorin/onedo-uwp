@@ -3,7 +3,6 @@ using OneDo.Application.Commands.Folders;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common.Extensions;
 using OneDo.Services.ProgressService;
-using OneDo.ViewModel.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +12,8 @@ namespace OneDo.ViewModel
 {
     public class FolderEditorViewModel : EditorViewModel<FolderModel>
     {
-        public static List<ColorItemObject> colors;
-        public List<ColorItemObject> Colors => colors;
+        public static List<ColorViewModel> colors;
+        public List<ColorViewModel> Colors => colors;
 
         private string name;
         public string Name
@@ -30,8 +29,8 @@ namespace OneDo.ViewModel
             }
         }
 
-        private ColorItemObject selectedColor;
-        public ColorItemObject SelectedColor
+        private ColorViewModel selectedColor;
+        public ColorViewModel SelectedColor
         {
             get { return selectedColor; }
             set
@@ -49,24 +48,24 @@ namespace OneDo.ViewModel
 
         static FolderEditorViewModel()
         {
-            colors = new List<ColorItemObject>
+            colors = new List<ColorViewModel>
             {
-                new ColorItemObject("#C10051"),
-                new ColorItemObject("#E81123"),
-                new ColorItemObject("#F7630D"),
-                new ColorItemObject("#FABD14"),
-                new ColorItemObject("#7EC500"),
-                new ColorItemObject("#0F893E"),
-                new ColorItemObject("#00AC56"),
-                new ColorItemObject("#00B6C1"),
-                new ColorItemObject("#0099BB"),
-                new ColorItemObject("#0063AF"),
-                new ColorItemObject("#004E8C"),
-                new ColorItemObject("#5B2D90"),
-                new ColorItemObject("#AC008C"),
-                new ColorItemObject("#D40078"),
-                new ColorItemObject("#C6A477"),
-                new ColorItemObject("#84939A"),
+                new ColorViewModel("#C10051"),
+                new ColorViewModel("#E81123"),
+                new ColorViewModel("#F7630D"),
+                new ColorViewModel("#FABD14"),
+                new ColorViewModel("#7EC500"),
+                new ColorViewModel("#0F893E"),
+                new ColorViewModel("#00AC56"),
+                new ColorViewModel("#00B6C1"),
+                new ColorViewModel("#0099BB"),
+                new ColorViewModel("#0063AF"),
+                new ColorViewModel("#004E8C"),
+                new ColorViewModel("#5B2D90"),
+                new ColorViewModel("#AC008C"),
+                new ColorViewModel("#D40078"),
+                new ColorViewModel("#C6A477"),
+                new ColorViewModel("#84939A"),
             };
         }
 
