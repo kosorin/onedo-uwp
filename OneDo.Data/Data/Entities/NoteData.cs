@@ -2,11 +2,11 @@
 using System;
 using System.Diagnostics;
 
-namespace OneDo.Infrastructure.Entities
+namespace OneDo.Infrastructure.Data.Entities
 {
     [DebuggerDisplay("{Id}: {Title}")]
     [Table("Notes")]
-    public class NoteData : IEntity
+    public class NoteData : IEntityData
     {
         [PrimaryKey, AutoIncrement, NotNull, Unique]
         public Guid Id { get; set; }

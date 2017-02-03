@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Infrastructure.Entities
+namespace OneDo.Infrastructure.Data.Entities
 {
     [DebuggerDisplay("{Id}: {Name}")]
     [Table("Folders")]
-    public class FolderData : IEntity
+    public class FolderData : IEntityData
     {
         [PrimaryKey, AutoIncrement, NotNull, Unique]
         public Guid Id { get; set; }

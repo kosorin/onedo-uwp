@@ -2,8 +2,8 @@
 using OneDo.Application.Queries;
 using OneDo.Application.Queries.Folders;
 using OneDo.Application.Queries.Notes;
-using OneDo.Infrastructure.Entities;
-using OneDo.Infrastructure.Services.DataService;
+using OneDo.Infrastructure.Data;
+using OneDo.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +28,8 @@ namespace OneDo.Application
 
             CommandBus = new CommandBus(dataService);
 
-            var repositoryFactory = dataService.RepositoryFactory;
-            FolderQuery = new FolderQuery(repositoryFactory.GetQueryRepository<FolderData>());
-            NoteQuery = new NoteQuery(repositoryFactory.GetQueryRepository<NoteData>());
+            FolderQuery = new FolderQuery(dataService.GetQueryRepository<FolderData>());
+            NoteQuery = new NoteQuery(dataService.GetQueryRepository<NoteData>());
         }
     }
 }

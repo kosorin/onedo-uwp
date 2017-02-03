@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OneDo.Domain.Model.Entities;
 using OneDo.Domain.Model.ValueObjects;
-using OneDo.Infrastructure.Services.DataService;
-using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Data;
+using OneDo.Infrastructure.Data.Entities;
+using OneDo.Infrastructure.Data.Repositories;
 
-namespace OneDo.Infrastructure.Repositories.Domain
+namespace OneDo.Application.Repositories
 {
     public class NoteRepository : INoteRepository
     {
@@ -17,7 +18,7 @@ namespace OneDo.Infrastructure.Repositories.Domain
 
         public NoteRepository(IDataService dataService)
         {
-            noteRepository = dataService.RepositoryFactory.GetRepository<NoteData>();
+            noteRepository = dataService.GetRepository<NoteData>();
         }
 
         public async Task<Note> Get(Guid id)

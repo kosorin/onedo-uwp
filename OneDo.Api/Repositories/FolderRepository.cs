@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OneDo.Domain.Model.Entities;
 using OneDo.Domain.Model.ValueObjects;
-using OneDo.Infrastructure.Services.DataService;
-using OneDo.Infrastructure.Entities;
+using OneDo.Infrastructure.Data;
+using OneDo.Infrastructure.Data.Entities;
+using OneDo.Infrastructure.Data.Repositories;
 
-namespace OneDo.Infrastructure.Repositories.Domain
+namespace OneDo.Application.Repositories
 {
     public class FolderRepository : IFolderRepository
     {
@@ -19,8 +20,8 @@ namespace OneDo.Infrastructure.Repositories.Domain
 
         public FolderRepository(IDataService dataService)
         {
-            folderRepository = dataService.RepositoryFactory.GetRepository<FolderData>();
-            noteRepository = dataService.RepositoryFactory.GetRepository<NoteData>();
+            folderRepository = dataService.GetRepository<FolderData>();
+            noteRepository = dataService.GetRepository<NoteData>();
         }
 
         public async Task<Folder> Get(Guid id)

@@ -1,9 +1,8 @@
 ﻿using OneDo.Application.Common;
 using OneDo.Application.Queries.Folders;
-using OneDo.Infrastructure.Entities;
-using OneDo.Infrastructure.Repositories;
-using OneDo.Infrastructure.Repositories.Domain;
-using OneDo.Infrastructure.Services.DataService;
+using OneDo.Infrastructure.Data.Entities;
+using OneDo.Infrastructure.Data.Repositories;
+using OneDo.Application.Repositories;
 using OneDo.Domain;
 using OneDo.Domain.Common;
 using OneDo.Domain.Model;
@@ -15,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OneDo.Infrastructure.Data;
 
 namespace OneDo.Application.Commands.Folders
 {
@@ -30,7 +30,7 @@ namespace OneDo.Application.Commands.Folders
         public FolderCommandHandler(IDataService dataService)
         {
             folderRepository = new FolderRepository(dataService);
-            folderQueryRepository = dataService.RepositoryFactory.GetQueryRepository<FolderData>();
+            folderQueryRepository = dataService.GetQueryRepository<FolderData>();
         }
 
         public async Task Handle(SaveFolderCommand command)

@@ -1,4 +1,4 @@
-﻿using OneDo.Infrastructure.Entities;
+﻿using OneDo.Infrastructure.Data.Entities;
 using OneDo.Domain.Common;
 using SQLite.Net.Async;
 using System;
@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OneDo.Infrastructure.Repositories
+namespace OneDo.Infrastructure.Data.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public class Repository<TEntityData> : IRepository<TEntityData> where TEntityData : class, IEntityData
     {
         private readonly SQLiteAsyncConnection connection;
 
@@ -17,33 +17,33 @@ namespace OneDo.Infrastructure.Repositories
             this.connection = connection;
         }
 
-        private AsyncTableQuery<TEntity> GetTable()
+        private AsyncTableQuery<TEntityData> GetTable()
         {
-            return connection.Table<TEntity>();
+            return connection.Table<TEntityData>();
         }
 
 
-        public async Task<IList<TEntity>> GetAll()
+        public async Task<IList<TEntityData>> GetAll()
         {
             return await GetTable()
                 .ToListAsync();
         }
 
-        public async Task<IList<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IList<TEntityData>> GetAll(Expression<Func<TEntityData, bool>> predicate)
         {
             return await GetTable()
                 .Where(predicate)
                 .ToListAsync();
         }
 
-        public async Task<TEntity> Get(Guid id)
+        public async Task<TEntityData> Get(Guid id)
         {
             return await GetTable()
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntityData> Get(Expression<Func<TEntityData, bool>> predicate)
         {
             return await GetTable()
                 .Where(predicate)
@@ -57,7 +57,7 @@ namespace OneDo.Infrastructure.Repositories
             return entity != null;
         }
 
-        public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate)
+        public async Task<bool> Any(Expression<Func<TEntityData, bool>> predicate)
         {
             var entity = await GetTable()
                 .Where(predicate)
@@ -71,7 +71,7 @@ namespace OneDo.Infrastructure.Repositories
                 .CountAsync();
         }
 
-        public async Task<int> Count(Expression<Func<TEntity, bool>> predicate)
+        public async Task<int> Count(Expression<Func<TEntityData, bool>> predicate)
         {
             return await GetTable()
                 .Where(predicate)
@@ -79,36 +79,36 @@ namespace OneDo.Infrastructure.Repositories
         }
 
 
-        public async Task Add(TEntity entity)
+        public async Task Add(TEntityData entityData)
         {
-            await connection.InsertAsync(entity);
+            await connection.InsertAsync(entityData);
         }
 
-        public async Task Update(TEntity entity)
+        public async Task Update(TEntityData entityData)
         {
-            await connection.UpdateAsync(entity);
+            await connection.UpdateAsync(entityData);
         }
 
         public async Task Delete(Guid id)
         {
-            await connection.DeleteAsync<TEntity>(id);
+            await connection.DeleteAsync<TEntityData>(id);
         }
 
         public async Task DeleteAll()
         {
-            var entities = await GetTable().ToListAsync();
-            foreach (var entity in entities)
+            var entityDatas = await GetTable().ToListAsync();
+            foreach (var entityData in entityDatas)
             {
-                await Delete(entity.Id);
+                await Delete(entityData.Id);
             }
         }
 
-        public async Task DeleteAll(Expression<Func<TEntity, bool>> predicate)
+        public async Task DeleteAll(Expression<Func<TEntityData, bool>> predicate)
         {
-            var entities = await GetTable().Where(predicate).ToListAsync();
-            foreach (var entity in entities)
+            var entityDatas = await GetTable().Where(predicate).ToListAsync();
+            foreach (var entityData in entityDatas)
             {
-                await Delete(entity.Id);
+                await Delete(entityData.Id);
             }
         }
     }

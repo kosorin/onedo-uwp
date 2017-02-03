@@ -2,9 +2,9 @@
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Common;
-using OneDo.Infrastructure.Entities;
-using OneDo.Infrastructure.Repositories;
-using OneDo.Infrastructure.Services.DataService;
+using OneDo.Infrastructure.Data;
+using OneDo.Infrastructure.Data.Entities;
+using OneDo.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +22,10 @@ namespace OneDo.Application.Core
             var builder = new ContainerBuilder();
 
             builder.RegisterInstance(dataService).As<IDataService>().ExternallyOwned().SingleInstance();
-            builder.Register(c => c.Resolve<IDataService>().RepositoryFactory.GetRepository<FolderData>())
+            builder.Register(c => c.Resolve<IDataService>().GetRepository<FolderData>())
                 .AsImplementedInterfaces()
                 .AsSelf();
-            builder.Register(c => c.Resolve<IDataService>().RepositoryFactory.GetRepository<NoteData>())
+            builder.Register(c => c.Resolve<IDataService>().GetRepository<NoteData>())
                 .AsImplementedInterfaces()
                 .AsSelf();
 
