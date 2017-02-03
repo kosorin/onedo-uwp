@@ -4,7 +4,7 @@ using System;
 
 namespace OneDo.Infrastructure.Data
 {
-    public interface IDataService : IDisposable
+    public interface IDataService
     {
         IRepository<TEntityData> GetRepository<TEntityData>() where TEntityData : class, IEntityData;
 

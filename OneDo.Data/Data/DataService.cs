@@ -15,7 +15,7 @@ using Windows.Storage;
 
 namespace OneDo.Infrastructure.Data
 {
-    public class DataService : IDataService
+    public class DataService : IDataService, IDisposable
     {
         public string FileName => "Data.db";
 
