@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application
 {
-    public class Api : IDisposable
+    public class Api : IApi, IDisposable
     {
         public ICommandBus CommandBus { get; }
 
