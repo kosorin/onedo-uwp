@@ -14,7 +14,7 @@ namespace OneDo.ViewModel
 {
     public class FolderListViewModel : ListViewModel<FolderItemViewModel, FolderModel>, IFolderCommands
     {
-        public FolderListViewModel(Api api, UIHost uiHost) : base(api, uiHost)
+        public FolderListViewModel(IApi api, UIHost uiHost) : base(api, uiHost)
         {
         }
 

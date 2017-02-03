@@ -21,7 +21,7 @@ namespace OneDo.ViewModel
             {
                 var builder = new ContainerBuilder();
 
-                builder.RegisterType<Api>().AsSelf().SingleInstance();
+                builder.RegisterType<Api>().As<IApi>().SingleInstance();
                 builder.RegisterType<UIHost>().AsSelf().SingleInstance();
                 builder.RegisterType<BackgroundTaskService>().As<IBackgroundTaskService>().SingleInstance();
                 builder.RegisterType<ToastService>().As<IToastService>().SingleInstance();

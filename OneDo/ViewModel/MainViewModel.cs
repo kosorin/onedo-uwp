@@ -35,11 +35,11 @@ namespace OneDo.ViewModel
         public ICommand ShowSettingsCommand { get; }
 
 
-        public Api Api { get; }
+        public IApi Api { get; }
 
         public UIHost UIHost { get; }
 
-        public MainViewModel(Api api, UIHost uiHost, FolderListViewModel folderList, NoteListViewModel noteList)
+        public MainViewModel(IApi api, UIHost uiHost, FolderListViewModel folderList, NoteListViewModel noteList)
         {
             Api = api;
             UIHost = uiHost;

@@ -21,7 +21,7 @@ namespace OneDo.ViewModel
 
         public FolderListViewModel FolderList { get; set; }
 
-        public NoteListViewModel(Api api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
+        public NoteListViewModel(IApi api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
         {
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemViewModel>(ToggleFlag);
             FolderList = folderList;

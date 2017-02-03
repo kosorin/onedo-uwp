@@ -103,7 +103,7 @@ namespace OneDo
         {
             Logger.Current.Info($"Suspending (deadline: {deadline.DateTime.ToString(Logger.Current.DateTimeFormat)})");
 
-            var api = ViewModelLocator.Container.Resolve<Api>();
+            var api = ViewModelLocator.Container.Resolve<IApi>();
 #warning Ukládání nastavení
             //await api.SaveSettingsAsync();
 
@@ -185,7 +185,7 @@ namespace OneDo
 
         private async Task InitializeApi()
         {
-            var api = ViewModelLocator.Container.Resolve<Api>();
+            var api = ViewModelLocator.Container.Resolve<IApi>();
 #warning Inicializace dat a nastavení
             //await api.LoadSettingsAsync();
             //await api.InitializeDataAsync();

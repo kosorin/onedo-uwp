@@ -53,11 +53,11 @@ namespace OneDo.ViewModel
         public IExtendedCommand DeleteCommand { get; }
 
 
-        public Api Api { get; }
+        public IApi Api { get; }
 
         public UIHost UIHost { get; }
 
-        protected ListViewModel(Api api, UIHost uiHost)
+        protected ListViewModel(IApi api, UIHost uiHost)
         {
             Api = api;
             UIHost = uiHost;

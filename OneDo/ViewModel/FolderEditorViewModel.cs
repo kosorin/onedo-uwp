@@ -69,7 +69,7 @@ namespace OneDo.ViewModel
             };
         }
 
-        public FolderEditorViewModel(Api api, IProgressService progressService) : base(api, progressService)
+        public FolderEditorViewModel(IApi api, IProgressService progressService) : base(api, progressService)
         {
             Rules = new Dictionary<string, Func<bool>>
             {

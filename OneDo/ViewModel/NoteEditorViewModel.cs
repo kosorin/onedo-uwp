@@ -111,7 +111,7 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand ClearReminderCommand { get; }
 
-        public NoteEditorViewModel(Api api, IProgressService progressService, FolderListViewModel folderList) : base(api, progressService)
+        public NoteEditorViewModel(IApi api, IProgressService progressService, FolderListViewModel folderList) : base(api, progressService)
         {
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;

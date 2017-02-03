@@ -41,7 +41,7 @@ namespace OneDo.ViewModel
         public AsyncRelayCommand DeleteCommand { get; }
 
 
-        public Api Api { get; }
+        public IApi Api { get; }
 
         public IProgressService ProgressService { get; }
 
@@ -53,7 +53,7 @@ namespace OneDo.ViewModel
 
         private bool isInitialized;
 
-        protected EditorViewModel(Api api, IProgressService progressService)
+        protected EditorViewModel(IApi api, IProgressService progressService)
         {
             Api = api;
             ProgressService = progressService;

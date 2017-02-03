@@ -118,6 +118,7 @@
     <Compile Include="Common\IEntityModel.cs" />
     <Compile Include="Core\CommandBus.cs" />
     <Compile Include="Core\ICommandBus.cs" />
+    <Compile Include="IApi.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\NoteRepository.cs" />
     <Compile Include="Queries\Folders\FolderModel.cs" />
