@@ -54,7 +54,7 @@ namespace OneDo.Application.Commands.Folders
             await folderRepository.Delete(command.Id);
         }
 
-        public async Task Handle(DeleteAllFoldersCommand args)
+        public async Task Handle(DeleteAllFoldersCommand command)
         {
             var folderDatas = await folderQueryRepository.GetAll();
             foreach (var folderData in folderDatas)
