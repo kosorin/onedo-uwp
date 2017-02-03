@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application
 {
-    public class Api
+    public class Api : IDisposable
     {
         public ICommandBus CommandBus { get; }
 
@@ -20,7 +20,7 @@ namespace OneDo.Application
 
         public INoteQuery NoteQuery { get; }
 
-        private readonly IDataService dataService;
+        private readonly DataService dataService;
 
         public Api()
         {
@@ -30,6 +30,28 @@ namespace OneDo.Application
 
             FolderQuery = new FolderQuery(dataService.GetQueryRepository<FolderData>());
             NoteQuery = new NoteQuery(dataService.GetQueryRepository<NoteData>());
+        }
+
+
+        private bool disposed;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    dataService?.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }
