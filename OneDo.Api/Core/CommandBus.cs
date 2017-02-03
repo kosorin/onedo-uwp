@@ -22,12 +22,8 @@ namespace OneDo.Application.Core
             var builder = new ContainerBuilder();
 
             builder.RegisterInstance(dataService).As<IDataService>().ExternallyOwned().SingleInstance();
-            builder.Register(c => c.Resolve<IDataService>().GetRepository<FolderData>())
-                .AsImplementedInterfaces()
-                .AsSelf();
-            builder.Register(c => c.Resolve<IDataService>().GetRepository<NoteData>())
-                .AsImplementedInterfaces()
-                .AsSelf();
+            builder.Register(c => c.Resolve<IDataService>().GetRepository<FolderData>()).AsImplementedInterfaces().AsSelf();
+            builder.Register(c => c.Resolve<IDataService>().GetRepository<NoteData>()).AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType<FolderCommandHandler>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<NoteCommandHandler>().AsImplementedInterfaces().SingleInstance();
