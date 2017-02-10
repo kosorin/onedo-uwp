@@ -24,7 +24,7 @@ namespace OneDo.View
             InitializeComponent();
             InitializeModalAnimations();
             InitializeInfoBar();
-            InitializeNavigation();
+            InitializeModal();
 
 #if DEBUG
             InitializeDebug();
@@ -63,37 +63,37 @@ namespace OneDo.View
             Messenger.Default.Register<InfoMessage>(InfoBar, InfoBar.Show);
         }
 
-        private void InitializeNavigation()
+        private void InitializeModal()
         {
-            Messenger.Default.Register<CloseModalMessage>(this, Handle);
-            Messenger.Default.Register<ShowSettingsMessage>(this, Handle);
-            Messenger.Default.Register<ShowDebugMessage>(this, Handle);
-            Messenger.Default.Register<ShowFolderEditorMessage>(this, Handle);
-            Messenger.Default.Register<ShowNoteEditorMessage>(this, Handle);
+            Messenger.Default.Register<CloseModalMessage>(this, HandleModal);
+            Messenger.Default.Register<ShowSettingsMessage>(this, HandleModal);
+            Messenger.Default.Register<ShowDebugMessage>(this, HandleModal);
+            Messenger.Default.Register<ShowFolderEditorMessage>(this, HandleModal);
+            Messenger.Default.Register<ShowNoteEditorMessage>(this, HandleModal);
         }
 
 
-        private void Handle(CloseModalMessage message)
+        private void HandleModal(CloseModalMessage message)
         {
             ModalContainer.TryClose();
         }
 
-        private void Handle(ShowSettingsMessage message)
+        private void HandleModal(ShowSettingsMessage message)
         {
             ModalContainer.Show(new SettingsView());
         }
 
-        private void Handle(ShowDebugMessage message)
+        private void HandleModal(ShowDebugMessage message)
         {
             ModalContainer.Show(new DebugView());
         }
 
-        private void Handle(ShowFolderEditorMessage message)
+        private void HandleModal(ShowFolderEditorMessage message)
         {
             ModalContainer.Show(new FolderEditor(message.Id));
         }
 
-        private void Handle(ShowNoteEditorMessage message)
+        private void HandleModal(ShowNoteEditorMessage message)
         {
             ModalContainer.Show(new NoteEditor(message.Id));
         }
