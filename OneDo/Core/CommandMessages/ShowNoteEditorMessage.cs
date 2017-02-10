@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Core.Messages
+namespace OneDo.Core.CommandMessages
 {
-    public class ShowFolderEditorMessage : MessageBase
+    public class ShowNoteEditorMessage : MessageBase
     {
-        public ShowFolderEditorMessage(Guid? id)
+        public ShowNoteEditorMessage(Guid? id)
         {
             Id = id;
         }

@@ -9,7 +9,7 @@ using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Folders;
 using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
-using OneDo.Core.Messages;
+using OneDo.Core.CommandMessages;
 using OneDo.Core.Args;
 using OneDo.Common.Extensions;
 

@@ -8,7 +8,7 @@ using System;
 using OneDo.Application.Commands.Folders;
 using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
-using OneDo.Core.Messages;
+using OneDo.Core.CommandMessages;
 using OneDo.Common.Extensions;
 using System.Collections.Specialized;
 

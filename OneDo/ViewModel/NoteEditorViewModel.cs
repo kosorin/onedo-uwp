@@ -4,7 +4,7 @@ using OneDo.Application.Commands.Notes;
 using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
-using OneDo.Core.Messages;
+using OneDo.Core.CommandMessages;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;

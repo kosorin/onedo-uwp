@@ -5,7 +5,7 @@ using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using OneDo.Core;
-using OneDo.Core.Messages;
+using OneDo.Core.CommandMessages;
 using System;
 using System.Threading.Tasks;
 
