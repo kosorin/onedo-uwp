@@ -25,10 +25,10 @@ namespace OneDo.ViewModel
         {
             ToggleFlagCommand = new AsyncRelayCommand<NoteItemViewModel>(ToggleFlag);
             FolderList = folderList;
-            FolderList.SelectionChanged += OnFolderListSelectionChanged;
+            FolderList.SelectionChanged += FolderList_SelectionChanged;
         }
 
-        private async void OnFolderListSelectionChanged(object sender, SelectionChangedEventArgs<FolderItemViewModel> args)
+        private async void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs<FolderItemViewModel> args)
         {
             if (args.Item != null)
             {
