@@ -148,6 +148,7 @@
     <Compile Include="View\Controls\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converters\CompositeConverter.cs" />
     <Compile Include="View\ExtendedContentControl.cs" />
     <Compile Include="View\ModalContainer.cs" />
     <Compile Include="View\NoteListControl.xaml.cs">
