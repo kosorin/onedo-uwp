@@ -16,6 +16,6 @@ namespace OneDo.Core.CommandMessages
             Id = id;
         }
 
-        public Guid? Id { get; set; }
+        public Guid? Id { get; }
     }
 }
