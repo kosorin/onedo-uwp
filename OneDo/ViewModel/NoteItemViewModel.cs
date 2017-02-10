@@ -6,6 +6,7 @@ using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using OneDo.Core;
 using OneDo.Core.CommandMessages;
+using OneDo.Core.EventMessages;
 using System;
 using System.Threading.Tasks;
 
@@ -117,6 +118,7 @@ namespace OneDo.ViewModel
         protected override async Task Delete()
         {
             await Api.CommandBus.Execute(new DeleteNoteCommand(Id));
+            Messenger.Default.Send(new NoteDeletedMessage(Id));
         }
 
         protected override bool CanDelete()

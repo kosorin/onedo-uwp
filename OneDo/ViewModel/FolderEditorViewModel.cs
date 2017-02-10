@@ -1,7 +1,10 @@
-﻿using OneDo.Application;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OneDo.Application;
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common.Extensions;
+using OneDo.Core.CommandMessages;
+using OneDo.Core.EventMessages;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;
@@ -118,6 +121,7 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new DeleteFolderCommand(Original.Id));
+                Messenger.Default.Send(new FolderDeletedMessage(Original.Id));
             });
         }
     }

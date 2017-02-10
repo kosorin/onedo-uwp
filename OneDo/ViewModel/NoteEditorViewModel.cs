@@ -5,6 +5,7 @@ using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using OneDo.Core.CommandMessages;
+using OneDo.Core.EventMessages;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,7 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new DeleteNoteCommand(Original.Id));
+                Messenger.Default.Send(new NoteDeletedMessage(Original.Id));
                 Messenger.Default.Send(new CloseModalMessage());
             });
         }

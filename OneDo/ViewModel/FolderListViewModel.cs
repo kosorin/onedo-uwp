@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.CommandMessages;
 using OneDo.Common.Extensions;
 using System.Collections.Specialized;
+using OneDo.Core.EventMessages;
 
 namespace OneDo.ViewModel
 {
@@ -18,6 +19,7 @@ namespace OneDo.ViewModel
     {
         public FolderListViewModel(IApi api, UIHost uiHost) : base(api, uiHost)
         {
+            Messenger.Default.Register<FolderDeletedMessage>(this, HandleDelete);
         }
 
         public async Task Load()
@@ -54,6 +56,17 @@ namespace OneDo.ViewModel
         protected override void ShowEditor()
         {
             Messenger.Default.Send(new ShowFolderEditorMessage(null));
+        }
+
+        private void HandleDelete(FolderDeletedMessage message)
+        {
+            var item = Items.FirstOrDefault(x => x.Id == message.Id);
+            var selectNew = item == SelectedItem;
+            Items.Remove(item);
+            if (selectNew)
+            {
+                SelectedItem = Items.FirstOrDefault();
+            }
         }
     }
 }

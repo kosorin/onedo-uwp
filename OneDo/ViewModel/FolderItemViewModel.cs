@@ -8,6 +8,7 @@ using OneDo.Core.CommandMessages;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core;
 using OneDo.Application;
+using OneDo.Core.EventMessages;
 
 namespace OneDo.ViewModel
 {
@@ -61,6 +62,7 @@ namespace OneDo.ViewModel
         protected override async Task Delete()
         {
             await Api.CommandBus.Execute(new DeleteFolderCommand(Id));
+            Messenger.Default.Send(new FolderDeletedMessage(Id));
         }
 
         protected override bool CanDelete()

@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.CommandMessages;
 using OneDo.Core.Args;
 using OneDo.Common.Extensions;
+using OneDo.Core.EventMessages;
 
 namespace OneDo.ViewModel
 {
@@ -23,6 +24,8 @@ namespace OneDo.ViewModel
         {
             FolderList = folderList;
             FolderList.SelectionChanged += FolderList_SelectionChanged;
+
+            Messenger.Default.Register<NoteDeletedMessage>(this, HandleDelete);
         }
 
         private async void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs<FolderItemViewModel> args)
@@ -55,6 +58,12 @@ namespace OneDo.ViewModel
         protected override void ShowEditor()
         {
             Messenger.Default.Send(new ShowNoteEditorMessage(null));
+        }
+
+        private void HandleDelete(NoteDeletedMessage message)
+        {
+            var item = Items.FirstOrDefault(x => x.Id == message.Id);
+            Items.Remove(item);
         }
     }
 }

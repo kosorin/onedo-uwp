@@ -105,6 +105,8 @@
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Core\CommandMessages\CloseModalMessage.cs" />
+    <Compile Include="Core\EventMessages\FolderDeletedMessage.cs" />
+    <Compile Include="Core\EventMessages\NoteDeletedMessage.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />
