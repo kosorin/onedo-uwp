@@ -13,7 +13,7 @@ using Windows.Foundation;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ListViewModel<TItem, TEntity> : ModalViewModel, IListCommandsCommands
+    public abstract class ListViewModel<TItem, TEntity> : ModalViewModel
         where TItem : EntityViewModel<TEntity>
         where TEntity : class, IEntityModel, new()
     {
@@ -50,8 +50,6 @@ namespace OneDo.ViewModel
 
         public IExtendedCommand ShowEditorCommand { get; }
 
-        public IExtendedCommand DeleteCommand { get; }
-
 
         public IApi Api { get; }
 
@@ -62,19 +60,10 @@ namespace OneDo.ViewModel
             Api = api;
             UIHost = uiHost;
 
-            ShowEditorCommand = new RelayCommand<TItem>(ShowEditor);
-            DeleteCommand = new AsyncRelayCommand<TItem>(Delete, CanDelete);
+            ShowEditorCommand = new RelayCommand(ShowEditor);
         }
 
 
-        protected abstract TItem CreateItem(TEntity entity);
-
-
-        protected abstract void ShowEditor(TItem item);
-
-
-        protected abstract Task Delete(TItem item);
-
-        protected abstract bool CanDelete(TItem item);
+        protected abstract void ShowEditor();
     }
 }

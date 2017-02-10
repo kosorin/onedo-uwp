@@ -11,19 +11,16 @@ using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.Messages;
 using OneDo.Core.Args;
+using OneDo.Common.Extensions;
 
 namespace OneDo.ViewModel
 {
-    public class NoteListViewModel : ListViewModel<NoteItemViewModel, NoteModel>, INoteCommands
+    public class NoteListViewModel : ListViewModel<NoteItemViewModel, NoteModel>
     {
-        public IExtendedCommand ToggleFlagCommand { get; }
-
-
         public FolderListViewModel FolderList { get; set; }
 
         public NoteListViewModel(IApi api, UIHost uiHost, FolderListViewModel folderList) : base(api, uiHost)
         {
-            ToggleFlagCommand = new AsyncRelayCommand<NoteItemViewModel>(ToggleFlag);
             FolderList = folderList;
             FolderList.SelectionChanged += FolderList_SelectionChanged;
         }
@@ -45,41 +42,19 @@ namespace OneDo.ViewModel
             await UIHost.ProgressService.RunAsync(async () =>
             {
                 var notes = await Api.NoteQuery.GetAll(folderId);
-                Items = new ObservableCollection<NoteItemViewModel>(notes.Select(CreateItem));
+                Items = notes.Select(CreateItem).ToObservableCollection();
             });
         }
 
-
-        protected override NoteItemViewModel CreateItem(NoteModel entity)
+        private NoteItemViewModel CreateItem(NoteModel entity)
         {
-            return new NoteItemViewModel(entity, this);
+            return new NoteItemViewModel(entity, Api, UIHost);
         }
 
 
-        protected override void ShowEditor(NoteItemViewModel note)
+        protected override void ShowEditor()
         {
-            Messenger.Default.Send(new ShowNoteEditorMessage(note?.Id));
-        }
-
-
-        protected override async Task Delete(NoteItemViewModel item)
-        {
-            await Api.CommandBus.Execute(new DeleteNoteCommand(item.Id));
-        }
-
-        protected override bool CanDelete(NoteItemViewModel item)
-        {
-            return true;
-        }
-
-
-        private async Task ToggleFlag(NoteItemViewModel item)
-        {
-            await UIHost.ProgressService.RunAsync(async () =>
-            {
-                item.IsFlagged = !item.IsFlagged;
-                await Api.CommandBus.Execute(new SetNoteFlagCommand(item.Id, item.IsFlagged));
-            });
+            Messenger.Default.Send(new ShowNoteEditorMessage(null));
         }
     }
 }

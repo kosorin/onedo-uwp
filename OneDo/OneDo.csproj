@@ -122,9 +122,6 @@
     <Compile Include="Common\Mvvm\RelayCommand.cs" />
     <Compile Include="ViewModel\ConfirmationViewModel.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\IFolderCommands.cs" />
-    <Compile Include="ViewModel\IListCommandsCommands.cs" />
-    <Compile Include="ViewModel\INoteCommands.cs" />
     <Compile Include="ViewModel\EntityViewModel.cs" />
     <Compile Include="ViewModel\ColorViewModel.cs" />
     <Compile Include="ViewModel\DebugViewModel.cs" />

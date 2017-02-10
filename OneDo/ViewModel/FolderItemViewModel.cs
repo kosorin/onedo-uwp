@@ -2,6 +2,12 @@
 using OneDo.Application.Queries.Folders;
 using OneDo.Common.Extensions;
 using Windows.UI;
+using System.Threading.Tasks;
+using OneDo.Application.Commands.Folders;
+using OneDo.Core.Messages;
+using GalaSoft.MvvmLight.Messaging;
+using OneDo.Core;
+using OneDo.Application;
 
 namespace OneDo.ViewModel
 {
@@ -21,12 +27,22 @@ namespace OneDo.ViewModel
             set { Set(ref color, value); }
         }
 
-        public IFolderCommands FolderCommands { get; }
-
-        public FolderItemViewModel(FolderModel entity, IFolderCommands folderCommands) : base(entity.Id)
+        private bool allowDelete = true;
+        public bool AllowDelete
         {
-            FolderCommands = folderCommands;
+            get { return allowDelete; }
+            set
+            {
+                if (Set(ref allowDelete, value, nameof(AllowDelete)))
+                {
+                    DeleteCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
 
+
+        public FolderItemViewModel(FolderModel entity, IApi api, UIHost uiHost) : base(entity.Id, api, uiHost)
+        {
             Update(entity);
         }
 
@@ -34,6 +50,22 @@ namespace OneDo.ViewModel
         {
             Name = entity.Name;
             Color = entity.Color.ToColor();
+        }
+
+
+        protected override void ShowEditor()
+        {
+            Messenger.Default.Send(new ShowFolderEditorMessage(Id));
+        }
+
+        protected override async Task Delete()
+        {
+            await Api.CommandBus.Execute(new DeleteFolderCommand(Id));
+        }
+
+        protected override bool CanDelete()
+        {
+            return AllowDelete;
         }
     }
 }

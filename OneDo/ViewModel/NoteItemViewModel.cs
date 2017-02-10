@@ -1,6 +1,13 @@
-﻿using OneDo.Application.Queries.Notes;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OneDo.Application;
+using OneDo.Application.Commands.Notes;
+using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
+using OneDo.Core;
+using OneDo.Core.Messages;
 using System;
+using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
@@ -12,7 +19,7 @@ namespace OneDo.ViewModel
         public bool IsFlagged
         {
             get { return isFlagged; }
-            set { Set(ref isFlagged, value); }
+            private set { Set(ref isFlagged, value); }
         }
 
         private string title;
@@ -81,12 +88,13 @@ namespace OneDo.ViewModel
 
         public bool HasReminder => Reminder != null;
 
-        public INoteCommands Commands { get; }
+        public IExtendedCommand ToggleFlagCommand { get; }
 
-        public NoteItemViewModel(NoteModel entity, INoteCommands commands) : base(entity.Id)
+
+        public NoteItemViewModel(NoteModel entity, IApi api, UIHost uiHost) : base(entity.Id, api, uiHost)
         {
             FolderId = entity.FolderId;
-            Commands = commands;
+            ToggleFlagCommand = new AsyncRelayCommand(ToggleFlag);
 
             Update(entity);
         }
@@ -98,6 +106,31 @@ namespace OneDo.ViewModel
             Text = entity.Text;
             Date = entity.Date?.Date;
             Reminder = entity.Reminder;
+        }
+
+
+        protected override void ShowEditor()
+        {
+            Messenger.Default.Send(new ShowNoteEditorMessage(Id));
+        }
+
+        protected override async Task Delete()
+        {
+            await Api.CommandBus.Execute(new DeleteNoteCommand(Id));
+        }
+
+        protected override bool CanDelete()
+        {
+            return true;
+        }
+
+        private async Task ToggleFlag()
+        {
+            await UIHost.ProgressService.RunAsync(async () =>
+            {
+                IsFlagged = !IsFlagged;
+                await Api.CommandBus.Execute(new SetNoteFlagCommand(Id, IsFlagged));
+            });
         }
     }
 }

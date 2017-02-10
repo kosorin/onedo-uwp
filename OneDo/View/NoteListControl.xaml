@@ -105,16 +105,14 @@
                                        BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
                                        BorderThickness="0,0,0,1"
                                        LeftBackground="Khaki"
-                                       LeftCommand="{x:Bind Commands.ToggleFlagCommand, Mode=OneWay}"
-                                       LeftCommandParameter="{x:Bind Mode=OneWay}"
+                                       LeftCommand="{x:Bind ToggleFlagCommand, Mode=OneWay}"
                                        LeftForeground="#443e09"
                                        LeftGlyph="&#xE7C1;"
                                        LeftLabel="Flag"
                                        LeftReturnPosition="Back"
                                        MouseSlidingEnabled="True"
                                        RightBackground="Tomato"
-                                       RightCommand="{x:Bind Commands.DeleteCommand, Mode=OneWay}"
-                                       RightCommandParameter="{x:Bind Mode=OneWay}"
+                                       RightCommand="{x:Bind DeleteCommand, Mode=OneWay}"
                                        RightForeground="#4d0b00"
                                        RightGlyph="&#xE74D;"
                                        RightLabel="Delete"
@@ -123,8 +121,7 @@
                     <MenuFlyout Opening="NoteMenuFlyout_Opening">
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE7C1;"
-                                        Command="{x:Bind Commands.ToggleFlagCommand}"
-                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Command="{x:Bind ToggleFlagCommand}"
                                         Text="Flag" />
                         <MenuFlyoutSubItem x:Name="MoveToFolderRootMenuItem"
                                            Style="{StaticResource MenuFlyoutSubItemWithIconStyle}"
@@ -133,15 +130,14 @@
                                            Text="Move to folder" />
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE74D;"
-                                        Command="{x:Bind Commands.DeleteCommand}"
-                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Command="{x:Bind DeleteCommand}"
                                         Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <i:Interaction.Behaviors>
                     <behaviors:OpenFlyoutMenuBehavior />
                     <ic:EventTriggerBehavior EventName="Tapped">
-                        <ic:InvokeCommandAction Command="{x:Bind Commands.ShowEditorCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}" />
+                        <ic:InvokeCommandAction Command="{x:Bind ShowEditorCommand, Mode=OneWay}" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <Grid Margin="0,8" VerticalAlignment="Center">

@@ -331,13 +331,11 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE70F;"
-                                        Command="{x:Bind FolderCommands.ShowEditorCommand}"
-                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Command="{x:Bind ShowEditorCommand}"
                                         Text="Edit" />
                         <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
                                         behaviors:FlyoutMenuItemBehavior.Glyph="&#xE74D;"
-                                        Command="{x:Bind FolderCommands.DeleteCommand}"
-                                        CommandParameter="{x:Bind Mode=OneWay}"
+                                        Command="{x:Bind DeleteCommand}"
                                         Text="Delete" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>

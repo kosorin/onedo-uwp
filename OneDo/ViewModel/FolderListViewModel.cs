@@ -9,10 +9,12 @@ using OneDo.Application.Commands.Folders;
 using OneDo.Core;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.Messages;
+using OneDo.Common.Extensions;
+using System.Collections.Specialized;
 
 namespace OneDo.ViewModel
 {
-    public class FolderListViewModel : ListViewModel<FolderItemViewModel, FolderModel>, IFolderCommands
+    public class FolderListViewModel : ListViewModel<FolderItemViewModel, FolderModel>
     {
         public FolderListViewModel(IApi api, UIHost uiHost) : base(api, uiHost)
         {
@@ -23,36 +25,35 @@ namespace OneDo.ViewModel
             await UIHost.ProgressService.RunAsync(async () =>
             {
                 var folders = await Api.FolderQuery.GetAll();
-                Items = new ObservableCollection<FolderItemViewModel>(folders.Select(CreateItem));
-                Items.CollectionChanged += (s, e) =>
-                {
-                    DeleteCommand.RaiseCanExecuteChanged();
-                };
+                Items = folders.Select(CreateItem).ToObservableCollection();
+                Items.CollectionChanged += Items_CollectionChanged;
+                UpdateDeletePermissions();
+
                 SelectedItem = Items.FirstOrDefault();
             });
         }
 
-
-        protected override FolderItemViewModel CreateItem(FolderModel entity)
+        private FolderItemViewModel CreateItem(FolderModel entity)
         {
-            return new FolderItemViewModel(entity, this);
+            return new FolderItemViewModel(entity, Api, UIHost);
         }
 
-
-        protected override void ShowEditor(FolderItemViewModel folder)
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Messenger.Default.Send(new ShowFolderEditorMessage(folder?.Id));
+            UpdateDeletePermissions();
         }
 
-
-        protected override async Task Delete(FolderItemViewModel item)
+        private void UpdateDeletePermissions()
         {
-            await Api.CommandBus.Execute(new DeleteFolderCommand(item.Id));
+            foreach (var item in Items)
+            {
+                item.AllowDelete = Items.Count > 1;
+            }
         }
 
-        protected override bool CanDelete(FolderItemViewModel item)
+        protected override void ShowEditor()
         {
-            return Items.Count > 1;
+            Messenger.Default.Send(new ShowFolderEditorMessage(null));
         }
     }
 }
