@@ -113,6 +113,7 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new SaveFolderCommand(Original.Id, Original.Name, Original.Color));
+                Messenger.Default.Send(new CloseModalMessage());
             });
         }
 
@@ -122,6 +123,7 @@ namespace OneDo.ViewModel
             {
                 await Api.CommandBus.Execute(new DeleteFolderCommand(Original.Id));
                 Messenger.Default.Send(new FolderDeletedMessage(Original.Id));
+                Messenger.Default.Send(new CloseModalMessage());
             });
         }
     }

@@ -174,6 +174,7 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new SaveNoteCommand(Original.Id, Original.FolderId, Original.Title, Original.Text, Original.Date, Original.Reminder, Original.IsFlagged));
+                Messenger.Default.Send(new CloseModalMessage());
             });
         }
 
