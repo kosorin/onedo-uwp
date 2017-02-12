@@ -48,19 +48,24 @@ namespace OneDo.ViewModel
             ShowSettingsCommand = new RelayCommand(ShowSettings);
         }
 
+        public async Task Load()
+        {
+            await UIHost.ProgressService.RunAsync(async () =>
+            {
+                await FolderList.Load();
+            });
+        }
+
 #if DEBUG
-        private async Task Clear()
+        public async Task ResetData()
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new DeleteAllFoldersCommand());
-            });
-        }
+                await Api.SavePreviewData();
 
-        public async Task ResetData()
-        {
-            await Clear();
-            await FolderList.Load();
+                await Load();
+            });
         }
 #endif
 

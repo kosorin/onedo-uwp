@@ -31,6 +31,11 @@ namespace OneDo.View
 #endif
         }
 
+        protected override async void OnViewModelChanged()
+        {
+            await VM?.Load();
+        }
+
         private void InitializeModalAnimations()
         {
             var noteEditorFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();

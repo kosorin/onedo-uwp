@@ -193,25 +193,7 @@ namespace OneDo
             var folders = await api.FolderQuery.GetAll();
             if (!folders.Any())
             {
-                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.NewGuid(), Name = "Inbox", Color = "#0063AF" }));
-                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.NewGuid(), Name = "Work", Color = "#0F893E" }));
-                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.NewGuid(), Name = "Shopping list", Color = "#AC008C" }));
-                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.NewGuid(), Name = "Vacation", Color = "#F7630D" }));
-                folders = await api.FolderQuery.GetAll();
-
-                var folder = folders.FirstOrDefault();
-                var folder2 = folders.Skip(1).FirstOrDefault();
-                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Buy milk" }));
-                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Walk Max with bike", Date = DateTime.Today, Reminder = TimeSpan.FromHours(7.25) }));
-                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Call mom", Date = DateTime.Today.AddDays(5), IsFlagged = true }));
-                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel
-                {
-                    Id = Guid.NewGuid(),
-                    FolderId = folder.Id,
-                    Title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                    Text = "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
-                }));
-                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder2.Id, Title = "Test note", IsFlagged = true }));
+                await api.SavePreviewData();
             }
 #else
             return Task.CompletedTask;

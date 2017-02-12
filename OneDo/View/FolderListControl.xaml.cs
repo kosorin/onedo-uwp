@@ -10,10 +10,5 @@ namespace OneDo.View
         {
             InitializeComponent();
         }
-
-        protected override async void OnViewModelChanged()
-        {
-            await VM?.Load();
-        }
     }
 }
