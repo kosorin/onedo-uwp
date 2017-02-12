@@ -10,6 +10,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace OneDo.ViewModel
 {
@@ -22,9 +23,18 @@ namespace OneDo.ViewModel
             set { Set(ref items, value); }
         }
 
+        private List<string> selectedItems;
+        public List<string> SelectedItems
+        {
+            get { return selectedItems; }
+            set { Set(ref selectedItems, value); }
+        }
+
         public ICommand LoadCommand { get; }
 
         public ICommand ExportCommand { get; }
+
+        public ICommand CopyToClipboardCommand { get; }
 
         public ICommand ClearCommand { get; }
 
@@ -35,6 +45,7 @@ namespace OneDo.ViewModel
             ProgressService = progressService;
             LoadCommand = new AsyncRelayCommand(Load);
             ExportCommand = new AsyncRelayCommand(Export);
+            CopyToClipboardCommand = new RelayCommand(CopyToClipboard);
             ClearCommand = new AsyncRelayCommand(Clear);
         }
 
@@ -72,7 +83,6 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 var logText = string.Join(Environment.NewLine, Items ?? new List<string>());
-
                 try
                 {
                     var picker = new FileSavePicker();
@@ -91,6 +101,25 @@ namespace OneDo.ViewModel
                     Logger.Current.Error(e);
                 }
             });
+        }
+
+        public void CopyToClipboard()
+        {
+            var items = (SelectedItems?.Any() ?? false) ? SelectedItems : Items;
+            var logText = string.Join(Environment.NewLine, items ?? new List<string>());
+            try
+            {
+                var dataPackage = new DataPackage();
+                dataPackage.RequestedOperation = DataPackageOperation.Copy;
+                dataPackage.SetText(logText);
+
+                Clipboard.SetContent(dataPackage);
+                Clipboard.Flush();
+            }
+            catch (Exception e)
+            {
+                Logger.Current.Error(e);
+            }
         }
 
         private async Task Clear()

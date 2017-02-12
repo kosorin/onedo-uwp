@@ -16,10 +16,12 @@
                   Padding="6"
                   FontSize="12"
                   ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
+                  SelectionChanged="Log_SelectionChanged"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollMode="Enabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ScrollViewer.VerticalScrollMode="Enabled">
+                  ScrollViewer.VerticalScrollMode="Enabled"
+                  SelectionMode="Extended">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="FontFamily" Value="Consolas" />
@@ -40,6 +42,11 @@
             <AppBarButton Command="{x:Bind VM.ExportCommand}" Label="Export">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE896;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind VM.CopyToClipboardCommand}" Label="Copy to clipboard">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE8C8;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Command="{x:Bind VM.ClearCommand}" Label="Clear">

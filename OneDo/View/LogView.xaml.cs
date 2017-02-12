@@ -1,5 +1,8 @@
 ﻿using System.Threading.Tasks;
 using OneDo.ViewModel;
+using OneDo.Core.Args;
+using Windows.UI.Xaml.Controls;
+using System.Linq;
 
 namespace OneDo.View
 {
@@ -15,6 +18,11 @@ namespace OneDo.View
         protected override async Task OnFirstLoad()
         {
             await VM.Load();
+        }
+
+        private void Log_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VM.SelectedItems = Log.SelectedItems.Cast<string>().ToList();
         }
     }
 }
