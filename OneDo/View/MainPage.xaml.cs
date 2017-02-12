@@ -105,7 +105,7 @@ namespace OneDo.View
             InsertMenuSeparator();
             InsertMenuButtonAsync("Reset", VM.ResetData);
             InsertMenuButton("Switch theme", SwitchRequestedTheme);
-            InsertMenuButtonAsync("Show schedule", ShowSchedule);
+            InsertMenuButtonAsync("Schedule", ShowSchedule);
             InsertMenuButton("Log", () => Messenger.Default.Send(new ShowLogMessage()));
         }
 
