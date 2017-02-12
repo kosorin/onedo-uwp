@@ -11,7 +11,9 @@ using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.CommandMessages;
 using OneDo.Common.Extensions;
 using System.Collections.Specialized;
-using OneDo.Core.EventMessages;
+using OneDo.Application.Events;
+using OneDo.Application.Events.Folders;
+using OneDo.Application.Models;
 
 namespace OneDo.ViewModel
 {
@@ -19,7 +21,8 @@ namespace OneDo.ViewModel
     {
         public FolderListViewModel(IApi api, UIHost uiHost) : base(api, uiHost)
         {
-            Messenger.Default.Register<FolderDeletedMessage>(this, HandleDelete);
+            Api.EventBus.Subscribe<FolderAddedEvent>(Folder_Added);
+            Api.EventBus.Subscribe<FolderDeletedEvent>(Folder_Deleted);
         }
 
         public async Task Load()
@@ -35,9 +38,9 @@ namespace OneDo.ViewModel
             });
         }
 
-        private FolderItemViewModel CreateItem(FolderModel entity)
+        private FolderItemViewModel CreateItem(FolderModel model)
         {
-            return new FolderItemViewModel(entity, Api, UIHost);
+            return new FolderItemViewModel(model, Api, UIHost);
         }
 
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -58,9 +61,15 @@ namespace OneDo.ViewModel
             Messenger.Default.Send(new ShowFolderEditorMessage(null));
         }
 
-        private void HandleDelete(FolderDeletedMessage message)
+
+        private void Folder_Added(FolderAddedEvent @event)
         {
-            var item = Items.FirstOrDefault(x => x.Id == message.Id);
+            Items.Add(CreateItem(@event.Model));
+        }
+
+        private void Folder_Deleted(FolderDeletedEvent @event)
+        {
+            var item = Items.FirstOrDefault(x => x.Id == @event.Id);
             var selectNew = item == SelectedItem;
             Items.Remove(item);
             if (selectNew)

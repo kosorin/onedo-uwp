@@ -8,38 +8,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OneDo.Application.Core;
+using OneDo.Application.Events;
+using OneDo.Application.Commands.Notes;
+using OneDo.Application.Events.Notes;
 
-namespace OneDo.Application.Commands.Notes
+namespace OneDo.Application.Commands
 {
     public class NoteCommandHandler :
         ICommandHandler<SaveNoteCommand>,
         ICommandHandler<SetNoteFlagCommand>,
         ICommandHandler<DeleteNoteCommand>
     {
+        private readonly EventBus eventBus;
+
         private readonly INoteRepository noteRepository;
 
-        public NoteCommandHandler(IDataService dataService)
+        public NoteCommandHandler(EventBus eventBus, INoteRepository noteRepository)
         {
-            noteRepository = new NoteRepository(dataService);
+            this.eventBus = eventBus;
+            this.noteRepository = noteRepository;
         }
 
         public async Task Handle(SaveNoteCommand command)
         {
-            var note = await noteRepository.Get(command.Id);
+            var model = command.Model;
+            var note = await noteRepository.Get(model.Id);
             if (note != null)
             {
-                note.MoveToFolder(command.FolderId);
-                note.ChangeTitle(command.Title);
-                note.ChangeText(command.Text);
-                note.ChangeDate(command.Date);
-                note.ChangeReminder(command.Reminder);
-                note.SetFlag(command.IsFlagged);
+                note.MoveToFolder(model.FolderId);
+                note.ChangeTitle(model.Title);
+                note.ChangeText(model.Text);
+                note.ChangeDate(model.Date);
+                note.ChangeReminder(model.Reminder);
+                note.SetFlag(model.IsFlagged);
                 await noteRepository.Update(note);
+                eventBus.Publish(new NoteUpdatedEvent(model));
             }
             else
             {
-                note = new Note(command.Id, command.FolderId, command.Title, command.Text, command.Date, command.Reminder, command.IsFlagged);
+                note = new Note(model.Id, model.FolderId, model.Title, model.Text, model.Date, model.Reminder, model.IsFlagged);
                 await noteRepository.Add(note);
+                eventBus.Publish(new NoteAddedEvent(model));
             }
         }
 
@@ -50,12 +60,14 @@ namespace OneDo.Application.Commands.Notes
             {
                 note.SetFlag(command.IsFlagged);
                 await noteRepository.Update(note);
+                eventBus.Publish(new NoteFlagChangedEvent(note.Id, note.IsFlagged));
             }
         }
 
         public async Task Handle(DeleteNoteCommand command)
         {
             await noteRepository.Delete(command.Id);
+            eventBus.Publish(new NoteDeletedEvent(command.Id));
         }
     }
 }

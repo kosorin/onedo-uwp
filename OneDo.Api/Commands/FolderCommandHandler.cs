@@ -15,43 +15,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OneDo.Infrastructure.Data;
+using OneDo.Application.Core;
+using OneDo.Application.Events;
+using OneDo.Application.Commands.Folders;
+using OneDo.Application.Events.Folders;
 
-namespace OneDo.Application.Commands.Folders
+namespace OneDo.Application.Commands
 {
     public class FolderCommandHandler :
         ICommandHandler<SaveFolderCommand>,
         ICommandHandler<DeleteFolderCommand>,
         ICommandHandler<DeleteAllFoldersCommand>
     {
+        private readonly EventBus eventBus;
+
         private readonly IFolderRepository folderRepository;
 
         private readonly IQueryRepository<FolderData> folderQueryRepository;
 
-        public FolderCommandHandler(IDataService dataService)
+        public FolderCommandHandler(EventBus eventBus, IFolderRepository folderRepository, IQueryRepository<FolderData> folderQueryRepository)
         {
-            folderRepository = new FolderRepository(dataService);
-            folderQueryRepository = dataService.GetQueryRepository<FolderData>();
+            this.eventBus = eventBus;
+            this.folderRepository = folderRepository;
+            this.folderQueryRepository = folderQueryRepository;
         }
 
         public async Task Handle(SaveFolderCommand command)
         {
-            var folder = await folderRepository.Get(command.Id);
+            var model = command.Model;
+            var folder = await folderRepository.Get(model.Id);
             if (folder != null)
             {
-                folder.ChangeName(command.Name);
-                folder.ChangeColor(new Color(command.Color));
+                folder.ChangeName(model.Name);
+                folder.ChangeColor(new Color(model.Color));
                 await folderRepository.Update(folder);
+                eventBus.Publish(new FolderUpdatedEvent(model));
             }
             else
             {
-                folder = new Folder(command.Id, command.Name, new Color(command.Color));
+                folder = new Folder(model.Id, model.Name, new Color(model.Color));
                 await folderRepository.Add(folder);
+                eventBus.Publish(new FolderAddedEvent(model));
             }
         }
 
         public async Task Handle(DeleteFolderCommand command)
         {
             await folderRepository.Delete(command.Id);
+            eventBus.Publish(new FolderDeletedEvent(command.Id));
         }
 
         public async Task Handle(DeleteAllFoldersCommand command)
@@ -60,6 +71,7 @@ namespace OneDo.Application.Commands.Folders
             foreach (var folderData in folderDatas)
             {
                 await folderRepository.Delete(folderData.Id);
+                eventBus.Publish(new FolderDeletedEvent(folderData.Id));
             }
         }
     }

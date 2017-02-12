@@ -12,7 +12,6 @@ using OneDo.Application.Queries.Notes;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core;
 using OneDo.Core.CommandMessages;
-using OneDo.Core.EventMessages;
 
 namespace OneDo.ViewModel
 {
@@ -56,7 +55,6 @@ namespace OneDo.ViewModel
             await UIHost.ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new DeleteAllFoldersCommand());
-                FolderList.Items.Clear();
             });
         }
 

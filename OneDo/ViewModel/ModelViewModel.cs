@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public abstract class EntityViewModel<TEntity> : ObservableObject
-        where TEntity : IEntityModel
+    public abstract class ModelViewModel<TModel> : ObservableObject
+        where TModel : IModel
     {
         public Guid Id { get; }
 
@@ -23,7 +23,7 @@ namespace OneDo.ViewModel
 
         public UIHost UIHost { get; }
 
-        protected EntityViewModel(Guid id, IApi api, UIHost uiHost)
+        protected ModelViewModel(Guid id, IApi api, UIHost uiHost)
         {
             Id = id;
 
@@ -34,7 +34,7 @@ namespace OneDo.ViewModel
             DeleteCommand = new AsyncRelayCommand(Delete, CanDelete);
         }
 
-        public abstract void Update(TEntity entity);
+        protected abstract void Update(TModel model);
 
 
         protected abstract void ShowEditor();

@@ -112,28 +112,40 @@
     <Compile Include="Commands\Folders\DeleteFolderCommand.cs" />
     <Compile Include="Commands\Folders\SaveFolderCommand.cs" />
     <Compile Include="Commands\Notes\DeleteNoteCommand.cs" />
-    <Compile Include="Commands\Notes\NoteCommandHandler.cs" />
+    <Compile Include="Commands\NoteCommandHandler.cs" />
     <Compile Include="Commands\Notes\SaveNoteCommand.cs" />
     <Compile Include="Commands\Notes\SetNoteFlagCommand.cs" />
-    <Compile Include="Common\IEntityModel.cs" />
+    <Compile Include="Common\IModel.cs" />
+    <Compile Include="Common\IEvent.cs" />
     <Compile Include="Core\CommandBus.cs" />
-    <Compile Include="Core\ICommandBus.cs" />
+    <Compile Include="Core\EventBus.cs" />
+    <Compile Include="Events\Folders\FolderDeletedEvent.cs" />
+    <Compile Include="Events\Folders\FolderAddedEvent.cs" />
+    <Compile Include="Events\Folders\FolderUpdatedEvent.cs" />
+    <Compile Include="Events\Notes\NoteAddedEvent.cs" />
+    <Compile Include="Events\Notes\NoteDeletedEvent.cs" />
+    <Compile Include="Events\Notes\NoteFlagChangedEvent.cs" />
+    <Compile Include="Events\Notes\NoteUpdatedEvent.cs" />
     <Compile Include="IApi.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\NoteRepository.cs" />
-    <Compile Include="Queries\Folders\FolderModel.cs" />
-    <Compile Include="Commands\Folders\FolderCommandHandler.cs" />
+    <Compile Include="Models\FolderModel.cs" />
+    <Compile Include="Commands\FolderCommandHandler.cs" />
     <Compile Include="Common\ICommand.cs" />
     <Compile Include="Common\ICommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Folders\FolderQuery.cs" />
     <Compile Include="Queries\Folders\IFolderQuery.cs" />
     <Compile Include="Queries\Notes\INoteQuery.cs" />
-    <Compile Include="Queries\Notes\NoteModel.cs" />
+    <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Queries\Notes\NoteQuery.cs" />
     <EmbeddedResource Include="Properties\OneDo.Api.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\TinyMessenger\src\TinyMessenger\TinyMessenger\TinyMessenger.csproj">
+      <Project>{970941c1-0634-4993-9eb0-dc2873feaef4}</Project>
+      <Name>TinyMessenger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OneDo.Common\OneDo.Common.csproj">
       <Project>{bb75f101-ea41-4830-a0ab-d84dc2e3fba3}</Project>
       <Name>OneDo.Common</Name>
@@ -147,9 +159,7 @@
       <Name>OneDo.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

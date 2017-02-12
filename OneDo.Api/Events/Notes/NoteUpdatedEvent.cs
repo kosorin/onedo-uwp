@@ -1,20 +1,22 @@
 ﻿using OneDo.Application.Common;
 using OneDo.Application.Models;
+using OneDo.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinyMessenger;
 
-namespace OneDo.Application.Commands.Folders
+namespace OneDo.Application.Events.Notes
 {
-    public class SaveFolderCommand : ICommand
+    public class NoteUpdatedEvent : IEvent
     {
-        public SaveFolderCommand(FolderModel model)
+        public NoteUpdatedEvent(NoteModel model)
         {
             Model = model;
         }
 
-        public FolderModel Model { get; }
+        public NoteModel Model { get; }
     }
 }

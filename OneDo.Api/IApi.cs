@@ -1,12 +1,15 @@
 ﻿using OneDo.Application.Core;
 using OneDo.Application.Queries.Folders;
 using OneDo.Application.Queries.Notes;
+using TinyMessenger;
 
 namespace OneDo.Application
 {
     public interface IApi
     {
-        ICommandBus CommandBus { get; }
+        EventBus EventBus { get; }
+
+        CommandBus CommandBus { get; }
 
         IFolderQuery FolderQuery { get; }
 

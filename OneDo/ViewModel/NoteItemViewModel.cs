@@ -1,18 +1,19 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using OneDo.Application;
 using OneDo.Application.Commands.Notes;
+using OneDo.Application.Events.Notes;
+using OneDo.Application.Models;
 using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using OneDo.Core;
 using OneDo.Core.CommandMessages;
-using OneDo.Core.EventMessages;
 using System;
 using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public class NoteItemViewModel : EntityViewModel<NoteModel>
+    public class NoteItemViewModel : ModelViewModel<NoteModel>
     {
         public Guid FolderId { get; }
 
@@ -92,21 +93,24 @@ namespace OneDo.ViewModel
         public IExtendedCommand ToggleFlagCommand { get; }
 
 
-        public NoteItemViewModel(NoteModel entity, IApi api, UIHost uiHost) : base(entity.Id, api, uiHost)
+        public NoteItemViewModel(NoteModel model, IApi api, UIHost uiHost) : base(model.Id, api, uiHost)
         {
-            FolderId = entity.FolderId;
+            FolderId = model.FolderId;
             ToggleFlagCommand = new AsyncRelayCommand(ToggleFlag);
 
-            Update(entity);
+            Update(model);
+
+            Api.EventBus.Subscribe<NoteUpdatedEvent>(x => Update(x.Model), x => x.Model.Id == Id);
+            Api.EventBus.Subscribe<NoteFlagChangedEvent>(x => IsFlagged = x.IsFlagged, x => x.Id == Id);
         }
 
-        public override void Update(NoteModel entity)
+        protected override void Update(NoteModel model)
         {
-            IsFlagged = entity.IsFlagged;
-            Title = entity.Title;
-            Text = entity.Text;
-            Date = entity.Date?.Date;
-            Reminder = entity.Reminder;
+            IsFlagged = model.IsFlagged;
+            Title = model.Title;
+            Text = model.Text;
+            Date = model.Date?.Date;
+            Reminder = model.Reminder;
         }
 
 
@@ -118,7 +122,6 @@ namespace OneDo.ViewModel
         protected override async Task Delete()
         {
             await Api.CommandBus.Execute(new DeleteNoteCommand(Id));
-            Messenger.Default.Send(new NoteDeletedMessage(Id));
         }
 
         protected override bool CanDelete()
@@ -130,8 +133,7 @@ namespace OneDo.ViewModel
         {
             await UIHost.ProgressService.RunAsync(async () =>
             {
-                IsFlagged = !IsFlagged;
-                await Api.CommandBus.Execute(new SetNoteFlagCommand(Id, IsFlagged));
+                await Api.CommandBus.Execute(new SetNoteFlagCommand(Id, !IsFlagged));
             });
         }
     }

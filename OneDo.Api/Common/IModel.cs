@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application.Common
 {
-    public interface IEntityModel
+    public interface IModel
     {
-        Guid Id { get; }
+        Guid Id { get; set; }
     }
 }

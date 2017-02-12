@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Application.Queries.Notes
+namespace OneDo.Application.Models
 {
-    public class NoteModel : IEntityModel
+    public class NoteModel : IModel
     {
         public Guid Id { get; set; }
 

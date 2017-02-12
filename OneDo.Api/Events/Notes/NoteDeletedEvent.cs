@@ -1,17 +1,18 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using OneDo.Application.Common;
+﻿using OneDo.Application.Common;
+using OneDo.Application.Models;
 using OneDo.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinyMessenger;
 
-namespace OneDo.Core.EventMessages
+namespace OneDo.Application.Events.Notes
 {
-    public class NoteDeletedMessage : MessageBase
+    public class NoteDeletedEvent : IEvent
     {
-        public NoteDeletedMessage(Guid id)
+        public NoteDeletedEvent(Guid id)
         {
             Id = id;
         }

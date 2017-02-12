@@ -9,12 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinyMessenger;
 
 namespace OneDo.Application
 {
     public class Api : IApi, IDisposable
     {
-        public ICommandBus CommandBus { get; }
+        public EventBus EventBus { get; }
+
+        public CommandBus CommandBus { get; }
 
         public IFolderQuery FolderQuery { get; }
 
@@ -26,7 +29,8 @@ namespace OneDo.Application
         {
             dataService = new DataService();
 
-            CommandBus = new CommandBus(dataService);
+            EventBus = new EventBus();
+            CommandBus = new CommandBus(EventBus, dataService);
 
             FolderQuery = new FolderQuery(dataService.GetQueryRepository<FolderData>());
             NoteQuery = new NoteQuery(dataService.GetQueryRepository<NoteData>());

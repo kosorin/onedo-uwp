@@ -1,11 +1,11 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using OneDo.Application;
 using OneDo.Application.Commands.Notes;
+using OneDo.Application.Models;
 using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
 using OneDo.Core.CommandMessages;
-using OneDo.Core.EventMessages;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;
@@ -173,7 +173,7 @@ namespace OneDo.ViewModel
 
             await ProgressService.RunAsync(async () =>
             {
-                await Api.CommandBus.Execute(new SaveNoteCommand(Original.Id, Original.FolderId, Original.Title, Original.Text, Original.Date, Original.Reminder, Original.IsFlagged));
+                await Api.CommandBus.Execute(new SaveNoteCommand(Original));
                 Messenger.Default.Send(new CloseModalMessage());
             });
         }
@@ -183,7 +183,6 @@ namespace OneDo.ViewModel
             await ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new DeleteNoteCommand(Original.Id));
-                Messenger.Default.Send(new NoteDeletedMessage(Original.Id));
                 Messenger.Default.Send(new CloseModalMessage());
             });
         }

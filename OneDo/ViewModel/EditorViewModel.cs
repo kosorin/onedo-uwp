@@ -10,8 +10,8 @@ using OneDo.Application;
 
 namespace OneDo.ViewModel
 {
-    public abstract class EditorViewModel<TEntity> : ModalViewModel
-        where TEntity : class, IEntityModel, new()
+    public abstract class EditorViewModel<TModel> : ModalViewModel
+        where TModel : class, IModel, new()
     {
         private Guid? id;
         public Guid? Id
@@ -45,7 +45,7 @@ namespace OneDo.ViewModel
 
         public IProgressService ProgressService { get; }
 
-        public TEntity Original { get; protected set; }
+        public TModel Original { get; protected set; }
 
         private Dictionary<string, bool> dirtyProperties = new Dictionary<string, bool>();
 
@@ -81,9 +81,12 @@ namespace OneDo.ViewModel
 
         protected abstract void InitializeProperties();
 
-        protected virtual TEntity CreateDefault()
+        protected virtual TModel CreateDefault()
         {
-            return new TEntity();
+            return new TModel()
+            {
+                Id = Guid.NewGuid()
+            };
         }
 
 

@@ -1,17 +1,17 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using OneDo.Application.Common;
+﻿using OneDo.Application.Common;
 using OneDo.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinyMessenger;
 
-namespace OneDo.Core.EventMessages
+namespace OneDo.Application.Events.Folders
 {
-    public class FolderDeletedMessage : MessageBase
+    public class FolderDeletedEvent : IEvent
     {
-        public FolderDeletedMessage(Guid id)
+        public FolderDeletedEvent(Guid id)
         {
             Id = id;
         }

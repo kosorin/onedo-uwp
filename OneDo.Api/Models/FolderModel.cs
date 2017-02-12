@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 
-namespace OneDo.Application.Queries.Folders
+namespace OneDo.Application.Models
 {
-    public class FolderModel : IEntityModel
+    public class FolderModel : IModel
     {
         public Guid Id { get; set; }
 

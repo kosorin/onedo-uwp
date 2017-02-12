@@ -12,7 +12,9 @@ using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core.CommandMessages;
 using OneDo.Core.Args;
 using OneDo.Common.Extensions;
-using OneDo.Core.EventMessages;
+using OneDo.Application.Events;
+using OneDo.Application.Events.Notes;
+using OneDo.Application.Models;
 
 namespace OneDo.ViewModel
 {
@@ -25,7 +27,9 @@ namespace OneDo.ViewModel
             FolderList = folderList;
             FolderList.SelectionChanged += FolderList_SelectionChanged;
 
-            Messenger.Default.Register<NoteDeletedMessage>(this, HandleDelete);
+            Api.EventBus.Subscribe<NoteAddedEvent>(Note_Added, x => x.Model.FolderId == FolderList.SelectedItem?.Id);
+            Api.EventBus.Subscribe<NoteUpdatedEvent>(Note_Updated, x => x.Model.FolderId != FolderList.SelectedItem?.Id);
+            Api.EventBus.Subscribe<NoteDeletedEvent>(Note_Deleted);
         }
 
         private async void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs<FolderItemViewModel> args)
@@ -49,9 +53,9 @@ namespace OneDo.ViewModel
             });
         }
 
-        private NoteItemViewModel CreateItem(NoteModel entity)
+        private NoteItemViewModel CreateItem(NoteModel model)
         {
-            return new NoteItemViewModel(entity, Api, UIHost);
+            return new NoteItemViewModel(model, Api, UIHost);
         }
 
 
@@ -60,10 +64,20 @@ namespace OneDo.ViewModel
             Messenger.Default.Send(new ShowNoteEditorMessage(null));
         }
 
-        private void HandleDelete(NoteDeletedMessage message)
+
+        private void Note_Added(NoteAddedEvent @event)
         {
-            var item = Items.FirstOrDefault(x => x.Id == message.Id);
-            Items.Remove(item);
+            Items.Add(CreateItem(@event.Model));
+        }
+
+        private void Note_Updated(NoteUpdatedEvent @event)
+        {
+            Items.Remove(Items.FirstOrDefault(x => x.Id == @event.Model.Id));
+        }
+
+        private void Note_Deleted(NoteDeletedEvent @event)
+        {
+            Items.Remove(Items.FirstOrDefault(x => x.Id == @event.Id));
         }
     }
 }

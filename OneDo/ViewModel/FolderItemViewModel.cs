@@ -8,11 +8,12 @@ using OneDo.Core.CommandMessages;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core;
 using OneDo.Application;
-using OneDo.Core.EventMessages;
+using OneDo.Application.Models;
+using OneDo.Application.Events.Folders;
 
 namespace OneDo.ViewModel
 {
-    public class FolderItemViewModel : EntityViewModel<FolderModel>
+    public class FolderItemViewModel : ModelViewModel<FolderModel>
     {
         private string name;
         public string Name
@@ -42,15 +43,17 @@ namespace OneDo.ViewModel
         }
 
 
-        public FolderItemViewModel(FolderModel entity, IApi api, UIHost uiHost) : base(entity.Id, api, uiHost)
+        public FolderItemViewModel(FolderModel model, IApi api, UIHost uiHost) : base(model.Id, api, uiHost)
         {
-            Update(entity);
+            Update(model);
+
+            Api.EventBus.Subscribe<FolderUpdatedEvent>(x => Update(x.Model), x => x.Model.Id == Id);
         }
 
-        public override void Update(FolderModel entity)
+        protected override void Update(FolderModel model)
         {
-            Name = entity.Name;
-            Color = entity.Color.ToColor();
+            Name = model.Name;
+            Color = model.Color.ToColor();
         }
 
 
@@ -62,7 +65,6 @@ namespace OneDo.ViewModel
         protected override async Task Delete()
         {
             await Api.CommandBus.Execute(new DeleteFolderCommand(Id));
-            Messenger.Default.Send(new FolderDeletedMessage(Id));
         }
 
         protected override bool CanDelete()

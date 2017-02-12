@@ -105,8 +105,6 @@
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Core\CommandMessages\CloseModalMessage.cs" />
-    <Compile Include="Core\EventMessages\FolderDeletedMessage.cs" />
-    <Compile Include="Core\EventMessages\NoteDeletedMessage.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />
@@ -124,7 +122,7 @@
     <Compile Include="Common\Mvvm\RelayCommand.cs" />
     <Compile Include="ViewModel\ConfirmationViewModel.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\EntityViewModel.cs" />
+    <Compile Include="ViewModel\ModelViewModel.cs" />
     <Compile Include="ViewModel\ColorViewModel.cs" />
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
@@ -306,7 +304,9 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\EventMessages\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

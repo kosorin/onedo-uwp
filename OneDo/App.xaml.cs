@@ -25,6 +25,7 @@ using OneDo.Application;
 using OneDo.Application.Commands.Folders;
 using System.Linq;
 using OneDo.Application.Commands.Notes;
+using OneDo.Application.Models;
 
 namespace OneDo
 {
@@ -194,22 +195,25 @@ namespace OneDo
             var folders = await api.FolderQuery.GetAll();
             if (!folders.Any())
             {
-                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Inbox", "#0063AF"));
-                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Work", "#0F893E"));
-                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Shopping list", "#AC008C"));
-                await api.CommandBus.Execute(new SaveFolderCommand(Guid.Empty, "Vacation", "#F7630D"));
+                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.Empty, Name = "Inbox", Color = "#0063AF" }));
+                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.Empty, Name = "Work", Color = "#0F893E" }));
+                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.Empty, Name = "Shopping list", Color = "#AC008C" }));
+                await api.CommandBus.Execute(new SaveFolderCommand(new FolderModel { Id = Guid.Empty, Name = "Vacation", Color = "#F7630D" }));
                 folders = await api.FolderQuery.GetAll();
 
                 var folder = folders.FirstOrDefault();
                 var folder2 = folders.Skip(1).FirstOrDefault();
-                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Buy milk", "", null, null, false));
-                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Walk Max with bike", "", DateTime.Today, TimeSpan.FromHours(7.25), false));
-                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id, "Call mom", "", DateTime.Today.AddDays(5), null, true));
-                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder.Id,
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                    "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
-                    null, null, false));
-                await api.CommandBus.Execute(new SaveNoteCommand(Guid.Empty, folder2.Id, "Test note", "", null, null, true));
+                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.Empty, FolderId = folder.Id, Title = "Buy milk" }));
+                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.Empty, FolderId = folder.Id, Title = "Walk Max with bike", Date = DateTime.Today, Reminder = TimeSpan.FromHours(7.25) }));
+                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.Empty, FolderId = folder.Id, Title = "Call mom", Date = DateTime.Today.AddDays(5), IsFlagged = true }));
+                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel
+                {
+                    Id = Guid.Empty,
+                    FolderId = folder.Id,
+                    Title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                    Text = "Proin et diam at lorem egestas ullamcorper. Curabitur non eleifend mi. Praesent eu sem elementum, rutrum neque id, sollicitudin dolor. Proin molestie ullamcorper sem a hendrerit. Integer ac sapien erat. Morbi vehicula venenatis dolor, non aliquet nibh mattis sed.",
+                }));
+                await api.CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.Empty, FolderId = folder2.Id, Title = "Test note", IsFlagged = true }));
             }
 #else
             return Task.CompletedTask;
