@@ -4,6 +4,6 @@ namespace OneDo.ViewModel
 {
     public class SettingsViewModel : ModalViewModel
     {
-        public string VersionText => $"Version {AppInformation.GetAppVersion()}";
+        public string VersionText => $"Version {AppInformation.GetVersion()}";
     }
 }

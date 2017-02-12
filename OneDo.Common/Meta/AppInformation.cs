@@ -9,7 +9,7 @@ namespace OneDo.Common.Meta
 {
     public static class AppInformation
     {
-        public static string GetAppVersion()
+        public static string GetVersion()
         {
             var package = Package.Current;
             var packageId = package.Id;
