@@ -13,32 +13,32 @@ using OneDo.Common.Mvvm;
 
 namespace OneDo.ViewModel
 {
-    public class DebugViewModel : ModalViewModel
+    public class LogViewModel : ModalViewModel
     {
-        private List<string> log;
-        public List<string> Log
+        private List<string> items;
+        public List<string> Items
         {
-            get { return log; }
-            set { Set(ref log, value); }
+            get { return items; }
+            set { Set(ref items, value); }
         }
 
-        public ICommand LoadLogCommand { get; }
+        public ICommand LoadCommand { get; }
 
-        public ICommand ExportLogCommand { get; }
+        public ICommand ExportCommand { get; }
 
-        public ICommand ClearLogCommand { get; }
+        public ICommand ClearCommand { get; }
 
         public IProgressService ProgressService { get; }
 
-        public DebugViewModel(IProgressService progressService)
+        public LogViewModel(IProgressService progressService)
         {
             ProgressService = progressService;
-            LoadLogCommand = new AsyncRelayCommand(LoadLog);
-            ExportLogCommand = new AsyncRelayCommand(ExportLog);
-            ClearLogCommand = new AsyncRelayCommand(ClearLog);
+            LoadCommand = new AsyncRelayCommand(Load);
+            ExportCommand = new AsyncRelayCommand(Export);
+            ClearCommand = new AsyncRelayCommand(Clear);
         }
 
-        public async Task LoadLog()
+        public async Task Load()
         {
             await ProgressService.RunAsync(async () =>
             {
@@ -51,26 +51,27 @@ namespace OneDo.ViewModel
                         var path = fileLogger.Path.Replace(folder.Path, "");
                         var file = await folder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists);
                         var logText = await FileIO.ReadTextAsync(file);
-                        Log = Regex.Split(logText, @"\r?\n").ToList();
+                        Items = Regex.Split(logText, @"\r?\n").ToList();
                     }
+
                     var memoryLogger = Logger.Current as MemoryLogger;
                     if (memoryLogger != null)
                     {
-                        Log = memoryLogger.Items.ToList();
+                        Items = memoryLogger.Items.ToList();
                     }
                 }
                 catch
                 {
-                    Log = new List<string>();
+                    Items = new List<string>();
                 }
             });
         }
 
-        public async Task ExportLog()
+        public async Task Export()
         {
             await ProgressService.RunAsync(async () =>
             {
-                var logText = string.Join(Environment.NewLine, Log ?? new List<string>());
+                var logText = string.Join(Environment.NewLine, Items ?? new List<string>());
 
                 try
                 {
@@ -92,7 +93,7 @@ namespace OneDo.ViewModel
             });
         }
 
-        private async Task ClearLog()
+        private async Task Clear()
         {
             await ProgressService.RunAsync(async () =>
             {
@@ -115,7 +116,7 @@ namespace OneDo.ViewModel
                 catch { }
                 finally
                 {
-                    Log = new List<string>();
+                    Items = new List<string>();
                 }
             });
         }

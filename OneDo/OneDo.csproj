@@ -122,11 +122,11 @@
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\ModelViewModel.cs" />
     <Compile Include="ViewModel\ColorViewModel.cs" />
-    <Compile Include="ViewModel\DebugViewModel.cs" />
+    <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
     <Compile Include="Core\Messages\ShowFolderEditorMessage.cs" />
-    <Compile Include="Core\Messages\ShowDebugMessage.cs" />
+    <Compile Include="Core\Messages\ShowLogMessage.cs" />
     <Compile Include="Core\Messages\ShowNoteEditorMessage.cs" />
     <Compile Include="Core\Messages\ShowSettingsMessage.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
@@ -178,8 +178,8 @@
     <Compile Include="View\ConfirmationView.xaml.cs">
       <DependentUpon>ConfirmationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DebugView.xaml.cs">
-      <DependentUpon>DebugView.xaml</DependentUpon>
+    <Compile Include="View\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
@@ -263,7 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DebugView.xaml">
+    <Page Include="View\LogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

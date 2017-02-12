@@ -3,18 +3,18 @@ using OneDo.ViewModel;
 
 namespace OneDo.View
 {
-    public sealed partial class DebugView : ModalView, IXBind<DebugViewModel>
+    public sealed partial class LogView : ModalView, IXBind<LogViewModel>
     {
-        public DebugViewModel VM => (DebugViewModel)ViewModel;
+        public LogViewModel VM => (LogViewModel)ViewModel;
 
-        public DebugView()
+        public LogView()
         {
             InitializeComponent();
         }
 
         protected override async Task OnFirstLoad()
         {
-            await VM.LoadLog();
+            await VM.Load();
         }
     }
 }

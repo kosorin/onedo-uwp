@@ -32,7 +32,7 @@ namespace OneDo.ViewModel
                 builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
 
                 builder.RegisterType<SettingsViewModel>().AsSelf().InstancePerDependency();
-                builder.RegisterType<DebugViewModel>().AsSelf().InstancePerDependency();
+                builder.RegisterType<LogViewModel>().AsSelf().InstancePerDependency();
                 builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
                 builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
 
@@ -44,7 +44,7 @@ namespace OneDo.ViewModel
 
         public SettingsViewModel Settings => Container?.Resolve<SettingsViewModel>();
 
-        public DebugViewModel Debug => Container?.Resolve<DebugViewModel>();
+        public LogViewModel Log => Container?.Resolve<LogViewModel>();
 
         public FolderListViewModel FolderList => Container?.Resolve<FolderListViewModel>();
 

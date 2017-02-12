@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.Core.Messages
 {
-    public class ShowDebugMessage : MessageBase
+    public class ShowLogMessage : MessageBase
     {
     }
 }

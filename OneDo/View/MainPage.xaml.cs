@@ -27,7 +27,7 @@ namespace OneDo.View
             InitializeModal();
 
 #if DEBUG
-            InitializeDebug();
+            InitializeLog();
 #endif
         }
 
@@ -67,7 +67,7 @@ namespace OneDo.View
         {
             Messenger.Default.Register<CloseModalMessage>(this, HandleModal);
             Messenger.Default.Register<ShowSettingsMessage>(this, HandleModal);
-            Messenger.Default.Register<ShowDebugMessage>(this, HandleModal);
+            Messenger.Default.Register<ShowLogMessage>(this, HandleModal);
             Messenger.Default.Register<ShowFolderEditorMessage>(this, HandleModal);
             Messenger.Default.Register<ShowNoteEditorMessage>(this, HandleModal);
         }
@@ -83,9 +83,9 @@ namespace OneDo.View
             ModalContainer.Show(new SettingsView());
         }
 
-        private void HandleModal(ShowDebugMessage message)
+        private void HandleModal(ShowLogMessage message)
         {
-            ModalContainer.Show(new DebugView());
+            ModalContainer.Show(new LogView());
         }
 
         private void HandleModal(ShowFolderEditorMessage message)
@@ -100,13 +100,13 @@ namespace OneDo.View
 
 
 #if DEBUG
-        private void InitializeDebug()
+        private void InitializeLog()
         {
             InsertMenuSeparator();
             InsertMenuButtonAsync("Reset", VM.ResetData);
             InsertMenuButton("Switch theme", SwitchRequestedTheme);
             InsertMenuButtonAsync("Show schedule", ShowSchedule);
-            InsertMenuButton("Debug", () => Messenger.Default.Send(new ShowDebugMessage()));
+            InsertMenuButton("Log", () => Messenger.Default.Send(new ShowLogMessage()));
         }
 
         private void InsertMenuSeparator()
