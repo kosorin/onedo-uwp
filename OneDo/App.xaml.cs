@@ -80,9 +80,8 @@ namespace OneDo
 
             await InitializeLogger();
 
-            Logger.Current.Line("=================================================");
-            Logger.Current.Line("===================== OneDo =====================");
-            Logger.Current.Line("=================================================");
+            Logger.Current.Line("=================================");
+            Logger.Current.Info($"Version: {AppInformation.GetVersion()}");
             Logger.Current.Info($"Arguments: \"{args.Arguments}\"");
             Logger.Current.Info($"Launch reason: {args.Kind}");
             Logger.Current.Info($"Tile ID: {args.TileId}");
