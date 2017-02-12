@@ -73,7 +73,7 @@ namespace OneDo.Application.Notifications
 
         private string GetGroup(Guid id)
         {
-            var group = id.ToString("N").Substring(0, 16);
+            var group = id.ToString("N").Substring(0, 15);
             return group;
         }
     }
