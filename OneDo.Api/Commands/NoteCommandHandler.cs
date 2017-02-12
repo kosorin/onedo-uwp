@@ -12,6 +12,8 @@ using OneDo.Application.Core;
 using OneDo.Application.Events;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Events.Notes;
+using OneDo.Application.Notifications;
+using OneDo.Common.Logging;
 
 namespace OneDo.Application.Commands
 {
@@ -23,17 +25,25 @@ namespace OneDo.Application.Commands
     {
         private readonly EventBus eventBus;
 
+        private readonly INotificationService notificationService;
+
         private readonly INoteRepository noteRepository;
 
-        public NoteCommandHandler(EventBus eventBus, INoteRepository noteRepository)
+        public NoteCommandHandler(EventBus eventBus, INotificationService notificationService, INoteRepository noteRepository)
         {
             this.eventBus = eventBus;
+            this.notificationService = notificationService;
             this.noteRepository = noteRepository;
         }
 
         public async Task Handle(SaveNoteCommand command)
         {
             var model = command.Model;
+            if (model.Id == Guid.Empty)
+            {
+                throw new InvalidOperationException($"Model '{model.Title}' has empty id");
+            }
+
             var note = await noteRepository.Get(model.Id);
             if (note != null)
             {
@@ -52,6 +62,8 @@ namespace OneDo.Application.Commands
                 await noteRepository.Add(note);
                 eventBus.Publish(new NoteAddedEvent(model));
             }
+
+            notificationService.Reschedule(note);
         }
 
         public async Task Handle(MoveNoteToFolderCommand command)
@@ -78,8 +90,10 @@ namespace OneDo.Application.Commands
 
         public async Task Handle(DeleteNoteCommand command)
         {
-            await noteRepository.Delete(command.Id);
-            eventBus.Publish(new NoteDeletedEvent(command.Id));
+            var id = command.Id;
+            await noteRepository.Delete(id);
+            notificationService.RemoveFromSchedule(id);
+            eventBus.Publish(new NoteDeletedEvent(id));
         }
     }
 }

@@ -3,6 +3,7 @@ using OneDo.Application.Commands;
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
 using OneDo.Application.Common;
+using OneDo.Application.Notifications;
 using OneDo.Application.Repositories;
 using OneDo.Domain.Model.Repositories;
 using OneDo.Infrastructure.Data;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TinyMessenger;
+using Windows.UI.Notifications;
 
 namespace OneDo.Application.Core
 {
@@ -32,6 +34,9 @@ namespace OneDo.Application.Core
             builder.Register(c => c.Resolve<IDataService>().GetRepository<NoteData>()).AsImplementedInterfaces().AsSelf();
             builder.RegisterType<FolderRepository>().As<IFolderRepository>();
             builder.RegisterType<NoteRepository>().As<INoteRepository>();
+
+            builder.Register(c => ToastNotificationManager.CreateToastNotifier()).As<ToastNotifier>();
+            builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
 
             builder.RegisterType<FolderCommandHandler>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<NoteCommandHandler>().AsImplementedInterfaces().SingleInstance();

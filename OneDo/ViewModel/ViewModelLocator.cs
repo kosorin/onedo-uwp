@@ -5,7 +5,6 @@ using OneDo.Services.BackgroundTaskService;
 using OneDo.Services.InfoService;
 using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
-using OneDo.Services.ToastService;
 using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel
@@ -24,7 +23,6 @@ namespace OneDo.ViewModel
                 builder.RegisterType<Api>().As<IApi>().SingleInstance();
                 builder.RegisterType<UIHost>().AsSelf().SingleInstance();
                 builder.RegisterType<BackgroundTaskService>().As<IBackgroundTaskService>().SingleInstance();
-                builder.RegisterType<ToastService>().As<IToastService>().SingleInstance();
                 builder.RegisterType<ProgressService>().As<IProgressService>().SingleInstance();
                 builder.RegisterType<InfoService>().As<IInfoService>().SingleInstance();
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();

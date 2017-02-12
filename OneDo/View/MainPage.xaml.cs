@@ -7,11 +7,11 @@ using OneDo.Services.InfoService;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using System.Linq;
-using OneDo.Services.ToastService;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common;
 using OneDo.Application.Queries.Notes;
 using OneDo.Core.Messages;
+using Windows.UI.Notifications;
 
 namespace OneDo.View
 {
@@ -155,11 +155,11 @@ namespace OneDo.View
 
         private async Task ShowSchedule()
         {
-            var toastService = new ToastService();
-            var toasts = toastService.GetScheduledToasts();
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+            var toasts = notifier.GetScheduledToastNotifications();
             var schedule = string.Join(Environment.NewLine, toasts.Select(x => $"'{x.Group}.{x.Tag}' > {x.DeliveryTime}"));
 
-            var clearCommand = new UICommand("Clear", x => toastService.ClearSchedule());
+            var clearCommand = new UICommand("Clear", x => ClearSchedule());
             var closeCommand = new UICommand("Cancel");
 
             var dialog = new MessageDialog(schedule, "Schedule");
@@ -168,6 +168,15 @@ namespace OneDo.View
             dialog.CancelCommandIndex = (uint)dialog.Commands.Count - 1;
             dialog.DefaultCommandIndex = (uint)dialog.Commands.Count - 1;
             var command = await dialog.ShowAsync();
+        }
+
+        private void ClearSchedule()
+        {
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+            foreach (var toast in notifier.GetScheduledToastNotifications())
+            {
+                notifier.RemoveFromSchedule(toast);
+            }
         }
 #endif
     }

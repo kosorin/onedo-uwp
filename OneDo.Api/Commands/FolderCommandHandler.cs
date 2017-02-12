@@ -43,6 +43,11 @@ namespace OneDo.Application.Commands
         public async Task Handle(SaveFolderCommand command)
         {
             var model = command.Model;
+            if (model.Id == Guid.Empty)
+            {
+                throw new InvalidOperationException($"Model '{model.Name}' has empty id");
+            }
+
             var folder = await folderRepository.Get(model.Id);
             if (folder != null)
             {

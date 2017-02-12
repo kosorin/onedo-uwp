@@ -79,5 +79,14 @@ namespace OneDo.Domain.Model.Entities
         {
             IsFlagged = isFlagged;
         }
+
+        public IEnumerable<DateTimeOffset> GetReminders()
+        {
+            if (Reminder != null)
+            {
+                yield return (DateTime)(Date + Reminder);
+            }
+            yield break;
+        }
     }
 }

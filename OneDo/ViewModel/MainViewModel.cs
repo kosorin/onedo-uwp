@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using OneDo.Services.InfoService;
-using OneDo.Services.ToastService;
 using OneDo.Common.Mvvm;
 using OneDo.Application;
 using OneDo.Application.Commands.Folders;

@@ -115,8 +115,6 @@
     <Compile Include="Services\InfoService\InfoService.cs" />
     <Compile Include="Services\StringService\IStringProvider.cs" />
     <Compile Include="Services\StringService\StringProvider.cs" />
-    <Compile Include="Services\ToastService\IToastService.cs" />
-    <Compile Include="Services\ToastService\ToastService.cs" />
     <Compile Include="Services\InfoService\InfoMessage.cs" />
     <Compile Include="Core\Args\SelectionChangedEventArgs.cs" />
     <Compile Include="Common\Mvvm\RelayCommand.cs" />

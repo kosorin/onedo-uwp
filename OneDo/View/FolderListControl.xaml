@@ -10,7 +10,6 @@
                        xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                        xmlns:v="using:OneDo.View"
                        xmlns:vm="using:OneDo.ViewModel"
-                       xmlns:vmItems="using:OneDo.ViewModel.Items"
                        DataContext="{Binding FolderList, Source={StaticResource Locator}}"
                        mc:Ignorable="d">
 

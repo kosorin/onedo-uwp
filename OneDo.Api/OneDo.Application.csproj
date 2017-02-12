@@ -129,6 +129,9 @@
     <Compile Include="Events\Notes\NoteMovedToFolderEvent.cs" />
     <Compile Include="Events\Notes\NoteUpdatedEvent.cs" />
     <Compile Include="IApi.cs" />
+    <Compile Include="Notifications\ContentBuilder.cs" />
+    <Compile Include="Notifications\INotificationService.cs" />
+    <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\NoteRepository.cs" />
     <Compile Include="Models\FolderModel.cs" />
