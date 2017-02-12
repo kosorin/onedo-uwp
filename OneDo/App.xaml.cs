@@ -87,7 +87,6 @@ namespace OneDo
             Logger.Current.Info($"Tile ID: {args.TileId}");
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
-            await InitializeApi();
             await InitializeBackgroundTasks();
             InitializeTitleBar();
             await InitializeStatusBar();
@@ -182,25 +181,6 @@ namespace OneDo
             }
         }
 
-        private async Task InitializeApi()
-        {
-            var api = ViewModelLocator.Container.Resolve<IApi>();
-#warning Inicializace dat a nastavení
-            //await api.LoadSettingsAsync();
-            //await api.InitializeDataAsync();
-
-#if DEBUG
-            var folders = await api.FolderQuery.GetAll();
-            if (!folders.Any())
-            {
-                await api.SavePreviewData();
-            }
-#else
-            return Task.CompletedTask;
-#endif
-
-            Logger.Current.Info("Data initialized");
-        }
 
         private void InitializeTitleBar()
         {
