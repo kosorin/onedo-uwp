@@ -142,10 +142,14 @@ namespace OneDo.ViewModel
                         memoryLogger.Items.Clear();
                     }
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    Logger.Current.Error("Log clear", e);
+                }
                 finally
                 {
-                    Items = new List<string>();
+                    Logger.Current.Info("Log was cleared");
+                    await Load();
                 }
             });
         }
