@@ -7,7 +7,9 @@ namespace OneDo.Application.Notifications
     {
         void Reschedule(Note note);
 
-        void RemoveFromSchedule(Guid id);
+        void Schedule(Note note);
+
+        void CancelScheduled(Guid id);
 
         void ClearSchedule();
     }

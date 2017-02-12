@@ -54,16 +54,16 @@ namespace OneDo.Application.Commands
                 note.ChangeReminder(model.Reminder);
                 note.SetFlag(model.IsFlagged);
                 await noteRepository.Update(note);
+                notificationService.Reschedule(note);
                 eventBus.Publish(new NoteUpdatedEvent(model));
             }
             else
             {
                 note = new Note(model.Id, model.FolderId, model.Title, model.Text, model.Date, model.Reminder, model.IsFlagged);
                 await noteRepository.Add(note);
+                notificationService.Schedule(note);
                 eventBus.Publish(new NoteAddedEvent(model));
             }
-
-            notificationService.Reschedule(note);
         }
 
         public async Task Handle(MoveNoteToFolderCommand command)
@@ -92,7 +92,7 @@ namespace OneDo.Application.Commands
         {
             var id = command.Id;
             await noteRepository.Delete(id);
-            notificationService.RemoveFromSchedule(id);
+            notificationService.CancelScheduled(id);
             eventBus.Publish(new NoteDeletedEvent(id));
         }
     }

@@ -19,6 +19,7 @@ using OneDo.Application.Core;
 using OneDo.Application.Events;
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Events.Folders;
+using OneDo.Application.Notifications;
 
 namespace OneDo.Application.Commands
 {
@@ -29,15 +30,21 @@ namespace OneDo.Application.Commands
     {
         private readonly EventBus eventBus;
 
+        private readonly INotificationService notificationService;
+
         private readonly IFolderRepository folderRepository;
 
         private readonly IQueryRepository<FolderData> folderQueryRepository;
 
-        public FolderCommandHandler(EventBus eventBus, IFolderRepository folderRepository, IQueryRepository<FolderData> folderQueryRepository)
+        private readonly IQueryRepository<NoteData> noteQueryRepository;
+
+        public FolderCommandHandler(EventBus eventBus, INotificationService notificationService, IFolderRepository folderRepository, IQueryRepository<FolderData> folderQueryRepository, IQueryRepository<NoteData> noteQueryRepository)
         {
             this.eventBus = eventBus;
+            this.notificationService = notificationService;
             this.folderRepository = folderRepository;
             this.folderQueryRepository = folderQueryRepository;
+            this.noteQueryRepository = noteQueryRepository;
         }
 
         public async Task Handle(SaveFolderCommand command)
@@ -66,8 +73,7 @@ namespace OneDo.Application.Commands
 
         public async Task Handle(DeleteFolderCommand command)
         {
-            await folderRepository.Delete(command.Id);
-            eventBus.Publish(new FolderDeletedEvent(command.Id));
+            await DeleteFolder(command.Id);
         }
 
         public async Task Handle(DeleteAllFoldersCommand command)
@@ -75,9 +81,19 @@ namespace OneDo.Application.Commands
             var folderDatas = await folderQueryRepository.GetAll();
             foreach (var folderData in folderDatas)
             {
-                await folderRepository.Delete(folderData.Id);
-                eventBus.Publish(new FolderDeletedEvent(folderData.Id));
+                await DeleteFolder(folderData.Id);
             }
+        }
+
+        private async Task DeleteFolder(Guid folderId)
+        {
+            var noteDatas = await noteQueryRepository.GetAll(x => x.FolderId == folderId);
+            foreach (var noteData in noteDatas)
+            {
+                notificationService.CancelScheduled(noteData.Id);
+            }
+            await folderRepository.Delete(folderId);
+            eventBus.Publish(new FolderDeletedEvent(folderId));
         }
     }
 }

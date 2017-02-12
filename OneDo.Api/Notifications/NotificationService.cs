@@ -23,11 +23,11 @@ namespace OneDo.Application.Notifications
 
         public void Reschedule(Note note)
         {
-            RemoveFromSchedule(note.Id);
-            AddToSchedule(note);
+            CancelScheduled(note.Id);
+            Schedule(note);
         }
 
-        private void AddToSchedule(Note note)
+        public void Schedule(Note note)
         {
             foreach (var dateTime in note.GetReminders())
             {
@@ -47,7 +47,7 @@ namespace OneDo.Application.Notifications
             }
         }
 
-        public void RemoveFromSchedule(Guid id)
+        public void CancelScheduled(Guid id)
         {
             var group = GetGroup(id);
 
