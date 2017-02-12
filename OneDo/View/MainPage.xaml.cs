@@ -11,7 +11,7 @@ using OneDo.Services.ToastService;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common;
 using OneDo.Application.Queries.Notes;
-using OneDo.Core.CommandMessages;
+using OneDo.Core.Messages;
 
 namespace OneDo.View
 {

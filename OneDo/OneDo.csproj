@@ -104,7 +104,7 @@
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
-    <Compile Include="Core\CommandMessages\CloseModalMessage.cs" />
+    <Compile Include="Core\Messages\CloseModalMessage.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />
@@ -127,10 +127,10 @@
     <Compile Include="ViewModel\DebugViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
-    <Compile Include="Core\CommandMessages\ShowFolderEditorMessage.cs" />
-    <Compile Include="Core\CommandMessages\ShowDebugMessage.cs" />
-    <Compile Include="Core\CommandMessages\ShowNoteEditorMessage.cs" />
-    <Compile Include="Core\CommandMessages\ShowSettingsMessage.cs" />
+    <Compile Include="Core\Messages\ShowFolderEditorMessage.cs" />
+    <Compile Include="Core\Messages\ShowDebugMessage.cs" />
+    <Compile Include="Core\Messages\ShowNoteEditorMessage.cs" />
+    <Compile Include="Core\Messages\ShowSettingsMessage.cs" />
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="Core\UIHost.cs" />
     <Compile Include="Common\UI\AnimationInfo.cs" />
@@ -304,9 +304,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\EventMessages\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

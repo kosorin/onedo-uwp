@@ -4,7 +4,7 @@ using OneDo.Application.Commands.Folders;
 using OneDo.Application.Models;
 using OneDo.Application.Queries.Folders;
 using OneDo.Common.Extensions;
-using OneDo.Core.CommandMessages;
+using OneDo.Core.Messages;
 using OneDo.Services.ProgressService;
 using System;
 using System.Collections.Generic;

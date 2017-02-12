@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneDo.Core.CommandMessages
+namespace OneDo.Core.Messages
 {
-    public class ShowDebugMessage : MessageBase
+    public class ShowSettingsMessage : MessageBase
     {
     }
 }

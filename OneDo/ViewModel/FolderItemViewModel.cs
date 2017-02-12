@@ -4,7 +4,7 @@ using OneDo.Common.Extensions;
 using Windows.UI;
 using System.Threading.Tasks;
 using OneDo.Application.Commands.Folders;
-using OneDo.Core.CommandMessages;
+using OneDo.Core.Messages;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core;
 using OneDo.Application;
