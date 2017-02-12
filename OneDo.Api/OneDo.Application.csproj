@@ -113,6 +113,7 @@
     <Compile Include="Commands\Folders\SaveFolderCommand.cs" />
     <Compile Include="Commands\Notes\DeleteNoteCommand.cs" />
     <Compile Include="Commands\NoteCommandHandler.cs" />
+    <Compile Include="Commands\Notes\MoveNoteToFolderCommand.cs" />
     <Compile Include="Commands\Notes\SaveNoteCommand.cs" />
     <Compile Include="Commands\Notes\SetNoteFlagCommand.cs" />
     <Compile Include="Common\IModel.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Events\Notes\NoteAddedEvent.cs" />
     <Compile Include="Events\Notes\NoteDeletedEvent.cs" />
     <Compile Include="Events\Notes\NoteFlagChangedEvent.cs" />
+    <Compile Include="Events\Notes\NoteMovedToFolderEvent.cs" />
     <Compile Include="Events\Notes\NoteUpdatedEvent.cs" />
     <Compile Include="IApi.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />

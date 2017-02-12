@@ -90,13 +90,17 @@ namespace OneDo.ViewModel
 
         public bool HasReminder => Reminder != null;
 
+
         public IExtendedCommand ToggleFlagCommand { get; }
+
+        public IExtendedCommand MoveToFolderCommand { get; }
 
 
         public NoteItemViewModel(NoteModel model, IApi api, UIHost uiHost) : base(model.Id, api, uiHost)
         {
             FolderId = model.FolderId;
             ToggleFlagCommand = new AsyncRelayCommand(ToggleFlag);
+            MoveToFolderCommand = new AsyncRelayCommand<Guid>(MoveToFolder);
 
             Update(model);
 
@@ -134,6 +138,14 @@ namespace OneDo.ViewModel
             await UIHost.ProgressService.RunAsync(async () =>
             {
                 await Api.CommandBus.Execute(new SetNoteFlagCommand(Id, !IsFlagged));
+            });
+        }
+
+        private async Task MoveToFolder(Guid folderId)
+        {
+            await UIHost.ProgressService.RunAsync(async () =>
+            {
+                await Api.CommandBus.Execute(new MoveNoteToFolderCommand(Id, folderId));
             });
         }
     }

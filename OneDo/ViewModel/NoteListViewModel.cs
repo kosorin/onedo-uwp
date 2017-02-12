@@ -29,6 +29,7 @@ namespace OneDo.ViewModel
 
             Api.EventBus.Subscribe<NoteAddedEvent>(Note_Added, x => x.Model.FolderId == FolderList.SelectedItem?.Id);
             Api.EventBus.Subscribe<NoteUpdatedEvent>(Note_Updated, x => x.Model.FolderId != FolderList.SelectedItem?.Id);
+            Api.EventBus.Subscribe<NoteMovedToFolderEvent>(Note_MovedToFolder, x => x.FolderId != FolderList.SelectedItem?.Id);
             Api.EventBus.Subscribe<NoteDeletedEvent>(Note_Deleted);
         }
 
@@ -73,6 +74,11 @@ namespace OneDo.ViewModel
         private void Note_Updated(NoteUpdatedEvent @event)
         {
             Items.Remove(Items.FirstOrDefault(x => x.Id == @event.Model.Id));
+        }
+
+        private void Note_MovedToFolder(NoteMovedToFolderEvent @event)
+        {
+            Items.Remove(Items.FirstOrDefault(x => x.Id == @event.Id));
         }
 
         private void Note_Deleted(NoteDeletedEvent @event)

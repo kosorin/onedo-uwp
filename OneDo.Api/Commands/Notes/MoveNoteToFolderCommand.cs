@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application.Commands.Notes
 {
-    public class SetNoteFlagCommand : ICommand
+    public class MoveNoteToFolderCommand : ICommand
     {
-        public SetNoteFlagCommand(Guid id, bool isFlagged)
+        public MoveNoteToFolderCommand(Guid id, Guid folderId)
         {
             Id = id;
-            IsFlagged = isFlagged;
+            FolderId = folderId;
         }
 
         public Guid Id { get; }
 
-        public bool IsFlagged { get; }
+        public Guid FolderId { get; }
     }
 }

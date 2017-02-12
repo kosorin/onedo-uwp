@@ -30,12 +30,12 @@ namespace OneDo.View
             var note = FlyoutMenuItemBehavior.GetSubItemContext(rootItem) as NoteItemViewModel;
 
             rootItem.Items.Clear();
-            foreach (var folder in VM.FolderList.Items)
+            foreach (var folder in VM.FolderList.Items.Where(x => x.Id != note.FolderId))
             {
                 var item = new MenuFlyoutItem
                 {
-                    //Command = new AsyncRelayCommand(() => VM.FolderList.Move(folder, note)),
-                    Command = new RelayCommand(() => { }),
+                    Command = note.MoveToFolderCommand,
+                    CommandParameter = folder.Id,
                 };
 
                 BindingOperations.SetBinding(item, MenuFlyoutItem.TextProperty, new Binding

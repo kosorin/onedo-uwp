@@ -17,6 +17,7 @@ namespace OneDo.Application.Commands
 {
     public class NoteCommandHandler :
         ICommandHandler<SaveNoteCommand>,
+        ICommandHandler<MoveNoteToFolderCommand>,
         ICommandHandler<SetNoteFlagCommand>,
         ICommandHandler<DeleteNoteCommand>
     {
@@ -50,6 +51,17 @@ namespace OneDo.Application.Commands
                 note = new Note(model.Id, model.FolderId, model.Title, model.Text, model.Date, model.Reminder, model.IsFlagged);
                 await noteRepository.Add(note);
                 eventBus.Publish(new NoteAddedEvent(model));
+            }
+        }
+
+        public async Task Handle(MoveNoteToFolderCommand command)
+        {
+            var note = await noteRepository.Get(command.Id);
+            if (note != null)
+            {
+                note.MoveToFolder(command.FolderId);
+                await noteRepository.Update(note);
+                eventBus.Publish(new NoteMovedToFolderEvent(note.Id, note.FolderId));
             }
         }
 

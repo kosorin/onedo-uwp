@@ -10,16 +10,16 @@ using TinyMessenger;
 
 namespace OneDo.Application.Events.Notes
 {
-    public class NoteFlagChangedEvent : IEvent
+    public class NoteMovedToFolderEvent : IEvent
     {
-        public NoteFlagChangedEvent(Guid id, bool isFlagged)
+        public NoteMovedToFolderEvent(Guid id, Guid folderId)
         {
             Id = id;
-            IsFlagged = isFlagged;
+            FolderId = folderId;
         }
 
         public Guid Id { get; }
 
-        public bool IsFlagged { get; }
+        public Guid FolderId { get; }
     }
 }
