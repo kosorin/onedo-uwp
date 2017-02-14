@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OneDo.Common.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,7 +58,7 @@ namespace OneDo.Domain.Common
 
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return this.GetHashCodeFromFields(Id);
         }
 
         public static bool operator ==(Entity a, Entity b)

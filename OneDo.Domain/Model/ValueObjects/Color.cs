@@ -1,4 +1,5 @@
-﻿using OneDo.Domain.Common;
+﻿using OneDo.Common.Extensions;
+using OneDo.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace OneDo.Domain.Model.ValueObjects
 
         protected override int GetHashCodeCore()
         {
-            return Hex.GetHashCode();
+            return this.GetHashCodeFromFields(Hex);
         }
     }
 }
