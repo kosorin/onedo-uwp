@@ -110,7 +110,6 @@
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Common\IAggreagteRoot.cs" />
     <Compile Include="Common\IRepository.cs" />
-    <Compile Include="Model\DaysOfWeek.cs" />
     <Compile Include="Model\ValueObjects\DailyRecurrence.cs" />
     <Compile Include="Model\ValueObjects\MonthlyRecurrence.cs" />
     <Compile Include="Model\ValueObjects\Recurrence.cs" />
