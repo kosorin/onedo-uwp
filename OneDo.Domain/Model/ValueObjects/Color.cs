@@ -16,11 +16,6 @@ namespace OneDo.Domain.Model.ValueObjects
             Hex = hex;
         }
 
-        public override string ToString()
-        {
-            return Hex;
-        }
-
         protected override bool EqualsCore(Color other)
         {
             return Hex == other.Hex;
