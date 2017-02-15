@@ -13,6 +13,19 @@ namespace OneDo.Domain.Model.ValueObjects
         {
         }
 
+        public override IEnumerable<DateTime> GetOccurrences(DateTime from)
+        {
+            var skip = 0;
+            var occurrence = from;
+            while (occurrence <= ActualUntil)
+            {
+                yield return occurrence;
+                skip += Every;
+                occurrence = from.AddMonths(skip);
+            }
+            yield break;
+        }
+
         protected override bool EqualsCore(Recurrence other)
         {
             var monthly = other as WeeklyRecurrence;

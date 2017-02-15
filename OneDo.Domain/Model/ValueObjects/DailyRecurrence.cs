@@ -13,6 +13,17 @@ namespace OneDo.Domain.Model.ValueObjects
         {
         }
 
+        public override IEnumerable<DateTime> GetOccurrences(DateTime from)
+        {
+            var occurrence = from;
+            while (occurrence <= ActualUntil)
+            {
+                yield return occurrence;
+                occurrence = occurrence.AddDays(Every);
+            }
+            yield break;
+        }
+
         protected override bool EqualsCore(Recurrence other)
         {
             var daily = other as DailyRecurrence;

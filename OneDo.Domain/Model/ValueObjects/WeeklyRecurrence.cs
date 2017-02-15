@@ -17,6 +17,27 @@ namespace OneDo.Domain.Model.ValueObjects
             DaysOfWeek = daysOfWeek;
         }
 
+        public override IEnumerable<DateTime> GetOccurrences(DateTime from)
+        {
+            var occurrence = from;
+            while (true)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    if (occurrence > ActualUntil)
+                    {
+                        yield break;
+                    }
+                    if (occurrence.DayOfWeek.IsIn(DaysOfWeek))
+                    {
+                        yield return occurrence;
+                    }
+                    occurrence = occurrence.AddDays(1);
+                }
+                occurrence = occurrence.AddDays(7 * (Every - 1));
+            }
+        }
+
         protected override bool EqualsCore(Recurrence other)
         {
             var weekly = other as WeeklyRecurrence;
