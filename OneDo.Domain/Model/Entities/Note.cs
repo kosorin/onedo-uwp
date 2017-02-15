@@ -1,4 +1,5 @@
 ﻿using OneDo.Domain.Common;
+using OneDo.Domain.Model.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,18 @@ namespace OneDo.Domain.Model.Entities
 
         public TimeSpan? Reminder { get; private set; }
 
+        public Recurrence Recurrence { get; private set; }
+
         public bool IsFlagged { get; private set; }
 
-        public Note(Guid id, Guid folderId, string title, string text, DateTime? date, TimeSpan? reminder, bool isFlagged) : base(id)
+        public Note(Guid id, Guid folderId, string title, string text, DateTime? date, TimeSpan? reminder, Recurrence recurrence, bool isFlagged) : base(id)
         {
             MoveToFolder(folderId);
             ChangeTitle(title);
             ChangeText(text);
             ChangeDate(date);
             ChangeReminder(reminder);
+            ChangeRecurrence(recurrence);
             SetFlag(isFlagged);
         }
 
@@ -75,18 +79,38 @@ namespace OneDo.Domain.Model.Entities
             }
         }
 
+        public void ChangeRecurrence(Recurrence recurrence)
+        {
+            if (Reminder != null)
+            {
+                Recurrence = recurrence;
+            }
+            else
+            {
+                Recurrence = null;
+            }
+        }
+
         public void SetFlag(bool isFlagged)
         {
             IsFlagged = isFlagged;
         }
 
-        public IEnumerable<DateTimeOffset> GetReminders()
+        public IEnumerable<DateTime> GetReminderOccurrences()
         {
             if (Reminder != null)
             {
-                yield return (DateTime)(Date + Reminder);
+                var dateTime = (DateTime)(Date + Reminder);
+                if (Recurrence != null)
+                {
+                    return Recurrence.GetOccurrences(dateTime);
+                }
+                else
+                {
+                    return new[] { dateTime };
+                }
             }
-            yield break;
+            return Enumerable.Empty<DateTime>();
         }
     }
 }

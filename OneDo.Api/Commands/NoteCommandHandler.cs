@@ -59,7 +59,7 @@ namespace OneDo.Application.Commands
             }
             else
             {
-                note = new Note(model.Id, model.FolderId, model.Title, model.Text, model.Date, model.Reminder, model.IsFlagged);
+                note = new Note(model.Id, model.FolderId, model.Title, model.Text, model.Date, model.Reminder, null, model.IsFlagged);
                 await noteRepository.Add(note);
                 notificationService.Schedule(note);
                 eventBus.Publish(new NoteAddedEvent(model));

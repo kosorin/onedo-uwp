@@ -68,7 +68,7 @@ namespace OneDo.Application.Repositories
 
         private Note Map(NoteData noteData)
         {
-            return new Note(noteData.Id, noteData.FolderId, noteData.Title, noteData.Text, noteData.Date, noteData.Reminder, noteData.IsFlagged);
+            return new Note(noteData.Id, noteData.FolderId, noteData.Title, noteData.Text, noteData.Date, noteData.Reminder, null, noteData.IsFlagged);
         }
     }
 }

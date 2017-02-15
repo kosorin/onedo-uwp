@@ -29,17 +29,17 @@ namespace OneDo.Application.Notifications
 
         public void Schedule(Note note)
         {
-            foreach (var dateTime in note.GetReminders())
+            foreach (var occurrence in note.GetReminderOccurrences())
             {
                 var group = GetGroup(note.Id);
-                if (dateTime < DateTime.Now.AddSeconds(5))
+                if (occurrence < DateTime.Now.AddSeconds(5))
                 {
-                    Logger.Current.Warn($"Cannot schedule '{group}' on {dateTime} - it's in the past");
+                    Logger.Current.Warn($"Cannot schedule '{group}' on {occurrence} - it's in the past");
                     continue;
                 }
 
                 var content = contentBuilder.Build(note);
-                var toast = new ScheduledToastNotification(content, dateTime);
+                var toast = new ScheduledToastNotification(content, occurrence);
                 toast.Group = group;
 
                 Logger.Current.Info($"Add to schedule '{toast.Group}.{toast.Tag}' on {toast.DeliveryTime}");
