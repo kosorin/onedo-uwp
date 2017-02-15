@@ -20,7 +20,7 @@ namespace OneDo.Domain.Model.ValueObjects
 
         public bool IsForever { get; }
 
-        public Recurrence(int every, DateTime? until)
+        protected Recurrence(int every, DateTime? until)
         {
             if (every < 1)
             {
