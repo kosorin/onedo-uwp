@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyMessenger", "..\TinyMessenger\src\TinyMessenger\TinyMessenger\TinyMessenger.csproj", "{970941C1-0634-4993-9EB0-DC2873FEAEF4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{18948B8F-C135-4F02-AE2D-63DFA91B1082}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDo.Domain.Tests", "OneDo.Domain.Tests\OneDo.Domain.Tests.csproj", "{F0A03F60-00B7-4ADD-81B5-60816FEEB730}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,11 +137,32 @@ Global
 		{970941C1-0634-4993-9EB0-DC2873FEAEF4}.Release|x64.Build.0 = Release|x64
 		{970941C1-0634-4993-9EB0-DC2873FEAEF4}.Release|x86.ActiveCfg = Release|x86
 		{970941C1-0634-4993-9EB0-DC2873FEAEF4}.Release|x86.Build.0 = Release|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|ARM.Build.0 = Debug|ARM
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|ARM.Deploy.0 = Debug|ARM
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|x64.ActiveCfg = Debug|x64
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|x64.Build.0 = Debug|x64
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|x64.Deploy.0 = Debug|x64
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|x86.ActiveCfg = Debug|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|x86.Build.0 = Debug|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Debug|x86.Deploy.0 = Debug|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|Any CPU.ActiveCfg = Release|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|ARM.ActiveCfg = Release|ARM
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|ARM.Build.0 = Release|ARM
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|ARM.Deploy.0 = Release|ARM
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|x64.ActiveCfg = Release|x64
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|x64.Build.0 = Release|x64
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|x64.Deploy.0 = Release|x64
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|x86.ActiveCfg = Release|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|x86.Build.0 = Release|x86
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{970941C1-0634-4993-9EB0-DC2873FEAEF4} = {2ACFFBA3-C94B-480A-A530-767F6A226938}
+		{F0A03F60-00B7-4ADD-81B5-60816FEEB730} = {18948B8F-C135-4F02-AE2D-63DFA91B1082}
 	EndGlobalSection
 EndGlobal
