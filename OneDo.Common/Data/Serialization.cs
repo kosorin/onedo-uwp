@@ -8,6 +8,18 @@ namespace OneDo.Common.Data
 {
     public static class Serialization
     {
+        private static JsonSerializerSettings settings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.Objects,
+            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+#if DEBUG
+            Formatting = Formatting.Indented
+#else
+                Formatting = Formatting.None
+#endif
+        };
+
+
         public static async Task SerializeToFileAsync<T>(T value, string fileName, StorageFolder folder)
         {
             var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
@@ -26,21 +38,12 @@ namespace OneDo.Common.Data
 
         public static string Serialize<T>(T item)
         {
-            return JsonConvert.SerializeObject(item, new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-#if DEBUG
-                Formatting = Formatting.Indented
-#else
-                Formatting = Formatting.None
-#endif
-            });
+            return JsonConvert.SerializeObject(item, settings);
         }
 
         public static T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
     }
 }
