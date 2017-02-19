@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OneDo.Common.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,21 @@ namespace OneDo.Domain.Common
 {
     public abstract class ValueObject<T> : IEquatable<T> where T : ValueObject<T>
     {
+        public static T Load(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            return Serialization.Deserialize<T>(json);
+        }
+
+        public string Save()
+        {
+            return Serialization.Serialize(this);
+        }
+
+
         public bool Equals(T other)
         {
             if (ReferenceEquals(other, null))

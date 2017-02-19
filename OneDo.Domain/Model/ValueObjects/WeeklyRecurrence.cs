@@ -1,4 +1,5 @@
-﻿using OneDo.Common;
+﻿using Newtonsoft.Json;
+using OneDo.Common;
 using OneDo.Common.Extensions;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace OneDo.Domain.Model.ValueObjects
     {
         public DaysOfWeek DaysOfWeek { get; }
 
+        [JsonConstructor]
         public WeeklyRecurrence(DaysOfWeek daysOfWeek, int every, DateTime? until) : base(every, until)
         {
             DaysOfWeek = daysOfWeek;

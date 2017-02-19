@@ -1,8 +1,10 @@
-﻿using OneDo.Common.Extensions;
+﻿using Newtonsoft.Json;
+using OneDo.Common.Extensions;
 using OneDo.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,8 +18,10 @@ namespace OneDo.Domain.Model.ValueObjects
 
         public DateTime? Until { get; }
 
+        [JsonIgnore]
         public DateTime ActualUntil { get; }
 
+        [JsonIgnore]
         public bool IsForever { get; }
 
         protected Recurrence(int every, DateTime? until)

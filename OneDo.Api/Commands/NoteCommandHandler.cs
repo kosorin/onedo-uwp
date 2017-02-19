@@ -14,6 +14,9 @@ using OneDo.Application.Commands.Notes;
 using OneDo.Application.Events.Notes;
 using OneDo.Application.Notifications;
 using OneDo.Common.Logging;
+using OneDo.Domain.Model.ValueObjects;
+using OneDo.Common;
+using OneDo.Application.Models;
 
 namespace OneDo.Application.Commands
 {
@@ -53,13 +56,14 @@ namespace OneDo.Application.Commands
                 note.ChangeDate(model.Date);
                 note.ChangeReminder(model.Reminder);
                 note.SetFlag(model.IsFlagged);
+
                 await noteRepository.Update(note);
                 notificationService.Reschedule(note);
                 eventBus.Publish(new NoteUpdatedEvent(model));
             }
             else
             {
-                note = new Note(model.Id, model.FolderId, model.Title, model.Text, model.Date, model.Reminder, null, model.IsFlagged);
+                note = model.ToEntity();
                 await noteRepository.Add(note);
                 notificationService.Schedule(note);
                 eventBus.Publish(new NoteAddedEvent(model));

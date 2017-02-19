@@ -25,7 +25,7 @@ namespace OneDo.Application.Queries.Folders
             var folderData = await folderRepository.Get(id);
             if (folderData != null)
             {
-                return Map(folderData);
+                return FolderModel.FromData(folderData);
             }
             else
             {
@@ -36,18 +36,7 @@ namespace OneDo.Application.Queries.Folders
         public async Task<IList<FolderModel>> GetAll()
         {
             var folderDatas = await folderRepository.GetAll();
-            return folderDatas.Select(Map).ToList();
-        }
-
-
-        private FolderModel Map(FolderData folderData)
-        {
-            return new FolderModel
-            {
-                Id = folderData.Id,
-                Name = folderData.Name,
-                Color = folderData.Color,
-            };
+            return folderDatas.Select(FolderModel.FromData).ToList();
         }
     }
 }

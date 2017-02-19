@@ -60,12 +60,13 @@ namespace OneDo.Application.Commands
             {
                 folder.ChangeName(model.Name);
                 folder.ChangeColor(new Color(model.Color));
+
                 await folderRepository.Update(folder);
                 eventBus.Publish(new FolderUpdatedEvent(model));
             }
             else
             {
-                folder = new Folder(model.Id, model.Name, new Color(model.Color));
+                folder = model.ToEntity();
                 await folderRepository.Add(folder);
                 eventBus.Publish(new FolderAddedEvent(model));
             }

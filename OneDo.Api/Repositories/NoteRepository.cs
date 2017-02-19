@@ -26,7 +26,7 @@ namespace OneDo.Application.Repositories
             var noteData = await noteRepository.Get(id);
             if (noteData != null)
             {
-                return Map(noteData);
+                return noteData.ToEntity();
             }
             else
             {
@@ -36,39 +36,19 @@ namespace OneDo.Application.Repositories
 
         public async Task Add(Note note)
         {
-            var noteData = Map(note);
+            var noteData = NoteData.FromEntity(note);
             await noteRepository.Add(noteData);
         }
 
         public async Task Update(Note note)
         {
-            var noteData = Map(note);
+            var noteData = NoteData.FromEntity(note);
             await noteRepository.Update(noteData);
         }
 
         public async Task Delete(Guid id)
         {
             await noteRepository.Delete(id);
-        }
-
-
-        private NoteData Map(Note note)
-        {
-            return new NoteData
-            {
-                Id = note.Id,
-                FolderId = note.FolderId,
-                Title = note.Title,
-                Text = note.Text,
-                Date = note.Date,
-                Reminder = note.Reminder,
-                IsFlagged = note.IsFlagged,
-            };
-        }
-
-        private Note Map(NoteData noteData)
-        {
-            return new Note(noteData.Id, noteData.FolderId, noteData.Title, noteData.Text, noteData.Date, noteData.Reminder, null, noteData.IsFlagged);
         }
     }
 }

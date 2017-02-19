@@ -129,6 +129,11 @@
     <Compile Include="Events\Notes\NoteMovedToFolderEvent.cs" />
     <Compile Include="Events\Notes\NoteUpdatedEvent.cs" />
     <Compile Include="IApi.cs" />
+    <Compile Include="Models\DailyRecurrenceModel.cs" />
+    <Compile Include="Models\DaysOfWeekRecurrenceModel.cs" />
+    <Compile Include="Models\MonthlyRecurrenceModel.cs" />
+    <Compile Include="Models\RecurrenceModel.cs" />
+    <Compile Include="Models\WeeklyRecurrenceModel.cs" />
     <Compile Include="Notifications\ContentBuilder.cs" />
     <Compile Include="Notifications\INotificationService.cs" />
     <Compile Include="Notifications\NotificationService.cs" />

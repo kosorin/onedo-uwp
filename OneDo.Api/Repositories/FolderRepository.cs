@@ -29,7 +29,7 @@ namespace OneDo.Application.Repositories
             var folderData = await folderRepository.Get(id);
             if (folderData != null)
             {
-                return Map(folderData);
+                return folderData.ToEntity();
             }
             else
             {
@@ -39,13 +39,13 @@ namespace OneDo.Application.Repositories
 
         public async Task Add(Folder folder)
         {
-            var folderData = Map(folder);
+            var folderData = FolderData.FromEntity(folder);
             await folderRepository.Add(folderData);
         }
 
         public async Task Update(Folder folder)
         {
-            var folderData = Map(folder);
+            var folderData = FolderData.FromEntity(folder);
             await folderRepository.Update(folderData);
         }
 
@@ -53,22 +53,6 @@ namespace OneDo.Application.Repositories
         {
             await noteRepository.DeleteAll(x => x.FolderId == id);
             await folderRepository.Delete(id);
-        }
-
-
-        private FolderData Map(Folder folder)
-        {
-            return new FolderData
-            {
-                Id = folder.Id,
-                Name = folder.Name,
-                Color = folder.Color.Hex,
-            };
-        }
-
-        private Folder Map(FolderData folderData)
-        {
-            return new Folder(folderData.Id, folderData.Name, new Color(folderData.Color));
         }
     }
 }

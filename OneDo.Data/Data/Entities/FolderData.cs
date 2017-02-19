@@ -1,4 +1,6 @@
-﻿using SQLite.Net.Attributes;
+﻿using OneDo.Domain.Model.Entities;
+using OneDo.Domain.Model.ValueObjects;
+using SQLite.Net.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,5 +22,21 @@ namespace OneDo.Infrastructure.Data.Entities
 
         [NotNull]
         public string Color { get; set; }
+
+
+        public Folder ToEntity()
+        {
+            return new Folder(Id, Name, new Color(Color));
+        }
+
+        public static FolderData FromEntity(Folder folder)
+        {
+            return new FolderData
+            {
+                Id = folder.Id,
+                Name = folder.Name,
+                Color = folder.Color.Hex,
+            };
+        }
     }
 }

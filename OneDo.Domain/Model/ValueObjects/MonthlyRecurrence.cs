@@ -1,4 +1,5 @@
-﻿using OneDo.Common.Extensions;
+﻿using Newtonsoft.Json;
+using OneDo.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace OneDo.Domain.Model.ValueObjects
 {
     public class MonthlyRecurrence : Recurrence
     {
+        [JsonConstructor]
         public MonthlyRecurrence(int every, DateTime? until) : base(every, until)
         {
         }

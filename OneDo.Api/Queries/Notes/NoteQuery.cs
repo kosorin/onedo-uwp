@@ -1,4 +1,5 @@
 ﻿using OneDo.Application.Models;
+using OneDo.Domain.Model.ValueObjects;
 using OneDo.Infrastructure.Data.Entities;
 using OneDo.Infrastructure.Data.Repositories;
 using System;
@@ -23,7 +24,7 @@ namespace OneDo.Application.Queries.Notes
             var noteData = await noteRepository.Get(id);
             if (noteData != null)
             {
-                return Map(noteData);
+                return NoteModel.FromData(noteData);
             }
             else
             {
@@ -34,28 +35,13 @@ namespace OneDo.Application.Queries.Notes
         public async Task<IList<NoteModel>> GetAll()
         {
             var noteDatas = await noteRepository.GetAll();
-            return noteDatas.Select(Map).ToList();
+            return noteDatas.Select(NoteModel.FromData).ToList();
         }
 
         public async Task<IList<NoteModel>> GetAll(Guid folderId)
         {
             var noteDatas = await noteRepository.GetAll(x => x.FolderId == folderId);
-            return noteDatas.Select(Map).ToList();
-        }
-
-
-        private NoteModel Map(NoteData noteData)
-        {
-            return new NoteModel
-            {
-                Id = noteData.Id,
-                FolderId = noteData.FolderId,
-                Title = noteData.Title,
-                Text = noteData.Text,
-                Date = noteData.Date,
-                Reminder = noteData.Reminder,
-                IsFlagged = noteData.IsFlagged,
-            };
+            return noteDatas.Select(NoteModel.FromData).ToList();
         }
     }
 }
