@@ -20,21 +20,34 @@ namespace OneDo.Domain.Model.ValueObjects
         public override IEnumerable<DateTime> GetOccurrences(DateTime from)
         {
             var occurrence = from;
-            while (true)
+
+            if (DaysOfWeek == DaysOfWeek.None)
             {
-                for (int i = 0; i < 7; i++)
+                while (occurrence <= ActualUntil)
                 {
-                    if (occurrence > ActualUntil)
-                    {
-                        yield break;
-                    }
-                    if (occurrence.DayOfWeek.IsIn(DaysOfWeek))
-                    {
-                        yield return occurrence;
-                    }
-                    occurrence = occurrence.AddDays(1);
+                    yield return occurrence;
+                    occurrence = occurrence.AddDays(Every * 7);
                 }
-                occurrence = occurrence.AddDays(7 * (Every - 1));
+                yield break;
+            }
+            else
+            {
+                while (true)
+                {
+                    for (int i = 0; i < 7; i++)
+                    {
+                        if (occurrence > ActualUntil)
+                        {
+                            yield break;
+                        }
+                        if (occurrence.DayOfWeek.IsIn(DaysOfWeek))
+                        {
+                            yield return occurrence;
+                        }
+                        occurrence = occurrence.AddDays(1);
+                    }
+                    occurrence = occurrence.AddDays(7 * (Every - 1));
+                }
             }
         }
 

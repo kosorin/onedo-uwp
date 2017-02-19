@@ -121,5 +121,20 @@ namespace OneDo.Domain.Tests.Model.ValueObjects
                 from.AddDays(10),
             }, occurrences);
         }
+
+        [TestMethod]
+        public void GetOccurrences_NoneDaysOfWeek()
+        {
+            var recurrence = new WeeklyRecurrence(DaysOfWeek.None, 2, null);
+            var occurrences = recurrence.GetOccurrences(from).Take(4).ToList();
+
+            CollectionAssert.AreEqual(new[]
+            {
+                from.AddDays(0),
+                from.AddDays(14),
+                from.AddDays(28),
+                from.AddDays(42),
+            }, occurrences);
+        }
     }
 }
