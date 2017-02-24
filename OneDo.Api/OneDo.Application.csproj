@@ -118,6 +118,7 @@
     <Compile Include="Commands\Notes\SetNoteFlagCommand.cs" />
     <Compile Include="Common\IModel.cs" />
     <Compile Include="Common\IEvent.cs" />
+    <Compile Include="Common\IValueModel.cs" />
     <Compile Include="Core\CommandBus.cs" />
     <Compile Include="Core\EventBus.cs" />
     <Compile Include="Events\Folders\FolderDeletedEvent.cs" />
