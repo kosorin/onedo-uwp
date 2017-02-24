@@ -28,11 +28,11 @@ namespace OneDo.Domain.Model.ValueObjects
 
         protected override bool EqualsCore(Recurrence other)
         {
-            var daily = other as DailyRecurrence;
-            if (daily != null)
+            var dailyRecurrence = other as DailyRecurrence;
+            if (dailyRecurrence != null)
             {
-                return Every == daily.Every
-                    && Until == daily.Until;
+                return Every == dailyRecurrence.Every
+                    && Until == dailyRecurrence.Until;
             }
             else
             {

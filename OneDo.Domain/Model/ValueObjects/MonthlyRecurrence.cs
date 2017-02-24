@@ -30,11 +30,11 @@ namespace OneDo.Domain.Model.ValueObjects
 
         protected override bool EqualsCore(Recurrence other)
         {
-            var monthly = other as WeeklyRecurrence;
-            if (monthly != null)
+            var monthlyRecurrence = other as WeeklyRecurrence;
+            if (monthlyRecurrence != null)
             {
-                return Every == monthly.Every
-                    && Until == monthly.Until;
+                return Every == monthlyRecurrence.Every
+                    && Until == monthlyRecurrence.Until;
             }
             else
             {

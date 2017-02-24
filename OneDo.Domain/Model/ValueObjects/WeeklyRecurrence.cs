@@ -55,12 +55,12 @@ namespace OneDo.Domain.Model.ValueObjects
 
         protected override bool EqualsCore(Recurrence other)
         {
-            var weekly = other as WeeklyRecurrence;
-            if (weekly != null)
+            var weeklyRecurrence = other as WeeklyRecurrence;
+            if (weeklyRecurrence != null)
             {
-                return Every == weekly.Every
-                    && Until == weekly.Until
-                    && DaysOfWeek == weekly.DaysOfWeek;
+                return Every == weeklyRecurrence.Every
+                    && Until == weeklyRecurrence.Until
+                    && DaysOfWeek == weeklyRecurrence.DaysOfWeek;
             }
             else
             {
