@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Data\Serialization.cs" />
     <Compile Include="DaysOfWeek.cs" />
+    <Compile Include="Equatable.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
