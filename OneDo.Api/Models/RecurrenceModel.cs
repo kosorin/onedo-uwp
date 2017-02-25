@@ -1,4 +1,6 @@
-﻿using OneDo.Common;
+﻿using OneDo.Application.Common;
+using OneDo.Common;
+using OneDo.Common.Extensions;
 using OneDo.Domain.Model.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -8,23 +10,17 @@ using System.Threading.Tasks;
 
 namespace OneDo.Application.Models
 {
-    public abstract class RecurrenceModel
+    public abstract class RecurrenceModel : Equatable<RecurrenceModel>, IValueModel
     {
-        public int Every { get; set; }
-
-        public DateTime? Until { get; set; }
-
-
         internal abstract Recurrence ToEntity();
 
-        internal static RecurrenceModel FromData(string recurrenceJson)
+        internal static RecurrenceModel FromData(Recurrence recurrenceValueObject)
         {
-            var recurrenceValueObject = Recurrence.Load(recurrenceJson);
             if (recurrenceValueObject == null)
             {
-                return null;
+                return new OnceRecurrenceModel();
             }
-            if (recurrenceValueObject is DailyRecurrence)
+            else if (recurrenceValueObject is DailyRecurrence)
             {
                 return new DailyRecurrenceModel
                 {
@@ -37,7 +33,6 @@ namespace OneDo.Application.Models
                 var weeklyRecurrenceValueObject = (WeeklyRecurrence)recurrenceValueObject;
                 if (weeklyRecurrenceValueObject.DaysOfWeek == DaysOfWeek.None)
                 {
-
                     return new WeeklyRecurrenceModel
                     {
                         Every = weeklyRecurrenceValueObject.Every,

@@ -11,7 +11,6 @@
              xmlns:im="using:Microsoft.Xaml.Interactions.Media"
              xmlns:v="using:OneDo.View"
              xmlns:vm="using:OneDo.ViewModel"
-             xmlns:vmItems="using:OneDo.ViewModel.Items"
              x:Name="Root"
              d:DesignHeight="640"
              d:DesignWidth="360"
@@ -193,7 +192,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="ClearPickerButtonStyle" TargetType="Button">
+        <Style x:Key="TagPickerButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
             <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
@@ -215,7 +214,7 @@
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                       FontSize="12"
-                                      Glyph="&#xE894;" />
+                                      Glyph="{TemplateBinding Tag}" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -242,7 +241,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="FolderComboBoxStyle" TargetType="ComboBox">
+        <Style x:Key="PickerComboBoxStyle" TargetType="ComboBox">
             <Setter Property="Height" Value="32" />
             <Setter Property="Padding" Value="0,5,0,7" />
             <Setter Property="Foreground" Value="{ThemeResource ComboBoxForeground}" />
@@ -336,7 +335,7 @@
                                       Grid.Column="0"
                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                       FontSize="16"
-                                      Glyph="&#xE8B7;" />
+                                      Glyph="{TemplateBinding Tag}" />
                             <FontIcon x:Name="DropDownGlyph"
                                       Grid.Row="1"
                                       Grid.Column="2"
@@ -472,51 +471,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="PickerFlyoutPresenterStyle" TargetType="FlyoutPresenter">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Stretch" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
-            <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxWidth}" />
-            <Setter Property="MinHeight" Value="{ThemeResource FlyoutThemeMinHeight}" />
-            <Setter Property="MaxHeight" Value="{ThemeResource FlyoutThemeMaxHeight}" />
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="FlyoutPresenter">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer x:Name="ScrollViewer"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}" />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
     </v:ModalView.Resources>
 
     <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -554,9 +508,10 @@
 
                 <!--  Folder  -->
                 <ComboBox Margin="0,8"
-                          Style="{StaticResource FolderComboBoxStyle}"
+                          Style="{StaticResource PickerComboBoxStyle}"
                           ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
-                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
+                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                          Tag="&#xE8B7;">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:FolderItemViewModel">
                             <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
@@ -565,44 +520,31 @@
                 </ComboBox>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
-
-
-                <!--  Date & Reminder  -->
+                <!--  Reminder  -->
                 <StackPanel Margin="0,8">
-                    <Grid x:Name="DatePickerGrid">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="DateButton"
-                                Style="{StaticResource PickerButtonStyle}"
-                                Foreground="{x:Bind VM.Date, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
-                                Content="{x:Bind VM.DateText, Mode=OneWay}"
-                                Tag="&#xE787;"
-                                Tapped="DateButton_Tapped" />
+                        <ComboBox Style="{StaticResource PickerComboBoxStyle}"
+                                  ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
+                                  SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                                  Tag="&#xE787;" />
                         <Button Grid.Column="1"
-                                Style="{StaticResource ClearPickerButtonStyle}"
-                                Command="{x:Bind VM.ClearDateCommand, Mode=OneWay}"
-                                Visibility="{x:Bind VM.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
+                                Style="{StaticResource TagPickerButtonStyle}"
+                                Tag="&#xE894;" />
                     </Grid>
-                    <Grid x:Name="ReminderPickerGrid"
-                          Margin="0,8,0,0"
-                          Visibility="{x:Bind VM.Date, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="ReminderButton"
-                                Style="{StaticResource PickerButtonStyle}"
-                                Foreground="{x:Bind VM.Reminder, Mode=OneWay, Converter={StaticResource PickerForegroundConverter}}"
-                                Content="{x:Bind VM.ReminderText, Mode=OneWay}"
-                                Tag="&#xEA8F;"
-                                Tapped="ReminderButton_Tapped" />
-                        <Button Grid.Column="1"
-                                Style="{StaticResource ClearPickerButtonStyle}"
-                                Command="{x:Bind VM.ClearReminderCommand, Mode=OneWay}"
-                                Visibility="{x:Bind VM.Reminder, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
-                    </Grid>
+                    <ComboBox Margin="0,8,0,0"
+                              Style="{StaticResource PickerComboBoxStyle}"
+                              ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
+                              SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                              Tag="&#xE121;" />
+                    <ComboBox Margin="0,8,0,0"
+                              Style="{StaticResource PickerComboBoxStyle}"
+                              ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
+                              SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                              Tag="&#xE149;" />
                 </StackPanel>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
@@ -650,8 +592,6 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
-
-        <v:ModalContainer x:Name="ModalContainer" Grid.RowSpan="2" />
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">

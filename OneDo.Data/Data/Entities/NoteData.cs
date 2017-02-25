@@ -3,7 +3,7 @@ using SQLite.Net.Attributes;
 using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using RecurrenceVO = OneDo.Domain.Model.ValueObjects.Recurrence;
+using ReminderVO = OneDo.Domain.Model.ValueObjects.Reminder;
 
 namespace OneDo.Infrastructure.Data.Entities
 {
@@ -11,7 +11,7 @@ namespace OneDo.Infrastructure.Data.Entities
     [Table("Notes")]
     public class NoteData : IEntityData
     {
-        [PrimaryKey, AutoIncrement, NotNull, Unique]
+        [PrimaryKey, AutoIncrement]
         public Guid Id { get; set; }
 
         [Indexed, NotNull]
@@ -24,11 +24,7 @@ namespace OneDo.Infrastructure.Data.Entities
         public string Text { get; set; }
 
 
-        public DateTime? Date { get; set; }
-
-        public TimeSpan? Reminder { get; set; }
-
-        public string Recurrence { get; set; }
+        public string Reminder { get; set; }
 
 
         public bool IsFlagged { get; set; }
@@ -36,7 +32,7 @@ namespace OneDo.Infrastructure.Data.Entities
 
         public Note ToEntity()
         {
-            return new Note(Id, FolderId, Title, Text, Date, Reminder, RecurrenceVO.Load(Recurrence), IsFlagged);
+            return new Note(Id, FolderId, Title, Text, ReminderVO.Load(Reminder), IsFlagged);
         }
 
         public static NoteData FromEntity(Note note)
@@ -47,9 +43,7 @@ namespace OneDo.Infrastructure.Data.Entities
                 FolderId = note.FolderId,
                 Title = note.Title,
                 Text = note.Text,
-                Date = note.Date,
-                Reminder = note.Reminder,
-                Recurrence = note.Recurrence?.Save(),
+                Reminder = note.Reminder?.Save(),
                 IsFlagged = note.IsFlagged,
             };
         }

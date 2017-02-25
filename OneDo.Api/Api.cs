@@ -5,6 +5,7 @@ using OneDo.Application.Models;
 using OneDo.Application.Queries;
 using OneDo.Application.Queries.Folders;
 using OneDo.Application.Queries.Notes;
+using OneDo.Common;
 using OneDo.Infrastructure.Data;
 using OneDo.Infrastructure.Data.Entities;
 using System;
@@ -50,8 +51,22 @@ namespace OneDo.Application
             var folder = folders.FirstOrDefault();
             var folder2 = folders.Skip(1).FirstOrDefault();
             await CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Buy milk" }));
-            await CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Walk Max with bike", Date = DateTime.Today, Reminder = TimeSpan.FromHours(7.25) }));
-            await CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Call mom", Date = DateTime.Today.AddDays(5), IsFlagged = true }));
+            await CommandBus.Execute(new SaveNoteCommand(new NoteModel
+            {
+                Id = Guid.NewGuid(),
+                FolderId = folder.Id,
+                Title = "Walk Max with bike",
+                Reminder = new ReminderModel
+                {
+                    DateTime = DateTime.Today + TimeSpan.FromHours(7.25),
+                    Recurrence = new DaysOfWeekRecurrenceModel
+                    {
+                        Every = 2,
+                        DaysOfWeek = DaysOfWeek.Weekends
+                    }
+                }
+            }));
+            await CommandBus.Execute(new SaveNoteCommand(new NoteModel { Id = Guid.NewGuid(), FolderId = folder.Id, Title = "Call mom", Reminder = new ReminderModel { DateTime = DateTime.Today + TimeSpan.FromHours(15) }, IsFlagged = true }));
             await CommandBus.Execute(new SaveNoteCommand(new NoteModel
             {
                 Id = Guid.NewGuid(),

@@ -113,8 +113,8 @@ namespace OneDo.ViewModel
             IsFlagged = model.IsFlagged;
             Title = model.Title;
             Text = model.Text;
-            Date = model.Date?.Date;
-            Reminder = model.Reminder;
+            //Date = model.Date?.Date;
+            //Reminder = model.Reminder;
         }
 
 

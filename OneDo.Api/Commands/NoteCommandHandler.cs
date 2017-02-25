@@ -53,8 +53,7 @@ namespace OneDo.Application.Commands
                 note.MoveToFolder(model.FolderId);
                 note.ChangeTitle(model.Title);
                 note.ChangeText(model.Text);
-                note.ChangeDate(model.Date);
-                note.ChangeReminder(model.Reminder);
+                note.ChangeReminder(model.Reminder?.ToEntity());
                 note.SetFlag(model.IsFlagged);
 
                 await noteRepository.Update(note);

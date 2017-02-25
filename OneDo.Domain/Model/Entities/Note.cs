@@ -16,22 +16,16 @@ namespace OneDo.Domain.Model.Entities
 
         public string Text { get; private set; }
 
-        public DateTime? Date { get; private set; }
-
-        public TimeSpan? Reminder { get; private set; }
-
-        public Recurrence Recurrence { get; private set; }
+        public Reminder Reminder { get; private set; }
 
         public bool IsFlagged { get; private set; }
 
-        public Note(Guid id, Guid folderId, string title, string text, DateTime? date, TimeSpan? reminder, Recurrence recurrence, bool isFlagged) : base(id)
+        public Note(Guid id, Guid folderId, string title, string text, Reminder reminder, bool isFlagged) : base(id)
         {
             MoveToFolder(folderId);
             ChangeTitle(title);
             ChangeText(text);
-            ChangeDate(date);
             ChangeReminder(reminder);
-            ChangeRecurrence(recurrence);
             SetFlag(isFlagged);
         }
 
@@ -58,59 +52,14 @@ namespace OneDo.Domain.Model.Entities
             Text = text?.Trim();
         }
 
-        public void ChangeDate(DateTime? date)
+        public void ChangeReminder(Reminder reminder)
         {
-            Date = date;
-            if (date == null)
-            {
-                ChangeReminder(null);
-            }
-        }
-
-        public void ChangeReminder(TimeSpan? time)
-        {
-            if (Date != null)
-            {
-                Reminder = time;
-            }
-            else
-            {
-                Reminder = null;
-            }
-        }
-
-        public void ChangeRecurrence(Recurrence recurrence)
-        {
-            if (Reminder != null)
-            {
-                Recurrence = recurrence;
-            }
-            else
-            {
-                Recurrence = null;
-            }
+            Reminder = reminder;
         }
 
         public void SetFlag(bool isFlagged)
         {
             IsFlagged = isFlagged;
-        }
-
-        public IEnumerable<DateTime> GetReminderOccurrences()
-        {
-            if (Reminder != null)
-            {
-                var dateTime = (DateTime)(Date + Reminder);
-                if (Recurrence != null)
-                {
-                    return Recurrence.GetOccurrences(dateTime);
-                }
-                else
-                {
-                    return new[] { dateTime };
-                }
-            }
-            return Enumerable.Empty<DateTime>();
         }
     }
 }

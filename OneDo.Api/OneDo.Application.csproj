@@ -133,7 +133,10 @@
     <Compile Include="Models\DailyRecurrenceModel.cs" />
     <Compile Include="Models\DaysOfWeekRecurrenceModel.cs" />
     <Compile Include="Models\MonthlyRecurrenceModel.cs" />
+    <Compile Include="Models\OnceRecurrenceModel.cs" />
     <Compile Include="Models\RecurrenceModel.cs" />
+    <Compile Include="Models\ReminderModel.cs" />
+    <Compile Include="Models\StandardRecurrenceModel.cs" />
     <Compile Include="Models\WeeklyRecurrenceModel.cs" />
     <Compile Include="Notifications\ContentBuilder.cs" />
     <Compile Include="Notifications\INotificationService.cs" />

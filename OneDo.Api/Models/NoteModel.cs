@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ReminderVO = OneDo.Domain.Model.ValueObjects.Reminder;
 
 namespace OneDo.Application.Models
 {
@@ -20,31 +21,26 @@ namespace OneDo.Application.Models
 
         public string Text { get; set; }
 
-        public DateTime? Date { get; set; }
-
-        public TimeSpan? Reminder { get; set; }
-
-        public RecurrenceModel Recurrence { get; set; }
+        public ReminderModel Reminder { get; set; }
 
         public bool IsFlagged { get; set; }
 
 
         internal Note ToEntity()
         {
-            return new Note(Id, FolderId, Title, Text, Date, Reminder, Recurrence?.ToEntity(), IsFlagged);
+            return new Note(Id, FolderId, Title, Text, Reminder?.ToEntity(), IsFlagged);
         }
 
         internal static NoteModel FromData(NoteData noteData)
         {
+            var reminder = ReminderVO.Load(noteData.Reminder);
             return new NoteModel
             {
                 Id = noteData.Id,
                 FolderId = noteData.FolderId,
                 Title = noteData.Title,
                 Text = noteData.Text,
-                Date = noteData.Date,
-                Reminder = noteData.Reminder,
-                Recurrence = RecurrenceModel.FromData(noteData.Recurrence),
+                Reminder = ReminderModel.FromData(noteData.Reminder),
                 IsFlagged = noteData.IsFlagged,
             };
         }

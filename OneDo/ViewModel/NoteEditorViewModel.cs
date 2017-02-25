@@ -60,25 +60,8 @@ namespace OneDo.ViewModel
             }
         }
 
-        private DateTime? date;
-        public DateTime? Date
-        {
-            get { return date; }
-            set
-            {
-                if (Set(ref date, value))
-                {
-                    ValidateProperty();
-                    MarkProperty(() => Date?.Date != Original.Date?.Date);
-                    RaisePropertyChanged(nameof(DateText));
-                }
-            }
-        }
-
-        public string DateText => Date?.ToLongDateString() ?? "Set Date & Reminder";
-
-        private TimeSpan? reminder;
-        public TimeSpan? Reminder
+        private ReminderModel reminder;
+        public ReminderModel Reminder
         {
             get { return reminder; }
             set
@@ -87,12 +70,9 @@ namespace OneDo.ViewModel
                 {
                     ValidateProperty();
                     MarkProperty(() => Reminder != Original.Reminder);
-                    RaisePropertyChanged(nameof(ReminderText));
                 }
             }
         }
-
-        public string ReminderText => Reminder?.ToTimeString() ?? "Set Reminder";
 
         private bool? isFlagged;
         public bool? IsFlagged
@@ -117,7 +97,7 @@ namespace OneDo.ViewModel
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
-            ClearDateCommand = new RelayCommand(() => Date = null);
+            ClearDateCommand = new RelayCommand(() => Reminder = null);
             ClearReminderCommand = new RelayCommand(() => Reminder = null);
 
             Rules = new Dictionary<string, Func<bool>>
@@ -156,7 +136,6 @@ namespace OneDo.ViewModel
 
             Title = Original.Title;
             Text = Original.Text;
-            Date = Original.Date;
             Reminder = Original.Reminder;
             IsFlagged = Original.IsFlagged;
         }
@@ -167,7 +146,6 @@ namespace OneDo.ViewModel
             Original.FolderId = SelectedFolder.Id;
             Original.Title = Title.TrimNull();
             Original.Text = Text.TrimNull();
-            Original.Date = Date;
             Original.Reminder = Reminder;
             Original.IsFlagged = IsFlagged ?? false;
 

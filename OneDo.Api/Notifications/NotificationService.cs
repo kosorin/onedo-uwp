@@ -29,7 +29,12 @@ namespace OneDo.Application.Notifications
 
         public void Schedule(Note note)
         {
-            foreach (var occurrence in note.GetReminderOccurrences())
+            if (note.Reminder == null)
+            {
+                return;
+            }
+
+            foreach (var occurrence in note.Reminder.GetOccurrences())
             {
                 var group = GetGroup(note.Id);
                 if (occurrence < DateTime.Now.AddSeconds(5))

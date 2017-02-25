@@ -118,6 +118,7 @@
     <Compile Include="Model\ValueObjects\Color.cs" />
     <Compile Include="Model\Entities\Folder.cs" />
     <Compile Include="Model\Entities\Note.cs" />
+    <Compile Include="Model\ValueObjects\Reminder.cs" />
     <Compile Include="Model\ValueObjects\WeeklyRecurrence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Specification.cs" />
