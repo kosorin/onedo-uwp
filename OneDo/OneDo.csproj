@@ -105,6 +105,8 @@
     <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Core\Messages\CloseModalMessage.cs" />
+    <Compile Include="Core\ReminderDateType.cs" />
+    <Compile Include="Core\ReminderTimeType.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTaskService\IBackgroundTaskService.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="ViewModel\NoteListViewModel.cs" />
     <Compile Include="Core\UIHost.cs" />
     <Compile Include="Common\UI\AnimationInfo.cs" />
+    <Compile Include="ViewModel\ReminderViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\TextBoxBehavior.cs" />
     <Compile Include="View\Behaviors\OpenFlyoutMenuBehavior.cs" />

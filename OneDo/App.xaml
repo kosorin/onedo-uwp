@@ -49,6 +49,14 @@
                     <Visibility>Visible</Visibility>
                 </converters:ConditionConverter.Else>
             </converters:ConditionConverter>
+            <converters:ConditionConverter x:Key="NullToVisibilityConverter" If="{x:Null}">
+                <converters:ConditionConverter.Then>
+                    <Visibility>Visible</Visibility>
+                </converters:ConditionConverter.Then>
+                <converters:ConditionConverter.Else>
+                    <Visibility>Collapsed</Visibility>
+                </converters:ConditionConverter.Else>
+            </converters:ConditionConverter>
             <converters:ConditionConverter x:Key="NotNullToBoolConverter" If="{x:Null}">
                 <converters:ConditionConverter.Then>
                     <x:Boolean>False</x:Boolean>

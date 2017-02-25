@@ -5,6 +5,7 @@ using OneDo.Application.Models;
 using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
 using OneDo.Common.Mvvm;
+using OneDo.Core;
 using OneDo.Core.Messages;
 using OneDo.Services.ProgressService;
 using System;
@@ -60,16 +61,49 @@ namespace OneDo.ViewModel
             }
         }
 
-        private ReminderModel reminder;
-        public ReminderModel Reminder
+        private DateTimeOffset? reminderDate;
+        public DateTimeOffset? ReminderDate
         {
-            get { return reminder; }
+            get { return reminderDate; }
             set
             {
-                if (Set(ref reminder, value))
+                if (Set(ref reminderDate, value))
                 {
                     ValidateProperty();
-                    MarkProperty(() => Reminder != Original.Reminder);
+                    MarkProperty(() => ReminderDate?.Date != Original.Reminder?.DateTime.Date);
+
+                    ClearReminderCommand.RaiseCanExecuteChanged();
+                    NextDayCommand.RaiseCanExecuteChanged();
+                    PreviousDayCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        private TimeSpan reminderTime;
+        public TimeSpan ReminderTime
+        {
+            get { return reminderTime; }
+            set
+            {
+                if (Set(ref reminderTime, value))
+                {
+                    ValidateProperty();
+                    MarkProperty(() => ReminderTime != Original.Reminder?.DateTime.TimeOfDay);
+                }
+            }
+        }
+
+        public List<ReminderDateType> ReminderDateTypes { get; }
+
+        private ReminderDateType selectedReminderDateType;
+        public ReminderDateType SelectedReminderDateType
+        {
+            get { return selectedReminderDateType; }
+            set
+            {
+                if (Set(ref selectedReminderDateType, value))
+                {
+                    SetReminder(value);
                 }
             }
         }
@@ -88,17 +122,22 @@ namespace OneDo.ViewModel
             }
         }
 
-        public IExtendedCommand ClearDateCommand { get; }
-
         public IExtendedCommand ClearReminderCommand { get; }
+
+        public IExtendedCommand NextDayCommand { get; }
+
+        public IExtendedCommand PreviousDayCommand { get; }
 
         public NoteEditorViewModel(IApi api, IProgressService progressService, FolderListViewModel folderList) : base(api, progressService)
         {
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
 
-            ClearDateCommand = new RelayCommand(() => Reminder = null);
-            ClearReminderCommand = new RelayCommand(() => Reminder = null);
+            ReminderDateTypes = Enum.GetValues(typeof(ReminderDateType)).Cast<ReminderDateType>().ToList();
+
+            ClearReminderCommand = new RelayCommand(() => ReminderDate = null, () => ReminderDate != null);
+            NextDayCommand = new RelayCommand(() => ReminderDate = ReminderDate?.AddDays(1), () => ReminderDate != null);
+            PreviousDayCommand = new RelayCommand(() => ReminderDate = ReminderDate?.AddDays(-1), () => ReminderDate != null);
 
             Rules = new Dictionary<string, Func<bool>>
             {
@@ -136,7 +175,7 @@ namespace OneDo.ViewModel
 
             Title = Original.Title;
             Text = Original.Text;
-            Reminder = Original.Reminder;
+            ReminderDate = Original.Reminder?.DateTime;
             IsFlagged = Original.IsFlagged;
         }
 
@@ -146,7 +185,7 @@ namespace OneDo.ViewModel
             Original.FolderId = SelectedFolder.Id;
             Original.Title = Title.TrimNull();
             Original.Text = Text.TrimNull();
-            Original.Reminder = Reminder;
+            Original.Reminder = null;
             Original.IsFlagged = IsFlagged ?? false;
 
             await ProgressService.RunAsync(async () =>
@@ -163,6 +202,12 @@ namespace OneDo.ViewModel
                 await Api.CommandBus.Execute(new DeleteNoteCommand(Original.Id));
                 Messenger.Default.Send(new CloseModalMessage());
             });
+        }
+
+
+        private void SetReminder(ReminderDateType type)
+        {
+            throw new NotImplementedException();
         }
     }
 }
