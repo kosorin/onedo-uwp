@@ -504,7 +504,7 @@
 
         <Style x:Key="QuickButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="8" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -592,26 +592,26 @@
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource CalendarDatePickerTextForeground}"
                                            Text="{TemplateBinding PlaceholderText}" />
-                                <Button x:Name="PART_PreviousDayButton"
+                                <Button x:Name="PreviousDayButton"
                                         Grid.Column="2"
                                         Style="{StaticResource GlyphButtonPickerStyle}"
                                         FontSize="16"
                                         Tag="&#xE09A;"
                                         Visibility="{Binding Date, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
-                                <Button x:Name="PART_NextDayButton"
+                                <Button x:Name="NextDayButton"
                                         Grid.Column="3"
                                         Style="{StaticResource GlyphButtonPickerStyle}"
                                         FontSize="16"
                                         Tag="&#xE09B;"
                                         Visibility="{Binding Date, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
-                                <Button x:Name="PART_ClearButton"
+                                <Button x:Name="ClearButton"
                                         Grid.Column="4"
                                         Style="{StaticResource GlyphButtonPickerStyle}"
                                         Tag="&#xE10A;"
                                         Visibility="{Binding Date, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
                             </Grid>
                             <FlyoutBase.AttachedFlyout>
-                                <Flyout Placement="Bottom">
+                                <Flyout Placement="Left">
                                     <Flyout.FlyoutPresenterStyle>
                                         <Style TargetType="FlyoutPresenter">
                                             <Setter Property="Padding" Value="0" />
@@ -638,7 +638,12 @@
                                             <RowDefinition />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
                                         <CalendarView x:Name="CalendarView"
+                                                      Grid.ColumnSpan="2"
                                                       Style="{TemplateBinding CalendarViewStyle}"
                                                       CalendarIdentifier="{TemplateBinding CalendarIdentifier}"
                                                       DayOfWeekFormat="{TemplateBinding DayOfWeekFormat}"
@@ -649,10 +654,18 @@
                                                       IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
                                                       MaxDate="{TemplateBinding MaxDate}"
                                                       MinDate="{TemplateBinding MinDate}" />
-                                        <Button Grid.Row="1"
+                                        <Button x:Name="TodayButton"
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Style="{StaticResource QuickButtonStyle}"
+                                                BorderThickness="0,1,1,0"
+                                                Content="Today" />
+                                        <Button x:Name="TomorrowButton"
+                                                Grid.Row="1"
+                                                Grid.Column="1"
                                                 Style="{StaticResource QuickButtonStyle}"
                                                 BorderThickness="0,1,0,0"
-                                                Content="Today" />
+                                                Content="Tomorrow" />
                                     </Grid>
                                 </Flyout>
                             </FlyoutBase.AttachedFlyout>
@@ -713,8 +726,6 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TimePicker">
                         <Button x:Name="FlyoutButton"
-                                Margin="0"
-                                Padding="0"
                                 Style="{StaticResource ButtonPickerStyle}"
                                 Tag="&#xE121;" />
                     </ControlTemplate>
@@ -785,7 +796,6 @@
                             </Grid.ColumnDefinitions>
                             <controls:CalendarDatePicker x:Name="ReminderDatePicker"
                                                          Grid.ColumnSpan="5"
-                                                         Padding="0,0,0,0"
                                                          Style="{StaticResource DatePickerStyle}"
                                                          CalendarViewStyle="{StaticResource CalendarViewStyle}"
                                                          Date="{x:Bind VM.ReminderDate, Mode=TwoWay}"
