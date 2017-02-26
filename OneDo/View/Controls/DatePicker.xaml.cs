@@ -31,11 +31,11 @@ namespace OneDo.View.Controls
 
         private bool isPicking;
 
-        public DatePicker(DateTime date)
+        public DatePicker()
         {
             InitializeComponent();
 
-            Date = date;
+            //Date = date;
         }
 
         public void SetToday()

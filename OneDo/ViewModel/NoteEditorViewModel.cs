@@ -175,7 +175,8 @@ namespace OneDo.ViewModel
 
             Title = Original.Title;
             Text = Original.Text;
-            ReminderDate = Original.Reminder?.DateTime;
+            ReminderDate = Original.Reminder?.DateTime.Date;
+            ReminderTime = Original.Reminder?.DateTime.TimeOfDay ?? TimeSpan.FromHours(7);
             IsFlagged = Original.IsFlagged;
         }
 
@@ -185,7 +186,10 @@ namespace OneDo.ViewModel
             Original.FolderId = SelectedFolder.Id;
             Original.Title = Title.TrimNull();
             Original.Text = Text.TrimNull();
-            Original.Reminder = null;
+            Original.Reminder = ReminderDate != null ? new ReminderModel
+            {
+                DateTime = (DateTime)ReminderDate?.Date + ReminderTime,
+            } : null;
             Original.IsFlagged = IsFlagged ?? false;
 
             await ProgressService.RunAsync(async () =>
