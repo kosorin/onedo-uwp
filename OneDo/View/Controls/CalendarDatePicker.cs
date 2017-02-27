@@ -31,11 +31,6 @@ namespace OneDo.View.Controls
         private Button todayButton;
         private Button tomorrowButton;
 
-        public CalendarDatePicker()
-        {
-            LoopingSelector
-        }
-
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();

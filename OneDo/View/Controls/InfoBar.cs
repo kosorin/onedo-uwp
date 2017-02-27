@@ -100,7 +100,11 @@ namespace OneDo.View.Controls
             base.OnApplyTemplate();
 
             rootGrid = GetTemplateChild(RootGridPartName) as Grid;
-            InitializeComposition();
+            if (rootGrid != null)
+            {
+                InitializeComposition();
+            }
+
             Visibility = Visibility.Collapsed;
         }
 
