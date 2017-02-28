@@ -27,7 +27,7 @@
                 <SolidColorBrush Color="{ThemeResource FlagBackgroundColor}" />
             </converters:ConditionConverter.Then>
             <converters:ConditionConverter.Else>
-                <SolidColorBrush Color="Transparent" />
+                <SolidColorBrush Color="{ThemeResource SystemChromeMediumLowColor}" />
             </converters:ConditionConverter.Else>
         </converters:ConditionConverter>
 
@@ -333,6 +333,7 @@
                                               x:DeferLoadStrategy="Lazy"
                                               Content="{TemplateBinding Header}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              IsHitTestVisible="False"
                                               Visibility="Collapsed" />
                             <FontIcon x:Name="DropDownGlyph"
                                       Grid.Row="1"
@@ -582,6 +583,7 @@
                                                   x:DeferLoadStrategy="Lazy"
                                                   Content="{TemplateBinding UnselectedHeader}"
                                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                  IsHitTestVisible="False"
                                                   Visibility="Collapsed" />
                                 <TextBlock x:Name="DateText"
                                            Grid.Column="1"
