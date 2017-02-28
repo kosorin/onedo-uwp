@@ -72,8 +72,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Margin="24,16">
-                <TextBox Style="{StaticResource BorderlessTextBoxStyle}"
-                         behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
+                <TextBox x:Name="NameTextBox"
+                         Style="{StaticResource BorderlessTextBoxStyle}"
                          PlaceholderText="Folder"
                          Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Rectangle Style="{StaticResource HorizontalLineStyle}" />

@@ -55,6 +55,10 @@ namespace OneDo.View
 
         protected override async Task OnFirstLoad()
         {
+            if (NoteId == null)
+            {
+                TitleTextBox.Focus(FocusState.Programmatic);
+            }
             await VM.Load(NoteId);
         }
 

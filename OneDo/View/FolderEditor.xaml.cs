@@ -25,6 +25,10 @@ namespace OneDo.View
 
         protected override async Task OnFirstLoad()
         {
+            if (FolderId == null)
+            {
+                NameTextBox.Focus(FocusState.Programmatic);
+            }
             await VM.Load(FolderId);
         }
 
