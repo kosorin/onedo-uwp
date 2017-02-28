@@ -71,10 +71,6 @@ namespace OneDo.ViewModel
                 {
                     ValidateProperty();
                     MarkProperty(() => ReminderDate?.Date != Original.Reminder?.DateTime.Date);
-
-                    ClearReminderCommand.RaiseCanExecuteChanged();
-                    NextDayCommand.RaiseCanExecuteChanged();
-                    PreviousDayCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -93,21 +89,6 @@ namespace OneDo.ViewModel
             }
         }
 
-        public List<ReminderDateType> ReminderDateTypes { get; }
-
-        private ReminderDateType selectedReminderDateType;
-        public ReminderDateType SelectedReminderDateType
-        {
-            get { return selectedReminderDateType; }
-            set
-            {
-                if (Set(ref selectedReminderDateType, value))
-                {
-                    SetReminder(value);
-                }
-            }
-        }
-
         private bool? isFlagged;
         public bool? IsFlagged
         {
@@ -122,22 +103,10 @@ namespace OneDo.ViewModel
             }
         }
 
-        public IExtendedCommand ClearReminderCommand { get; }
-
-        public IExtendedCommand NextDayCommand { get; }
-
-        public IExtendedCommand PreviousDayCommand { get; }
-
         public NoteEditorViewModel(IApi api, IProgressService progressService, FolderListViewModel folderList) : base(api, progressService)
         {
             Folders = folderList.Items.ToList();
             SelectedFolder = folderList.SelectedItem;
-
-            ReminderDateTypes = Enum.GetValues(typeof(ReminderDateType)).Cast<ReminderDateType>().ToList();
-
-            ClearReminderCommand = new RelayCommand(() => ReminderDate = null, () => ReminderDate != null);
-            NextDayCommand = new RelayCommand(() => ReminderDate = ReminderDate?.AddDays(1), () => ReminderDate != null);
-            PreviousDayCommand = new RelayCommand(() => ReminderDate = ReminderDate?.AddDays(-1), () => ReminderDate != null);
 
             Rules = new Dictionary<string, Func<bool>>
             {
@@ -206,12 +175,6 @@ namespace OneDo.ViewModel
                 await Api.CommandBus.Execute(new DeleteNoteCommand(Original.Id));
                 Messenger.Default.Send(new CloseModalMessage());
             });
-        }
-
-
-        private void SetReminder(ReminderDateType type)
-        {
-            throw new NotImplementedException();
         }
     }
 }
