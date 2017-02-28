@@ -129,7 +129,7 @@
 
         <Style x:Key="GlyphButtonPickerStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
             <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Width" Value="48" />
@@ -146,7 +146,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                            <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                            <FontIcon Foreground="{TemplateBinding Foreground}"
                                       FontSize="{TemplateBinding FontSize}"
                                       Glyph="{TemplateBinding Tag}" />
                             <VisualStateManager.VisualStateGroups>
@@ -264,6 +264,15 @@
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                  FontSize="16"
+                                  Glyph="{Binding}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
@@ -295,16 +304,6 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <ContentPresenter x:Name="HeaderContentPresenter"
-                                              Grid.Row="0"
-                                              Grid.ColumnSpan="3"
-                                              Margin="{ThemeResource ComboBoxHeaderThemeMargin}"
-                                              FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}"
-                                              x:DeferLoadStrategy="Lazy"
-                                              Content="{TemplateBinding Header}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                              FlowDirection="{TemplateBinding FlowDirection}"
-                                              Visibility="Collapsed" />
                             <Border x:Name="Background"
                                     Grid.Row="1"
                                     Grid.ColumnSpan="3"
@@ -328,11 +327,13 @@
                                            Foreground="{ThemeResource ComboBoxPlaceHolderForeground}"
                                            Text="{TemplateBinding PlaceholderText}" />
                             </ContentPresenter>
-                            <FontIcon Grid.Row="1"
-                                      Grid.Column="0"
-                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                      FontSize="16"
-                                      Glyph="{TemplateBinding Tag}" />
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                                              Grid.Row="1"
+                                              Grid.Column="0"
+                                              x:DeferLoadStrategy="Lazy"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              Visibility="Collapsed" />
                             <FontIcon x:Name="DropDownGlyph"
                                       Grid.Row="1"
                                       Grid.Column="2"
@@ -503,52 +504,38 @@
         </Style>
 
         <Style x:Key="QuickButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="8" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Height" Value="32" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="UseSystemFocusVisuals" Value="True" />
-            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Background" Value="{ThemeResource CalendarViewNavigationButtonBackground}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Padding="{TemplateBinding Padding}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              BorderBrush="{TemplateBinding BorderBrush}"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
-                                              AutomationProperties.AccessibilityView="Raw"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                        <Grid Margin="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="Text"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
+                                    <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewNavigationButtonForegroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewNavigationButtonForegroundPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
+                                    <VisualState x:Name="Disabled" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
@@ -570,9 +557,18 @@
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                  FontSize="16"
+                                  Glyph="{Binding}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="CalendarDatePicker">
+                    <ControlTemplate TargetType="controls:CalendarDatePicker">
                         <Grid x:Name="Root" Background="{TemplateBinding Background}">
                             <Grid Margin="{TemplateBinding Padding}">
                                 <Grid.ColumnDefinitions>
@@ -582,10 +578,11 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <FontIcon Grid.Column="0"
-                                          Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                          FontSize="16"
-                                          Glyph="&#xE787;" />
+                                <ContentPresenter x:Name="HeaderContentPresenter"
+                                                  x:DeferLoadStrategy="Lazy"
+                                                  Content="{TemplateBinding UnselectedHeader}"
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                  Visibility="Collapsed" />
                                 <TextBlock x:Name="DateText"
                                            Grid.Column="1"
                                            HorizontalAlignment="Left"
@@ -638,12 +635,7 @@
                                             <RowDefinition />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
                                         <CalendarView x:Name="CalendarView"
-                                                      Grid.ColumnSpan="2"
                                                       Style="{TemplateBinding CalendarViewStyle}"
                                                       CalendarIdentifier="{TemplateBinding CalendarIdentifier}"
                                                       DayOfWeekFormat="{TemplateBinding DayOfWeekFormat}"
@@ -654,18 +646,22 @@
                                                       IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
                                                       MaxDate="{TemplateBinding MaxDate}"
                                                       MinDate="{TemplateBinding MinDate}" />
-                                        <Button x:Name="TodayButton"
-                                                Grid.Row="1"
-                                                Grid.Column="0"
-                                                Style="{StaticResource QuickButtonStyle}"
-                                                BorderThickness="0,1,1,0"
-                                                Content="Today" />
-                                        <Button x:Name="TomorrowButton"
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Style="{StaticResource QuickButtonStyle}"
-                                                BorderThickness="0,1,0,0"
-                                                Content="Tomorrow" />
+                                        <Grid Grid.Row="1"
+                                              BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                              BorderThickness="0,1,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="TodayButton"
+                                                    Grid.Column="0"
+                                                    Style="{StaticResource QuickButtonStyle}"
+                                                    Content="Today" />
+                                            <Button x:Name="TomorrowButton"
+                                                    Grid.Column="1"
+                                                    Style="{StaticResource QuickButtonStyle}"
+                                                    Content="Tomorrow" />
+                                        </Grid>
                                     </Grid>
                                 </Flyout>
                             </FlyoutBase.AttachedFlyout>
@@ -694,6 +690,9 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DateText" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerTextForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Content">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Header, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -742,106 +741,80 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <StackPanel>
-                    <!--  Title  -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="48" />
-                        </Grid.ColumnDefinitions>
-                        <Rectangle Grid.ColumnSpan="2" Fill="{x:Bind VM.IsFlagged, Mode=OneWay, Converter={StaticResource TitleBackgroundConverter}}" />
-                        <TextBox Grid.Column="0"
-                                 Margin="16,6,0,4"
-                                 VerticalAlignment="Center"
-                                 Style="{StaticResource BorderlessTextBoxStyle}"
-                                 FontSize="18"
-                                 FontWeight="Medium"
-                                 behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
-                                 PlaceholderText="Title"
-                                 Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 TextWrapping="Wrap" />
-                        <ToggleButton Grid.Column="1"
-                                      Style="{StaticResource FlagButtonStyle}"
-                                      IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}">
-                            <FontIcon FontSize="16" Glyph="&#xE7C1;" />
-                        </ToggleButton>
-                    </Grid>
-                    <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+            <StackPanel>
+                <!--  Title  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="48" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.ColumnSpan="2" Fill="{x:Bind VM.IsFlagged, Mode=OneWay, Converter={StaticResource TitleBackgroundConverter}}" />
+                    <TextBox Grid.Column="0"
+                             Margin="16,6,0,4"
+                             VerticalAlignment="Center"
+                             Style="{StaticResource BorderlessTextBoxStyle}"
+                             FontSize="18"
+                             FontWeight="Medium"
+                             behaviors:TextBoxBehavior.FocusOnLoad="{x:Bind VM.IsNew}"
+                             PlaceholderText="Title"
+                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap" />
+                    <ToggleButton Grid.Column="1"
+                                  Style="{StaticResource FlagButtonStyle}"
+                                  IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}">
+                        <FontIcon FontSize="16" Glyph="&#xE7C1;" />
+                    </ToggleButton>
+                </Grid>
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
 
-                    <!--  Folder  -->
-                    <ComboBox Margin="0,8"
-                              Style="{StaticResource ComboBoxPickerStyle}"
-                              ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
-                              SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
-                              Tag="&#xE8B7;">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="vm:FolderItemViewModel">
-                                <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
+                <!--  Folder  -->
+                <ComboBox x:Name="FolderComboBox"
+                          Margin="0,8"
+                          Style="{StaticResource ComboBoxPickerStyle}"
+                          ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
+                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
+                    <ComboBox.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <FontIcon Foreground="{Binding SelectedItem.Color, ElementName=FolderComboBox, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+                                          Opacity="0.75"
+                                          FontSize="16"
+                                          Glyph="&#xE188;" />
+                                <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                          FontSize="16"
+                                          Glyph="&#xE8B7;" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.HeaderTemplate>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:FolderItemViewModel">
+                            <TextBlock Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" Text="{x:Bind Name, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
-                    <!--  Reminder  -->
-                    <StackPanel Margin="0,8">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <controls:CalendarDatePicker x:Name="ReminderDatePicker"
-                                                         Grid.ColumnSpan="5"
-                                                         Style="{StaticResource DatePickerStyle}"
-                                                         CalendarViewStyle="{StaticResource CalendarViewStyle}"
-                                                         Date="{x:Bind VM.ReminderDate, Mode=TwoWay}"
-                                                         PlaceholderText="Žádné připomenutí" />
-                            <!--<Button Grid.Column="1"
-                                    Style="{StaticResource GlyphButtonPickerStyle}"
-                                    FontSize="16"
-                                    Tag="&#xE10C;">
-                                <Button.Flyout>
-                                    <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem Text="Today" />
-                                        <MenuFlyoutItem Text="Tomorrow" />
-                                        <MenuFlyoutItem Text="Next week" />
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                            </Button>-->
-                        </Grid>
-                        <Grid Margin="0,8,0,0" Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TimePicker x:Name="ReminderTimePicker"
-                                        Grid.ColumnSpan="2"
-                                        Style="{StaticResource TimePickerStyle}"
-                                        Time="{x:Bind VM.ReminderTime, Mode=TwoWay}" />
-                            <!--<Button Grid.Column="4"
-                                    Style="{StaticResource GlyphButtonPickerStyle}"
-                                    FontSize="16"
-                                    Tag="&#xE10C;">
-                                <Button.Flyout>
-                                    <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem>Morning</MenuFlyoutItem>
-                                        <MenuFlyoutItem>Afternoon</MenuFlyoutItem>
-                                        <MenuFlyoutItem>Evening</MenuFlyoutItem>
-                                        <MenuFlyoutItem>Night</MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                            </Button>-->
-                        </Grid>
-                        <StackPanel Margin="0,8,0,0" Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
-                            <ComboBox Style="{StaticResource ComboBoxPickerStyle}" Tag="&#xE149;" />
-                        </StackPanel>
+                <!--  Reminder  -->
+                <StackPanel Margin="0,8">
+                    <controls:CalendarDatePicker x:Name="ReminderDatePicker"
+                                                 Grid.ColumnSpan="5"
+                                                 Style="{StaticResource DatePickerStyle}"
+                                                 CalendarViewStyle="{StaticResource CalendarViewStyle}"
+                                                 Date="{x:Bind VM.ReminderDate, Mode=TwoWay}"
+                                                 Header="&#xE787;"
+                                                 PlaceholderText="Set reminder"
+                                                 UnselectedHeader="&#xEA8F;" />
+                    <TimePicker x:Name="ReminderTimePicker"
+                                Grid.ColumnSpan="2"
+                                Margin="0,8,0,0"
+                                Style="{StaticResource TimePickerStyle}"
+                                Time="{x:Bind VM.ReminderTime, Mode=TwoWay}"
+                                Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
+                    <StackPanel Margin="0,8,0,0" Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
+                        <ComboBox Style="{StaticResource ComboBoxPickerStyle}" Header="&#xE149;" />
                     </StackPanel>
-                    <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
                 </StackPanel>
+                <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
 
                 <!--  Note  -->
                 <Grid Grid.Row="1" Margin="0,8,0,4">
@@ -858,7 +831,6 @@
                               Glyph="&#xE104;" />
                     <TextBox Grid.RowSpan="2"
                              Grid.Column="1"
-                             MinHeight="100"
                              Margin="0,0,16,0"
                              Style="{StaticResource BorderlessTextBoxStyle}"
                              AcceptsReturn="True"
@@ -866,7 +838,7 @@
                              Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                 </Grid>
-            </Grid>
+            </StackPanel>
         </ScrollViewer>
 
         <CommandBar Grid.Row="1">

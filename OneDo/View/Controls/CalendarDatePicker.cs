@@ -1,4 +1,5 @@
 ﻿using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,89 +26,70 @@ namespace OneDo.View.Controls
         private const string TodayButtonPartName = "TodayButton";
         private const string TomorrowButtonPartName = "TomorrowButton";
 
-        private Button clearButton;
-        private Button nextDayButton;
-        private Button previousDayButton;
-        private Button todayButton;
-        private Button tomorrowButton;
+
+        public object UnselectedHeader
+        {
+            get { return (object)GetValue(UnselectedHeaderProperty); }
+            set { SetValue(UnselectedHeaderProperty, value); }
+        }
+        public static readonly DependencyProperty UnselectedHeaderProperty =
+            DependencyProperty.Register(nameof(UnselectedHeader), typeof(object), typeof(CalendarDatePicker), new PropertyMetadata(null));
+
 
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
+            var clearButton = GetTemplateChild(ClearButtonPartName) as Button;
+            var nextDayButton = GetTemplateChild(NextDayButtonPartName) as Button;
+            var previousDayButton = GetTemplateChild(PreviousDayButtonPartName) as Button;
+            var todayButton = GetTemplateChild(TodayButtonPartName) as Button;
+            var tomorrowButton = GetTemplateChild(TomorrowButtonPartName) as Button;
+
             if (clearButton != null)
             {
-                clearButton.Tapped -= ClearButton_Tapped;
+                clearButton.Command = new RelayCommand(Clear);
             }
-            clearButton = GetTemplateChild(ClearButtonPartName) as Button;
-            if (clearButton != null)
-            {
-                clearButton.Tapped += ClearButton_Tapped;
-            }
-
             if (nextDayButton != null)
             {
-                nextDayButton.Tapped -= NextDayButton_Tapped;
+                nextDayButton.Command = new RelayCommand(NextDay);
             }
-            nextDayButton = GetTemplateChild(NextDayButtonPartName) as Button;
-            if (nextDayButton != null)
-            {
-                nextDayButton.Tapped += NextDayButton_Tapped;
-            }
-
             if (previousDayButton != null)
             {
-                previousDayButton.Tapped -= PreviousDayButton_Tapped;
+                previousDayButton.Command = new RelayCommand(PreviousDay);
             }
-            previousDayButton = GetTemplateChild(PreviousDayButtonPartName) as Button;
-            if (previousDayButton != null)
-            {
-                previousDayButton.Tapped += PreviousDayButton_Tapped;
-            }
-
             if (todayButton != null)
             {
-                todayButton.Tapped -= TodayButton_Tapped;
+                todayButton.Command = new RelayCommand(Today);
             }
-            todayButton = GetTemplateChild(TodayButtonPartName) as Button;
-            if (todayButton != null)
-            {
-                todayButton.Tapped += TodayButton_Tapped;
-            }
-
             if (tomorrowButton != null)
             {
-                tomorrowButton.Tapped -= TomorrowButton_Tapped;
-            }
-            tomorrowButton = GetTemplateChild(TomorrowButtonPartName) as Button;
-            if (tomorrowButton != null)
-            {
-                tomorrowButton.Tapped += TomorrowButton_Tapped;
+                tomorrowButton.Command = new RelayCommand(Tomorrow);
             }
         }
 
-        private void ClearButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void Clear()
         {
             Date = null;
         }
 
-        private void NextDayButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void NextDay()
         {
             Date = Date?.AddDays(1);
         }
 
-        private void PreviousDayButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void PreviousDay()
         {
             Date = Date?.AddDays(-1);
         }
 
-        private void TodayButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void Today()
         {
             IsCalendarOpen = false;
             Date = DateTime.Today;
         }
 
-        private void TomorrowButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void Tomorrow()
         {
             IsCalendarOpen = false;
             Date = DateTime.Today.Tomorrow();
