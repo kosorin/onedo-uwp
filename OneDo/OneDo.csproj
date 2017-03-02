@@ -118,7 +118,6 @@
     <Compile Include="Services\InfoService\InfoMessage.cs" />
     <Compile Include="Core\Args\SelectionChangedEventArgs.cs" />
     <Compile Include="Common\Mvvm\RelayCommand.cs" />
-    <Compile Include="ViewModel\ConfirmationViewModel.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\ModelViewModel.cs" />
     <Compile Include="ViewModel\ColorViewModel.cs" />
@@ -177,9 +176,6 @@
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModalView.cs" />
-    <Compile Include="View\ConfirmationView.xaml.cs">
-      <DependentUpon>ConfirmationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
@@ -258,10 +254,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\TimePicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
