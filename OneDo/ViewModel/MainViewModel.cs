@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using OneDo.Services.InfoService;
-using OneDo.Common.Mvvm;
 using OneDo.Application;
 using OneDo.Application.Commands.Folders;
 using OneDo.Application.Commands.Notes;
@@ -11,6 +10,10 @@ using OneDo.Application.Queries.Notes;
 using GalaSoft.MvvmLight.Messaging;
 using OneDo.Core;
 using OneDo.Core.Messages;
+using OneDo.ViewModel.Core;
+using OneDo.ViewModel.Core.Command;
+using OneDo.ViewModel.Folder;
+using OneDo.ViewModel.Note;
 
 namespace OneDo.ViewModel
 {

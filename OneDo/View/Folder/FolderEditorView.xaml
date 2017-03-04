@@ -1,0 +1,115 @@
+﻿<vcore:ModalView x:Class="OneDo.View.Folder.FolderEditorView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:behaviors="using:OneDo.View.Behaviors"
+                 xmlns:vcore="using:OneDo.View.Core"
+                 xmlns:vm="using:OneDo.ViewModel"
+                 d:DesignWidth="266"
+                 DataContext="{Binding FolderEditor, Source={StaticResource Locator}}"
+                 mc:Ignorable="d">
+
+    <vcore:ModalView.Resources>
+
+        <Style x:Key="ColorItemContainerStyle" TargetType="GridViewItem">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinWidth" Value="48" />
+            <Setter Property="MinHeight" Value="48" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0,0,8,8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewItem">
+                        <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               CheckBoxBrush="Transparent"
+                                               CheckBrush="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                               CheckMode="Overlay"
+                                               ContentMargin="{TemplateBinding Padding}"
+                                               ContentTransitions="{TemplateBinding ContentTransitions}"
+                                               DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                               DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                                               DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                                               DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                               FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                               FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                               PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                                               PointerOverBackground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                                               PointerOverForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                               PressedBackground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                                               ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                               SelectedBackground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                                               SelectedForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                               SelectedPointerOverBackground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                                               SelectedPressedBackground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                                               SelectionCheckMarkVisualEnabled="True" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ColorItemTemplate" x:DataType="vm:ColorViewModel">
+            <Border Background="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}" />
+        </DataTemplate>
+
+    </vcore:ModalView.Resources>
+
+    <Border Width="266"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
+            BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="24,16">
+                <TextBox x:Name="NameTextBox"
+                         Style="{StaticResource BorderlessTextBoxStyle}"
+                         PlaceholderText="Folder"
+                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Rectangle Style="{StaticResource HorizontalLineStyle}" />
+                <GridView Margin="0,16,-8,-8"
+                          ItemContainerStyle="{StaticResource ColorItemContainerStyle}"
+                          ItemContainerTransitions="{x:Null}"
+                          ItemTemplate="{StaticResource ColorItemTemplate}"
+                          ItemsSource="{x:Bind VM.Colors}"
+                          SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                          SelectionChanged="Colors_SelectionChanged"
+                          SelectionMode="Multiple">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+            </StackPanel>
+
+            <CommandBar Grid.Row="1">
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Command="{x:Bind VM.SaveCommand, Mode=OneWay}" Label="Save">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74E;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Command="{x:Bind VM.DeleteCommand, Mode=OneWay}"
+                                  Label="Delete"
+                                  Visibility="{x:Bind VM.IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=!}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74D;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+    </Border>
+
+</vcore:ModalView>

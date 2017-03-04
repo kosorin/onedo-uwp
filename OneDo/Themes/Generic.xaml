@@ -4,6 +4,7 @@
                     xmlns:i="using:Microsoft.Xaml.Interactivity"
                     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
                     xmlns:im="using:Microsoft.Xaml.Interactions.Media"
+                    xmlns:vcore="using:OneDo.View.Core"
                     xmlns:v="using:OneDo.View">
 
     <Style TargetType="controls:SlidableListItem">
@@ -137,11 +138,11 @@
         </Setter>
     </Style>
 
-    <Style TargetType="v:ModalContainer">
+    <Style TargetType="vcore:ModalContainer">
         <Setter Property="Background" Value="{ThemeResource ModalContainerBackgroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="v:ModalContainer">
+                <ControlTemplate TargetType="vcore:ModalContainer">
                     <Grid x:Name="PART_RootGrid">
                         <Border x:Name="PART_BackgroundControl" Background="{TemplateBinding Background}" />
                         <ContentControl x:Name="PART_ContentControl"

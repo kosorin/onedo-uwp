@@ -5,6 +5,9 @@ using OneDo.Services.BackgroundTaskService;
 using OneDo.Services.InfoService;
 using OneDo.Services.ProgressService;
 using OneDo.Services.StringProvider;
+using OneDo.ViewModel.Folder;
+using OneDo.ViewModel.Note;
+using OneDo.ViewModel.Settings;
 using Windows.ApplicationModel;
 
 namespace OneDo.ViewModel
@@ -28,12 +31,14 @@ namespace OneDo.ViewModel
                 builder.RegisterType<StringProvider>().As<IStringProvider>().SingleInstance();
 
                 builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
-                builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
+                builder.RegisterType<LogViewModel>().AsSelf().InstancePerDependency();
 
                 builder.RegisterType<SettingsViewModel>().AsSelf().InstancePerDependency();
-                builder.RegisterType<LogViewModel>().AsSelf().InstancePerDependency();
+
+                builder.RegisterType<FolderListViewModel>().AsSelf().SingleInstance();
                 builder.RegisterType<FolderEditorViewModel>().AsSelf().InstancePerDependency();
+
+                builder.RegisterType<NoteListViewModel>().AsSelf().SingleInstance();
                 builder.RegisterType<NoteEditorViewModel>().AsSelf().InstancePerDependency();
 
                 Container = builder.Build();
@@ -42,15 +47,15 @@ namespace OneDo.ViewModel
 
         public MainViewModel Main => Container?.Resolve<MainViewModel>();
 
-        public SettingsViewModel Settings => Container?.Resolve<SettingsViewModel>();
-
         public LogViewModel Log => Container?.Resolve<LogViewModel>();
+
+        public SettingsViewModel Settings => Container?.Resolve<SettingsViewModel>();
 
         public FolderListViewModel FolderList => Container?.Resolve<FolderListViewModel>();
 
-        public NoteListViewModel NoteList => Container?.Resolve<NoteListViewModel>();
-
         public FolderEditorViewModel FolderEditor => Container?.Resolve<FolderEditorViewModel>();
+
+        public NoteListViewModel NoteList => Container?.Resolve<NoteListViewModel>();
 
         public NoteEditorViewModel NoteEditor => Container?.Resolve<NoteEditorViewModel>();
     }

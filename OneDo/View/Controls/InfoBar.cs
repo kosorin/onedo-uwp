@@ -1,7 +1,7 @@
 ﻿using OneDo.Common.Extensions;
-using OneDo.Common.Mvvm;
 using OneDo.Common.UI;
 using OneDo.Services.InfoService;
+using OneDo.ViewModel.Core.Command;
 using System;
 using System.Collections.Generic;
 using System.Numerics;

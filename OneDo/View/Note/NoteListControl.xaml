@@ -1,0 +1,213 @@
+﻿<vcore:ExtendedUserControl x:Class="OneDo.View.Note.NoteListControl"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:behaviors="using:OneDo.View.Behaviors"
+                           xmlns:controls="using:OneDo.View.Controls"
+                           xmlns:converters="using:OneDo.View.Converters"
+                           xmlns:i="using:Microsoft.Xaml.Interactivity"
+                           xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                           xmlns:vcore="using:OneDo.View.Core"
+                           xmlns:vmnote="using:OneDo.ViewModel.Note"
+                           xmlns:vmItems="using:OneDo.ViewModel.Items"
+                           x:Name="Root"
+                           DataContext="{Binding NoteList, Source={StaticResource Locator}}"
+                           mc:Ignorable="d">
+
+    <vcore:ExtendedUserControl.Resources>
+
+        <converters:ConditionConverter x:Key="NoteBackgroundConverter">
+            <converters:ConditionConverter.If>
+                <x:Boolean>True</x:Boolean>
+            </converters:ConditionConverter.If>
+            <converters:ConditionConverter.Then>
+                <SolidColorBrush Color="{ThemeResource FlagBackgroundColor}" />
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Else>
+                <SolidColorBrush Color="{ThemeResource SystemAltHighColor}" />
+            </converters:ConditionConverter.Else>
+        </converters:ConditionConverter>
+
+        <converters:ConditionConverter x:Key="OverdueForegroundConverter">
+            <converters:ConditionConverter.If>
+                <x:Boolean>True</x:Boolean>
+            </converters:ConditionConverter.If>
+            <converters:ConditionConverter.Then>
+                <SolidColorBrush Color="{ThemeResource FlagForegroundColor}" />
+            </converters:ConditionConverter.Then>
+            <converters:ConditionConverter.Else>
+                <SolidColorBrush Color="{ThemeResource SystemBaseMediumColor}" />
+            </converters:ConditionConverter.Else>
+        </converters:ConditionConverter>
+
+        <Style x:Key="NoteItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
+            <Setter Property="TabNavigation" Value="Local" />
+            <Setter Property="IsHoldingEnabled" Value="True" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
+            <Setter Property="AllowDrop" Value="False" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="0" />
+            <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
+            <Setter Property="FocusVisualPrimaryThickness" Value="2" />
+            <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
+            <Setter Property="FocusVisualSecondaryThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <!--<ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                                               CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                                               CheckMode="{ThemeResource ListViewItemCheckMode}"
+                                               ContentMargin="{TemplateBinding Padding}"
+                                               ContentTransitions="{TemplateBinding ContentTransitions}"
+                                               Control.IsTemplateFocusTarget="True"
+                                               DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                               DragBackground="{ThemeResource ListViewItemDragBackground}"
+                                               DragForeground="{ThemeResource ListViewItemDragForeground}"
+                                               DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                               FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
+                                               FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                                               FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                               FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                                               FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                                               FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                                               FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                                               PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
+                                               PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
+                                               PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                                               PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
+                                               ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                               SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
+                                               SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
+                                               SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
+                                               SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
+                                               SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}" />-->
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="NoteItemTemplate" x:DataType="vmnote:NoteItemViewModel">
+            <controls:SlidableListItem MinHeight="60"
+                                       MaxHeight="100"
+                                       Background="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource NoteBackgroundConverter}}"
+                                       BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
+                                       BorderThickness="0,0,0,1"
+                                       LeftBackground="Khaki"
+                                       LeftCommand="{x:Bind ToggleFlagCommand, Mode=OneWay}"
+                                       LeftForeground="#443e09"
+                                       LeftGlyph="&#xE7C1;"
+                                       LeftLabel="Flag"
+                                       LeftReturnPosition="Back"
+                                       MouseSlidingEnabled="True"
+                                       RightBackground="Tomato"
+                                       RightCommand="{x:Bind DeleteCommand, Mode=OneWay}"
+                                       RightForeground="#4d0b00"
+                                       RightGlyph="&#xE74D;"
+                                       RightLabel="Delete"
+                                       RightReturnPosition="Away">
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout Opening="NoteMenuFlyout_Opening">
+                        <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
+                                        behaviors:FlyoutMenuItemBehavior.Glyph="&#xE7C1;"
+                                        Command="{x:Bind ToggleFlagCommand}"
+                                        Text="Flag" />
+                        <MenuFlyoutSubItem x:Name="MoveToFolderRootMenuItem"
+                                           Style="{StaticResource MenuFlyoutSubItemWithIconStyle}"
+                                           behaviors:FlyoutMenuItemBehavior.Glyph="&#xE8DE;"
+                                           behaviors:FlyoutMenuItemBehavior.SubItemContext="{x:Bind Mode=OneWay}"
+                                           Text="Move to folder" />
+                        <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemWithIconStyle}"
+                                        behaviors:FlyoutMenuItemBehavior.Glyph="&#xE74D;"
+                                        Command="{x:Bind DeleteCommand}"
+                                        Text="Delete" />
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+                <i:Interaction.Behaviors>
+                    <behaviors:OpenFlyoutMenuBehavior />
+                    <ic:EventTriggerBehavior EventName="Tapped">
+                        <ic:InvokeCommandAction Command="{x:Bind ShowEditorCommand, Mode=OneWay}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+                <Grid Margin="0,8" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="16,0,4,0">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind Title, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                                   Text="{x:Bind Text, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   Visibility="{x:Bind HasText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <StackPanel Margin="0,2,0,0"
+                                    Orientation="Horizontal"
+                                    Visibility="{x:Bind DateWithReminder, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
+                            <!--<FontIcon Margin="0,0,4,0"
+                                      Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
+                                      FontSize="16"
+                                      Glyph="&#xE787;"
+                                      Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />-->
+                            <TextBlock Margin="0,0,4,0"
+                                       Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
+                                       Text="{x:Bind DateText, Mode=OneWay}"
+                                       Visibility="{x:Bind HasDate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <FontIcon Margin="0,0,4,0"
+                                      Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
+                                      FontSize="16"
+                                      Glyph="&#xEA8F;"
+                                      Visibility="{x:Bind HasReminder, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Foreground="{x:Bind IsOverdue, Mode=OneWay, Converter={StaticResource OverdueForegroundConverter}}"
+                                       Text="{x:Bind ReminderText, Mode=OneWay}"
+                                       Visibility="{x:Bind HasReminder, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <FontIcon Grid.Column="1"
+                              Margin="0,0,16,0"
+                              Foreground="{ThemeResource FlagForegroundBrush}"
+                              FontSize="16"
+                              Glyph="&#xE129;"
+                              Visibility="{x:Bind IsFlagged, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+            </controls:SlidableListItem>
+        </DataTemplate>
+
+    </vcore:ExtendedUserControl.Resources>
+
+    <Grid>
+        <ListView x:Name="NoteList"
+                  Grid.Row="1"
+                  Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                  BorderBrush="{Binding BorderBrush, ElementName=Root}"
+                  BorderThickness="{Binding BorderThickness, ElementName=Root}"
+                  ItemContainerStyle="{StaticResource NoteItemContainerStyle}"
+                  ItemTemplate="{StaticResource NoteItemTemplate}"
+                  ItemsSource="{x:Bind VM.Items, Mode=OneWay}"
+                  SelectedItem="{x:Bind VM.SelectedItem, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" />
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="{x:Bind VM.Items.Count, Mode=OneWay, Converter={StaticResource ZeroToVisibilityConverter}}">
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                       Text="You have no notes here" />
+        </StackPanel>
+    </Grid>
+
+</vcore:ExtendedUserControl>

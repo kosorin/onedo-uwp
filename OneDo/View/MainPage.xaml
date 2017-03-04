@@ -1,18 +1,20 @@
-﻿<mvvm:ExtendedPage x:Class="OneDo.View.MainPage"
-                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                   xmlns:behaviors="using:OneDo.View.Behaviors"
-                   xmlns:controls="using:OneDo.View.Controls"
-                   xmlns:converters="using:OneDo.View.Converters"
-                   xmlns:i="using:Microsoft.Xaml.Interactivity"
-                   xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-                   xmlns:mvvm="using:OneDo.Common.Mvvm"
-                   xmlns:v="using:OneDo.View"
-                   xmlns:vm="using:OneDo.ViewModel"
-                   DataContext="{Binding Main, Source={StaticResource Locator}}"
-                   mc:Ignorable="d">
+﻿<vcore:ExtendedPage x:Class="OneDo.View.MainPage"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:behaviors="using:OneDo.View.Behaviors"
+                    xmlns:controls="using:OneDo.View.Controls"
+                    xmlns:converters="using:OneDo.View.Converters"
+                    xmlns:i="using:Microsoft.Xaml.Interactivity"
+                    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                    xmlns:v="using:OneDo.View"
+                    xmlns:vcore="using:OneDo.View.Core"
+                    xmlns:vfolder="using:OneDo.View.Folder"
+                    xmlns:vm="using:OneDo.ViewModel"
+                    xmlns:vnote="using:OneDo.View.Note"
+                    DataContext="{Binding Main, Source={StaticResource Locator}}"
+                    mc:Ignorable="d">
 
     <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -24,13 +26,13 @@
 
         <!--  Folders  -->
         <Border Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
-            <v:FolderListControl x:Name="FolderList" />
+            <vfolder:FolderListControl x:Name="FolderList" />
         </Border>
         <Border Grid.Row="1" Background="{x:Bind VM.FolderList.SelectedItem.Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />
 
         <!--  Notes  -->
         <Grid x:Name="NoteList" Grid.Row="2">
-            <v:NoteListControl />
+            <vnote:NoteListControl />
             <controls:InfoBar x:Name="InfoBar" VerticalAlignment="Bottom" />
         </Grid>
 
@@ -47,9 +49,9 @@
         </CommandBar>
 
         <!--  Modals  -->
-        <v:ModalContainer x:Name="ModalContainer"
-                          Grid.RowSpan="4"
-                          IsRoot="True" />
+        <vcore:ModalContainer x:Name="ModalContainer"
+                              Grid.RowSpan="4"
+                              IsRoot="True" />
 
         <!--  Progress  -->
         <Grid Grid.RowSpan="4">
@@ -83,4 +85,5 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</mvvm:ExtendedPage>
+
+</vcore:ExtendedPage>

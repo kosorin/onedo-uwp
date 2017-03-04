@@ -12,7 +12,10 @@ using OneDo.Common;
 using OneDo.Application.Queries.Notes;
 using OneDo.Core.Messages;
 using Windows.UI.Notifications;
-using OneDo.Common.Mvvm;
+using OneDo.View.Core;
+using OneDo.View.Note;
+using OneDo.View.Settings;
+using OneDo.View.Folder;
 
 namespace OneDo.View
 {
@@ -43,13 +46,13 @@ namespace OneDo.View
             noteEditorFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
             noteEditorFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
             noteEditorFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeInAnimation<NoteEditor>("Offset.Y", noteEditorFadeInAnimation);
+            ModalContainer.AddFadeInAnimation<NoteEditorView>("Offset.Y", noteEditorFadeInAnimation);
 
             var noteEditorFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
             noteEditorFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
             noteEditorFadeOutAnimation.InsertKeyFrame(0, 0);
             noteEditorFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", ModalContainer.DefaultEasing);
-            ModalContainer.AddFadeOutAnimation<NoteEditor>("Offset.Y", noteEditorFadeOutAnimation);
+            ModalContainer.AddFadeOutAnimation<NoteEditorView>("Offset.Y", noteEditorFadeOutAnimation);
 
             var settingsFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
             settingsFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
@@ -96,12 +99,12 @@ namespace OneDo.View
 
         private void HandleModal(ShowFolderEditorMessage message)
         {
-            ModalContainer.Show(new FolderEditor(message.Id));
+            ModalContainer.Show(new FolderEditorView(message.Id));
         }
 
         private void HandleModal(ShowNoteEditorMessage message)
         {
-            ModalContainer.Show(new NoteEditor(message.Id));
+            ModalContainer.Show(new NoteEditorView(message.Id));
         }
 
 

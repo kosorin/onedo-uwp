@@ -3,7 +3,7 @@ using OneDo.ViewModel;
 using OneDo.Core.Args;
 using Windows.UI.Xaml.Controls;
 using System.Linq;
-using OneDo.Common.Mvvm;
+using OneDo.View.Core;
 
 namespace OneDo.View
 {

@@ -1,5 +1,5 @@
 ﻿using OneDo.Common.Extensions;
-using OneDo.Common.Mvvm;
+using OneDo.ViewModel.Core.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;

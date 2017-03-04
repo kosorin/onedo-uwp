@@ -9,8 +9,9 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using OneDo.Common.Extensions;
-using OneDo.Common.Mvvm;
 using Windows.ApplicationModel.DataTransfer;
+using OneDo.ViewModel.Core;
+using OneDo.ViewModel.Core.Command;
 
 namespace OneDo.ViewModel
 {

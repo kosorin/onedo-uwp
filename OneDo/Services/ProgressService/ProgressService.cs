@@ -1,4 +1,4 @@
-﻿using OneDo.Common.Mvvm;
+﻿using OneDo.ViewModel.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;

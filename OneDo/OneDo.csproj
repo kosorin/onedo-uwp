@@ -102,7 +102,7 @@
     <Compile Include="Core\Args\DateChangedEventArgs.cs" />
     <Compile Include="Core\Args\TimeChangedEventArgs.cs" />
     <Compile Include="Common\Extensions\FlyoutExtensions.cs" />
-    <Compile Include="Common\Mvvm\IExtendedCommand.cs" />
+    <Compile Include="ViewModel\Core\Command\IExtendedCommand.cs" />
     <Compile Include="Core\BackgroundTasks\InProcessTestBackgroundTask.cs" />
     <Compile Include="Core\Messages\CloseModalMessage.cs" />
     <Compile Include="Services\BackgroundTaskService\BackgroundTaskParameters.cs" />
@@ -117,21 +117,21 @@
     <Compile Include="Services\StringService\StringProvider.cs" />
     <Compile Include="Services\InfoService\InfoMessage.cs" />
     <Compile Include="Core\Args\SelectionChangedEventArgs.cs" />
-    <Compile Include="Common\Mvvm\RelayCommand.cs" />
-    <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\ListItemViewModel.cs" />
+    <Compile Include="ViewModel\Core\Command\RelayCommand.cs" />
+    <Compile Include="ViewModel\Core\EditorViewModel.cs" />
+    <Compile Include="ViewModel\Core\ListItemViewModel.cs" />
     <Compile Include="ViewModel\ColorViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
-    <Compile Include="ViewModel\FolderEditorViewModel.cs" />
-    <Compile Include="ViewModel\ListViewModel.cs" />
+    <Compile Include="ViewModel\Folder\FolderEditorViewModel.cs" />
+    <Compile Include="ViewModel\Core\ListViewModel.cs" />
     <Compile Include="Core\Messages\ShowFolderEditorMessage.cs" />
     <Compile Include="Core\Messages\ShowLogMessage.cs" />
     <Compile Include="Core\Messages\ShowNoteEditorMessage.cs" />
     <Compile Include="Core\Messages\ShowSettingsMessage.cs" />
-    <Compile Include="ViewModel\NoteListViewModel.cs" />
+    <Compile Include="ViewModel\Note\NoteListViewModel.cs" />
     <Compile Include="Core\UIHost.cs" />
     <Compile Include="Common\UI\AnimationInfo.cs" />
-    <Compile Include="ViewModel\ReminderViewModel.cs" />
+    <Compile Include="ViewModel\Reminder\ReminderViewModel.cs" />
     <Compile Include="View\Behaviors\CommandBarBehavior.cs" />
     <Compile Include="View\Behaviors\TextBoxBehavior.cs" />
     <Compile Include="View\Behaviors\OpenFlyoutMenuBehavior.cs" />
@@ -141,20 +141,14 @@
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="View\Controls\CalendarDatePicker.cs" />
     <Compile Include="View\Controls\InfoBar.cs" />
-    <Compile Include="View\Controls\DatePicker.xaml.cs">
-      <DependentUpon>DatePicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Converters\CompositeConverter.cs" />
-    <Compile Include="Common\Mvvm\ExtendedContentControl.cs" />
-    <Compile Include="View\ModalContainer.cs" />
-    <Compile Include="View\NoteListControl.xaml.cs">
+    <Compile Include="View\Core\ExtendedContentControl.cs" />
+    <Compile Include="View\Core\ModalContainer.cs" />
+    <Compile Include="View\Note\NoteListControl.xaml.cs">
       <DependentUpon>NoteListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\RingSlice.cs" />
     <Compile Include="View\Controls\SlidableListItem.cs" />
-    <Compile Include="View\Controls\TimePicker.xaml.cs">
-      <DependentUpon>TimePicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\Converters\ChangeTypeConverter.cs" />
     <Compile Include="View\Converters\ColorToBrushConverter.cs" />
@@ -164,30 +158,30 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Services\ProgressService\IProgressService.cs" />
     <Compile Include="Services\ProgressService\ProgressService.cs" />
-    <Compile Include="Common\Mvvm\AsyncRelayCommand.cs" />
-    <Compile Include="ViewModel\FolderListViewModel.cs" />
-    <Compile Include="ViewModel\ModalViewModel.cs" />
-    <Compile Include="ViewModel\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\FolderItemViewModel.cs" />
-    <Compile Include="ViewModel\NoteItemViewModel.cs" />
-    <Compile Include="ViewModel\NoteEditorViewModel.cs" />
-    <Compile Include="Common\Mvvm\ExtendedViewModel.cs" />
-    <Compile Include="View\FolderListControl.xaml.cs">
+    <Compile Include="ViewModel\Core\Command\AsyncRelayCommand.cs" />
+    <Compile Include="ViewModel\Folder\FolderListViewModel.cs" />
+    <Compile Include="ViewModel\Core\ModalViewModel.cs" />
+    <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\Folder\FolderItemViewModel.cs" />
+    <Compile Include="ViewModel\Note\NoteItemViewModel.cs" />
+    <Compile Include="ViewModel\Note\NoteEditorViewModel.cs" />
+    <Compile Include="ViewModel\Core\ExtendedViewModel.cs" />
+    <Compile Include="View\Folder\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ModalView.cs" />
+    <Compile Include="View\Core\ModalView.cs" />
     <Compile Include="View\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FolderEditor.xaml.cs">
-      <DependentUpon>FolderEditor.xaml</DependentUpon>
+    <Compile Include="View\Folder\FolderEditorView.xaml.cs">
+      <DependentUpon>FolderEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\Mvvm\IView.cs" />
-    <Compile Include="Common\Mvvm\ExtendedUserControl.cs" />
-    <Compile Include="View\NoteEditor.xaml.cs">
-      <DependentUpon>NoteEditor.xaml</DependentUpon>
+    <Compile Include="View\Core\IView.cs" />
+    <Compile Include="View\Core\ExtendedUserControl.cs" />
+    <Compile Include="View\Note\NoteEditorView.xaml.cs">
+      <DependentUpon>NoteEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SettingsView.xaml.cs">
+    <Compile Include="View\Settings\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainPage.xaml.cs">
@@ -196,7 +190,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="Common\Mvvm\ExtendedPage.cs" />
+    <Compile Include="View\Core\ExtendedPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -240,19 +234,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="View\Controls\DatePicker.xaml">
+    <Page Include="View\Folder\FolderListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FolderListControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\NoteListControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Controls\TimePicker.xaml">
+    <Page Include="View\Note\NoteListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -260,15 +246,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FolderEditor.xaml">
+    <Page Include="View\Folder\FolderEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\NoteEditor.xaml">
+    <Page Include="View\Note\NoteEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SettingsView.xaml">
+    <Page Include="View\Settings\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -295,12 +281,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\View\" />
-    <Folder Include="ViewModel\Folder\" />
-    <Folder Include="ViewModel\NewFolder1\" />
-    <Folder Include="ViewModel\Note\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
