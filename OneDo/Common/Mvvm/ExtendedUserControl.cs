@@ -8,15 +8,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace OneDo.View
+namespace OneDo.Common.Mvvm
 {
-    public class ExtendedContentControl : ContentControl, IView, INotifyPropertyChanged
+    public class ExtendedUserControl : UserControl, IView, INotifyPropertyChanged
     {
         public ExtendedViewModel ViewModel { get; set; }
 
         protected readonly Compositor compositor;
 
-        public ExtendedContentControl()
+        public ExtendedUserControl()
         {
             if (!DesignMode.DesignModeEnabled)
             {

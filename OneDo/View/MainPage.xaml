@@ -1,17 +1,18 @@
-﻿<v:ExtendedPage x:Class="OneDo.View.MainPage"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                xmlns:behaviors="using:OneDo.View.Behaviors"
-                xmlns:controls="using:OneDo.View.Controls"
-                xmlns:converters="using:OneDo.View.Converters"
-                xmlns:i="using:Microsoft.Xaml.Interactivity"
-                xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-                xmlns:v="using:OneDo.View"
-                xmlns:vm="using:OneDo.ViewModel"
-                DataContext="{Binding Main, Source={StaticResource Locator}}"
-                mc:Ignorable="d">
+﻿<mvvm:ExtendedPage x:Class="OneDo.View.MainPage"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:behaviors="using:OneDo.View.Behaviors"
+                   xmlns:controls="using:OneDo.View.Controls"
+                   xmlns:converters="using:OneDo.View.Converters"
+                   xmlns:i="using:Microsoft.Xaml.Interactivity"
+                   xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+                   xmlns:mvvm="using:OneDo.Common.Mvvm"
+                   xmlns:v="using:OneDo.View"
+                   xmlns:vm="using:OneDo.ViewModel"
+                   DataContext="{Binding Main, Source={StaticResource Locator}}"
+                   mc:Ignorable="d">
 
     <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -82,4 +83,4 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</v:ExtendedPage>
+</mvvm:ExtendedPage>

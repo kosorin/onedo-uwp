@@ -1,24 +1,22 @@
-﻿using OneDo.Common.Mvvm;
-using OneDo.Common.Extensions;
+﻿using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml;
-using System.Threading.Tasks;
 
-namespace OneDo.View
+namespace OneDo.Common.Mvvm
 {
-    public class ExtendedPage : Page, IView, INotifyPropertyChanged
+    public class ExtendedContentControl : ContentControl, IView, INotifyPropertyChanged
     {
         public ExtendedViewModel ViewModel { get; set; }
 
         protected readonly Compositor compositor;
 
-        public ExtendedPage()
+        public ExtendedContentControl()
         {
             if (!DesignMode.DesignModeEnabled)
             {
