@@ -18,6 +18,8 @@ namespace OneDo.View.Controls
     [TemplatePart(Name = PreviousDayButtonPartName, Type = typeof(Button))]
     [TemplatePart(Name = TodayButtonPartName, Type = typeof(Button))]
     [TemplatePart(Name = TomorrowButtonPartName, Type = typeof(Button))]
+    [TemplatePart(Name = EndOfWeekButtonPartName, Type = typeof(Button))]
+    [TemplatePart(Name = EndOfNextWeekButtonPartName, Type = typeof(Button))]
     public class CalendarDatePicker : WindowsCalendarDatePicker
     {
         private const string ClearButtonPartName = "ClearButton";
@@ -25,6 +27,8 @@ namespace OneDo.View.Controls
         private const string PreviousDayButtonPartName = "PreviousDayButton";
         private const string TodayButtonPartName = "TodayButton";
         private const string TomorrowButtonPartName = "TomorrowButton";
+        private const string EndOfWeekButtonPartName = "EndOfWeekButton";
+        private const string EndOfNextWeekButtonPartName = "EndOfNextWeekButton";
 
 
         public object UnselectedHeader
@@ -45,6 +49,8 @@ namespace OneDo.View.Controls
             var previousDayButton = GetTemplateChild(PreviousDayButtonPartName) as Button;
             var todayButton = GetTemplateChild(TodayButtonPartName) as Button;
             var tomorrowButton = GetTemplateChild(TomorrowButtonPartName) as Button;
+            var endOfWeekButton = GetTemplateChild(EndOfWeekButtonPartName) as Button;
+            var endOfNextWeekButton = GetTemplateChild(EndOfNextWeekButtonPartName) as Button;
 
             if (clearButton != null)
             {
@@ -65,6 +71,14 @@ namespace OneDo.View.Controls
             if (tomorrowButton != null)
             {
                 tomorrowButton.Command = new RelayCommand(Tomorrow);
+            }
+            if (endOfWeekButton != null)
+            {
+                endOfWeekButton.Command = new RelayCommand(EndOfWeek);
+            }
+            if (endOfNextWeekButton != null)
+            {
+                endOfNextWeekButton.Command = new RelayCommand(EndOfNextWeek);
             }
         }
 
@@ -93,6 +107,18 @@ namespace OneDo.View.Controls
         {
             IsCalendarOpen = false;
             Date = DateTime.Today.Tomorrow();
+        }
+
+        private void EndOfWeek()
+        {
+            IsCalendarOpen = false;
+            Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday);
+        }
+
+        private void EndOfNextWeek()
+        {
+            IsCalendarOpen = false;
+            Date = DateTime.Today.LastDayOfWeek(DayOfWeek.Monday).AddWeeks(1);
         }
     }
 }

@@ -651,6 +651,10 @@
                                         <Grid Grid.Row="1"
                                               BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
                                               BorderThickness="0,1,0,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
@@ -663,6 +667,16 @@
                                                     Grid.Column="1"
                                                     Style="{StaticResource QuickButtonStyle}"
                                                     Content="Tomorrow" />
+                                            <Button x:Name="EndOfWeekButton"
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Style="{StaticResource QuickButtonStyle}"
+                                                    Content="This week" />
+                                            <Button x:Name="EndOfNextWeekButton"
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Style="{StaticResource QuickButtonStyle}"
+                                                    Content="Next week" />
                                         </Grid>
                                     </Grid>
                                 </Flyout>
