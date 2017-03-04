@@ -12,10 +12,11 @@ using OneDo.Common;
 using OneDo.Application.Queries.Notes;
 using OneDo.Core.Messages;
 using Windows.UI.Notifications;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.View
 {
-    public sealed partial class MainPage : ExtendedPage, IXBind<MainViewModel>
+    public sealed partial class MainPage : ExtendedPage, IView<MainViewModel>
     {
         public MainViewModel VM => (MainViewModel)ViewModel;
 

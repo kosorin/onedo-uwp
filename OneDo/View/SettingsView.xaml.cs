@@ -1,8 +1,9 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Common.Mvvm;
+using OneDo.ViewModel;
 
 namespace OneDo.View
 {
-    public sealed partial class SettingsView : ModalView, IXBind<SettingsViewModel>
+    public sealed partial class SettingsView : ModalView, IView<SettingsViewModel>
     {
         public SettingsViewModel VM => (SettingsViewModel)ViewModel;
 

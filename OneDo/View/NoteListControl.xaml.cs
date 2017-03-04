@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Data;
 
 namespace OneDo.View
 {
-    public sealed partial class NoteListControl : ExtendedUserControl, IXBind<NoteListViewModel>
+    public sealed partial class NoteListControl : ExtendedUserControl, IView<NoteListViewModel>
     {
         public NoteListViewModel VM => (NoteListViewModel)ViewModel;
 

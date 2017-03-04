@@ -5,10 +5,11 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.View
 {
-    public sealed partial class FolderEditor : ModalView, IXBind<FolderEditorViewModel>
+    public sealed partial class FolderEditor : ModalView, IView<FolderEditorViewModel>
     {
         public FolderEditorViewModel VM => ViewModel as FolderEditorViewModel;
 

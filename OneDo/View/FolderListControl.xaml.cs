@@ -1,8 +1,9 @@
-﻿using OneDo.ViewModel;
+﻿using OneDo.Common.Mvvm;
+using OneDo.ViewModel;
 
 namespace OneDo.View
 {
-    public sealed partial class FolderListControl : ExtendedUserControl, IXBind<FolderListViewModel>
+    public sealed partial class FolderListControl : ExtendedUserControl, IView<FolderListViewModel>
     {
         public FolderListViewModel VM => (FolderListViewModel)ViewModel;
 

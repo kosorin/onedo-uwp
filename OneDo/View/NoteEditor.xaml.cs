@@ -1,5 +1,6 @@
 ﻿using OneDo.Application.Queries.Notes;
 using OneDo.Common.Extensions;
+using OneDo.Common.Mvvm;
 using OneDo.Core.Args;
 using OneDo.View.Controls;
 using OneDo.ViewModel;
@@ -10,7 +11,7 @@ using Windows.UI.Xaml.Input;
 
 namespace OneDo.View
 {
-    public sealed partial class NoteEditor : ModalView, IXBind<NoteEditorViewModel>
+    public sealed partial class NoteEditor : ModalView, IView<NoteEditorViewModel>
     {
         public NoteEditorViewModel VM => ViewModel as NoteEditorViewModel;
 

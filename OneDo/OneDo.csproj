@@ -182,7 +182,7 @@
     <Compile Include="View\FolderEditor.xaml.cs">
       <DependentUpon>FolderEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\IView.cs" />
+    <Compile Include="Common\Mvvm\IView.cs" />
     <Compile Include="View\ExtendedUserControl.cs" />
     <Compile Include="View\NoteEditor.xaml.cs">
       <DependentUpon>NoteEditor.xaml</DependentUpon>
@@ -197,7 +197,6 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ExtendedPage.cs" />
-    <Compile Include="View\IXBind.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -296,7 +295,12 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\View\" />
+    <Folder Include="ViewModel\Folder\" />
+    <Folder Include="ViewModel\NewFolder1\" />
+    <Folder Include="ViewModel\Note\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

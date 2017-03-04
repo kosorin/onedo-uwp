@@ -3,10 +3,11 @@ using OneDo.ViewModel;
 using OneDo.Core.Args;
 using Windows.UI.Xaml.Controls;
 using System.Linq;
+using OneDo.Common.Mvvm;
 
 namespace OneDo.View
 {
-    public sealed partial class LogView : ModalView, IXBind<LogViewModel>
+    public sealed partial class LogView : ModalView, IView<LogViewModel>
     {
         public LogViewModel VM => (LogViewModel)ViewModel;
 

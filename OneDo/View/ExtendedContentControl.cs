@@ -27,9 +27,9 @@ namespace OneDo.View
                         OnViewModelChanging();
 
                         ViewModel = e.NewValue as ExtendedViewModel;
-                        if (GetType().ImplementsGenericInterface(typeof(IXBind<>)))
+                        if (GetType().ImplementsGenericInterface(typeof(IView<>)))
                         {
-                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IXBind<ExtendedViewModel>.VM)));
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IView<ExtendedViewModel>.VM)));
                         }
 
                         OnViewModelChanged();
