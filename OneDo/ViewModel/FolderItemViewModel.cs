@@ -13,7 +13,7 @@ using OneDo.Application.Events.Folders;
 
 namespace OneDo.ViewModel
 {
-    public class FolderItemViewModel : ModelViewModel<FolderModel>
+    public class FolderItemViewModel : ListItemViewModel<FolderModel>
     {
         private string name;
         public string Name

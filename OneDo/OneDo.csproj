@@ -119,7 +119,7 @@
     <Compile Include="Core\Args\SelectionChangedEventArgs.cs" />
     <Compile Include="Common\Mvvm\RelayCommand.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="ViewModel\ModelViewModel.cs" />
+    <Compile Include="ViewModel\ListItemViewModel.cs" />
     <Compile Include="ViewModel\ColorViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\FolderEditorViewModel.cs" />

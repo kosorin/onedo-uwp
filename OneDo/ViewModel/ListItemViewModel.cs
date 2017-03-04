@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public abstract class ModelViewModel<TModel> : ObservableObject
+    public abstract class ListItemViewModel<TModel> : ObservableObject
         where TModel : IModel
     {
         public Guid Id { get; }
@@ -23,7 +23,7 @@ namespace OneDo.ViewModel
 
         public UIHost UIHost { get; }
 
-        protected ModelViewModel(Guid id, IApi api, UIHost uiHost)
+        protected ListItemViewModel(Guid id, IApi api, UIHost uiHost)
         {
             Id = id;
 

@@ -14,7 +14,7 @@ using Windows.Foundation;
 namespace OneDo.ViewModel
 {
     public abstract class ListViewModel<TItem, TModel> : ModalViewModel
-        where TItem : ModelViewModel<TModel>
+        where TItem : ListItemViewModel<TModel>
         where TModel : class, IModel, new()
     {
         private ObservableCollection<TItem> items;

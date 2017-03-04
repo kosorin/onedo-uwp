@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OneDo.ViewModel
 {
-    public class NoteItemViewModel : ModelViewModel<NoteModel>
+    public class NoteItemViewModel : ListItemViewModel<NoteModel>
     {
         public Guid FolderId { get; }
 
