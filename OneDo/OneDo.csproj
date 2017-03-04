@@ -264,7 +264,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OneDo.Api\OneDo.Application.csproj">
+    <ProjectReference Include="..\OneDo.Application\OneDo.Application.csproj">
       <Project>{98ECB73F-A239-4073-8EE3-4F027FFD92C7}</Project>
       <Name>OneDo.Application</Name>
     </ProjectReference>
