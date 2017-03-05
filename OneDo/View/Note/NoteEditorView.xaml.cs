@@ -16,43 +16,13 @@ namespace OneDo.View.Note
     {
         public NoteEditorViewModel VM => ViewModel as NoteEditorViewModel;
 
-        //public override ModalContainer SubContainer => ModalContainer;
-
         public Guid? NoteId { get; }
 
         public NoteEditorView(Guid? noteId)
         {
             InitializeComponent();
-            InitializeModalAnimations();
 
             NoteId = noteId;
-        }
-
-        private void InitializeModalAnimations()
-        {
-            //var datePickerFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            //datePickerFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
-            //datePickerFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
-            //datePickerFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
-            //ModalContainer.AddFadeInAnimation<DatePicker>("Offset.Y", datePickerFadeInAnimation);
-
-            //var datePickerFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            //datePickerFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
-            //datePickerFadeOutAnimation.InsertKeyFrame(0, 0);
-            //datePickerFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", ModalContainer.DefaultEasing);
-            //ModalContainer.AddFadeOutAnimation<DatePicker>("Offset.Y", datePickerFadeOutAnimation);
-
-            //var reminderPickerFadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-            //reminderPickerFadeInAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
-            //reminderPickerFadeInAnimation.InsertExpressionKeyFrame(0, "Height");
-            //reminderPickerFadeInAnimation.InsertKeyFrame(1, 0, ModalContainer.DefaultEasing);
-            //ModalContainer.AddFadeInAnimation<TimePicker>("Offset.Y", reminderPickerFadeInAnimation);
-
-            //var reminderPickerFadeOutAnimation = compositor.CreateScalarKeyFrameAnimation();
-            //reminderPickerFadeOutAnimation.Duration = TimeSpan.FromMilliseconds(ModalContainer.DefaultDuration);
-            //reminderPickerFadeOutAnimation.InsertKeyFrame(0, 0);
-            //reminderPickerFadeOutAnimation.InsertExpressionKeyFrame(1, "Height", ModalContainer.DefaultEasing);
-            //ModalContainer.AddFadeOutAnimation<TimePicker>("Offset.Y", reminderPickerFadeOutAnimation);
         }
 
         protected override async Task OnFirstLoad()
@@ -63,54 +33,5 @@ namespace OneDo.View.Note
             }
             await VM.Load(NoteId);
         }
-
-
-        //private void HideDatePicker()
-        //{
-        //    SubContainer.TryClose();
-        //}
-
-        //private void HideTimePicker()
-        //{
-        //    SubContainer.TryClose();
-        //}
-
-        //private void ShowDatePicker()
-        //{
-        //    var picker = new DatePicker(VM.Reminder ?? DateTime.Today);
-        //    picker.DateChanged += DatePicker_DateChanged;
-        //    SubContainer.Show(picker);
-        //}
-
-        //private void ShowTimePicker()
-        //{
-        //    var picker = new TimePicker(VM.Reminder ?? DateTime.Now.ToTime());
-        //    picker.TimeChanged += ReminderPicker_TimeChanged;
-        //    SubContainer.Show(picker);
-        //}
-
-
-        //private void DatePicker_DateChanged(DatePicker sender, DateChangedEventArgs args)
-        //{
-        //    VM.Reminder = args.Date;
-        //    HideDatePicker();
-        //}
-
-        //private void ReminderPicker_TimeChanged(TimePicker sender, TimeChangedEventArgs args)
-        //{
-        //    VM.Reminder = args.Time;
-        //    HideTimePicker();
-        //}
-
-
-        //private void DateButton_Tapped(object sender, TappedRoutedEventArgs e)
-        //{
-        //    ShowDatePicker();
-        //}
-
-        //private void ReminderButton_Tapped(object sender, TappedRoutedEventArgs e)
-        //{
-        //    ShowTimePicker();
-        //}
     }
 }
