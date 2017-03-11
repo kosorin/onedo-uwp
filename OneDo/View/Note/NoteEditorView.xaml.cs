@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace OneDo.View.Note
 {
@@ -32,6 +33,11 @@ namespace OneDo.View.Note
                 TitleTextBox.Focus(FocusState.Programmatic);
             }
             await VM.Load(NoteId);
+        }
+
+        private void TimePickerFlyout_TimePicked(TimePickerFlyout sender, TimePickedEventArgs args)
+        {
+            VM.ReminderTime = args.NewTime;
         }
     }
 }

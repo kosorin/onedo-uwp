@@ -59,9 +59,9 @@
                                               Padding="{TemplateBinding Padding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              AutomationProperties.AccessibilityView="Raw"
                                               BorderBrush="{TemplateBinding BorderBrush}"
                                               BorderThickness="{TemplateBinding BorderThickness}"
-                                              AutomationProperties.AccessibilityView="Raw"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               ContentTransitions="{TemplateBinding ContentTransitions}" />
@@ -146,8 +146,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                            <FontIcon Foreground="{TemplateBinding Foreground}"
-                                      FontSize="{TemplateBinding FontSize}"
+                            <FontIcon FontSize="{TemplateBinding FontSize}"
+                                      Foreground="{TemplateBinding Foreground}"
                                       Glyph="{TemplateBinding Tag}" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -198,17 +198,17 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <FontIcon Grid.Column="0"
-                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                       FontSize="16"
+                                      Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                       Glyph="{TemplateBinding Tag}" />
                             <ContentPresenter x:Name="ContentPresenter"
                                               Grid.Column="1"
                                               Padding="{TemplateBinding Padding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              AutomationProperties.AccessibilityView="Raw"
                                               BorderBrush="{TemplateBinding BorderBrush}"
                                               BorderThickness="{TemplateBinding BorderThickness}"
-                                              AutomationProperties.AccessibilityView="Raw"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               ContentTransitions="{TemplateBinding ContentTransitions}" />
@@ -267,8 +267,8 @@
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                  FontSize="16"
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                   Glyph="{Binding}" />
                     </DataTemplate>
                 </Setter.Value>
@@ -340,10 +340,10 @@
                                       Grid.Column="2"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
-                                      Foreground="{ThemeResource ComboBoxDropDownGlyphForeground}"
+                                      AutomationProperties.AccessibilityView="Raw"
                                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                       FontSize="12"
-                                      AutomationProperties.AccessibilityView="Raw"
+                                      Foreground="{ThemeResource ComboBoxDropDownGlyphForeground}"
                                       Glyph="&#xE0E5;"
                                       IsHitTestVisible="False" />
                             <Popup x:Name="Popup" Margin="36,0,128,0">
@@ -355,9 +355,9 @@
                                         BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
                                     <ScrollViewer x:Name="ScrollViewer"
                                                   MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                  Foreground="{ThemeResource ComboBoxDropDownForeground}"
                                                   AutomationProperties.AccessibilityView="Raw"
                                                   BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                                  Foreground="{ThemeResource ComboBoxDropDownForeground}"
                                                   HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                                   HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
                                                   IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
@@ -394,10 +394,10 @@
                                 <VisualStateGroup x:Name="FocusStates">
                                     <VisualState x:Name="Focused">
                                         <Storyboard>
-                                            <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="HighlightBackground"
+                                            <DoubleAnimation Storyboard.TargetName="HighlightBackground"
                                                              Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+                                                             To="1"
+                                                             Duration="0" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightBackground" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBackgroundBorderBrushFocused}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -414,10 +414,10 @@
                                     </VisualState>
                                     <VisualState x:Name="FocusedPressed">
                                         <Storyboard>
-                                            <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="HighlightBackground"
+                                            <DoubleAnimation Storyboard.TargetName="HighlightBackground"
                                                              Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+                                                             To="1"
+                                                             Duration="0" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxForegroundFocusedPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -433,9 +433,9 @@
                                     <VisualState x:Name="PointerFocused" />
                                     <VisualState x:Name="FocusedDropDown">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Duration="0"
-                                                                           Storyboard.TargetName="PopupBorder"
-                                                                           Storyboard.TargetProperty="Visibility">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PopupBorder"
+                                                                           Storyboard.TargetProperty="Visibility"
+                                                                           Duration="0">
                                                 <DiscreteObjectKeyFrame KeyTime="0">
                                                     <DiscreteObjectKeyFrame.Value>
                                                         <Visibility>Visible</Visibility>
@@ -561,8 +561,8 @@
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                  FontSize="16"
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                   Glyph="{Binding}" />
                     </DataTemplate>
                 </Setter.Value>
@@ -593,14 +593,14 @@
                                            Text="{TemplateBinding PlaceholderText}" />
                                 <Button x:Name="PreviousDayButton"
                                         Grid.Column="2"
-                                        Style="{StaticResource GlyphButtonPickerStyle}"
                                         FontSize="16"
+                                        Style="{StaticResource GlyphButtonPickerStyle}"
                                         Tag="&#xE09A;"
                                         Visibility="{Binding Date, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
                                 <Button x:Name="NextDayButton"
                                         Grid.Column="3"
-                                        Style="{StaticResource GlyphButtonPickerStyle}"
                                         FontSize="16"
+                                        Style="{StaticResource GlyphButtonPickerStyle}"
                                         Tag="&#xE09B;"
                                         Visibility="{Binding Date, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
                                 <Button x:Name="ClearButton"
@@ -638,7 +638,6 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <CalendarView x:Name="CalendarView"
-                                                      Style="{TemplateBinding CalendarViewStyle}"
                                                       CalendarIdentifier="{TemplateBinding CalendarIdentifier}"
                                                       DayOfWeekFormat="{TemplateBinding DayOfWeekFormat}"
                                                       DisplayMode="{TemplateBinding DisplayMode}"
@@ -647,7 +646,8 @@
                                                       IsOutOfScopeEnabled="{TemplateBinding IsOutOfScopeEnabled}"
                                                       IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
                                                       MaxDate="{TemplateBinding MaxDate}"
-                                                      MinDate="{TemplateBinding MinDate}" />
+                                                      MinDate="{TemplateBinding MinDate}"
+                                                      Style="{TemplateBinding CalendarViewStyle}" />
                                         <Grid Grid.Row="1"
                                               BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
                                               BorderThickness="0,1,0,0">
@@ -661,22 +661,22 @@
                                             </Grid.ColumnDefinitions>
                                             <Button x:Name="TodayButton"
                                                     Grid.Column="0"
-                                                    Style="{StaticResource QuickButtonStyle}"
-                                                    Content="Today" />
+                                                    Content="Today"
+                                                    Style="{StaticResource QuickButtonStyle}" />
                                             <Button x:Name="TomorrowButton"
                                                     Grid.Column="1"
-                                                    Style="{StaticResource QuickButtonStyle}"
-                                                    Content="Tomorrow" />
+                                                    Content="Tomorrow"
+                                                    Style="{StaticResource QuickButtonStyle}" />
                                             <Button x:Name="EndOfWeekButton"
                                                     Grid.Row="1"
                                                     Grid.Column="0"
-                                                    Style="{StaticResource QuickButtonStyle}"
-                                                    Content="This week" />
+                                                    Content="This week"
+                                                    Style="{StaticResource QuickButtonStyle}" />
                                             <Button x:Name="EndOfNextWeekButton"
                                                     Grid.Row="1"
                                                     Grid.Column="1"
-                                                    Style="{StaticResource QuickButtonStyle}"
-                                                    Content="Next week" />
+                                                    Content="Next week"
+                                                    Style="{StaticResource QuickButtonStyle}" />
                                         </Grid>
                                     </Grid>
                                 </Flyout>
@@ -720,34 +720,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="TimePickerStyle" TargetType="TimePicker">
-            <Setter Property="MaxWidth">
-                <Setter.Value>
-                    <x:Double>Infinity</x:Double>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-            <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Height" Value="32" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Stretch" />
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-            <Setter Property="UseSystemFocusVisuals" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TimePicker">
-                        <Button x:Name="FlyoutButton"
-                                Style="{StaticResource ButtonPickerStyle}"
-                                Tag="&#xE121;" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
     </vcore:ModalView.Resources>
 
     <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -769,15 +741,15 @@
                              Grid.Column="0"
                              Margin="16,6,0,4"
                              VerticalAlignment="Center"
-                             Style="{StaticResource BorderlessTextBoxStyle}"
                              FontSize="18"
                              FontWeight="Medium"
                              PlaceholderText="Title"
+                             Style="{StaticResource BorderlessTextBoxStyle}"
                              Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                     <ToggleButton Grid.Column="1"
-                                  Style="{StaticResource FlagButtonStyle}"
-                                  IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}">
+                                  IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}"
+                                  Style="{StaticResource FlagButtonStyle}">
                         <FontIcon FontSize="16" Glyph="&#xE7C1;" />
                     </ToggleButton>
                 </Grid>
@@ -786,18 +758,18 @@
                 <!--  Folder  -->
                 <ComboBox x:Name="FolderComboBox"
                           Margin="0,8"
-                          Style="{StaticResource ComboBoxPickerStyle}"
                           ItemsSource="{x:Bind VM.Folders, Mode=OneWay}"
-                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}">
+                          SelectedItem="{x:Bind VM.SelectedFolder, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                          Style="{StaticResource ComboBoxPickerStyle}">
                     <ComboBox.HeaderTemplate>
                         <DataTemplate>
                             <Grid>
-                                <FontIcon Foreground="{Binding SelectedItem.Color, ElementName=FolderComboBox, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
-                                          Opacity="0.75"
-                                          FontSize="16"
-                                          Glyph="&#xE188;" />
-                                <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                          FontSize="16"
+                                <FontIcon FontSize="16"
+                                          Foreground="{Binding SelectedItem.Color, ElementName=FolderComboBox, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+                                          Glyph="&#xE188;"
+                                          Opacity="0.75" />
+                                <FontIcon FontSize="16"
+                                          Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                           Glyph="&#xE8B7;" />
                             </Grid>
                         </DataTemplate>
@@ -814,20 +786,23 @@
                 <StackPanel Margin="0,8">
                     <controls:CalendarDatePicker x:Name="ReminderDatePicker"
                                                  Grid.ColumnSpan="5"
-                                                 Style="{StaticResource DatePickerStyle}"
                                                  CalendarViewStyle="{StaticResource CalendarViewStyle}"
                                                  Date="{x:Bind VM.ReminderDate, Mode=TwoWay}"
                                                  Header="&#xE787;"
                                                  PlaceholderText="Set reminder"
+                                                 Style="{StaticResource DatePickerStyle}"
                                                  UnselectedHeader="&#xEA8F;" />
-                    <TimePicker x:Name="ReminderTimePicker"
-                                Grid.ColumnSpan="2"
-                                Margin="0,8,0,0"
-                                Style="{StaticResource TimePickerStyle}"
-                                Time="{x:Bind VM.ReminderTime, Mode=TwoWay}"
-                                Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
+                    <Button Margin="0,8,0,0"
+                            Content="{x:Bind VM.ReminderTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:t}'}"
+                            Style="{StaticResource ButtonPickerStyle}"
+                            Tag="&#xE121;"
+                            Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
+                        <Button.Flyout>
+                            <TimePickerFlyout Placement="Bottom" TimePicked="TimePickerFlyout_TimePicked" />
+                        </Button.Flyout>
+                    </Button>
                     <StackPanel Margin="0,8,0,0" Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
-                        <ComboBox Style="{StaticResource ComboBoxPickerStyle}" Header="&#xE149;" />
+                        <ComboBox Header="&#xE149;" Style="{StaticResource ComboBoxPickerStyle}" />
                     </StackPanel>
                 </StackPanel>
                 <Rectangle Margin="48,0,0,0" Style="{StaticResource HorizontalLineStyle}" />
@@ -842,15 +817,15 @@
                               Grid.Column="0"
                               Height="32"
                               VerticalAlignment="Top"
-                              Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                               FontSize="16"
+                              Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                               Glyph="&#xE104;" />
                     <TextBox Grid.RowSpan="2"
                              Grid.Column="1"
                              Margin="0,0,16,0"
-                             Style="{StaticResource BorderlessTextBoxStyle}"
                              AcceptsReturn="True"
                              PlaceholderText="Note"
+                             Style="{StaticResource BorderlessTextBoxStyle}"
                              Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" />
                 </Grid>
