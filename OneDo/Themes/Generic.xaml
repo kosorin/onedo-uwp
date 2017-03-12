@@ -7,6 +7,10 @@
                     xmlns:vcore="using:OneDo.View.Core"
                     xmlns:v="using:OneDo.View">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Themes/Styles/TimePicker.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="controls:SlidableListItem">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />

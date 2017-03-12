@@ -720,6 +720,18 @@
             </Setter>
         </Style>
 
+        <Style x:Key="TimePickerStyle" TargetType="controls:TimePicker">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:TimePicker">
+                        <Button x:Name="TimeButton"
+                                Style="{StaticResource ButtonPickerStyle}"
+                                Tag="&#xE121;" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </vcore:ModalView.Resources>
 
     <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -792,15 +804,9 @@
                                                  PlaceholderText="Set reminder"
                                                  Style="{StaticResource DatePickerStyle}"
                                                  UnselectedHeader="&#xEA8F;" />
-                    <Button Margin="0,8,0,0"
-                            Content="{x:Bind VM.ReminderTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:t}'}"
-                            Style="{StaticResource ButtonPickerStyle}"
-                            Tag="&#xE121;"
-                            Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
-                        <Button.Flyout>
-                            <TimePickerFlyout Placement="Bottom" TimePicked="TimePickerFlyout_TimePicked" />
-                        </Button.Flyout>
-                    </Button>
+                    <controls:TimePicker Margin="0,8,0,0"
+                                         Style="{StaticResource TimePickerStyle}"
+                                         Time="{x:Bind VM.ReminderTime, Mode=TwoWay}" />
                     <StackPanel Margin="0,8,0,0" Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
                         <ComboBox Header="&#xE149;" Style="{StaticResource ComboBoxPickerStyle}" />
                     </StackPanel>

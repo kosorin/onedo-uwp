@@ -141,6 +141,7 @@
     <Compile Include="Common\UI\TreeHelper.cs" />
     <Compile Include="View\Controls\CalendarDatePicker.cs" />
     <Compile Include="View\Controls\InfoBar.cs" />
+    <Compile Include="View\Controls\TimePicker.cs" />
     <Compile Include="View\Converters\CompositeConverter.cs" />
     <Compile Include="View\Core\ExtendedContentControl.cs" />
     <Compile Include="View\Core\ModalContainer.cs" />
@@ -261,6 +262,11 @@
     <Page Include="View\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <ItemGroup>
