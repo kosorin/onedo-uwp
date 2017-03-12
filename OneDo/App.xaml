@@ -25,9 +25,8 @@
             </ResourceDictionary.ThemeDictionaries>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/TextBoxStyles.xaml" />
                 <ResourceDictionary Source="Themes/FlyoutMenuStyles.xaml" />
-                <ResourceDictionary Source="Themes/AppBarStyles.xaml" />
+                <ResourceDictionary Source="Themes/TextBoxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Color x:Key="SystemAccentColorLight3">#000000</Color>

@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:OneDo.View.Controls">
+
+    <Style TargetType="controls:SlidableListItem">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ActivatedOffset" Value="16" />
+        <Setter Property="ActivationOffset" Value="72" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:SlidableListItem">
+                    <Grid BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="CommandContainer">
+                            <Border x:Name="LeftCommandPanel">
+                                <StackPanel HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <FontIcon VerticalAlignment="Center"
+                                              FontSize="16"
+                                              Foreground="{TemplateBinding LeftForeground}"
+                                              Glyph="{TemplateBinding LeftGlyph}" />
+                                    <TextBlock Margin="10,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="{TemplateBinding LeftForeground}"
+                                               Text="{TemplateBinding LeftLabel}" />
+                                </StackPanel>
+                            </Border>
+                            <Border x:Name="RightCommandPanel">
+                                <StackPanel HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,10,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="{TemplateBinding RightForeground}"
+                                               Text="{TemplateBinding RightLabel}" />
+                                    <FontIcon VerticalAlignment="Center"
+                                              FontSize="16"
+                                              Foreground="{TemplateBinding RightForeground}"
+                                              Glyph="{TemplateBinding RightGlyph}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <Grid x:Name="ContentPanel"
+                              Background="{TemplateBinding Background}"
+                              ManipulationMode="TranslateX,System">
+                            <ContentPresenter />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
