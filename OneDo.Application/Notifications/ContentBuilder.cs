@@ -40,7 +40,7 @@ namespace OneDo.Application.Notifications
             selectionBox.Items.Add(new ToastSelectionBoxItem("15", "15 minutes"));
             selectionBox.Items.Add(new ToastSelectionBoxItem("60", "1 hour"));
             selectionBox.Items.Add(new ToastSelectionBoxItem("240", "4 hours"));
-            selectionBox.Items.Add(new ToastSelectionBoxItem("144", "1 day"));
+            selectionBox.Items.Add(new ToastSelectionBoxItem("1440", "1 day"));
             var actions = new ToastActionsCustom()
             {
                 Inputs =
@@ -51,7 +51,7 @@ namespace OneDo.Application.Notifications
                 {
                     new ToastButtonSnooze
                     {
-                        SelectionBoxId = "snoozeTime",
+                        SelectionBoxId = selectionBox.Id,
                     },
                     new ToastButtonDismiss(),
                 }
