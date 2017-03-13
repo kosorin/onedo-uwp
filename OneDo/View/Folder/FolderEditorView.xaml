@@ -59,7 +59,7 @@
 
     </vcore:ModalView.Resources>
 
-    <Border Width="266"
+    <Border Width="250"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -71,13 +71,20 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <StackPanel Margin="24,16">
-                <TextBox x:Name="NameTextBox"
-                         Style="{StaticResource BorderlessTextBoxStyle}"
-                         PlaceholderText="Folder"
-                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel>
+                <Grid>
+                    <Rectangle Fill="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+                    <TextBox x:Name="NameTextBox"
+                             Margin="16,8,16,4"
+                             VerticalAlignment="Center"
+                             PlaceholderText="Name"
+                             Style="{StaticResource HeaderTextBoxStyle}"
+                             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                </Grid>
                 <Rectangle Style="{StaticResource HorizontalLineStyle}" />
-                <GridView Margin="0,16,-8,-8"
+
+                <GridView Margin="16,16,8,8"
                           ItemContainerStyle="{StaticResource ColorItemContainerStyle}"
                           ItemContainerTransitions="{x:Null}"
                           ItemTemplate="{StaticResource ColorItemTemplate}"
