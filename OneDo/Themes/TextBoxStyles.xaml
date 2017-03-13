@@ -202,4 +202,10 @@
         </Setter>
     </Style>
 
+    <Style x:Key="HeaderTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource BorderlessTextBoxStyle}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
 </ResourceDictionary>

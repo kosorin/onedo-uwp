@@ -753,12 +753,9 @@
                              Grid.Column="0"
                              Margin="16,6,0,4"
                              VerticalAlignment="Center"
-                             FontSize="18"
-                             FontWeight="Medium"
                              PlaceholderText="Title"
-                             Style="{StaticResource BorderlessTextBoxStyle}"
-                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             TextWrapping="Wrap" />
+                             Style="{StaticResource HeaderTextBoxStyle}"
+                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <ToggleButton Grid.Column="1"
                                   IsChecked="{x:Bind VM.IsFlagged, Mode=TwoWay}"
                                   Style="{StaticResource FlagButtonStyle}">
