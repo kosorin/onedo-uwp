@@ -6,7 +6,8 @@
                  xmlns:behaviors="using:OneDo.View.Behaviors"
                  xmlns:vcore="using:OneDo.View.Core"
                  xmlns:vm="using:OneDo.ViewModel"
-                 d:DesignWidth="266"
+                 d:DesignHeight="{Binding ActualHeight, ElementName=RootBorder}"
+                 d:DesignWidth="{Binding ActualWidth, ElementName=RootBorder}"
                  DataContext="{Binding FolderEditor, Source={StaticResource Locator}}"
                  mc:Ignorable="d">
 
@@ -59,7 +60,8 @@
 
     </vcore:ModalView.Resources>
 
-    <Border Width="250"
+    <Border x:Name="RootBorder"
+            Width="250"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
