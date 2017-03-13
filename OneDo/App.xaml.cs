@@ -79,7 +79,6 @@ namespace OneDo
             stopwatch.Start();
 
             await InitializeLogger();
-            InitializeColors();
 
             Logger.Current.Line("=================================");
             Logger.Current.Info($"Version: {AppInformation.GetVersion()}");
@@ -89,6 +88,8 @@ namespace OneDo
             Logger.Current.Info($"Previous state: {args.PreviousExecutionState}");
 
             await InitializeBackgroundTasks();
+
+            InitializeColors();
             InitializeTitleBar();
             await InitializeStatusBar();
 
@@ -167,16 +168,6 @@ namespace OneDo
             }
         }
 
-        private void InitializeColors()
-        {
-            var uiSettings = new UISettings();
-            Resources["SystemAccentColorLight3"] = uiSettings.GetColorValue(UIColorType.AccentLight3);
-            Resources["SystemAccentColorLight2"] = uiSettings.GetColorValue(UIColorType.AccentLight2);
-            Resources["SystemAccentColorLight1"] = uiSettings.GetColorValue(UIColorType.AccentLight1);
-            Resources["SystemAccentColorDark1"] = uiSettings.GetColorValue(UIColorType.AccentDark1);
-            Resources["SystemAccentColorDark2"] = uiSettings.GetColorValue(UIColorType.AccentDark2);
-            Resources["SystemAccentColorDark3"] = uiSettings.GetColorValue(UIColorType.AccentDark3);
-        }
 
         private async Task InitializeBackgroundTasks()
         {
@@ -193,6 +184,17 @@ namespace OneDo
             }
         }
 
+
+        private void InitializeColors()
+        {
+            var uiSettings = new UISettings();
+            Resources["SystemAccentColorLight3"] = uiSettings.GetColorValue(UIColorType.AccentLight3);
+            Resources["SystemAccentColorLight2"] = uiSettings.GetColorValue(UIColorType.AccentLight2);
+            Resources["SystemAccentColorLight1"] = uiSettings.GetColorValue(UIColorType.AccentLight1);
+            Resources["SystemAccentColorDark1"] = uiSettings.GetColorValue(UIColorType.AccentDark1);
+            Resources["SystemAccentColorDark2"] = uiSettings.GetColorValue(UIColorType.AccentDark2);
+            Resources["SystemAccentColorDark3"] = uiSettings.GetColorValue(UIColorType.AccentDark3);
+        }
 
         private void InitializeTitleBar()
         {
