@@ -46,7 +46,7 @@ namespace OneDo.View.Controls
             base.OnApplyTemplate();
 
             TimeButton = FindTemplateChild<Button>(nameof(TimeButton));
-            TimeButton.Flyout = CreateFlyout();
+            TimeButton.Flyout = CreateFlyout(Time);
         }
 
         private TChild FindTemplateChild<TChild>(string childName) where TChild : DependencyObject
@@ -54,11 +54,13 @@ namespace OneDo.View.Controls
             return (GetTemplateChild(childName) as TChild) ?? throw new InvalidOperationException($"Cannot find template child '{childName}' ({typeof(TChild).Name}) ");
         }
 
-        private TimePickerFlyout CreateFlyout()
+        private TimePickerFlyout CreateFlyout(TimeSpan time)
         {
             var flyout = new TimePickerFlyout();
             flyout.TimePicked += TimePickerFlyout_TimePicked;
             flyout.Placement = FlyoutPlacementMode.Bottom;
+            flyout.MinuteIncrement = 5;
+            flyout.Time = time;
             return flyout;
         }
 
@@ -70,6 +72,7 @@ namespace OneDo.View.Controls
         private void OnTimeChanged()
         {
             TimeButton.Content = DateTime.Today.Add(Time).ToString("t");
+            TimeButton.Flyout = CreateFlyout(Time);
         }
     }
 }
