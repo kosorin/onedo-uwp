@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -34,6 +35,8 @@ namespace OneDo.View.Controls
             }
         }
 
+        public event TypedEventHandler<TimePickerFlyout, TimePickedEventArgs> TimePicked;
+
         private Button TimeButton;
 
         public TimePicker()
@@ -46,7 +49,8 @@ namespace OneDo.View.Controls
             base.OnApplyTemplate();
 
             TimeButton = FindTemplateChild<Button>(nameof(TimeButton));
-            TimeButton.Flyout = CreateFlyout(Time);
+
+            SetNewFlyout();
         }
 
         private TChild FindTemplateChild<TChild>(string childName) where TChild : DependencyObject
@@ -54,25 +58,36 @@ namespace OneDo.View.Controls
             return (GetTemplateChild(childName) as TChild) ?? throw new InvalidOperationException($"Cannot find template child '{childName}' ({typeof(TChild).Name}) ");
         }
 
-        private TimePickerFlyout CreateFlyout(TimeSpan time)
-        {
-            var flyout = new TimePickerFlyout();
-            flyout.TimePicked += TimePickerFlyout_TimePicked;
-            flyout.Placement = FlyoutPlacementMode.Bottom;
-            flyout.MinuteIncrement = 5;
-            flyout.Time = time;
-            return flyout;
-        }
-
         private void TimePickerFlyout_TimePicked(TimePickerFlyout sender, TimePickedEventArgs args)
         {
+            TimePicked?.Invoke(sender, args);
             Time = args.NewTime;
         }
 
         private void OnTimeChanged()
         {
             TimeButton.Content = DateTime.Today.Add(Time).ToString("t");
-            TimeButton.Flyout = CreateFlyout(Time);
+            SetNewFlyout();
+        }
+
+        private void SetNewFlyout()
+        {
+            ClearOldFlyout();
+
+            var newFlyout = new TimePickerFlyout();
+            newFlyout.TimePicked += TimePickerFlyout_TimePicked;
+            newFlyout.Placement = FlyoutPlacementMode.Bottom;
+            newFlyout.MinuteIncrement = 5;
+            newFlyout.Time = Time;
+            TimeButton.Flyout = newFlyout;
+        }
+
+        private void ClearOldFlyout()
+        {
+            if (TimeButton.Flyout is TimePickerFlyout oldFlyout)
+            {
+                oldFlyout.TimePicked -= TimePickerFlyout_TimePicked;
+            }
         }
     }
 }
