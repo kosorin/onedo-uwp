@@ -803,7 +803,8 @@
                                                  UnselectedHeader="&#xEA8F;" />
                     <controls:TimePicker Margin="0,8,0,0"
                                          Style="{StaticResource TimePickerStyle}"
-                                         Time="{x:Bind VM.ReminderTime, Mode=TwoWay}" />
+                                         Time="{x:Bind VM.ReminderTime, Mode=TwoWay}"
+                                         Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
                     <StackPanel Margin="0,8,0,0" Visibility="{x:Bind VM.ReminderDate, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}">
                         <ComboBox Header="&#xE149;" Style="{StaticResource ComboBoxPickerStyle}" />
                     </StackPanel>
