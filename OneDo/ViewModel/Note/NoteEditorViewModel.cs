@@ -146,7 +146,7 @@ namespace OneDo.ViewModel.Note
             Title = Original.Title;
             Text = Original.Text;
             ReminderDate = Original.Reminder?.DateTime.Date;
-            ReminderTime = Original.Reminder?.DateTime.TimeOfDay ?? TimeSpan.FromHours(7);
+            ReminderTime = Original.Reminder?.DateTime.TimeOfDay ?? TimeSpan.FromHours(21);
             IsFlagged = Original.IsFlagged;
         }
 
