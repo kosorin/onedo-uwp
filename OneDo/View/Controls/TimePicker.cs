@@ -50,6 +50,7 @@ namespace OneDo.View.Controls
 
             TimeButton = FindTemplateChild<Button>(nameof(TimeButton));
 
+            OnTimeChanged();
             SetNewFlyout();
         }
 
@@ -58,16 +59,13 @@ namespace OneDo.View.Controls
             return (GetTemplateChild(childName) as TChild) ?? throw new InvalidOperationException($"Cannot find template child '{childName}' ({typeof(TChild).Name}) ");
         }
 
-        private void TimePickerFlyout_TimePicked(TimePickerFlyout sender, TimePickedEventArgs args)
-        {
-            TimePicked?.Invoke(sender, args);
-            Time = args.NewTime;
-        }
-
         private void OnTimeChanged()
         {
-            TimeButton.Content = DateTime.Today.Add(Time).ToString("t");
-            SetNewFlyout();
+            if (TimeButton != null)
+            {
+                TimeButton.Content = DateTime.Today.Add(Time).ToString("t");
+                SetNewFlyout();
+            }
         }
 
         private void SetNewFlyout()
@@ -88,6 +86,12 @@ namespace OneDo.View.Controls
             {
                 oldFlyout.TimePicked -= TimePickerFlyout_TimePicked;
             }
+        }
+
+        private void TimePickerFlyout_TimePicked(TimePickerFlyout sender, TimePickedEventArgs args)
+        {
+            TimePicked?.Invoke(sender, args);
+            Time = args.NewTime;
         }
     }
 }
